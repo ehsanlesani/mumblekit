@@ -13,7 +13,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_SectionPage", "Sections", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.Section), "Pages", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.Page))]
 
 // Original file name:
-// Generation date: 15/10/2009 08:52:52
+// Generation date: 15/10/2009 12:08:04
 namespace Mumble.Web.StarterKit.Models
 {
     
