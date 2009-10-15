@@ -17,7 +17,10 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters
 
         public string Convert(object value)
         {
-            return value.ToString();
+            if(value != null)
+                return value.ToString();
+
+            return null;
         }
     }
 }

@@ -187,6 +187,7 @@
     <Content Include="Content\Css\treeview\images\treeview-red-line.gif" />
     <Content Include="Content\Css\treeview\images\treeview-red.gif" />
     <Content Include="Content\Css\treeview\jquery.treeview.css" />
+    <Content Include="Content\Images\add.png" />
     <Content Include="Content\Images\html.png" />
     <Content Include="Content\Images\addAttachment.png" />
     <Content Include="Content\Images\companyLogo.png" />

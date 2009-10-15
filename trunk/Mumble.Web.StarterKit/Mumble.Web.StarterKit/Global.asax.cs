@@ -49,6 +49,7 @@ namespace MumbleKit
             ListConfiguration configuration = new ListConfiguration();
             configuration.AddColumn("Id", "Id");
             configuration.AddColumn("Description", "Description");
+            configuration.AddColumn("Visible", "Visibility", o => ((bool)o) ? "Visible" : "Not visible");
 
             ListManager.Instance.RegisterConfiguration(typeof(Page), configuration);
             ListManager.Instance.RegisterConfiguration(typeof(Section), configuration);
