@@ -43,17 +43,24 @@
                                         <li>
                                             <span class="folder">Sezioni</span>
                                             <ul>
-                                                <li><span class="file">Nuova sezione</span></li>
-                                                <li><span class="file">Gestione sezioni</span></li>
-                                                <li><span class="file">Lista delle sezioni</span></li>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Section/Edit") %>">Nuova sezione</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Section/List") %>">Lista sezioni</a></span></li>
+                                                <% foreach (var section in Sections) { %>
+                                                    <li>
+                                                        <span class="folder"><a href="<%= ResolveUrl("~/Admin/Section/Edit/") %><%= section.Id %>"><%= section.Description %></a></span>
+                                                        <ul>
+                                                            <% foreach (var page in section.Pages) { %>
+                                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Page/Edit/") %><%= page.Id %>"><%= page.Description%></a></span></li>
+                                                            <% } %>
+                                                        </ul>
+                                                <% } %>
                                             </ul>
                                         </li>
                                         <li>
                                             <span class="folder">Pagine</span>
                                             <ul>
-                                                <li><span class="file">Nuova pagina</span></li>
-                                                <li><span class="file">Gestione pagine</span></li>
-                                                <li><span class="file">Lista delle pagine</span></li>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Page/Edit") %>">Nuova pagina</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Page/List") %>">Lista pagine</a></span></li>
                                             </ul>
                                         </li>
                                     </ul>
