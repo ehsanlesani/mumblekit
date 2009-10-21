@@ -79,6 +79,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IEntityWithAttachments.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\Scaffold\CommonResource.cs" />
     <Compile Include="Models\Scaffold\Converters\BooleanConverter.cs" />

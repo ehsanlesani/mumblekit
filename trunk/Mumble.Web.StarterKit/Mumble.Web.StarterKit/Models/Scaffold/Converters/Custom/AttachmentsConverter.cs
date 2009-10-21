@@ -11,9 +11,9 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
         public object Convert(string value)
         {
             StarterKitContainer container = (StarterKitContainer)Scaffolder.Current.ObjectContext;
-            Page page = Scaffolder.Current.CurrentEntity as Page;
+            IEntityWithAttachments entity = Scaffolder.Current.CurrentEntity as IEntityWithAttachments;
             
-            if (page != null)
+            if (entity != null)
             {
                 AttachmentInfo[] infos = JsonConvert.DeserializeObject<AttachmentInfo[]>(value);
                 if (infos != null)
@@ -52,7 +52,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
                                 attachment.Path = file.FileName;
 
                                 if (newRecord)
-                                    page.Attachments.Add(attachment);
+                                    entity.Attachments.Add(attachment);
                             }
                         }
                     }
@@ -66,12 +66,14 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
         {
             AttachmentInfo[] infos = new AttachmentInfo[0];
             StarterKitContainer container = (StarterKitContainer)Scaffolder.Current.ObjectContext;
-            Page page = Scaffolder.Current.CurrentEntity as Page;
+            IEntityWithAttachments entity = Scaffolder.Current.CurrentEntity as IEntityWithAttachments;
 
-            if (page != null)
+            if (entity != null)
             {
-                infos = (from a in container.Attachments
-                         where a.Page.Id == page.Id
+                if (!entity.Attachments.IsLoaded)
+                    entity.Attachments.Load();
+
+                infos = (from a in entity.Attachments
                          select new AttachmentInfo()
                          {
                              Id = a.Id,

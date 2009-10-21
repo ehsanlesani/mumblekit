@@ -88,7 +88,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields
                 controlReference = (from cr in _controlsMap
                                     where cr.IsRelationship == false
                                     && cr.IsSpecific == false
-                                    && (cr.PropertyType == propertyType || propertyType.IsSubclassOf(cr.PropertyType))
+                                    && (cr.PropertyType == propertyType || propertyType.IsSubclassOf(cr.PropertyType) || propertyType.GetInterfaces().Contains(cr.PropertyType))
                                     select cr).FirstOrDefault();
             }
 
@@ -138,7 +138,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields
                                      where cr.IsRelationship == true
                                      && cr.IsSpecific == false
                                      && cr.RelationshipMultiplicity == relationshipMultiplicity
-                                     && (cr.PropertyType == propertyType || propertyType.IsSubclassOf(cr.PropertyType))
+                                     && (cr.PropertyType == propertyType || propertyType.IsSubclassOf(cr.PropertyType) || propertyType.GetInterfaces().Contains(cr.PropertyType))
                                      select cr).FirstOrDefault();
                 
             }
@@ -163,7 +163,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields
 
             if (controlReference == null)
             {
-                _controlsMap.Add(new ControlReference(propertyType, control, propertiesInjector, converter));
+                _controlsMap.Insert(0, new ControlReference(propertyType, control, propertiesInjector, converter));
             }
             else
             {
@@ -192,7 +192,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields
 
             if (controlReference == null)
             {
-                _controlsMap.Add(new ControlReference(propertyType, relationshipMultiplicity, control, propertiesInjector, converter));
+                _controlsMap.Insert(0, new ControlReference(propertyType, relationshipMultiplicity, control, propertiesInjector, converter));
             }
             else
             {
@@ -219,7 +219,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields
                                                  select cr).FirstOrDefault();
             if (controlReference == null)
             {
-                _controlsMap.Add(new ControlReference(entityType, propertyName, control, propertiesInjector, converter));
+                _controlsMap.Insert(0, new ControlReference(entityType, propertyName, control, propertiesInjector, converter));
             }
             else
             {
