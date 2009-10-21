@@ -157,8 +157,6 @@ namespace Mumble.Web.StarterKit.Models.Scaffold
                 }
 
                 control.RenderView(viewContext);
-
-                //TODO: Manage many relationships
             }
 
             //render "edit" footer

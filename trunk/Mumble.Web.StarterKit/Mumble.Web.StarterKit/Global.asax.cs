@@ -9,6 +9,7 @@ using Mumble.Web.StarterKit.Models.Scaffold.Lists;
 using Mumble.Web.StarterKit.Models;
 using Mumble.Web.StarterKit.Models.Scaffold.Fields;
 using Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom;
+using System.Data.Metadata.Edm;
 
 namespace MumbleKit
 {
@@ -54,7 +55,7 @@ namespace MumbleKit
             ListManager.Instance.RegisterConfiguration(typeof(Page), configuration);
             ListManager.Instance.RegisterConfiguration(typeof(Section), configuration);
 
-            FieldBuilder.Instance.SetControl(typeof(Page), "Attachments", "Custom/Attachments.ascx", null, new AttachmentsConverter());
+            FieldBuilder.Instance.SetControl(typeof(IEnumerable<Attachment>), RelationshipMultiplicity.Many, "Custom/Attachments.ascx", null, new AttachmentsConverter());
             FieldBuilder.Instance.SetControl(typeof(Page), "Body", "Custom/Html.ascx", null, null);
         }
 

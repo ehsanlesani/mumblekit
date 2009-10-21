@@ -46,6 +46,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields
             IsSpecific = false;
             RelationshipMultiplicity = relationshipMultiplicity;
             PropertiesInjector = propertiesInjector;
+            Converter = converter;
         }
 
         /// <summary>

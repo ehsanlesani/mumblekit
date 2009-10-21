@@ -15,7 +15,7 @@ namespace MumbleKit.Views.Shared
         protected void Page_Load(object sender, EventArgs e)
         {
             var container = new StarterKitContainer();
-            Sections = from s in container.Sections
+            Sections = from s in container.Sections.Include("Pages")
                        orderby s.Description
                        select s;
         }
