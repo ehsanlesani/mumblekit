@@ -6,6 +6,7 @@ using System.Reflection;
 using Mumble.Web.StarterKit.Models.Scaffold.Exceptions;
 using System.Collections;
 using System.Text;
+using System.Data.Objects.DataClasses;
 
 namespace Mumble.Web.StarterKit.Models.Scaffold.Converters
 {
@@ -13,7 +14,19 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters
     {
         public object Convert(string value)
         {
-            return new GuidConverter().Convert(value);
+            if (value == null)
+                return new Guid[0];
+            
+            string[] sids = value.Split(',');
+            Guid[] ids = new Guid[sids.Length];
+            GuidConverter guidConverter = new GuidConverter();
+            for (int i = 0; i < sids.Length; i++)
+            {
+                var sid = sids[i];
+                ids[i] = (Guid)guidConverter.Convert(sid);
+            }
+
+            return ids;
         }
 
         public string Convert(object value)
@@ -21,7 +34,9 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters
             if (value != null)
             {
                 StringBuilder ids = new StringBuilder();
-                IEnumerable collection = (IEnumerable)value;
+                IRelatedEnd collection = (IRelatedEnd)value;
+                if (!collection.IsLoaded)
+                    collection.Load();
 
                 foreach (object item in collection)
                 {

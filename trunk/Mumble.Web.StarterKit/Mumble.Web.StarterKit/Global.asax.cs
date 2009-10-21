@@ -47,13 +47,22 @@ namespace MumbleKit
 
         private void SetupScaffolding()
         {
-            ListConfiguration configuration = new ListConfiguration();
-            configuration.AddColumn("Id", "Id");
-            configuration.AddColumn("Description", "Description");
-            configuration.AddColumn("Visible", "Visibility", o => ((bool)o) ? "Visible" : "Not visible");
+            ListConfiguration pageConfiguration = new ListConfiguration();
+            pageConfiguration.AddColumn("Description", "Description");
+            pageConfiguration.AddColumn("Visible", "Visibility", o => ((bool)o) ? "Visible" : "Not visible");
 
-            ListManager.Instance.RegisterConfiguration(typeof(Page), configuration);
-            ListManager.Instance.RegisterConfiguration(typeof(Section), configuration);
+            ListConfiguration userConfiguration = new ListConfiguration();
+            userConfiguration.AddColumn("FirstName", "Nome");
+            userConfiguration.AddColumn("LastName", "Cognome");
+            userConfiguration.AddColumn("Email", "Email", o => String.Format("<a href='mailto:{0}'>{0}</a>", o));
+
+            ListConfiguration groupConfiguration = new ListConfiguration();
+            groupConfiguration.AddColumn("Description", "Descrizione");
+
+            ListManager.Instance.RegisterConfiguration(typeof(Page), pageConfiguration);
+            ListManager.Instance.RegisterConfiguration(typeof(Section), pageConfiguration);
+            ListManager.Instance.RegisterConfiguration(typeof(User), userConfiguration);
+            ListManager.Instance.RegisterConfiguration(typeof(Group), groupConfiguration);
 
             FieldBuilder.Instance.SetControl(typeof(IEnumerable<Attachment>), RelationshipMultiplicity.Many, "Custom/Attachments.ascx", null, new AttachmentsConverter());
             FieldBuilder.Instance.SetControl(typeof(Page), "Body", "Custom/Html.ascx", null, null);

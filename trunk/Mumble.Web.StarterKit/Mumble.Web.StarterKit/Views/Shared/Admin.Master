@@ -38,6 +38,25 @@
                             <ul id="menu" class="filetree">
                                 <li><span class="file">Home page</span></li>
                                 <li>
+                                    <span class="folder">Sicurezza</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Utenti</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/User/Edit") %>">Nuovo utente</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/User/List") %>">Gestione utenti</a></span></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Gruppi</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Group/Edit") %>">Nuovo gruppo</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Group/List") %>">Gestione gruppi</a></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
                                     <span class="folder">Cms</span>
                                     <ul>
                                         <li>

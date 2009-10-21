@@ -14,10 +14,10 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Mvc
 
         protected virtual string EditView { get { return "~/Views/Scaffold/Edit.aspx"; } }
         protected virtual string ListView { get { return "~/Views/Scaffold/List.aspx"; } }
-        protected virtual string EditAction { get { return Url.Action("Edit")+"/"; } }
-        protected virtual string SaveAction { get { return Url.Action("Save")+"/"; } }
-        protected virtual string ListAction { get { return Url.Action("List")+"/"; } }
-        protected virtual string DeleteAction { get { return Url.Action("Delete")+"/"; } }
+        protected virtual string EditAction { get { return Url.Action("/Edit")+"/"; } }
+        protected virtual string SaveAction { get { return Url.Action("/Save")+"/"; } }
+        protected virtual string ListAction { get { return Url.Action("/List")+"/"; } }
+        protected virtual string DeleteAction { get { return Url.Action("/Delete")+"/"; } }
         protected Scaffolder Scaffolder { get; private set; }
         
         public ScaffoldController()

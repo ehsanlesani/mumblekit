@@ -245,6 +245,40 @@ namespace Mumble.Web.StarterKit.Models.Scaffold
                     IValueConverter converter = controlReference.Converter ?? new ManyRelationshipConverter();
                     string htmlValue = values.Get(relationship.Name);
                     object controlValue = converter.Convert(htmlValue);
+                    
+                    //for standard usage the controlValue must be a a Guid[] thah contains list of entities relationed to current entity. Return null in a custom converter to skip this passage
+                    if (controlValue != null)
+                    {
+                        Guid[] relatedIds = (Guid[])controlValue;
+                        
+                        //get collection
+                        IRelatedEnd collection = (IRelatedEnd)GetValue(entityInstance, entityType, relationship.Name);
+                        List<IEntityWithRelationships> removeList = new List<IEntityWithRelationships>();
+
+                        if (!collection.IsLoaded)
+                            collection.Load();
+
+                        //remove existing relations
+                        foreach (var toRemove in collection)
+                        {
+                            removeList.Add((IEntityWithRelationships)toRemove);
+                        }
+
+                        foreach (var toRemove in removeList)
+                        {
+                            collection.Remove(toRemove);
+                        }
+
+                        //get all related entities by id
+                        foreach (Guid relatedEntityId in relatedIds)
+                        {
+                            object relatedEntity = null;
+                            if (ObjectContext.TryGetObjectByKey(new System.Data.EntityKey(String.Format("{0}.{1}", ObjectContext.DefaultContainerName, relationship.EntitySet), "Id", relatedEntityId), out relatedEntity))
+                            {
+                                collection.Add((IEntityWithRelationships)relatedEntity);
+                            }
+                        }
+                    }
                 }
             }
 
