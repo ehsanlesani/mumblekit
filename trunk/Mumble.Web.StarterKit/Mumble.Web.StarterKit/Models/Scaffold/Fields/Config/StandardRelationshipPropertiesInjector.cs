@@ -18,7 +18,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields.Config
             var items = Scaffolder.ObjectContext.CreateQuery<object>(fieldControl.RelationshipMetadata.EntitySet).ToList();
 
             List<SelectListItem> selectItems = new List<SelectListItem>();
-            selectItems.Add(new SelectListItem() { Text = "(Seleziona)", Value = null, Selected = true });
+            //selectItems.Add(new SelectListItem() { Text = "(Seleziona)", Value = null, Selected = true });
 
             foreach (var item in items)
             {
