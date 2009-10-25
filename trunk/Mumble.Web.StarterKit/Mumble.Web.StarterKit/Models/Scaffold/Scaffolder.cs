@@ -177,11 +177,13 @@ namespace Mumble.Web.StarterKit.Models.Scaffold
             MetadataDescriptor entityMetadata = metadataBuilder.Build();
 
             //try to get id from
+            bool isNewEntity = false;
             IValueConverter guidConverter = new GuidConverter();
             Guid? id = guidConverter.Convert(values.Get("Id")) as Guid?;
             if (!id.HasValue)
             {
                 id = Guid.NewGuid();
+                isNewEntity = true;
             }
 
             //get valued entity instance if exists or create a new one
@@ -253,20 +255,24 @@ namespace Mumble.Web.StarterKit.Models.Scaffold
                         
                         //get collection
                         IRelatedEnd collection = (IRelatedEnd)GetValue(entityInstance, entityType, relationship.Name);
-                        List<IEntityWithRelationships> removeList = new List<IEntityWithRelationships>();
-
-                        if (!collection.IsLoaded)
-                            collection.Load();
-
-                        //remove existing relations
-                        foreach (var toRemove in collection)
+                        
+                        if (!isNewEntity) //if entity is new there are no objects in relation
                         {
-                            removeList.Add((IEntityWithRelationships)toRemove);
-                        }
+                            List<IEntityWithRelationships> removeList = new List<IEntityWithRelationships>();
 
-                        foreach (var toRemove in removeList)
-                        {
-                            collection.Remove(toRemove);
+                            if (!collection.IsLoaded)
+                                collection.Load();
+
+                            //remove existing relations
+                            foreach (var toRemove in collection)
+                            {
+                                removeList.Add((IEntityWithRelationships)toRemove);
+                            }
+
+                            foreach (var toRemove in removeList)
+                            {
+                                collection.Remove(toRemove);
+                            }
                         }
 
                         //get all related entities by id
