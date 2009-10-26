@@ -12,7 +12,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Users", "GroupUser", "Group", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.Group), "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.User))]
 
 // Original file name:
-// Generation date: 21/10/2009 17:34:52
+// Generation date: 25/10/2009 17:24:41
 namespace Mumble.Web.StarterKit.Models
 {
     

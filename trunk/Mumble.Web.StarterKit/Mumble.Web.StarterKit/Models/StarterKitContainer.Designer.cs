@@ -11,9 +11,10 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_PageAttachment", "Pages", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.Page), "Attachments", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.Attachment))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_SectionPage", "Sections", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.Section), "Pages", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.Page))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Accommodations_AccommodationTypes", "AccommodationType", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Web.StarterKit.Models.AccommodationType), "Accommodation", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.Accommodation))]
 
 // Original file name:
-// Generation date: 15/10/2009 12:26:03
+// Generation date: 25/10/2009 23:56:33
 namespace Mumble.Web.StarterKit.Models
 {
     
@@ -99,6 +100,40 @@ namespace Mumble.Web.StarterKit.Models
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
         private global::System.Data.Objects.ObjectQuery<Section> _Sections;
         /// <summary>
+        /// There are no comments for Accommodations in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Data.Objects.ObjectQuery<Accommodation> Accommodations
+        {
+            get
+            {
+                if ((this._Accommodations == null))
+                {
+                    this._Accommodations = base.CreateQuery<Accommodation>("[Accommodations]");
+                }
+                return this._Accommodations;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Data.Objects.ObjectQuery<Accommodation> _Accommodations;
+        /// <summary>
+        /// There are no comments for AccommodationTypes in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Data.Objects.ObjectQuery<AccommodationType> AccommodationTypes
+        {
+            get
+            {
+                if ((this._AccommodationTypes == null))
+                {
+                    this._AccommodationTypes = base.CreateQuery<AccommodationType>("[AccommodationTypes]");
+                }
+                return this._AccommodationTypes;
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Data.Objects.ObjectQuery<AccommodationType> _AccommodationTypes;
+        /// <summary>
         /// There are no comments for Attachments in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
@@ -121,6 +156,22 @@ namespace Mumble.Web.StarterKit.Models
         public void AddToSections(Section section)
         {
             base.AddObject("Sections", section);
+        }
+        /// <summary>
+        /// There are no comments for Accommodations in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public void AddToAccommodations(Accommodation accommodation)
+        {
+            base.AddObject("Accommodations", accommodation);
+        }
+        /// <summary>
+        /// There are no comments for AccommodationTypes in the schema.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public void AddToAccommodationTypes(AccommodationType accommodationType)
+        {
+            base.AddObject("AccommodationTypes", accommodationType);
         }
     }
     /// <summary>
@@ -769,6 +820,221 @@ namespace Mumble.Web.StarterKit.Models
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Page>("StarterKitModel.FK_SectionPage", "Pages", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for StarterKitModel.Accommodation in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="StarterKitModel", Name="Accommodation")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Accommodation : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Accommodation object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public static Accommodation CreateAccommodation(global::System.Guid id)
+        {
+            Accommodation accommodation = new Accommodation();
+            accommodation.Id = id;
+            return accommodation;
+        }
+        /// <summary>
+        /// There are no comments for property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Guid _Id;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanging(global::System.Guid value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for property Name in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Name;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for AccommodationType in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_Accommodations_AccommodationTypes", "AccommodationType")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public AccommodationType AccommodationType
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AccommodationType>("StarterKitModel.FK_Accommodations_AccommodationTypes", "AccommodationType").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AccommodationType>("StarterKitModel.FK_Accommodations_AccommodationTypes", "AccommodationType").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for AccommodationType in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<AccommodationType> AccommodationTypeReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AccommodationType>("StarterKitModel.FK_Accommodations_AccommodationTypes", "AccommodationType");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AccommodationType>("StarterKitModel.FK_Accommodations_AccommodationTypes", "AccommodationType", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for StarterKitModel.AccommodationType in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="StarterKitModel", Name="AccommodationType")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class AccommodationType : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new AccommodationType object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public static AccommodationType CreateAccommodationType(global::System.Guid id)
+        {
+            AccommodationType accommodationType = new AccommodationType();
+            accommodationType.Id = id;
+            return accommodationType;
+        }
+        /// <summary>
+        /// There are no comments for property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private global::System.Guid _Id;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanging(global::System.Guid value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for property Name in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
+            }
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        private string _Name;
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanging(string value);
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Accommodations in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_Accommodations_AccommodationTypes", "Accommodation")]
+        [global::System.CodeDom.Compiler.GeneratedCode("System.Data.Entity.Design.EntityClassGenerator", "4.0.0.0")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Accommodation> Accommodations
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Accommodation>("StarterKitModel.FK_Accommodations_AccommodationTypes", "Accommodation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Accommodation>("StarterKitModel.FK_Accommodations_AccommodationTypes", "Accommodation", value);
                 }
             }
         }
