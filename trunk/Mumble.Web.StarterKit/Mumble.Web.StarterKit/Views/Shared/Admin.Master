@@ -64,15 +64,21 @@
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Section/Edit") %>">Nuova sezione</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Section/List") %>">Lista sezioni</a></span></li>
-                                                <% foreach (var section in Sections) { %>
+                                                <% 
+                                                    foreach (var section in Sections)
+                                                    { 
+                                                %>
                                                     <li>
-                                                        <span class="folder"><a href="<%= ResolveUrl("~/Admin/Section/Edit/") %><%= section.Id %>"><%= section.Description %></a></span>
+                                                        <span class="folder"><a href="<%= ResolveUrl("~/Admin/Section/Edit/") %><%= section.Id %>"><%= section.Description%></a></span>
                                                         <ul>
-                                                            <% foreach (var page in section.Pages) { %>
+                                                            <% foreach (var page in section.Pages)
+                                                               { %>
                                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Page/Edit/") %><%= page.Id %>"><%= page.Description%></a></span></li>
                                                             <% } %>
                                                         </ul>
-                                                <% } %>
+                                                <%
+                                                     }
+                                                %>
                                             </ul>
                                         </li>
                                         <li>
@@ -82,8 +88,22 @@
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Page/List") %>">Lista pagine</a></span></li>
                                             </ul>
                                         </li>
+                                        <li>
+                                            <span class="folder">Tipologie Strutture</span>
+                                            <ul>                                                
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/AccommodationType/Edit") %>">Nuova Tipologia</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/AccommodationType/List") %>">Lista Tipologia</a></span></li>
+                                            </ul>
+                                        <li>
+                                        <li>
+                                            <span class="folder">Strutture</span>
+                                            <ul>                                                
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Accommodation/Edit") %>">Nuova Struttura</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Accommodation/List") %>">Lista Strutture</a></span></li>
+                                            </ul>
+                                        <li>
                                     </ul>
-                                </li>
+                                </li>                                
                             </ul>
                         </td>
                     </tr>
