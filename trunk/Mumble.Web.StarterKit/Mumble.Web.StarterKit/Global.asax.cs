@@ -59,10 +59,18 @@ namespace MumbleKit
             ListConfiguration groupConfiguration = new ListConfiguration();
             groupConfiguration.AddColumn("Description", "Descrizione");
 
+            ListConfiguration accommodationTypeConfiguration = new ListConfiguration();
+            accommodationTypeConfiguration.AddColumn("Name", "Nome");
+
+            ListConfiguration accommodationConfiguration = new ListConfiguration();
+            accommodationConfiguration.AddColumn("Name", "Nome");
+
             ListManager.Instance.RegisterConfiguration(typeof(Page), pageConfiguration);
             ListManager.Instance.RegisterConfiguration(typeof(Section), pageConfiguration);
             ListManager.Instance.RegisterConfiguration(typeof(User), userConfiguration);
             ListManager.Instance.RegisterConfiguration(typeof(Group), groupConfiguration);
+            ListManager.Instance.RegisterConfiguration(typeof(AccommodationType), accommodationTypeConfiguration);
+            ListManager.Instance.RegisterConfiguration(typeof(Accommodation), accommodationConfiguration);
 
             FieldBuilder.Instance.SetControl(typeof(IEnumerable<Attachment>), RelationshipMultiplicity.Many, "Custom/Attachments.ascx", null, new AttachmentsConverter());
             FieldBuilder.Instance.SetControl(typeof(Page), "Body", "Custom/Html.ascx", null, null);

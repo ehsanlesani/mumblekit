@@ -57,6 +57,39 @@
                                     </ul>
                                 </li>
                                 <li>
+                                    <span class="folder">Geografia</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Regioni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Region/Edit") %>">Nuova Regione</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Region/List") %>">Gestione Regioni</a></span></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Province</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Province/Edit") %>">Nuova Provincia</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Province/List") %>">Gestione Province</a></span></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Comuni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Municipality/Edit") %>">Nuovo Comune</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Municipality/List") %>">Gestione Comuni</a></span></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Località</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Locality/Edit") %>">Nuova Località</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Locality/List") %>">Gestione Località</a></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
                                     <span class="folder">Cms</span>
                                     <ul>
                                         <li>
