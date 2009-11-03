@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" Inherits="Mumble.Web.StarterKit.Models.Scaffold.Fields.FieldControl" %>
+<tr><td class="label"><%= FieldMetadata.Name %></td><td class="control"><%= Html.TextBox(FieldMetadata.Name, Value) %></td></tr>

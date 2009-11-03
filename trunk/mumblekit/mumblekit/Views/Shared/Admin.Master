@@ -1,0 +1,99 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Admin.master.cs" Inherits="MumbleKit.Views.Shared.Admin" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <script type="text/javascript" src="<% =ResolveUrl("~/Content/JS/jquery/jquery-1.3.2.min.js") %>"></script>
+    <script type="text/javascript" src="<% =ResolveUrl("~/Content/JS/jquery/jquery-ui-1.7.2.custom.min.js") %>"></script>
+    <script type="text/javascript" src="<% =ResolveUrl("~/Content/JS/jquery/jquery.json.js") %>"></script>
+    <script type="text/javascript" src="<% =ResolveUrl("~/Content/JS/jquery/jquery.numeric.js") %>"></script>
+    <script type="text/javascript" src="<% =ResolveUrl("~/Content/JS/jquery/jquery.treeview.min.js") %>"></script>
+    <script type="text/javascript" src="<% =ResolveUrl("~/Content/JS/nicEdit/nicEdit.js") %>"></script>
+    <link rel="stylesheet" media="all" type="text/css" href="<% =ResolveUrl("~/Content/Css/Admin.css") %>" />
+    <link rel="stylesheet" media="all" type="text/css" href="<% =ResolveUrl("~/Content/Css/treeview/jquery.treeview.css") %>" />
+    <link rel="stylesheet" media="all" type="text/css" href="<% =ResolveUrl("~/Content/Css/jquery/jquery-ui-1.7.2.custom.css") %>" />
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#menu").treeview();
+        });
+    </script>
+    
+</head>
+<body>
+    <div class="header">
+        <img src="../../Content/Images/companyLogo.png" style="height: 80px; width: auto;" />
+    </div>
+    <div class="container">
+        <div class="menu">
+            <table cellpadding="2" cellspacing="1" border="0" class="list" width="100%">
+                <thead>
+                    <tr><th>Menu</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="content">
+                            <ul id="menu" class="filetree">
+                                <li><span class="file">Home page</span></li>
+                                <li>
+                                    <span class="folder">Sicurezza</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Utenti</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/User/Edit") %>">Nuovo utente</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/User/List") %>">Gestione utenti</a></span></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Gruppi</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Group/Edit") %>">Nuovo gruppo</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Group/List") %>">Gestione gruppi</a></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="folder">Cms</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Sezioni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Section/Edit") %>">Nuova sezione</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Section/List") %>">Lista sezioni</a></span></li>
+                                                <% foreach (var section in Sections) { %>
+                                                    <li>
+                                                        <span class="folder"><a href="<%= ResolveUrl("~/Admin/Section/Edit/") %><%= section.Id %>"><%= section.Description %></a></span>
+                                                        <ul>
+                                                            <% foreach (var page in section.Pages) { %>
+                                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Page/Edit/") %><%= page.Id %>"><%= page.Description%></a></span></li>
+                                                            <% } %>
+                                                        </ul>
+                                                <% } %>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Pagine</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Page/Edit") %>">Nuova pagina</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Page/List") %>">Lista pagine</a></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content"><asp:ContentPlaceHolder ID="MainContent" runat="server" /></div>
+    </div>
+    <div class="footer">
+        MumbleKit
+    </div>
+</body>
+</html>
