@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StarterKitModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="StarterKitModelStoreContainer">
+          <EntitySet Name="Attachments" EntityType="StarterKitModel.Store.Attachments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Pages" EntityType="StarterKitModel.Store.Pages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Sections" EntityType="StarterKitModel.Store.Sections" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_PageAttachment" Association="StarterKitModel.Store.FK_PageAttachment">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SectionPage" Association="StarterKitModel.Store.FK_SectionPage">
+            <End Role="Sections" EntitySet="Sections" />
+            <End Role="Pages" EntitySet="Pages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Attachments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Path" Type="varchar(max)" />
+          <Property Name="Page_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Pages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="Visible" Type="bit" />
+          <Property Name="ValidFrom" Type="datetime" />
+          <Property Name="ValidTo" Type="datetime" />
+          <Property Name="Body" Type="nvarchar(max)" />
+          <Property Name="Section_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Sections">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="Visible" Type="bit" />
+          <Property Name="ValidFrom" Type="datetime" />
+          <Property Name="ValidTo" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_PageAttachment">
+          <End Role="Pages" Type="StarterKitModel.Store.Pages" Multiplicity="0..1" />
+          <End Role="Attachments" Type="StarterKitModel.Store.Attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attachments">
+              <PropertyRef Name="Page_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SectionPage">
+          <End Role="Sections" Type="StarterKitModel.Store.Sections" Multiplicity="0..1" />
+          <End Role="Pages" Type="StarterKitModel.Store.Pages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sections">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pages">
+              <PropertyRef Name="Section_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StarterKitModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="StarterKitContainer">
+          <EntitySet Name="Attachments" EntityType="StarterKitModel.Attachment" />
+          <EntitySet Name="Pages" EntityType="StarterKitModel.Page" />
+          <EntitySet Name="Sections" EntityType="StarterKitModel.Section" />
+          <AssociationSet Name="FK_PageAttachment" Association="StarterKitModel.FK_PageAttachment">
+            <End Role="Pages" EntitySet="Pages" />
+            <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SectionPage" Association="StarterKitModel.FK_SectionPage">
+            <End Role="Sections" EntitySet="Sections" />
+            <End Role="Pages" EntitySet="Pages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Attachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Path" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Page" Relationship="StarterKitModel.FK_PageAttachment" FromRole="Attachments" ToRole="Pages" />
+        </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="Visible" Type="Boolean" />
+          <Property Name="ValidFrom" Type="DateTime" />
+          <Property Name="ValidTo" Type="DateTime" />
+          <Property Name="Body" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Attachments" Relationship="StarterKitModel.FK_PageAttachment" FromRole="Pages" ToRole="Attachments" />
+          <NavigationProperty Name="Section" Relationship="StarterKitModel.FK_SectionPage" FromRole="Pages" ToRole="Sections" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="Visible" Type="Boolean" />
+          <Property Name="ValidFrom" Type="DateTime" />
+          <Property Name="ValidTo" Type="DateTime" />
+          <NavigationProperty Name="Pages" Relationship="StarterKitModel.FK_SectionPage" FromRole="Sections" ToRole="Pages" />
+        </EntityType>
+        <Association Name="FK_PageAttachment">
+          <End Role="Pages" Type="StarterKitModel.Page" Multiplicity="0..1" />
+          <End Role="Attachments" Type="StarterKitModel.Attachment" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_SectionPage">
+          <End Role="Sections" Type="StarterKitModel.Section" Multiplicity="0..1" />
+          <End Role="Pages" Type="StarterKitModel.Page" Multiplicity="*" />
+          </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="StarterKitModelStoreContainer" CdmEntityContainer="StarterKitContainer">
+          <EntitySetMapping Name="Attachments"><EntityTypeMapping TypeName="StarterKitModel.Attachment"><MappingFragment StoreEntitySet="Attachments">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Path" ColumnName="Path" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Pages"><EntityTypeMapping TypeName="StarterKitModel.Page"><MappingFragment StoreEntitySet="Pages">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Priority" ColumnName="Priority" />
+            <ScalarProperty Name="Visible" ColumnName="Visible" />
+            <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+            <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+            <ScalarProperty Name="Body" ColumnName="Body" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Sections"><EntityTypeMapping TypeName="StarterKitModel.Section"><MappingFragment StoreEntitySet="Sections">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Priority" ColumnName="Priority" />
+            <ScalarProperty Name="Visible" ColumnName="Visible" />
+            <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+            <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_PageAttachment" TypeName="StarterKitModel.FK_PageAttachment" StoreEntitySet="Attachments">
+            <EndProperty Name="Pages">
+              <ScalarProperty Name="Id" ColumnName="Page_Id" />
+            </EndProperty>
+            <EndProperty Name="Attachments">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Page_Id" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_SectionPage" TypeName="StarterKitModel.FK_SectionPage" StoreEntitySet="Pages">
+            <EndProperty Name="Sections">
+              <ScalarProperty Name="Id" ColumnName="Section_Id" />
+            </EndProperty>
+            <EndProperty Name="Pages">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="Section_Id" IsNull="false" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="StarterKitContainer">
+        <EntityTypeShape EntityType="StarterKitModel.Attachment" Width="1.5" PointX="5" PointY="1" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarterKitModel.Page" Width="1.5" PointX="3" PointY="1" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarterKitModel.Section" Width="1.5" PointX="0.875" PointY="1" Height="2.3648893229166665" IsExpanded="true" />
+        <AssociationConnector Association="StarterKitModel.FK_PageAttachment" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="1.9901432291666668" />
+          <ConnectorPoint PointX="5" PointY="1.9901432291666668" /></AssociationConnector>
+        <AssociationConnector Association="StarterKitModel.FK_SectionPage" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.375" PointY="2.1824446614583333" />
+          <ConnectorPoint PointX="3" PointY="2.1824446614583333" /></AssociationConnector></Diagram></Diagrams>
+  </Designer>
+</edmx:Edmx>
