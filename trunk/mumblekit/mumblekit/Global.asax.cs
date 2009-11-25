@@ -25,13 +25,13 @@ namespace MumbleKit
             routes.MapRoute(
                 "Admin",                                                
                 "Admin/{controller}/{action}/{id}",                     
-                new { controller = "Home", action = "Index", id = "" },
+                new { controller = "Main", action = "Index", id = "" },
                 new string[] { "Mumble.Web.StarterKit.Controllers.Admin" }
             );
 
             routes.MapRoute(
                 "Site",                                              
-                "{controller}/{action}/{id}",                           
+                "Site/{controller}/{action}/{id}",                           
                 new { controller = "Home", action = "Index", id = "" },
                 new string[] { "Mumble.Web.StarterKit.Controllers.Site" }
             );
@@ -42,7 +42,6 @@ namespace MumbleKit
                 new { controller = "Home", action = "Index" },
                 new string[] { "Mumble.Web.StarterKit.Controllers.Site" }
             );
-
         }
 
         private void SetupScaffolding()
