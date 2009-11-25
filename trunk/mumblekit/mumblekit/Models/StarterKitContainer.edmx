@@ -4,20 +4,52 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StarterKitModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+    <Schema Namespace="StarterKitModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
         <EntityContainer Name="StarterKitModelStoreContainer">
+          <EntitySet Name="Accommodations" EntityType="StarterKitModel.Store.Accommodations" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AccommodationTypes" EntityType="StarterKitModel.Store.AccommodationTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Attachments" EntityType="StarterKitModel.Store.Attachments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Municipalities" EntityType="StarterKitModel.Store.Municipalities" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="StarterKitModel.Store.Pages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Provinces" EntityType="StarterKitModel.Store.Provinces" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Region" EntityType="StarterKitModel.Store.Region" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Sections" EntityType="StarterKitModel.Store.Sections" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Accommodations_AccommodationTypes" Association="StarterKitModel.Store.FK_Accommodations_AccommodationTypes">
+            <End Role="AccommodationTypes" EntitySet="AccommodationTypes" />
+            <End Role="Accommodations" EntitySet="Accommodations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Municipalities_Provinces" Association="StarterKitModel.Store.FK_Municipalities_Provinces">
+            <End Role="Provinces" EntitySet="Provinces" />
+            <End Role="Municipalities" EntitySet="Municipalities" />
+          </AssociationSet>
           <AssociationSet Name="FK_PageAttachment" Association="StarterKitModel.Store.FK_PageAttachment">
             <End Role="Pages" EntitySet="Pages" />
             <End Role="Attachments" EntitySet="Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Provinces_Region" Association="StarterKitModel.Store.FK_Provinces_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Provinces" EntitySet="Provinces" />
           </AssociationSet>
           <AssociationSet Name="FK_SectionPage" Association="StarterKitModel.Store.FK_SectionPage">
             <End Role="Sections" EntitySet="Sections" />
             <End Role="Pages" EntitySet="Pages" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Accommodations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AccommodationType_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AccommodationTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Attachments">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,6 +59,14 @@
           <Property Name="Description" Type="varchar" MaxLength="50" />
           <Property Name="Path" Type="varchar(max)" />
           <Property Name="Page_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Municipalities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProvinceID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Pages">
           <Key>
@@ -41,6 +81,22 @@
           <Property Name="Body" Type="nvarchar(max)" />
           <Property Name="Section_Id" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="Provinces">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RegionID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Initial" Type="nchar" MaxLength="2" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Sections">
           <Key>
             <PropertyRef Name="Id" />
@@ -52,6 +108,30 @@
           <Property Name="ValidFrom" Type="datetime" />
           <Property Name="ValidTo" Type="datetime" />
         </EntityType>
+        <Association Name="FK_Accommodations_AccommodationTypes">
+          <End Role="AccommodationTypes" Type="StarterKitModel.Store.AccommodationTypes" Multiplicity="1" />
+          <End Role="Accommodations" Type="StarterKitModel.Store.Accommodations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AccommodationTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Accommodations">
+              <PropertyRef Name="AccommodationType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Municipalities_Provinces">
+          <End Role="Provinces" Type="StarterKitModel.Store.Provinces" Multiplicity="1" />
+          <End Role="Municipalities" Type="StarterKitModel.Store.Municipalities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provinces">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Municipalities">
+              <PropertyRef Name="ProvinceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PageAttachment">
           <End Role="Pages" Type="StarterKitModel.Store.Pages" Multiplicity="0..1" />
           <End Role="Attachments" Type="StarterKitModel.Store.Attachments" Multiplicity="*" />
@@ -61,6 +141,18 @@
             </Principal>
             <Dependent Role="Attachments">
               <PropertyRef Name="Page_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Provinces_Region">
+          <End Role="Region" Type="StarterKitModel.Store.Region" Multiplicity="1" />
+          <End Role="Provinces" Type="StarterKitModel.Store.Provinces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Provinces">
+              <PropertyRef Name="RegionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -76,8 +168,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StarterKitModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
@@ -93,6 +184,20 @@
             <End Role="Sections" EntitySet="Sections" />
             <End Role="Pages" EntitySet="Pages" />
           </AssociationSet>
+          <EntitySet Name="Accommodations" EntityType="StarterKitModel.Accommodation" />
+          <EntitySet Name="AccommodationTypes" EntityType="StarterKitModel.AccommodationType" />
+          <EntitySet Name="Municipalities" EntityType="StarterKitModel.Municipality" />
+          <EntitySet Name="Provinces" EntityType="StarterKitModel.Province" />
+          <EntitySet Name="Regions" EntityType="StarterKitModel.Region" />
+          <AssociationSet Name="FK_Accommodations_AccommodationTypes" Association="StarterKitModel.FK_Accommodations_AccommodationTypes">
+            <End Role="AccommodationType" EntitySet="AccommodationTypes" />
+            <End Role="Accommodation" EntitySet="Accommodations" /></AssociationSet>
+          <AssociationSet Name="FK_Municipalities_Provinces" Association="StarterKitModel.FK_Municipalities_Provinces">
+            <End Role="Province" EntitySet="Provinces" />
+            <End Role="Municipality" EntitySet="Municipalities" /></AssociationSet>
+          <AssociationSet Name="FK_Provinces_Region" Association="StarterKitModel.FK_Provinces_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="Province" EntitySet="Provinces" /></AssociationSet>
         </EntityContainer>
         <EntityType Name="Attachment">
           <Key>
@@ -138,6 +243,47 @@
           <End Role="Sections" Type="StarterKitModel.Section" Multiplicity="0..1" />
           <End Role="Pages" Type="StarterKitModel.Page" Multiplicity="*" />
           </Association>
+        <EntityType Name="Accommodation">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AccommodationType" Relationship="StarterKitModel.FK_Accommodations_AccommodationTypes" FromRole="Accommodation" ToRole="AccommodationType" /></EntityType>
+        <EntityType Name="AccommodationType">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.FK_Accommodations_AccommodationTypes" FromRole="AccommodationType" ToRole="Accommodation" /></EntityType>
+        <EntityType Name="Municipality">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Province" Relationship="StarterKitModel.FK_Municipalities_Provinces" FromRole="Municipality" ToRole="Province" /></EntityType>
+        <EntityType Name="Province">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Initial" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Municipalities" Relationship="StarterKitModel.FK_Municipalities_Provinces" FromRole="Province" ToRole="Municipality" />
+          <NavigationProperty Name="Region" Relationship="StarterKitModel.FK_Provinces_Region" FromRole="Province" ToRole="Region" /></EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Provinces" Relationship="StarterKitModel.FK_Provinces_Region" FromRole="Region" ToRole="Province" /></EntityType>
+        <Association Name="FK_Accommodations_AccommodationTypes">
+          <End Type="StarterKitModel.AccommodationType" Role="AccommodationType" Multiplicity="1" />
+          <End Type="StarterKitModel.Accommodation" Role="Accommodation" Multiplicity="*" /></Association>
+        <Association Name="FK_Municipalities_Provinces">
+          <End Type="StarterKitModel.Province" Role="Province" Multiplicity="1" />
+          <End Type="StarterKitModel.Municipality" Role="Municipality" Multiplicity="*" /></Association>
+        <Association Name="FK_Provinces_Region">
+          <End Type="StarterKitModel.Region" Role="Region" Multiplicity="1" />
+          <End Type="StarterKitModel.Province" Role="Province" Multiplicity="*" /></Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -185,6 +331,47 @@
             </EndProperty>
             <Condition ColumnName="Section_Id" IsNull="false" />
           </AssociationSetMapping>
+          <EntitySetMapping Name="Accommodations">
+            <EntityTypeMapping TypeName="StarterKitModel.Accommodation">
+              <MappingFragment StoreEntitySet="Accommodations">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="AccommodationTypes">
+            <EntityTypeMapping TypeName="StarterKitModel.AccommodationType">
+              <MappingFragment StoreEntitySet="AccommodationTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Municipalities">
+            <EntityTypeMapping TypeName="StarterKitModel.Municipality">
+              <MappingFragment StoreEntitySet="Municipalities">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Provinces">
+            <EntityTypeMapping TypeName="StarterKitModel.Province">
+              <MappingFragment StoreEntitySet="Provinces">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Initial" ColumnName="Initial" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="StarterKitModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_Accommodations_AccommodationTypes" TypeName="StarterKitModel.FK_Accommodations_AccommodationTypes" StoreEntitySet="Accommodations">
+            <EndProperty Name="Accommodation">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="AccommodationType">
+              <ScalarProperty Name="Id" ColumnName="AccommodationType_Id" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Municipalities_Provinces" TypeName="StarterKitModel.FK_Municipalities_Provinces" StoreEntitySet="Municipalities">
+            <EndProperty Name="Municipality">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Province">
+              <ScalarProperty Name="Id" ColumnName="ProvinceID" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_Provinces_Region" TypeName="StarterKitModel.FK_Provinces_Region" StoreEntitySet="Provinces">
+            <EndProperty Name="Province">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Region">
+              <ScalarProperty Name="Id" ColumnName="RegionID" /></EndProperty></AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -199,7 +386,8 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
@@ -213,6 +401,20 @@
           <ConnectorPoint PointX="5" PointY="1.9901432291666668" /></AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_SectionPage" ManuallyRouted="false">
           <ConnectorPoint PointX="2.375" PointY="2.1824446614583333" />
-          <ConnectorPoint PointX="3" PointY="2.1824446614583333" /></AssociationConnector></Diagram></Diagrams>
+          <ConnectorPoint PointX="3" PointY="2.1824446614583333" /></AssociationConnector>
+        <EntityTypeShape EntityType="StarterKitModel.Accommodation" Width="1.5" PointX="10.375" PointY="0.875" Height="1.5956835937499998" />
+        <EntityTypeShape EntityType="StarterKitModel.AccommodationType" Width="1.875" PointX="7.75" PointY="0.875" Height="1.5956835937499998" />
+        <EntityTypeShape EntityType="StarterKitModel.Municipality" Width="1.5" PointX="5.25" PointY="5.125" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="StarterKitModel.Province" Width="1.5" PointX="3" PointY="4.875" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="StarterKitModel.Region" Width="1.5" PointX="0.75" PointY="5.125" Height="1.5956835937499996" />
+        <AssociationConnector Association="StarterKitModel.FK_Accommodations_AccommodationTypes" >
+          <ConnectorPoint PointX="9.625" PointY="1.6728417968749998" />
+          <ConnectorPoint PointX="10.375" PointY="1.6728417968749998" /></AssociationConnector>
+        <AssociationConnector Association="StarterKitModel.FK_Municipalities_Provinces" >
+          <ConnectorPoint PointX="4.5" PointY="5.922841796875" />
+          <ConnectorPoint PointX="5.25" PointY="5.922841796875" /></AssociationConnector>
+        <AssociationConnector Association="StarterKitModel.FK_Provinces_Region" >
+          <ConnectorPoint PointX="2.25" PointY="5.922841796875" />
+          <ConnectorPoint PointX="3" PointY="5.922841796875" /></AssociationConnector></Diagram></Diagrams>
   </Designer>
 </edmx:Edmx>

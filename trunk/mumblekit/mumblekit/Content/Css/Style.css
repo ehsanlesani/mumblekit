@@ -1,0 +1,311 @@
+﻿html, body
+{
+	font-family: Verdana, Arial;
+	font-size: 11px;
+	color: #CCCCCC;	
+	height:100%;
+	margin: 0;
+	padding: 0;
+}
+
+body { text-align: center; }
+
+
+div#container
+{
+	position:relative;
+	width: 996px;
+	text-align: left;
+	margin:0 auto;
+	min-height:100%;
+	background-color:#f9eddd;
+}
+
+div#navigation 
+{
+	float: left;
+	width: 144px;
+	padding: 0px;
+	margin-top: 5px;
+}
+
+div#extra 
+{
+	float: right;
+	width: 144px;
+	padding: 0px;
+	margin-top: 5px;
+}
+
+div#content {
+	margin:0 145px;
+	margin-top: 5px;
+	padding:0px;
+	
+}
+
+div#footer p
+{
+	margin:10;
+	padding:0;	
+}
+
+div#footer
+{
+	position:absolute;
+	/*clear:both;*/
+	width:100%;
+	font-size: 10px;
+	color: White;
+	background-color: #4f2925;
+	border-top:4px solid #c97116;
+	height:60px;
+	bottom:0;
+}
+
+div#footer .title 
+{
+	font-size: 10px;
+	color:#dc7d1c;
+}
+
+div#footer .content 
+{
+	margin-left:4px;
+	color:White;
+}
+
+div#footer #email{margin-left:10px;}
+
+div#footer #tel{margin-left:10px;}
+
+div#footer #menu
+{
+	position:absolute;
+	top:15px;
+	right:15px;	
+}
+
+div#header
+{
+	position:relative;
+	height: 309px;
+	overflow: hidden;
+	background-image:url(../Images/Header.jpg);
+	border-bottom:1px solid #DE9347;
+}
+
+div#header_search
+{
+	font-size: 10px;
+	padding: 5px;
+	margin: 2px 0px 1px 0px;
+	display:none;
+}
+
+div#header_logon
+{
+	position:absolute;
+	font-weight:normal;
+	color:White;
+	top:8px;
+	left:535px;
+}
+
+div#header_logon input[type=text], div#header_logon input[type=password]
+{
+	margin:5px;
+	font-size:11px;
+	width:120px;
+	border:2px solid #895550;		
+}
+
+div#body 
+{
+	padding-bottom:60px;
+}
+
+.literalText 
+{
+	color:#895550;
+	margin:25px;	
+}
+
+h2 
+{
+	margin:0;
+	padding:0;
+	color:Black;
+	font-family:Verdana, Arial;
+	font-size:13px;
+	text-transform:uppercase;
+	margin-left:22px;
+}
+
+.box 
+{
+	padding: 5px;
+	margin: 5px;
+	width:850px;
+}
+
+.homeInput 
+{
+	/*border: solid 1px #CCCCCC;	*/
+	width: 300px;
+}
+
+.label
+{
+	color: #666666;
+	font-weight: bold;	
+}
+
+div#header_search input
+{
+	font-size: 9px;
+}
+
+.box2
+{
+	padding: 5px;
+	margin: 5px, 0px, 5px, 0px;
+	margin-bottom: 5px;
+}
+
+.title
+{
+	color: #CC0000;
+	font-size: 1.4em;
+}
+
+.blueTitle
+{
+	color: #0C0C39;
+	font-size: 1em;
+	font-weight: bold;
+}
+
+a.menu:link, a.menu:visited
+{
+	margin-left:10px;
+	text-transform:uppercase;
+	display: block;
+	color: #421612;
+	font-size:10px;
+	padding: 5px;
+	padding-left: 20px;
+	background-image: url("../Images/goto_16x16.png");
+	background-repeat: no-repeat;
+	background-position: left;
+	font-weight: bold;
+	/*width: 108px;*/
+	text-decoration: none;
+	
+}
+
+a.menu:hover
+{
+	display: block;
+	color: #8C3C3D;
+	padding: 5px;
+	padding-left: 20px;
+	font-weight: bold;
+	/*width: 108px;*/
+	text-decoration: none;
+}
+
+.subMenu
+{
+
+}
+
+.subMenu a:link, .subMenu a:visited
+{
+	display: block;
+	color: Black;
+	background-color: White;
+	padding: 5px;
+	padding-left: 25px;
+	font-weight: bold;
+	/*width: 108px;*/
+	text-decoration: none;
+	border-bottom: dotted 1px black;
+	
+}
+
+.subMenu a:hover
+{
+	display: block;
+	color: Black;
+	background-color: #EEEEEE;
+	padding: 5px;
+	padding-left: 25px;
+	font-weight: bold;
+	/*width: 108px;*/
+	text-decoration: none;
+	border-bottom: dotted 1px black;
+}
+
+.adHeader
+{
+	background-color: #CC0000;
+	color: White;
+	font-weight: bold;	
+}
+
+
+
+.ad
+{
+	border-bottom: solid 1px #CCCCCC;
+}
+
+.ad a:link, .ad a:visited
+{
+	color:Black;
+	text-decoration: none;
+	/*font-weight: bold;*/
+}
+
+.ad a:hover
+{
+	color: #CC0000;
+	text-decoration: none;
+}
+
+.adAlternate a:link, .adAlternate a:visited
+{
+	color:Black;
+	text-decoration: none;
+}
+
+.adAlternate a:hover
+{
+	color: #CC0000;
+	text-decoration: none;
+}
+
+.adAlternate
+{
+	border-bottom: solid 1px #CCCCCC;
+	background-color: #FFF9F9;
+}
+
+div#results a:link, div#results a:visited
+{
+	font-size: 1.6em;
+	text-decoration: none;
+}
+
+div#results a:hover
+{
+	font-size: 1.6em;
+	text-decoration: underline;
+}
+
+.P.channel { width: 140px; }
+.P.channelDescription { width: 140px; }
+.P.channelPublisher { width: 140px; }
+.P.news { width: 140px; }
+.P.newsAlt { width: 140px; }
