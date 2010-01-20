@@ -1,0 +1,40 @@
+﻿//*** CULTURES ***
+clt.it-IT = Italian
+clt.en-US = English
+
+//*** ERRORS ***
+err.unauthorized = You haven't permissions to access this page
+err.badLogin = Can't login. Please check your email or password
+err.registrationProblem = Registration error
+
+//*** MESSAGES ***
+
+//login and registration
+msg.registered = You have been registered
+msg.checkBirthday = Please check your birthday
+msg.existentEmail = Specified email '{0}' already exists
+msg.firstNameRequired = First name is required
+msg.lastNameRequired = Last name is required
+msg.invalidEmail = Please enter a valid email address
+msg.passRequired = Password is required
+msg.selectFarm = Please select your farm
+msg.friendsheepPass = Your friendsheep password
+
+//controlPanel
+msg.yourPictures = Your pictures
+
+//***TEXT***
+
+//login and registration
+txt.sheepLogin = Sheep login
+txt.newSheep = New sheep
+txt.firstName = First name
+txt.lastName = Last name
+txt.sex = Your sex
+txt.birthday = Birthday
+txt.register = Register
+txt.select = Select
+
+//pictures manager
+txt.newAlbum = New album
+

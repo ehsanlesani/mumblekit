@@ -1,0 +1,101 @@
+﻿input.error, select.error 
+{
+    border: solid 1px #FE5826 !important;
+}
+
+label.error 
+{
+    color: #FE5826;
+}
+
+.ajaxLoadingHidden
+{
+    height: 16px;
+    width: 16px;
+    background-image: url("../Images/ajaxLoading.gif");
+    display: none;
+}
+
+.ajaxLoading
+{
+    height: 16px;
+    width: 16px;
+    background-image: url("../Images/ajaxLoading.gif");
+}
+
+.hidden 
+{
+    display: none;
+}
+
+.column1 
+{
+    width: 1%;
+}
+
+.albumControl .picturesList
+{
+    border: solid 1px gray;
+    padding: 5px;
+    margin-left: 150px;
+    border: solid 1px black;
+}
+
+.albumControl .albumsList
+{
+    width: 150px;
+    float: left;
+}
+
+.albumControl a.album:link, .albumControl a.album:visited
+{
+    padding: 3px;
+    border: solid 1px black;
+    display: block;
+    margin-bottom: 3px;
+    margin-right: 3px;
+}
+
+.albumControl a.album:hover
+{
+    padding: 3px;
+    border: solid 1px red;
+    display: block;
+    margin-bottom: 3px;
+    margin-right: 3px;
+}
+
+.albumControl a.activeAlbum:link, .albumControl a.activeAlbum:visited
+{
+    padding: 3px;
+    border-top: solid 1px black;
+    border-left: solid 1px black;
+    border-bottom: solid 1px black;
+    background-color: Gray;
+    margin-bottom: 3px;
+    font-weight: bold;
+    display: block;
+}
+
+.albumControl a.picture:link, .albumControl a.picture:visited
+{
+    padding: 3px;
+    margin: 5px;
+    border: solid 1px black;
+    float: left;
+}
+
+.albumControl a.picture:hover
+{
+    padding: 3px;
+    margin: 5px;
+    border: solid 1px red;
+    float: left;
+}
+
+.albumControl .picture img 
+{
+    height: 100px;
+    width: 100px;
+    border: 0px;
+}
