@@ -1,0 +1,1352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Mumble.Friendsheep.Domain.Users.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+  <EntityContainer Name="MumbleFriendsheepDomainUsersStoreContainer">
+    <EntitySet Name="Users" EntityType="Mumble.Friendsheep.Domain.Users.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groups" EntityType="Mumble.Friendsheep.Domain.Users.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Farms" EntityType="Mumble.Friendsheep.Domain.Users.Store.Farms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SocialObjects" EntityType="Mumble.Friendsheep.Domain.Users.Store.SocialObjects" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tags" EntityType="Mumble.Friendsheep.Domain.Users.Store.Tags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="Mumble.Friendsheep.Domain.Users.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Votes" EntityType="Mumble.Friendsheep.Domain.Users.Store.Votes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PrivateMessages" EntityType="Mumble.Friendsheep.Domain.Users.Store.PrivateMessages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Flocks" EntityType="Mumble.Friendsheep.Domain.Users.Store.Flocks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Chats" EntityType="Mumble.Friendsheep.Domain.Users.Store.Chats" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Albums" EntityType="Mumble.Friendsheep.Domain.Users.Store.Albums" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SocialObjects_Picture" EntityType="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Picture" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SocialObjects_Post" EntityType="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Post" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SocialObjects_Mood" EntityType="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Mood" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupUser" EntityType="Mumble.Friendsheep.Domain.Users.Store.GroupUser" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_GroupUser_Group" Association="Mumble.Friendsheep.Domain.Users.Store.FK_GroupUser_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupUser_User" Association="Mumble.Friendsheep.Domain.Users.Store.FK_GroupUser_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="UserFarm" Association="Mumble.Friendsheep.Domain.Users.Store.UserState">
+      <End Role="User" EntitySet="Users" />
+      <End Role="State" EntitySet="Farms" />
+    </AssociationSet>
+    <AssociationSet Name="CommentUser" Association="Mumble.Friendsheep.Domain.Users.Store.CommentUser">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="TaggedObjectTag" Association="Mumble.Friendsheep.Domain.Users.Store.TaggedObjectTag">
+      <End Role="TaggedObject" EntitySet="SocialObjects" />
+      <End Role="Tag" EntitySet="Tags" />
+    </AssociationSet>
+    <AssociationSet Name="UserPicture" Association="Mumble.Friendsheep.Domain.Users.Store.UserPicture">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Picture" EntitySet="SocialObjects_Picture" />
+    </AssociationSet>
+    <AssociationSet Name="SocialObjectComment" Association="Mumble.Friendsheep.Domain.Users.Store.SocialObjectComment">
+      <End Role="SocialObject" EntitySet="SocialObjects" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="SocialObjectVote" Association="Mumble.Friendsheep.Domain.Users.Store.SocialObjectVote">
+      <End Role="SocialObject" EntitySet="SocialObjects" />
+      <End Role="Vote" EntitySet="Votes" />
+    </AssociationSet>
+    <AssociationSet Name="VoteUser" Association="Mumble.Friendsheep.Domain.Users.Store.VoteUser">
+      <End Role="Vote" EntitySet="Votes" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="UserPost" Association="Mumble.Friendsheep.Domain.Users.Store.UserPost">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Post" EntitySet="SocialObjects_Post" />
+    </AssociationSet>
+    <AssociationSet Name="PrivateMessageUser" Association="Mumble.Friendsheep.Domain.Users.Store.PrivateMessageUser">
+      <End Role="PrivateMessage" EntitySet="PrivateMessages" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="PrivateMessageUser1" Association="Mumble.Friendsheep.Domain.Users.Store.PrivateMessageUser1">
+      <End Role="PrivateMessage" EntitySet="PrivateMessages" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="CommentComment" Association="Mumble.Friendsheep.Domain.Users.Store.CommentComment">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="Comment1" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="UserStatus" Association="Mumble.Friendsheep.Domain.Users.Store.UserStatus">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Status" EntitySet="SocialObjects_Mood" />
+    </AssociationSet>
+    <AssociationSet Name="FlockUser" Association="Mumble.Friendsheep.Domain.Users.Store.FlockUser">
+      <End Role="Flock" EntitySet="Flocks" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FlockUser1" Association="Mumble.Friendsheep.Domain.Users.Store.FlockUser1">
+      <End Role="Flock" EntitySet="Flocks" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FlockChat" Association="Mumble.Friendsheep.Domain.Users.Store.FlockChat">
+      <End Role="Flock" EntitySet="Flocks" />
+      <End Role="Chat" EntitySet="Chats" />
+    </AssociationSet>
+    <AssociationSet Name="FlockDog" Association="Mumble.Friendsheep.Domain.Users.Store.FlockDog">
+      <End Role="Flock" EntitySet="Flocks" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="ChatUser" Association="Mumble.Friendsheep.Domain.Users.Store.ChatUser">
+      <End Role="Chat" EntitySet="Chats" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="AlbumPicture" Association="Mumble.Friendsheep.Domain.Users.Store.AlbumPicture">
+      <End Role="Album" EntitySet="Albums" />
+      <End Role="Picture" EntitySet="SocialObjects_Picture" />
+    </AssociationSet>
+    <AssociationSet Name="UserAlbum" Association="Mumble.Friendsheep.Domain.Users.Store.UserAlbum">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Album" EntitySet="Albums" />
+    </AssociationSet>
+    <AssociationSet Name="UserProfilePicture" Association="Mumble.Friendsheep.Domain.Users.Store.UserProfilePicture">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Picture" EntitySet="SocialObjects_Picture" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Picture_inherits_SocialObject" Association="Mumble.Friendsheep.Domain.Users.Store.FK_Picture_inherits_SocialObject">
+      <End Role="SocialObject" EntitySet="SocialObjects" />
+      <End Role="Picture" EntitySet="SocialObjects_Picture" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_inherits_SocialObject" Association="Mumble.Friendsheep.Domain.Users.Store.FK_Post_inherits_SocialObject">
+      <End Role="SocialObject" EntitySet="SocialObjects" />
+      <End Role="Post" EntitySet="SocialObjects_Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Mood_inherits_SocialObject" Association="Mumble.Friendsheep.Domain.Users.Store.FK_Mood_inherits_SocialObject">
+      <End Role="SocialObject" EntitySet="SocialObjects" />
+      <End Role="Mood" EntitySet="SocialObjects_Mood" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="City" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tGender" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Birthday" Type="datetime" Nullable="false" />
+    <Property Name="LastAccess" Type="datetime" Nullable="false" />
+    <Property Name="Ping" Type="datetime" Nullable="false" />
+    <Property Name="IsOnline" Type="bit" Nullable="false" />
+    <Property Name="Look" Type="real" Nullable="false" />
+    <Property Name="Character" Type="real" Nullable="false" />
+    <Property Name="Culture" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LookWeight" Type="int" Nullable="false" />
+    <Property Name="Farm_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="PrivateMessageUser1_User_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="JoinedFlock_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="ShepherFlock_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="DogFlock_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="ProfilePicture_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Farms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SocialObjects">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Views" Type="int" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TaggedObjectTag_Tag_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="SocialObjectComment_Comment_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="Parent_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Votes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="Value" Type="int" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SocialObjectVote_Vote_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PrivateMessages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Created" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="FromUser_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Flocks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Topic" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Chats">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="FlockChat_Chat_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Albums">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SocialObjects_Picture">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsProfilePicture" Type="bit" Nullable="false" />
+    <Property Name="Height" Type="int" Nullable="false" />
+    <Property Name="Width" Type="int" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserPicture_Picture_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="Album_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SocialObjects_Post">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SocialObjects_Mood">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="tValue" Type="int" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="GroupUser">
+    <Key>
+      <PropertyRef Name="Groups_Id" />
+      <PropertyRef Name="Users_Id" />
+    </Key>
+    <Property Name="Groups_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Users_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <Association Name="UserState">
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="*" />
+    <End Role="State" Type="Mumble.Friendsheep.Domain.Users.Store.Farms" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="State">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Farm_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommentUser">
+    <End Role="Comment" Type="Mumble.Friendsheep.Domain.Users.Store.Comments" Multiplicity="*" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaggedObjectTag">
+    <End Role="TaggedObject" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects" Multiplicity="0..1" />
+    <End Role="Tag" Type="Mumble.Friendsheep.Domain.Users.Store.Tags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaggedObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tag">
+        <PropertyRef Name="TaggedObjectTag_Tag_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserPicture">
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <End Role="Picture" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Picture" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Picture">
+        <PropertyRef Name="UserPicture_Picture_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SocialObjectComment">
+    <End Role="SocialObject" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects" Multiplicity="0..1" />
+    <End Role="Comment" Type="Mumble.Friendsheep.Domain.Users.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SocialObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="SocialObjectComment_Comment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SocialObjectVote">
+    <End Role="SocialObject" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects" Multiplicity="0..1" />
+    <End Role="Vote" Type="Mumble.Friendsheep.Domain.Users.Store.Votes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SocialObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vote">
+        <PropertyRef Name="SocialObjectVote_Vote_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VoteUser">
+    <End Role="Vote" Type="Mumble.Friendsheep.Domain.Users.Store.Votes" Multiplicity="*" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vote">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserPost">
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <End Role="Post" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PrivateMessageUser">
+    <End Role="PrivateMessage" Type="Mumble.Friendsheep.Domain.Users.Store.PrivateMessages" Multiplicity="*" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PrivateMessage">
+        <PropertyRef Name="FromUser_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PrivateMessageUser1">
+    <End Role="PrivateMessage" Type="Mumble.Friendsheep.Domain.Users.Store.PrivateMessages" Multiplicity="0..1" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrivateMessage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="PrivateMessageUser1_User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommentComment">
+    <End Role="Comment" Type="Mumble.Friendsheep.Domain.Users.Store.Comments" Multiplicity="0..1" />
+    <End Role="Comment1" Type="Mumble.Friendsheep.Domain.Users.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="Parent_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserStatus">
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <End Role="Status" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Mood" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Status">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FlockUser">
+    <End Role="Flock" Type="Mumble.Friendsheep.Domain.Users.Store.Flocks" Multiplicity="0..1" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Flock">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="JoinedFlock_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FlockUser1">
+    <End Role="Flock" Type="Mumble.Friendsheep.Domain.Users.Store.Flocks" Multiplicity="0..1" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Flock">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="ShepherFlock_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FlockChat">
+    <End Role="Flock" Type="Mumble.Friendsheep.Domain.Users.Store.Flocks" Multiplicity="0..1" />
+    <End Role="Chat" Type="Mumble.Friendsheep.Domain.Users.Store.Chats" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Flock">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chat">
+        <PropertyRef Name="FlockChat_Chat_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FlockDog">
+    <End Role="Flock" Type="Mumble.Friendsheep.Domain.Users.Store.Flocks" Multiplicity="0..1" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Flock">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="DogFlock_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ChatUser">
+    <End Role="Chat" Type="Mumble.Friendsheep.Domain.Users.Store.Chats" Multiplicity="*" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chat">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AlbumPicture">
+    <End Role="Album" Type="Mumble.Friendsheep.Domain.Users.Store.Albums" Multiplicity="0..1" />
+    <End Role="Picture" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Picture" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Album">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Picture">
+        <PropertyRef Name="Album_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserAlbum">
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <End Role="Album" Type="Mumble.Friendsheep.Domain.Users.Store.Albums" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Album">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserProfilePicture">
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="*" />
+    <End Role="Picture" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Picture" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Picture">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="ProfilePicture_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_Group">
+    <End Role="Group" Type="Mumble.Friendsheep.Domain.Users.Store.Groups" Multiplicity="1" />
+    <End Role="GroupUser" Type="Mumble.Friendsheep.Domain.Users.Store.GroupUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_User">
+    <End Role="GroupUser" Type="Mumble.Friendsheep.Domain.Users.Store.GroupUser" Multiplicity="*" />
+    <End Role="User" Type="Mumble.Friendsheep.Domain.Users.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Picture_inherits_SocialObject">
+    <End Role="SocialObject" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects" Multiplicity="1" />
+    <End Role="Picture" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Picture" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SocialObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Picture">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_inherits_SocialObject">
+    <End Role="SocialObject" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects" Multiplicity="1" />
+    <End Role="Post" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Post" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SocialObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Mood_inherits_SocialObject">
+    <End Role="SocialObject" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects" Multiplicity="1" />
+    <End Role="Mood" Type="Mumble.Friendsheep.Domain.Users.Store.SocialObjects_Mood" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="SocialObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Mood">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2006/04/edm" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Mumble.Friendsheep.Domain.Users" Alias="Self">
+        <EntityContainer Name="FriendsheepContainer" >
+          <EntitySet Name="Users" EntityType="Mumble.Friendsheep.Domain.Users.User" />
+          <EntitySet Name="Groups" EntityType="Mumble.Friendsheep.Domain.Users.Group" />
+          <AssociationSet Name="GroupUser" Association="Mumble.Friendsheep.Domain.Users.GroupUser">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <EntitySet Name="Farms" EntityType="Mumble.Friendsheep.Domain.Users.Farm" />
+          <AssociationSet Name="UserFarm" Association="Mumble.Friendsheep.Domain.Users.UserState">
+            <End Role="User" EntitySet="Users" />
+            <End Role="State" EntitySet="Farms" /></AssociationSet>
+          <EntitySet Name="SocialObjects" EntityType="Mumble.Friendsheep.Domain.Users.SocialObject" />
+          <EntitySet Name="Tags" EntityType="Mumble.Friendsheep.Domain.Users.Tag" />
+          <EntitySet Name="Comments" EntityType="Mumble.Friendsheep.Domain.Users.Comment" />
+          <AssociationSet Name="CommentUser" Association="Mumble.Friendsheep.Domain.Users.CommentUser">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="TaggedObjectTag" Association="Mumble.Friendsheep.Domain.Users.TaggedObjectTag">
+            <End Role="TaggedObject" EntitySet="SocialObjects" />
+            <End Role="Tag" EntitySet="Tags" /></AssociationSet>
+          <AssociationSet Name="UserPicture" Association="Mumble.Friendsheep.Domain.Users.UserPicture">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Picture" EntitySet="SocialObjects" /></AssociationSet>
+          <AssociationSet Name="SocialObjectComment" Association="Mumble.Friendsheep.Domain.Users.SocialObjectComment">
+            <End Role="SocialObject" EntitySet="SocialObjects" />
+            <End Role="Comment" EntitySet="Comments" /></AssociationSet>
+          <EntitySet Name="Votes" EntityType="Mumble.Friendsheep.Domain.Users.Vote" />
+          <AssociationSet Name="SocialObjectVote" Association="Mumble.Friendsheep.Domain.Users.SocialObjectVote">
+            <End Role="SocialObject" EntitySet="SocialObjects" />
+            <End Role="Vote" EntitySet="Votes" /></AssociationSet>
+          <AssociationSet Name="VoteUser" Association="Mumble.Friendsheep.Domain.Users.VoteUser">
+            <End Role="Vote" EntitySet="Votes" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="UserPost" Association="Mumble.Friendsheep.Domain.Users.UserPost">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Post" EntitySet="SocialObjects" /></AssociationSet>
+          <EntitySet Name="PrivateMessages" EntityType="Mumble.Friendsheep.Domain.Users.PrivateMessage" />
+          <AssociationSet Name="PrivateMessageUser" Association="Mumble.Friendsheep.Domain.Users.PrivateMessageUser">
+            <End Role="PrivateMessage" EntitySet="PrivateMessages" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="PrivateMessageUser1" Association="Mumble.Friendsheep.Domain.Users.PrivateMessageUser1">
+            <End Role="PrivateMessage" EntitySet="PrivateMessages" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="CommentComment" Association="Mumble.Friendsheep.Domain.Users.CommentComment">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Comment1" EntitySet="Comments" /></AssociationSet>
+          <AssociationSet Name="UserStatus" Association="Mumble.Friendsheep.Domain.Users.UserStatus">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Status" EntitySet="SocialObjects" /></AssociationSet>
+          <EntitySet Name="Flocks" EntityType="Mumble.Friendsheep.Domain.Users.Flock" />
+          <AssociationSet Name="FlockUser" Association="Mumble.Friendsheep.Domain.Users.FlockUser">
+            <End Role="Flock" EntitySet="Flocks" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="FlockUser1" Association="Mumble.Friendsheep.Domain.Users.FlockUser1">
+            <End Role="Flock" EntitySet="Flocks" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <EntitySet Name="Chats" EntityType="Mumble.Friendsheep.Domain.Users.Chat" />
+          <AssociationSet Name="FlockChat" Association="Mumble.Friendsheep.Domain.Users.FlockChat">
+            <End Role="Flock" EntitySet="Flocks" />
+            <End Role="Chat" EntitySet="Chats" /></AssociationSet>
+          <AssociationSet Name="FlockDog" Association="Mumble.Friendsheep.Domain.Users.FlockDog">
+            <End Role="Flock" EntitySet="Flocks" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="ChatUser" Association="Mumble.Friendsheep.Domain.Users.ChatUser">
+            <End Role="Chat" EntitySet="Chats" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <EntitySet Name="Albums" EntityType="Mumble.Friendsheep.Domain.Users.Album" />
+          <AssociationSet Name="AlbumPicture" Association="Mumble.Friendsheep.Domain.Users.AlbumPicture">
+            <End Role="Album" EntitySet="Albums" />
+            <End Role="Picture" EntitySet="SocialObjects" /></AssociationSet>
+          <AssociationSet Name="UserAlbum" Association="Mumble.Friendsheep.Domain.Users.UserAlbum">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Album" EntitySet="Albums" /></AssociationSet>
+          <AssociationSet Name="UserProfilePicture" Association="Mumble.Friendsheep.Domain.Users.UserProfilePicture">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Picture" EntitySet="SocialObjects" /></AssociationSet>
+          </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" />
+          <Property Type="String" Name="LastName" Nullable="false" />
+          <Property Type="String" Name="City" Nullable="true" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="Mumble.Friendsheep.Domain.Users.GroupUser" FromRole="User" ToRole="Group" />
+          <NavigationProperty Name="Farm" Relationship="Mumble.Friendsheep.Domain.Users.UserState" FromRole="User" ToRole="State" />
+          <Property Type="String" Name="tGender" Nullable="false" a:SetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:GetterAccess="Private" />
+          <Property Type="DateTime" Name="Birthday" Nullable="false" />
+          <NavigationProperty Name="Posts" Relationship="Mumble.Friendsheep.Domain.Users.UserPost" FromRole="User" ToRole="Post" />
+          <NavigationProperty Name="Statuses" Relationship="Mumble.Friendsheep.Domain.Users.UserStatus" FromRole="User" ToRole="Status" />
+          <NavigationProperty Name="JoinedFlock" Relationship="Mumble.Friendsheep.Domain.Users.FlockUser" FromRole="User" ToRole="Flock" />
+          <NavigationProperty Name="ShepherFlock" Relationship="Mumble.Friendsheep.Domain.Users.FlockUser1" FromRole="User" ToRole="Flock" />
+          <Property Type="DateTime" Name="LastAccess" Nullable="false" />
+          <Property Type="DateTime" Name="Ping" Nullable="false" />
+          <Property Type="Boolean" Name="IsOnline" Nullable="false" />
+          <Property Type="Single" Name="Look" Nullable="false" />
+          <Property Type="Single" Name="Character" Nullable="false" />
+          <NavigationProperty Name="DogFlock" Relationship="Mumble.Friendsheep.Domain.Users.FlockDog" FromRole="User" ToRole="Flock" />
+          <Property Type="String" Name="Culture" Nullable="false" />
+          <Property Type="Int32" Name="LookWeight" Nullable="false" />
+          <NavigationProperty Name="Albums" Relationship="Mumble.Friendsheep.Domain.Users.UserAlbum" FromRole="User" ToRole="Album" />
+          <NavigationProperty Name="ProfilePicture" Relationship="Mumble.Friendsheep.Domain.Users.UserProfilePicture" FromRole="User" ToRole="Picture" />
+          </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Mumble.Friendsheep.Domain.Users.GroupUser" FromRole="Group" ToRole="User" />
+          </EntityType>
+        <Association Name="GroupUser">
+          <End Type="Mumble.Friendsheep.Domain.Users.Group" Role="Group" Multiplicity="*" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="*" /></Association>
+        <EntityType Name="Farm">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Mumble.Friendsheep.Domain.Users.UserState" FromRole="State" ToRole="User" /></EntityType>
+        <Association Name="UserState">
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="*" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Farm" Role="State" Multiplicity="0..1" /></Association>
+        <EntityType Name="Picture" BaseType="Mumble.Friendsheep.Domain.Users.SocialObject">
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="Boolean" Name="IsProfilePicture" Nullable="false" />
+          <Property Type="Int32" Name="Height" Nullable="false" />
+          <Property Type="Int32" Name="Width" Nullable="false" />
+          <NavigationProperty Name="Album" Relationship="Mumble.Friendsheep.Domain.Users.AlbumPicture" FromRole="Picture" ToRole="Album" />
+          </EntityType>
+        <EntityType Name="SocialObject">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <NavigationProperty Name="Tags" Relationship="Mumble.Friendsheep.Domain.Users.TaggedObjectTag" FromRole="TaggedObject" ToRole="Tag" />
+          <NavigationProperty Name="Comments" Relationship="Mumble.Friendsheep.Domain.Users.SocialObjectComment" FromRole="SocialObject" ToRole="Comment" />
+          <NavigationProperty Name="Votes" Relationship="Mumble.Friendsheep.Domain.Users.SocialObjectVote" FromRole="SocialObject" ToRole="Vote" />
+          <Property Type="Int32" Name="Views" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" /></EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Mumble.Friendsheep.Domain.Users.CommentUser" FromRole="Comment" ToRole="User" />
+          <Property Type="String" Name="Body" Nullable="false" />
+          <NavigationProperty Name="Childs" Relationship="Mumble.Friendsheep.Domain.Users.CommentComment" FromRole="Comment" ToRole="Comment1" />
+          <NavigationProperty Name="Parent" Relationship="Mumble.Friendsheep.Domain.Users.CommentComment" FromRole="Comment1" ToRole="Comment" /></EntityType>
+        <Association Name="CommentUser">
+          <End Type="Mumble.Friendsheep.Domain.Users.Comment" Role="Comment" Multiplicity="*" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" /></Association>
+        <Association Name="TaggedObjectTag">
+          <End Type="Mumble.Friendsheep.Domain.Users.SocialObject" Role="TaggedObject" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Tag" Role="Tag" Multiplicity="*" /></Association>
+        <Association Name="UserPicture">
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Picture" Role="Picture" Multiplicity="*" /></Association>
+        <EntityType Name="Post" BaseType="Mumble.Friendsheep.Domain.Users.SocialObject" >
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Body" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Mumble.Friendsheep.Domain.Users.UserPost" FromRole="Post" ToRole="User" /></EntityType>
+        <Association Name="SocialObjectComment">
+          <End Type="Mumble.Friendsheep.Domain.Users.SocialObject" Role="SocialObject" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Comment" Role="Comment" Multiplicity="*" /></Association>
+        <EntityType Name="Vote">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Mumble.Friendsheep.Domain.Users.VoteUser" FromRole="Vote" ToRole="User" />
+          <Property Type="Int32" Name="Value" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="false" /></EntityType>
+        <Association Name="SocialObjectVote">
+          <End Type="Mumble.Friendsheep.Domain.Users.SocialObject" Role="SocialObject" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Vote" Role="Vote" Multiplicity="*" /></Association>
+        <Association Name="VoteUser">
+          <End Type="Mumble.Friendsheep.Domain.Users.Vote" Role="Vote" Multiplicity="*" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" /></Association>
+        <Association Name="UserPost">
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Post" Role="Post" Multiplicity="*" /></Association>
+        <EntityType Name="PrivateMessage">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <NavigationProperty Name="FromUser" Relationship="Mumble.Friendsheep.Domain.Users.PrivateMessageUser" FromRole="PrivateMessage" ToRole="User" />
+          <NavigationProperty Name="ToUsers" Relationship="Mumble.Friendsheep.Domain.Users.PrivateMessageUser1" FromRole="PrivateMessage" ToRole="User" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Body" Nullable="false" />
+          <Property Type="String" Name="Created" Nullable="false" />
+          </EntityType>
+        <Association Name="PrivateMessageUser">
+          <End Type="Mumble.Friendsheep.Domain.Users.PrivateMessage" Role="PrivateMessage" Multiplicity="*" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" /></Association>
+        <Association Name="PrivateMessageUser1">
+          <End Type="Mumble.Friendsheep.Domain.Users.PrivateMessage" Role="PrivateMessage" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="*" /></Association>
+        <Association Name="CommentComment">
+          <End Type="Mumble.Friendsheep.Domain.Users.Comment" Role="Comment" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Comment" Role="Comment1" Multiplicity="*" /></Association>
+        <EntityType Name="Mood" BaseType="Mumble.Friendsheep.Domain.Users.SocialObject" >
+          <Property Type="Int32" Name="tValue" Nullable="false" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+          <NavigationProperty Name="User" Relationship="Mumble.Friendsheep.Domain.Users.UserStatus" FromRole="Status" ToRole="User" /></EntityType>
+        <Association Name="UserStatus">
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Mood" Role="Status" Multiplicity="*" /></Association>
+        <EntityType Name="Flock">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Mumble.Friendsheep.Domain.Users.FlockUser" FromRole="Flock" ToRole="User" />
+          <NavigationProperty Name="Shephers" Relationship="Mumble.Friendsheep.Domain.Users.FlockUser1" FromRole="Flock" ToRole="User" />
+          <Property Type="String" Name="Topic" Nullable="false" />
+          <NavigationProperty Name="Chats" Relationship="Mumble.Friendsheep.Domain.Users.FlockChat" FromRole="Flock" ToRole="Chat" />
+          <NavigationProperty Name="Dogs" Relationship="Mumble.Friendsheep.Domain.Users.FlockDog" FromRole="Flock" ToRole="User" />
+          </EntityType>
+        <Association Name="FlockUser">
+          <End Type="Mumble.Friendsheep.Domain.Users.Flock" Role="Flock" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="*" /></Association>
+        <Association Name="FlockUser1">
+          <End Type="Mumble.Friendsheep.Domain.Users.Flock" Role="Flock" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="*" /></Association>
+        <EntityType Name="Chat">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Text" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Mumble.Friendsheep.Domain.Users.ChatUser" FromRole="Chat" ToRole="User" />
+          </EntityType>
+        <Association Name="FlockChat">
+          <End Type="Mumble.Friendsheep.Domain.Users.Flock" Role="Flock" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Chat" Role="Chat" Multiplicity="*" /></Association>
+        <Association Name="FlockDog">
+          <End Type="Mumble.Friendsheep.Domain.Users.Flock" Role="Flock" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="*" /></Association>
+        <Association Name="ChatUser">
+          <End Type="Mumble.Friendsheep.Domain.Users.Chat" Role="Chat" Multiplicity="*" />
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" /></Association>
+        <EntityType Name="Album">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <NavigationProperty Name="Pictures" Relationship="Mumble.Friendsheep.Domain.Users.AlbumPicture" FromRole="Album" ToRole="Picture" />
+          <NavigationProperty Name="User" Relationship="Mumble.Friendsheep.Domain.Users.UserAlbum" FromRole="Album" ToRole="User" /></EntityType>
+        <Association Name="AlbumPicture">
+          <End Type="Mumble.Friendsheep.Domain.Users.Album" Role="Album" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Picture" Role="Picture" Multiplicity="*" /></Association>
+        <Association Name="UserAlbum">
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="0..1" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Album" Role="Album" Multiplicity="*" /></Association>
+        <Association Name="UserProfilePicture">
+          <End Type="Mumble.Friendsheep.Domain.Users.User" Role="User" Multiplicity="*" />
+          <End Type="Mumble.Friendsheep.Domain.Users.Picture" Role="Picture" Multiplicity="0..1" /></Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+  <EntityContainerMapping StorageEntityContainer="MumbleFriendsheepDomainUsersStoreContainer" CdmEntityContainer="FriendsheepContainer">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="tGender" ColumnName="tGender" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="LastAccess" ColumnName="LastAccess" />
+          <ScalarProperty Name="Ping" ColumnName="Ping" />
+          <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+          <ScalarProperty Name="Look" ColumnName="Look" />
+          <ScalarProperty Name="Character" ColumnName="Character" />
+          <ScalarProperty Name="Culture" ColumnName="Culture" />
+          <ScalarProperty Name="LookWeight" ColumnName="LookWeight" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Farms">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Farm)">
+        <MappingFragment StoreEntitySet="Farms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SocialObjects">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.SocialObject)">
+        <MappingFragment StoreEntitySet="SocialObjects">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Views" ColumnName="Views" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Picture)">
+        <MappingFragment StoreEntitySet="SocialObjects_Picture">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IsProfilePicture" ColumnName="IsProfilePicture" />
+          <ScalarProperty Name="Height" ColumnName="Height" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Post)">
+        <MappingFragment StoreEntitySet="SocialObjects_Post">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Mood)">
+        <MappingFragment StoreEntitySet="SocialObjects_Mood">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="tValue" ColumnName="tValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Tag)">
+        <MappingFragment StoreEntitySet="Tags">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Comment)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Votes">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Vote)">
+        <MappingFragment StoreEntitySet="Votes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PrivateMessages">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.PrivateMessage)">
+        <MappingFragment StoreEntitySet="PrivateMessages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Flocks">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Flock)">
+        <MappingFragment StoreEntitySet="Flocks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Topic" ColumnName="Topic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Chats">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Chat)">
+        <MappingFragment StoreEntitySet="Chats">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Text" ColumnName="Text" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Albums">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Friendsheep.Domain.Users.Album)">
+        <MappingFragment StoreEntitySet="Albums">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="GroupUser" TypeName="Mumble.Friendsheep.Domain.Users.GroupUser" StoreEntitySet="GroupUser">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserFarm" TypeName="Mumble.Friendsheep.Domain.Users.UserState" StoreEntitySet="Users">
+      <EndProperty Name="State">
+        <ScalarProperty Name="Id" ColumnName="Farm_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Farm_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CommentUser" TypeName="Mumble.Friendsheep.Domain.Users.CommentUser" StoreEntitySet="Comments">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Comment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaggedObjectTag" TypeName="Mumble.Friendsheep.Domain.Users.TaggedObjectTag" StoreEntitySet="Tags">
+      <EndProperty Name="TaggedObject">
+        <ScalarProperty Name="Id" ColumnName="TaggedObjectTag_Tag_Id" />
+      </EndProperty>
+      <EndProperty Name="Tag">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="TaggedObjectTag_Tag_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserPicture" TypeName="Mumble.Friendsheep.Domain.Users.UserPicture" StoreEntitySet="SocialObjects_Picture">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="UserPicture_Picture_Id" />
+      </EndProperty>
+      <EndProperty Name="Picture">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="UserPicture_Picture_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SocialObjectComment" TypeName="Mumble.Friendsheep.Domain.Users.SocialObjectComment" StoreEntitySet="Comments">
+      <EndProperty Name="SocialObject">
+        <ScalarProperty Name="Id" ColumnName="SocialObjectComment_Comment_Id" />
+      </EndProperty>
+      <EndProperty Name="Comment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="SocialObjectComment_Comment_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SocialObjectVote" TypeName="Mumble.Friendsheep.Domain.Users.SocialObjectVote" StoreEntitySet="Votes">
+      <EndProperty Name="SocialObject">
+        <ScalarProperty Name="Id" ColumnName="SocialObjectVote_Vote_Id" />
+      </EndProperty>
+      <EndProperty Name="Vote">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="SocialObjectVote_Vote_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VoteUser" TypeName="Mumble.Friendsheep.Domain.Users.VoteUser" StoreEntitySet="Votes">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Vote">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserPost" TypeName="Mumble.Friendsheep.Domain.Users.UserPost" StoreEntitySet="SocialObjects_Post">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Post">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PrivateMessageUser" TypeName="Mumble.Friendsheep.Domain.Users.PrivateMessageUser" StoreEntitySet="PrivateMessages">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="FromUser_Id" />
+      </EndProperty>
+      <EndProperty Name="PrivateMessage">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="FromUser_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PrivateMessageUser1" TypeName="Mumble.Friendsheep.Domain.Users.PrivateMessageUser1" StoreEntitySet="Users">
+      <EndProperty Name="PrivateMessage">
+        <ScalarProperty Name="Id" ColumnName="PrivateMessageUser1_User_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="PrivateMessageUser1_User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CommentComment" TypeName="Mumble.Friendsheep.Domain.Users.CommentComment" StoreEntitySet="Comments">
+      <EndProperty Name="Comment">
+        <ScalarProperty Name="Id" ColumnName="Parent_Id" />
+      </EndProperty>
+      <EndProperty Name="Comment1">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Parent_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserStatus" TypeName="Mumble.Friendsheep.Domain.Users.UserStatus" StoreEntitySet="SocialObjects_Mood">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Status">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FlockUser" TypeName="Mumble.Friendsheep.Domain.Users.FlockUser" StoreEntitySet="Users">
+      <EndProperty Name="Flock">
+        <ScalarProperty Name="Id" ColumnName="JoinedFlock_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="JoinedFlock_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FlockUser1" TypeName="Mumble.Friendsheep.Domain.Users.FlockUser1" StoreEntitySet="Users">
+      <EndProperty Name="Flock">
+        <ScalarProperty Name="Id" ColumnName="ShepherFlock_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ShepherFlock_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FlockChat" TypeName="Mumble.Friendsheep.Domain.Users.FlockChat" StoreEntitySet="Chats">
+      <EndProperty Name="Flock">
+        <ScalarProperty Name="Id" ColumnName="FlockChat_Chat_Id" />
+      </EndProperty>
+      <EndProperty Name="Chat">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="FlockChat_Chat_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FlockDog" TypeName="Mumble.Friendsheep.Domain.Users.FlockDog" StoreEntitySet="Users">
+      <EndProperty Name="Flock">
+        <ScalarProperty Name="Id" ColumnName="DogFlock_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="DogFlock_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ChatUser" TypeName="Mumble.Friendsheep.Domain.Users.ChatUser" StoreEntitySet="Chats">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Chat">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AlbumPicture" TypeName="Mumble.Friendsheep.Domain.Users.AlbumPicture" StoreEntitySet="SocialObjects_Picture">
+      <EndProperty Name="Album">
+        <ScalarProperty Name="Id" ColumnName="Album_Id" />
+      </EndProperty>
+      <EndProperty Name="Picture">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Album_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserAlbum" TypeName="Mumble.Friendsheep.Domain.Users.UserAlbum" StoreEntitySet="Albums">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Album">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserProfilePicture" TypeName="Mumble.Friendsheep.Domain.Users.UserProfilePicture" StoreEntitySet="Users">
+      <EndProperty Name="Picture">
+        <ScalarProperty Name="Id" ColumnName="ProfilePicture_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ProfilePicture_Id" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="UsersContainer" ZoomLevel="100" >
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.User" Width="1.5" PointX="2.25" PointY="0.75" Height="5.2494108072916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Group" Width="1.5" PointX="0.5" PointY="0.75" Height="1.59568359375" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.GroupUser">
+          <ConnectorPoint PointX="2" PointY="1.547841796875" />
+          <ConnectorPoint PointX="2.25" PointY="1.547841796875" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Farm" Width="1.5" PointX="0.5" PointY="5" Height="1.5956835937499996" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.UserState">
+          <ConnectorPoint PointX="2.25" PointY="5.4997054036458328" />
+          <ConnectorPoint PointX="2" PointY="5.4997054036458328" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Picture" Width="1.5" PointX="5.625" PointY="3.625" Height="1.7879850260416665" />
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.SocialObject" Width="1.5" PointX="6.375" PointY="0.75" Height="2.172587890625" />
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Tag" Width="1.5" PointX="11.375" PointY="0.625" Height="1.4033821614583331" />
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Comment" Width="1.5" PointX="11.375" PointY="2.375" Height="2.1725878906249996" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.CommentUser" ManuallyRouted="false">
+          <ConnectorPoint PointX="11.375" PointY="3.46875" />
+          <ConnectorPoint PointX="11.083333333333334" PointY="3.4687499999999996" />
+          <ConnectorPoint PointX="10.916666666666666" PointY="3.46875" />
+          <ConnectorPoint PointX="9.9583333333333339" PointY="3.4687499999999996" />
+          <ConnectorPoint PointX="9.7916666666666661" PointY="3.46875" />
+          <ConnectorPoint PointX="8.2083333333333339" PointY="3.4687499999999996" />
+          <ConnectorPoint PointX="8.0416666666666661" PointY="3.46875" />
+          <ConnectorPoint PointX="7.333333333333333" PointY="3.4687499999999996" />
+          <ConnectorPoint PointX="7.166666666666667" PointY="3.46875" />
+          <ConnectorPoint PointX="6.458333333333333" PointY="3.4687499999999996" />
+          <ConnectorPoint PointX="6.291666666666667" PointY="3.46875" />
+          <ConnectorPoint PointX="4.9895808333333331" PointY="3.4687499999999996" />
+          <ConnectorPoint PointX="4.8229141666666671" PointY="3.46875" />
+          <ConnectorPoint PointX="3.75" PointY="3.46875" />
+          </AssociationConnector>
+        <InheritanceConnector EntityType="Mumble.Friendsheep.Domain.Users.Picture" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.125" PointY="2.922587890625" />
+          <ConnectorPoint PointX="7.125" PointY="3.2500000000000009" />
+          <ConnectorPoint PointX="6.375" PointY="3.2500000000000009" />
+          <ConnectorPoint PointX="6.375" PointY="3.625" />
+          </InheritanceConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.TaggedObjectTag">
+          <ConnectorPoint PointX="7.875" PointY="1.3891910807291665" />
+          <ConnectorPoint PointX="11.375" PointY="1.3891910807291665" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.UserPicture">
+          <ConnectorPoint PointX="3.75" PointY="4.5189925130208337" />
+          <ConnectorPoint PointX="5.625" PointY="4.5189925130208337" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Post" Width="1.5" PointX="7.375" PointY="3.625" Height="1.5956835937499996" />
+        <InheritanceConnector EntityType="Mumble.Friendsheep.Domain.Users.Post" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.125" PointY="2.922587890625" />
+          <ConnectorPoint PointX="7.125" PointY="3.25" />
+          <ConnectorPoint PointX="7.166666666666667" PointY="3.2499999999999996" />
+          <ConnectorPoint PointX="7.333333333333333" PointY="3.25" />
+          <ConnectorPoint PointX="8.125" PointY="3.25" />
+          <ConnectorPoint PointX="8.125" PointY="3.625" />
+          </InheritanceConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.SocialObjectComment">
+          <ConnectorPoint PointX="7.875" PointY="2.6942325260416666" />
+          <ConnectorPoint PointX="11.375" PointY="2.6942325260416666" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Vote" Width="1.5" PointX="11.375" PointY="5" Height="1.9802864583333335" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.SocialObjectVote">
+          <ConnectorPoint PointX="7.25" PointY="2.922587890625" />
+          <ConnectorPoint PointX="7.25" PointY="5.6439925130208337" />
+          <ConnectorPoint PointX="8.0416666666666661" PointY="5.6439925130208328" />
+          <ConnectorPoint PointX="8.2083333333333339" PointY="5.6439925130208337" />
+          <ConnectorPoint PointX="11.375" PointY="5.6439925130208337" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.VoteUser">
+          <ConnectorPoint PointX="11.375" PointY="5.4972387695312506" />
+          <ConnectorPoint PointX="9.9583333333333339" PointY="5.49723876953125" />
+          <ConnectorPoint PointX="9.7916666666666661" PointY="5.4972387695312506" />
+          <ConnectorPoint PointX="8.2083333333333339" PointY="5.49723876953125" />
+          <ConnectorPoint PointX="8.0416666666666661" PointY="5.4972387695312506" />
+          <ConnectorPoint PointX="7.333333333333333" PointY="5.49723876953125" />
+          <ConnectorPoint PointX="7.166666666666667" PointY="5.4972387695312506" />
+          <ConnectorPoint PointX="3.75" PointY="5.4972387695312506" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.UserPost">
+          <ConnectorPoint PointX="3.75" PointY="5.7282462565104169" />
+          <ConnectorPoint PointX="8.125" PointY="5.7282462565104169" />
+          <ConnectorPoint PointX="8.125" PointY="5.22068359375" />
+          </AssociationConnector>
+        <InheritanceConnector EntityType="Mumble.Friendsheep.Domain.Users.Post">
+          <ConnectorPoint PointX="7.125" PointY="2.7302864583333331" />
+          <ConnectorPoint PointX="7.125" PointY="3.3750000000000004" />
+          <ConnectorPoint PointX="8.125" PointY="3.3750000000000004" />
+          <ConnectorPoint PointX="8.125" PointY="3.625" />
+          </InheritanceConnector>
+        <InheritanceConnector EntityType="Mumble.Friendsheep.Domain.Users.Picture">
+          <ConnectorPoint PointX="7.125" PointY="2.7302864583333331" />
+          <ConnectorPoint PointX="7.125" PointY="3.5000000000000004" />
+          <ConnectorPoint PointX="6.375" PointY="3.5000000000000004" />
+          <ConnectorPoint PointX="6.375" PointY="3.625" /></InheritanceConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.PrivateMessage" Width="1.5" PointX="5.625" PointY="5.875" Height="2.1725878906249996" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.PrivateMessageUser">
+          <ConnectorPoint PointX="5.625" PointY="7.0234998489583322" />
+          <ConnectorPoint PointX="3.4895858333333334" PointY="7.0234998489583313" />
+          <ConnectorPoint PointX="3.3229191666666664" PointY="7.0234998489583322" />
+          <ConnectorPoint PointX="3.2864595833333334" PointY="7.0234998489583313" />
+          <ConnectorPoint PointX="3.1197929166666665" PointY="7.0234998489583322" />
+          <ConnectorPoint PointX="3" PointY="7.0234998489583322" />
+          <ConnectorPoint PointX="3" PointY="5.9994108072916656" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.PrivateMessageUser1">
+          <ConnectorPoint PointX="5.625" PointY="7.5667963697916658" />
+          <ConnectorPoint PointX="3.4062525" PointY="7.5667963697916658" />
+          <ConnectorPoint PointX="3.4062525" PointY="5.9994108072916656" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.CommentComment">
+          <ConnectorPoint PointX="11.906923076923077" PointY="4.547587890625" />
+          <ConnectorPoint PointX="11.906923076923077" PointY="4.797587890625" />
+          <ConnectorPoint PointX="12.353461538461538" PointY="4.797587890625" />
+          <ConnectorPoint PointX="12.353461538461538" PointY="4.547587890625" /></AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Mood" Width="1.5" PointX="9.125" PointY="3.625" Height="1.2110807291666665" />
+        <InheritanceConnector EntityType="Mumble.Friendsheep.Domain.Users.Mood">
+          <ConnectorPoint PointX="7.125" PointY="2.922587890625" />
+          <ConnectorPoint PointX="7.125" PointY="3.25" />
+          <ConnectorPoint PointX="7.166666666666667" PointY="3.2499999999999996" />
+          <ConnectorPoint PointX="7.333333333333333" PointY="3.25" />
+          <ConnectorPoint PointX="9.875" PointY="3.25" />
+          <ConnectorPoint PointX="9.875" PointY="3.6249999999999947" />
+          </InheritanceConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.UserStatus">
+          <ConnectorPoint PointX="3.75" PointY="5.6018681412760429" />
+          <ConnectorPoint PointX="8.0416666666666661" PointY="5.601868141276042" />
+          <ConnectorPoint PointX="8.2083333333333339" PointY="5.6018681412760429" />
+          <ConnectorPoint PointX="9.875" PointY="5.6018681412760429" />
+          <ConnectorPoint PointX="9.875" PointY="5.0283821614583335" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Flock" Width="1.5" PointX="0.5" PointY="7.5" Height="2.1725878906249996" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.FlockUser">
+          <ConnectorPoint PointX="2" PointY="8.7158428463541657" />
+          <ConnectorPoint PointX="2.5937475" PointY="8.7158428463541657" />
+          <ConnectorPoint PointX="2.5937475" PointY="5.9994108072916656" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.FlockUser1">
+          <ConnectorPoint PointX="2" PointY="8.110067108072915" />
+          <ConnectorPoint PointX="2.39062125" PointY="8.110067108072915" />
+          <ConnectorPoint PointX="2.39062125" PointY="5.9994108072916656" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Chat" Width="1.5" PointX="0.5" PointY="10.25" Height="1.5956835937499996" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.FlockChat">
+          <ConnectorPoint PointX="1.25" PointY="9.672587890625" />
+          <ConnectorPoint PointX="1.25" PointY="10.25" /></AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.FlockDog">
+          <ConnectorPoint PointX="2" PointY="9.3216185846354165" />
+          <ConnectorPoint PointX="2.79687375" PointY="9.3216185846354165" />
+          <ConnectorPoint PointX="2.79687375" PointY="5.9994108072916656" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.ChatUser">
+          <ConnectorPoint PointX="2" PointY="11.143992513020834" />
+          <ConnectorPoint PointX="3.20312625" PointY="11.143992513020834" />
+          <ConnectorPoint PointX="3.20312625" PointY="5.9994108072916656" /></AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Friendsheep.Domain.Users.Album" Width="1.5" PointX="4.25" PointY="1" Height="1.4033821614583331" />
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.AlbumPicture">
+          <ConnectorPoint PointX="4.9062475" PointY="2.7879850260416661" />
+          <ConnectorPoint PointX="4.9062475" PointY="4.269820378011068" />
+          <ConnectorPoint PointX="5.625" PointY="4.269820378011068" /></AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.UserAlbum">
+          <ConnectorPoint PointX="3.75" PointY="1.8939925130208331" />
+          <ConnectorPoint PointX="4.25" PointY="1.8939925130208331" /></AssociationConnector>
+        <AssociationConnector Association="Mumble.Friendsheep.Domain.Users.UserProfilePicture">
+          <ConnectorPoint PointX="3.75" PointY="3.884910189005534" />
+          <ConnectorPoint PointX="4.8229141666666671" PointY="3.8849101890055335" />
+          <ConnectorPoint PointX="4.9895808333333331" PointY="3.884910189005534" />
+          <ConnectorPoint PointX="5.625" PointY="3.884910189005534" /></AssociationConnector>
+        </Diagram></edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
