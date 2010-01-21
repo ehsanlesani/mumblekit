@@ -1,0 +1,162 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/jquery/jquery-1.3.2.min.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/jquery/jquery-ui-1.7.2.custom.min.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/jquery/jquery.json.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/jquery/jquery.numeric.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/jquery/jquery.treeview.min.js") %>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/nicEdit/nicEdit.js") %>"></script>
+    <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/Admin.css") %>" />
+    <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/treeview/jquery.treeview.css") %>" />
+    <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/jquery/jquery-ui-1.7.2.custom.css") %>" />
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#menu").treeview();
+        });
+    </script>
+    
+</head>
+<body>
+    <div class="header">
+        <img src="../../Content/Images/header-internal.jpg" />
+    </div>
+    <div class="container">
+        <div class="menu">
+            <table cellpadding="2" cellspacing="1" border="0" class="list" width="100%">
+                <thead>
+                    <tr><th>Menu</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="content">
+                            <ul id="menu" class="filetree">
+                                <li><span class="file">Home page</span></li>
+                                <li>
+                                    <span class="folder">Sicurezza</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Utenti</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/User.aspx/Edit") %>">Nuovo utente</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/User.aspx/List") %>">Gestione utenti</a></span></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Gruppi</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Group.aspx/Edit") %>">Nuovo gruppo</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Group.aspx/List") %>">Gestione gruppi</a></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="folder">Pagine Statiche</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Sezioni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Section.aspx/Edit") %>">Nuova sezione</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Section.aspx/List") %>">Lista sezioni</a></span></li>
+                                                
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Pagine</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Page.aspx/Edit") %>">Nuova pagina</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Page.aspx/List") %>">Lista pagine</a></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="folder">Localizzazione</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Regioni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Region.aspx/Edit") %>">Nuova regione</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Region.aspx/List") %>">Lista regioni</a></span></li>                                                
+                                            </ul>
+                                        </li>  
+                                        <li>
+                                            <span class="folder">Province</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Province.aspx/Edit") %>">Nuova provincia</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Province.aspx/List") %>">Lista province</a></span></li>                                                
+                                            </ul>
+                                        </li>  
+                                        <li>
+                                            <span class="folder">Comuni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Municipality.aspx/Edit") %>">Nuovo comune</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Municipality.aspx/List") %>">Lista comuni</a></span></li>                                                
+                                            </ul>
+                                        </li>                                   
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="folder">Strutture</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Struttura</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Accommodation.aspx/Edit") %>">Nuova struttura</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Accommodation.aspx/List") %>">Lista strutture</a></span></li>                                                
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <span class="folder">Sistemazioni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Room.aspx/Edit") %>">Nuova sistemazione</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Room.aspx/List") %>">Lista sistemazioni</a></span></li>                                                
+                                            </ul>
+                                        </li>                                        
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="folder">Listini</span>
+                                    <ul>
+                                        <li>
+                                            <span class="folder">Categorie</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/PriceListEntry.aspx/Edit") %>">Nuova categoria</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/PriceListEntry.aspx/List") %>">Lista categorie</a></span></li>                                                
+                                            </ul>
+                                        </li>  
+                                        <li>
+                                            <span class="folder">Stagioni</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/PriceListSeason.aspx/Edit") %>">Nuova stagione</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/PriceListSeason.aspx/List") %>">Lista stagioni</a></span></li>                                                
+                                            </ul>
+                                        </li> 
+                                         <li>
+                                            <span class="folder">Prezzi Stanze</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/RoomPriceList.aspx/Edit") %>">Nuovo Prezzo</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/RoomPriceList.aspx/List") %>">Lista Prezzi</a></span></li>                                                
+                                            </ul>
+                                        </li>                                    
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content"><asp:ContentPlaceHolder ID="MainContent" runat="server" /></div>
+    </div>
+    <div class="footer">
+        MumbleKit
+    </div>
+</body>
+</html>

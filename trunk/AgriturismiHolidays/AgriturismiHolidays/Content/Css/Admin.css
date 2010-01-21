@@ -1,0 +1,125 @@
+﻿body
+{
+	margin: 0px;
+	padding: 0px;
+	font-family: Verdana, Arial, Sans-Serif;
+	font-size: 10px;
+}
+
+.header
+{
+	height: 60px;
+	background-color: #5f3936;
+	border-bottom:2px solid #DE9347;
+}
+
+.container
+{
+	padding: 2px;
+}
+
+.menu
+{
+	margin: 5px;
+	width: 200px;
+	float: left;
+}
+
+.content
+{
+	padding: 5px;
+	margin-left: 205px;
+}
+
+.footer
+{
+	height: 40px;
+	font-size:10px;
+	color: #5f3936;
+	text-align: center;
+	clear: both;
+}
+
+.crud
+{
+	background-color: #DE9347;
+}
+
+.crud thead th
+{
+	background-color: #DE9347;
+	font-weight: bold;
+	color: white;
+	font-size: 12px;
+	padding: 4px;
+	text-align: left;
+}
+
+.crud .label
+{
+	width: 150px;
+	font-weight: bold;
+	color: #5F3936;
+	background-color: White;
+	vertical-align: top;
+}
+
+.crud .field
+{
+}
+
+.crud .commandBar
+{
+	background-color: #DE9347;
+}
+
+.crud .control
+{
+	background-color: White;
+}
+
+.crud .control input[type=text], .crud .control .select
+{
+	border: solid 1px #8A8A8A;
+}
+
+.crud .invalid input[type=text]
+{
+	border: solid 1px #FF0000;
+	background-color: #FFE6E6;
+}
+
+.list
+{
+	background-color: #DE9347;
+}
+
+.list thead th
+{
+	background-color: #DE9347;
+	font-weight: bold;
+	color: white;
+	font-size: 12px;
+	padding: 4px;
+	text-align: left;
+}
+
+.list .content
+{
+	background-color: White;
+}
+
+.box
+{
+	border: solid 1px #B6CBE9;
+	background-color: #F5F8FC;
+	padding: 5px;
+	margin: 2px;
+}
+
+.topRight
+{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
