@@ -1,0 +1,279 @@
+﻿/* COLORS */
+
+.lightorange {
+    color:#DB7D1B;
+}
+
+.lightbrown 
+{
+	color:#5F3936;
+}
+
+/** COMMON STUFF */
+
+form {margin:0; padding:0;}
+
+/* LAYOUT */
+
+*
+{
+    text-align: left;
+}
+
+html, body
+{	
+	font-family: tahoma, verdana, arial;
+	font-size: 12px;
+	color:#603836;	
+}
+
+#body 
+{    
+	background-color:White;
+	margin-top:20px;
+	margin-bottom:20px;		
+}
+
+div.container
+{
+	background-color:#ffffff;
+}
+
+div#header{
+	position:relative;
+	height: 43px;
+	background-image:url(../Images/header-internal.jpg);
+	border-bottom:2px solid #DE9347;
+}
+
+div#header_bkg {
+	height:43px;
+	border-bottom:2px solid #DE9347;
+	background-color:#5f3936;
+	width:100%;
+	position:absolute;
+	top:0;
+	left:0;
+}
+
+/* MAIN MENU */
+
+#main_menu_bkg 
+{
+	position:absolute;
+	top:45px;
+	left:0;
+	background-color:#A1562C;
+	width:100%;
+	height:31px;
+}
+
+#main-menu 
+{
+	font-size:11px;
+	color:White;
+	position:relative;
+	background-color:#A1562C;
+	height:31px;
+}
+
+#main-menu img#homeicon {
+	margin-right:3px;
+}
+
+#main-menu ul {
+	list-style-type: none;	
+	margin:0;
+	padding:0;
+	margin-top:6px;
+}
+
+#main-menu #menu-list li 
+{
+	display:inline;
+	margin:0;
+	padding:0;
+	text-transform:uppercase;
+	padding-right:15px;
+	padding-left:15px;
+	border-left:1px dotted #DE9347;
+}
+
+#main-menu a{
+	text-decoration:none;
+	color:White;
+}
+
+#main-menu a:link, #main-menu a:selected {
+	color:White;
+}
+
+#main-menu a:hover{
+	color:#DE9347;
+}
+
+#main-menu #menu-list li.first {
+	border:none;
+} 
+
+div#footer p
+{
+	margin:10;
+	padding:0;	
+}
+
+div#footer
+{
+	position:relative;
+	font-size: 12px;
+	color: White;
+	background-color: #4f2925;
+	border-top:4px solid #c97116;
+	height:60px;
+	
+	/* We can over-ride default settings here instead of changing the original
+       sticky-footer.css */
+	padding-top: 10px;
+    height: 64px;
+    margin-top: -78px;
+}
+
+#main
+{
+    padding-bottom: 78px;
+}
+
+div#footer .title 
+{
+	font-size: 12px;
+	color:#dc7d1c;
+}
+
+div#footer .content 
+{
+	margin-left:4px;
+	color:White;
+}
+
+div#footer #email{margin-left:10px;}
+
+div#footer #tel{margin-left:10px;}
+
+div#footer #menu
+{
+	position:absolute;
+	top:15px;
+	right:15px;	
+}
+
+div#header_logon
+{
+	position:absolute;
+	font-weight:normal;
+	color:White;
+	font-size:12px;
+	top:8px;
+	left:450px;
+}
+
+div#header_logon input[type=text], div#header_logon input[type=password]
+{
+	margin:3px;
+	font-size:12px;
+	border:2px solid #895550;		
+}
+
+.literalText 
+{
+	color:#895550;
+	margin:25px;	
+}
+
+.homeInput 
+{
+	width: 300px;
+}
+
+.label
+{
+	color: #666666;
+	font-weight: bold;	
+}
+
+div#header_search input{
+	font-size: 10px;}
+
+.title{
+	color: #CC0000;
+	font-size: 1.4em;}
+
+#findApartment
+{
+	margin-top:60px;
+	color:#5F3935;
+	font-size:14px;
+	font-weight:bold;
+}
+
+.align-right{text-align:right;}
+.bold {font-weight:bold;}
+
+#border-left{border-left:1px dotted gray;}
+
+/*** MAP ***/
+img { border:none; }
+#mapa { position:relative; margin-top:10px; }
+#regionName { position:absolute; top:92px; left:210px; z-index:1000;}
+.paddingtop5 { position:absolute; top:0; left:0; visibility:hidden; z-index:inherit;}
+
+.link { color:#654341; }
+
+/*** ANNOUNCED ***/
+#announced{margin:10px;}
+
+/*** LIST STRUCTURES ***/
+#section-info {
+	margin: 0 0 20px 0;
+}
+
+.section-title {
+	text-transform:uppercase;
+	font-size:14px;
+	font-weight:bold;
+	font-family:Verdana;
+	color:#A1562C;
+}
+
+.section-name {
+	text-transform:uppercase;
+	font-size:14px;
+	font-weight:bold;
+	font-family:Verdana;
+	text-decoration:underline;
+	padding-left:10px;
+	color:#A1562C;
+}
+
+.section-arrow{
+	position:relative;
+	top:4px;
+}
+
+img.item-image {
+	float:left;
+}
+
+.item-info{
+	margin-left:150px;
+}
+
+.info-title {
+	font-weight:bold;
+	padding-right:3px;
+}
+
+.info-description{
+
+}
+
+
