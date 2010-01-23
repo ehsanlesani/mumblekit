@@ -163,5 +163,22 @@ namespace Mumble.Friendsheep.Models
                     _saveFormat);
             }
         }
+
+        /// <summary>
+        /// Calculate vote of this picture
+        /// </summary>
+        /// <returns></returns>
+        public float CalculateVote()
+        {
+            float sum = Votes.Sum(v => v.Value);
+            float count = Votes.Count();
+
+            if (count != 0)
+            {
+                return sum / count;
+            }
+            
+            return 0f;
+        }
     }
 }

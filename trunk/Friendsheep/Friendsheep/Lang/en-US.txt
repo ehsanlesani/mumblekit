@@ -38,3 +38,5 @@ txt.select = Select
 //pictures manager
 txt.newAlbum = New album
 
+//globals
+txt.confirm = Confirm

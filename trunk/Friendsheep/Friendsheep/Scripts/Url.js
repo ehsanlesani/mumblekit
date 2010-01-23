@@ -7,6 +7,10 @@ Url.HomeAddStatus = BASEURL + "Home/AddStatus";
 Url.AccountRegister = BASEURL + "Account/Register/";
 Url.AccountPing = BASEURL + "Account/Ping/";
 Url.AccountCulture = BASEURL + "Account/ChangeCulture/";
+Url.AccountCreateAlbum = BASEURL + "Account/CreateAlbum";
+Url.AccountAddPicture = BASEURL + "Account/AddPicture";
 
 Url.Pictures = BASEURL + "Pictures/";
+
+Url.Images = BASEURL + "Content/Images/";
 

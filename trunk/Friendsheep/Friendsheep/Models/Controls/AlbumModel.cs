@@ -21,6 +21,7 @@ namespace Mumble.Friendsheep.Models.Controls
         {
             get
             {
+                if (!User.Albums.IsLoaded) { User.Albums.Load(); }
                 return User.Albums.OrderBy(a => a.Title);
             }
         }

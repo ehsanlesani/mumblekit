@@ -1,9 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <script type="text/javascript" src="<%= UriHelper.Scripts %>Account.js"></script>
-    
+   
     <script type="text/javascript">
         $(document).ready(function () {
             $("#registerForm").validate({
