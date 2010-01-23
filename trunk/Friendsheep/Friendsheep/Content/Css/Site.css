@@ -65,6 +65,32 @@ label.error
     margin-right: 3px;
 }
 
+.albumControl a.newAlbum:link, .albumControl a.newAlbum:visited
+{
+    padding: 3px;
+    border: solid 1px black;
+    display: block;
+    margin-bottom: 3px;
+    margin-right: 3px;
+    background-image: url("../images/add.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 20px;
+}
+
+.albumControl a.newAlbum:hover
+{
+    padding: 3px;
+    border: solid 1px red;
+    display: block;
+    margin-bottom: 3px;
+    margin-right: 3px;
+    background-image: url("../images/add.png");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 20px;
+}
+
 .albumControl a.activeAlbum:link, .albumControl a.activeAlbum:visited
 {
     padding: 3px;
@@ -97,5 +123,76 @@ label.error
 {
     height: 100px;
     width: 100px;
+    border: 0px;
+}
+
+.albumControl .pictureEditor 
+{
+    height: 100px;
+    width: 100px;
+    background-color: #000000;
+    float: left;
+    position:absolute;
+}
+
+.albumControl .pictureEditor a.delete:link, .albumControl .pictureEditor a.delete:visited, .albumControl .pictureEditor a.delete:hover
+{
+    height: 16px;
+    width: 16px;
+    margin: 2px;
+    display: block;
+    background-image: url("../images/delete.png");
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.albumControl .pictureEditor a.edit:link, .albumControl .pictureEditor a.edit:visited, .albumControl .pictureEditor a.edit:hover
+{
+    height: 16px;
+    width: 16px;
+    margin: 2px;
+    display: block;
+    background-image: url("../images/edit.png");
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
+
+.albumControl .pictureEditor a.profile:link, .albumControl .pictureEditor a.profile:visited, .albumControl .pictureEditor a.profile:hover
+{
+    height: 16px;
+    width: 16px;
+    margin: 2px;
+    display: block;
+    background-image: url("../images/profile.png");
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.albumControl .pictureEditor img 
+{
+    border: 0px;
+}
+
+/* BOX */
+
+.shadowbox 
+{
+    position: absolute;
+    height: 250px;
+    width: 400px;
+    padding: 60px;
+    -moz-box-shadow: 5px 5px 5px #CCCCCC;
+    -webkit-box-shadow: 5px 5px 5px #CCCCCC;
+    box-shadow: 5px 5px 5px #CCCCCC;
+    background-color: #E7F8E4;
+}
+
+/*END OF BOX*/
+
+.noborder 
+{
     border: 0px;
 }

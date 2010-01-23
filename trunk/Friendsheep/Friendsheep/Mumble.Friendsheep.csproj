@@ -76,15 +76,20 @@
     </Compile>
     <Compile Include="Models\Controls\AlbumModel.cs" />
     <Compile Include="Models\Controls\LoginModel.cs" />
+    <Compile Include="Models\Managers\ControlPanel.cs" />
     <Compile Include="Models\Mood.cs" />
     <Compile Include="Models\MoodValue.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Pool\IRaisable.cs" />
+    <Compile Include="Models\Responses\AddPictureResponse.cs" />
+    <Compile Include="Models\Responses\CreateAlbumResponse.cs" />
     <Compile Include="Models\Responses\EventData.cs" />
     <Compile Include="Models\Responses\EventResponse.cs" />
     <Compile Include="Models\Auth\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Models\Responses\LoadPicturesResponse.cs" />
+    <Compile Include="Models\Responses\PictureData.cs" />
     <Compile Include="Models\Responses\SimpleResponse.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -109,17 +114,33 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\cancel.png" />
+    <Content Include="Content\Images\confirm.png" />
+    <Content Include="Content\Images\add.png" />
     <Content Include="Content\Css\blueprints\ie.css" />
     <Content Include="Content\Css\blueprints\print.css" />
     <Content Include="Content\Css\blueprints\screen.css" />
     <Content Include="Content\Css\Site.css" />
     <Content Include="Content\Images\ajaxLoading.gif" />
+    <Content Include="Content\Images\box\bottom.png" />
+    <Content Include="Content\Images\box\bottomleft.png" />
+    <Content Include="Content\Images\box\bottomright.png" />
+    <Content Include="Content\Images\box\left.png" />
+    <Content Include="Content\Images\box\right.png" />
+    <Content Include="Content\Images\box\top.png" />
+    <Content Include="Content\Images\box\topleft.png" />
+    <Content Include="Content\Images\box\topright.png" />
+    <Content Include="Content\Images\delete.png" />
+    <Content Include="Content\Images\edit.png" />
+    <Content Include="Content\Images\profile.png" />
     <Content Include="Global.asax" />
     <Content Include="Lang\it-IT.txt" />
     <Content Include="Models\FriendsheepContainer.edmx.sql" />
     <Content Include="Lang\en-US.txt" />
+    <Content Include="Pictures\addPicture.jpg" />
     <Content Include="Pictures\default_avatar.png" />
     <Content Include="Pictures\default.png" />
+    <Content Include="Pictures\pictureAdding.gif" />
     <Content Include="Scripts\Account.js" />
     <Content Include="Scripts\EventsPool.js" />
     <Content Include="Scripts\Home.js" />
@@ -141,7 +162,7 @@
     <Content Include="Scripts\jquery\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Scripts\jquery\smoothness\jquery.ui.css" />
     <Content Include="Scripts\json.js" />
-    <Content Include="Scripts\PictureManager.js" />
+    <Content Include="Scripts\AlbumControl.js" />
     <Content Include="Scripts\Url.js" />
     <Content Include="Scripts\Utils.js" />
     <Content Include="Views\Account\ControlPanel.aspx" />
@@ -178,6 +199,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>FriendsheepContainer.Designer.cs</LastGenOutput>
     </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Psd\box.psd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

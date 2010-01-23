@@ -16,6 +16,7 @@ namespace Mumble.Friendsheep.Models.Helpers
     public static class UIHelper
     {
         public const string CultureSessionKey = "Culture";
+        public const string DateFormat = "dd/MM/yyyy";
         public static readonly Dictionary<int, string> Months;
 
         private static Dictionary<string, Dictionary<string, string>> _translations = new Dictionary<string,Dictionary<string,string>>();
