@@ -7,6 +7,7 @@ namespace Mumble.Friendsheep.Models.Responses
 {
     public class LoadPicturesResponse : SimpleResponse
     {
+       
         /// <summary>
         /// Create a response using album as source
         /// </summary>
@@ -24,7 +25,7 @@ namespace Mumble.Friendsheep.Models.Responses
             return response;
         }
 
-        public IEnumerable<PictureData> Pictures { get; set; }
+        public List<PictureData> Pictures { get; set; }
 
         public LoadPicturesResponse(bool error, string message)
             : base(error, message)
@@ -34,7 +35,34 @@ namespace Mumble.Friendsheep.Models.Responses
 
         public void AddPicture(Picture picture)
         {
-            PictureData data = PictureData.FromPicture(picture);
+            Pictures.Add(PictureData.FromPicture(picture));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
     }
 }

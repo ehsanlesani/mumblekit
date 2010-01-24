@@ -13,6 +13,7 @@
     <script src="<%= UriHelper.Scripts %>jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>ActionBox.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Account.js" type="text/javascript"></script>
 
     <link href="<%= UriHelper.Css %>blueprints/screen.css" rel="stylesheet" type="text/css" media="screen, projection" />
