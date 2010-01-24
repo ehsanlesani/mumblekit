@@ -8,7 +8,7 @@ Account.prototype = {
         $.post(Url.AccountRegister, data, function (result) {
             if (loadingDiv != undefined) { $(loadingDiv).fadeOut(250); }
             if (resultDiv != undefined) {
-                if (result.Error) {
+                if (result.error) {
                     $(resultDiv).removeClass("successbox");
                     $(resultDiv).addClass("errorbox");
                 } else {
@@ -20,7 +20,7 @@ Account.prototype = {
                     }, 1000);
                 }
 
-                $(resultDiv).html(result.Message);
+                $(resultDiv).html(result.message);
             }
         }, "json");
     },
@@ -29,8 +29,8 @@ Account.prototype = {
         $.post(Url.AccountCulture,
             { culture: culture },
             function (result) {
-                if (result.Error) {
-                    alert(result.Message);
+                if (result.error) {
+                    alert(result.message);
                 } else {
                     window.location.reload(true);
                 }

@@ -17,6 +17,7 @@ using Mumble.Friendsheep.Models.Controls;
 using System.Threading;
 using Mumble.Friendsheep.Models.Auth;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Friendsheep.Controllers
 {
@@ -131,19 +132,19 @@ namespace Friendsheep.Controllers
             }
             catch (ExistingEmailException ex)
             {
-                return Json(new SimpleResponse(true, String.Format(UIHelper.Translate("msg.existentEmail"), ex.Email)));
+                return this.CamelCaseJson(new SimpleResponse(true, String.Format(UIHelper.Translate("msg.existentEmail"), ex.Email)));
             }
             catch (ArgumentOutOfRangeException)
             {
-                return Json(new SimpleResponse(true, UIHelper.Translate("msg.checkBirthday")));
+                return this.CamelCaseJson(new SimpleResponse(true, UIHelper.Translate("msg.checkBirthday")));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return Json(new SimpleResponse(true, UIHelper.Translate("err.registrationProblem")));
+                return this.CamelCaseJson(new SimpleResponse(true, UIHelper.Translate("err.registrationProblem")));
             }
 
-            return Json(new SimpleResponse(false, UIHelper.Translate("msg.registered")));
+            return this.CamelCaseJson(new SimpleResponse(false, UIHelper.Translate("msg.registered")));
         }
 
         /// <summary>
@@ -158,11 +159,11 @@ namespace Friendsheep.Controllers
             {
                 UIHelper.ChangeCulture(culture);
 
-                return Json(new SimpleResponse(false, "Culture changed"));
+                return this.CamelCaseJson(new SimpleResponse(false, "Culture changed"));
             }
             catch (Exception ex)
             {
-                return Json(new SimpleResponse(true, ex.Message));
+                return this.CamelCaseJson(new SimpleResponse(true, ex.Message));
             }
         }
 
@@ -180,16 +181,17 @@ namespace Friendsheep.Controllers
                 ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
                 Album album = controlPanel.CreateAlbum();
 
-                return Json(new CreateAlbumResponse(false, "Album created", album.Id, album.Title));
+                return this.CamelCaseJson(new CreateAlbumResponse(false, "Album created", album.Id, album.Title));
 
             }
             catch (AuthException)
             {
-                return Json(new SimpleResponse(true, UIHelper.Translate("err.unauthorized")));
+                return this.CamelCaseJson(new SimpleResponse(true, UIHelper.Translate("err.unauthorized")));
             }
             catch (Exception ex)
             {
-                return Json(new SimpleResponse(true, ex.Message));
+                Debug.WriteLine(ex);
+                return this.CamelCaseJson(new SimpleResponse(true, ex.Message));
             }
         }
 
@@ -205,33 +207,37 @@ namespace Friendsheep.Controllers
             {
                 Authorize();
 
-                Album album = AccountManager.LoggedUser.Albums.Where(a => a.Id == albumId).First();
+                Album album = Container.Albums.Include("Pictures").Where(a => a.Id == albumId).First();          
                 LoadPicturesResponse response = LoadPicturesResponse.FromAlbum(album);
 
-                return Json(response);
+                return this.CamelCaseJson(response);
             }
             catch (AuthException)
             {
-                return Json(new SimpleResponse(true, UIHelper.Translate("err.unauthorized")));
+                return this.CamelCaseJson(new SimpleResponse(true, UIHelper.Translate("err.unauthorized")));
             }
             catch (Exception ex)
             {
-                return Json(new SimpleResponse(true, ex.Message));
+                Debug.WriteLine(ex);
+                return this.CamelCaseJson(new SimpleResponse(true, ex.Message));
             }
         }
 
         /// <summary>
-        /// Add a picture to specified album. This is an ajax call
+        /// Add a picture to specified album. This action result is not a json because this method is called by ajax uploader from an iframe
         /// </summary>
         /// <param name="albumId"></param>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult AddPicture(Guid albumId)
         {
+            SimpleResponse response = null;
+
             try
             {
                 Authorize();
 
+                if (!AccountManager.LoggedUser.Albums.IsLoaded) { AccountManager.LoggedUser.Albums.Load(); }
                 Album album = AccountManager.LoggedUser.Albums.Where(a => a.Id == albumId).First();
                 
                 //Get file from post
@@ -240,18 +246,19 @@ namespace Friendsheep.Controllers
                 ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
                 Picture picture = controlPanel.SavePicture(album, file.InputStream, file.FileName);
 
-                AddPictureResponse response = AddPictureResponse.FromPicture(picture);
-
-                return Json(response);
+                response = AddPictureResponse.FromPicture(picture);
             }
             catch (AuthException)
             {
-                return Json(new SimpleResponse(true, UIHelper.Translate("err.unauthorized")));
+                response = new SimpleResponse(true, UIHelper.Translate("err.unauthorized"));
             }
             catch (Exception ex)
             {
-                return Json(new SimpleResponse(true, ex.Message));
+                response = new SimpleResponse(true, ex.Message);
             }
+
+            string json = JsonConvert.SerializeObject(response, Formatting.Indented, new JsonSerializerSettings() { ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() });
+            return Content(json);
         }
 
         #endregion

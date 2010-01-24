@@ -15,7 +15,6 @@
         $(".pictureEditor").css("opacity", 0.5);
         var userId = "<%= Model.User.Id %>";
         var albumControl = new AlbumControl($(".albumControl"), userId);
-        albumControl.load();
     });
 </script>
 
@@ -26,6 +25,7 @@
         <% foreach (var album in Model.Albums) { %>
             <a href="javascript:;" class="album" albumId="<%= album.Id %>"><%= album.Title %></a>
         <% } %>
+        
     </div>
     <div class="picturesList">
         <a href="javascript:;" class="picture"><img src="<%= UriHelper.Pictures %>default_avatar.png" alt="pict" /></a>

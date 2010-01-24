@@ -37,6 +37,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -74,6 +78,7 @@
     <Compile Include="Models\Auth\GAuthPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\ControllerExtension.cs" />
     <Compile Include="Models\Controls\AlbumModel.cs" />
     <Compile Include="Models\Controls\LoginModel.cs" />
     <Compile Include="Models\Managers\ControlPanel.cs" />
@@ -135,6 +140,7 @@
     <Content Include="Content\Images\profile.png" />
     <Content Include="Global.asax" />
     <Content Include="Lang\it-IT.txt" />
+    <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Models\FriendsheepContainer.edmx.sql" />
     <Content Include="Lang\en-US.txt" />
     <Content Include="Pictures\addPicture.jpg" />
@@ -142,6 +148,7 @@
     <Content Include="Pictures\default.png" />
     <Content Include="Pictures\pictureAdding.gif" />
     <Content Include="Scripts\Account.js" />
+    <Content Include="Scripts\ActionBox.js" />
     <Content Include="Scripts\EventsPool.js" />
     <Content Include="Scripts\Home.js" />
     <Content Include="Scripts\jquery\ajaxupload.js" />

@@ -50,6 +50,8 @@ namespace Mumble.Friendsheep.Models.Managers
             picture.Album = album;
             picture.Save(pictureStraem);
 
+            _container.SaveChanges();
+
             return picture;
         }
     }
