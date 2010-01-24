@@ -23,7 +23,7 @@
         <a href="javascript:;" class="newAlbum"><%= UIHelper.T("txt.newAlbum") %></a>
 
         <% foreach (var album in Model.Albums) { %>
-            <a href="javascript:;" class="album" albumId="<%= album.Id %>"><%= album.Title %></a>
+            <a href="javascript:;" class="album" albumId="<%= album.Id %>"><span class="albumTitle"><%= album.Title %></span></a>
         <% } %>
         
     </div>

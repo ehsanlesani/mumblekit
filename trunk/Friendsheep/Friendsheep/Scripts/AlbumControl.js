@@ -19,6 +19,7 @@ function AlbumControl(container, userId) {
     this.userId = userId;
     this.currentIndex = 0;
     this.pictures = [];
+    this.albums = [];
 
     this.initialize();
 }
@@ -125,7 +126,10 @@ AlbumControl.prototype = {
         $(this.container).find(".albumsList").append($("<a/>")
             .attr("href", "javascript:;")
             .addClass("album")
-            .html(album.title)
+            .append($("<span/>")
+                .addClass("albumTitle")
+                .html(album.title)
+            )
             .attr("albumId", album.id)
             .click(function () {
                 var id = $(this).attr("albumId");
@@ -156,7 +160,9 @@ AlbumControl.prototype = {
     },
 
     showAlbumActions: function (albumId) {
-        $(this.container).find(".album[albumId=" + albumId + "]").append($("<a/>")
+        var albumEl = $(this.container).find(".album[albumId=" + albumId + "]");
+
+        albumEl.append($("<a/>")
                 .attr("href", "javascript:;")
                 .addClass("albumAction")
                 .css("float", "right")
@@ -168,7 +174,7 @@ AlbumControl.prototype = {
                 )
                 .click(function () {
                     //restore previous html
-                    
+
                     return false;
                 })
             )
@@ -183,11 +189,15 @@ AlbumControl.prototype = {
                     .addClass("noborder")
                 )
                 .click(function (e) {
-                    var box = new ActionBox($("<input type='text' />"));
+                    var textbox = $("<input type='text' />").val(albumEl.find(".albumTitle").html());
+                    var box = new ActionBox(textbox);
                     box.show({
                         x: e.pageX,
                         y: e.pageY
                     });
+
+                    textbox.focus().select();
+
                     return false;
                 })
             );

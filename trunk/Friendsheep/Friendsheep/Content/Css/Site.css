@@ -209,10 +209,46 @@ label.error
 .actionbox 
 {
     padding: 5px;
-    -moz-box-shadow: 15px 15px 15px #CCCCCC;
-    -webkit-box-shadow: 5px 5px 5px #CCCCCC;
-    box-shadow: 5px 5px 5px #CCCCCC;
+    -moz-box-shadow: 0px 0px 50px #555555;
+    -webkit-box-shadow: 0px 0px 50px #555555;
+    box-shadow: 0px 0px 50px #555555;
+    
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    
     background-color: #E7F8E4;
+}
+
+.actionbox .buttonsbar 
+{
+    text-align: right;
+}
+
+.actionbox .buttonsbar a:link, .actionbox .buttonsbar a:visited
+{
+    margin-left: 3px;
+    padding: 2px 5px 2px 5px;
+    background-color: #E9E9E9;
+    border: solid 1px #9F9F9F;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: Black;
+    text-decoration: none;
+}
+
+.actionbox .buttonsbar a:hover
+{
+    margin-left: 3px;
+    padding: 2px 5px 2px 5px;
+    color: White;
+    background-color: #515151;
+    border: solid 1px #2C2C2C;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    text-decoration: none;
 }
 
 /*END OF BOX*/
