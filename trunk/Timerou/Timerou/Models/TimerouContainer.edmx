@@ -1,0 +1,623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Mumble.Timerou.Domain.Users.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+  <EntityContainer Name="MumbleTimerouDomainUsersStoreContainer">
+    <EntitySet Name="Users" EntityType="Mumble.Timerou.Domain.Users.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groups" EntityType="Mumble.Timerou.Domain.Users.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MapObjects" EntityType="Mumble.Timerou.Domain.Users.Store.MapObjects" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tags" EntityType="Mumble.Timerou.Domain.Users.Store.Tags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="Mumble.Timerou.Domain.Users.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MapObjects_Picture" EntityType="Mumble.Timerou.Domain.Users.Store.MapObjects_Picture" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MapObjects_HistoricEvent" EntityType="Mumble.Timerou.Domain.Users.Store.MapObjects_HistoricEvent" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GroupUser" EntityType="Mumble.Timerou.Domain.Users.Store.GroupUser" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_GroupUser_Group" Association="Mumble.Timerou.Domain.Users.Store.FK_GroupUser_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GroupUser_User" Association="Mumble.Timerou.Domain.Users.Store.FK_GroupUser_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="GroupUser" EntitySet="GroupUser" />
+    </AssociationSet>
+    <AssociationSet Name="CommentUser" Association="Mumble.Timerou.Domain.Users.Store.CommentUser">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="TaggedObjectTag" Association="Mumble.Timerou.Domain.Users.Store.TaggedObjectTag">
+      <End Role="TaggedObject" EntitySet="MapObjects" />
+      <End Role="Tag" EntitySet="Tags" />
+    </AssociationSet>
+    <AssociationSet Name="SocialObjectComment" Association="Mumble.Timerou.Domain.Users.Store.SocialObjectComment">
+      <End Role="SocialObject" EntitySet="MapObjects" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="CommentComment" Association="Mumble.Timerou.Domain.Users.Store.CommentComment">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="Comment1" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="UserPicture" Association="Mumble.Timerou.Domain.Users.Store.UserPicture">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Picture" EntitySet="MapObjects_Picture" />
+    </AssociationSet>
+    <AssociationSet Name="UserHistoricEvent" Association="Mumble.Timerou.Domain.Users.Store.UserHistoricEvent">
+      <End Role="User" EntitySet="Users" />
+      <End Role="HistoricEvent" EntitySet="MapObjects_HistoricEvent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Picture_inherits_MapObject" Association="Mumble.Timerou.Domain.Users.Store.FK_Picture_inherits_MapObject">
+      <End Role="MapObject" EntitySet="MapObjects" />
+      <End Role="Picture" EntitySet="MapObjects_Picture" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HistoricEvent_inherits_MapObject" Association="Mumble.Timerou.Domain.Users.Store.FK_HistoricEvent_inherits_MapObject">
+      <End Role="MapObject" EntitySet="MapObjects" />
+      <End Role="HistoricEvent" EntitySet="MapObjects_HistoricEvent" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Lat" Type="real" Nullable="true" />
+    <Property Name="Lng" Type="real" Nullable="true" />
+    <Property Name="Culture" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MapObjects">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Views" Type="int" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="Lat" Type="real" Nullable="false" />
+    <Property Name="Lng" Type="real" Nullable="false" />
+    <Property Name="Country" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PostalCode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="City" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Region" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Province" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Tags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TaggedObjectTag_Tag_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="SocialObjectComment_Comment_Id" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="Parent_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="MapObjects_Picture">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Height" Type="int" Nullable="true" />
+    <Property Name="Width" Type="int" Nullable="true" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="MapObjects_HistoricEvent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="User_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GroupUser">
+    <Key>
+      <PropertyRef Name="Groups_Id" />
+      <PropertyRef Name="Users_Id" />
+    </Key>
+    <Property Name="Groups_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Users_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <Association Name="CommentUser">
+    <End Role="Comment" Type="Mumble.Timerou.Domain.Users.Store.Comments" Multiplicity="*" />
+    <End Role="User" Type="Mumble.Timerou.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaggedObjectTag">
+    <End Role="TaggedObject" Type="Mumble.Timerou.Domain.Users.Store.MapObjects" Multiplicity="0..1" />
+    <End Role="Tag" Type="Mumble.Timerou.Domain.Users.Store.Tags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaggedObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tag">
+        <PropertyRef Name="TaggedObjectTag_Tag_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SocialObjectComment">
+    <End Role="SocialObject" Type="Mumble.Timerou.Domain.Users.Store.MapObjects" Multiplicity="0..1" />
+    <End Role="Comment" Type="Mumble.Timerou.Domain.Users.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SocialObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="SocialObjectComment_Comment_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommentComment">
+    <End Role="Comment" Type="Mumble.Timerou.Domain.Users.Store.Comments" Multiplicity="0..1" />
+    <End Role="Comment1" Type="Mumble.Timerou.Domain.Users.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="Parent_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserPicture">
+    <End Role="User" Type="Mumble.Timerou.Domain.Users.Store.Users" Multiplicity="0..1" />
+    <End Role="Picture" Type="Mumble.Timerou.Domain.Users.Store.MapObjects_Picture" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Picture">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserHistoricEvent">
+    <End Role="User" Type="Mumble.Timerou.Domain.Users.Store.Users" Multiplicity="1" />
+    <End Role="HistoricEvent" Type="Mumble.Timerou.Domain.Users.Store.MapObjects_HistoricEvent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HistoricEvent">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_Group">
+    <End Role="Group" Type="Mumble.Timerou.Domain.Users.Store.Groups" Multiplicity="1" />
+    <End Role="GroupUser" Type="Mumble.Timerou.Domain.Users.Store.GroupUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Groups_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GroupUser_User">
+    <End Role="GroupUser" Type="Mumble.Timerou.Domain.Users.Store.GroupUser" Multiplicity="*" />
+    <End Role="User" Type="Mumble.Timerou.Domain.Users.Store.Users" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GroupUser">
+        <PropertyRef Name="Users_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Picture_inherits_MapObject">
+    <End Role="MapObject" Type="Mumble.Timerou.Domain.Users.Store.MapObjects" Multiplicity="1" />
+    <End Role="Picture" Type="Mumble.Timerou.Domain.Users.Store.MapObjects_Picture" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="MapObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Picture">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HistoricEvent_inherits_MapObject">
+    <End Role="MapObject" Type="Mumble.Timerou.Domain.Users.Store.MapObjects" Multiplicity="1" />
+    <End Role="HistoricEvent" Type="Mumble.Timerou.Domain.Users.Store.MapObjects_HistoricEvent" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="MapObject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HistoricEvent">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2006/04/edm" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Mumble.Timerou.Domain.Users" Alias="Self">
+        <EntityContainer Name="TimerouContainer" >
+          <EntitySet Name="Users" EntityType="Mumble.Timerou.Domain.Users.User" />
+          <EntitySet Name="Groups" EntityType="Mumble.Timerou.Domain.Users.Group" />
+          <AssociationSet Name="GroupUser" Association="Mumble.Timerou.Domain.Users.GroupUser">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <EntitySet Name="MapObjects" EntityType="Mumble.Timerou.Domain.Users.MapObject" />
+          <EntitySet Name="Tags" EntityType="Mumble.Timerou.Domain.Users.Tag" />
+          <EntitySet Name="Comments" EntityType="Mumble.Timerou.Domain.Users.Comment" />
+          <AssociationSet Name="CommentUser" Association="Mumble.Timerou.Domain.Users.CommentUser">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="User" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="TaggedObjectTag" Association="Mumble.Timerou.Domain.Users.TaggedObjectTag">
+            <End Role="TaggedObject" EntitySet="MapObjects" />
+            <End Role="Tag" EntitySet="Tags" /></AssociationSet>
+          <AssociationSet Name="SocialObjectComment" Association="Mumble.Timerou.Domain.Users.SocialObjectComment">
+            <End Role="SocialObject" EntitySet="MapObjects" />
+            <End Role="Comment" EntitySet="Comments" /></AssociationSet>
+          <AssociationSet Name="CommentComment" Association="Mumble.Timerou.Domain.Users.CommentComment">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Comment1" EntitySet="Comments" /></AssociationSet>
+          <AssociationSet Name="UserPicture" Association="Mumble.Timerou.Domain.Users.UserPicture">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Picture" EntitySet="MapObjects" /></AssociationSet>
+          <AssociationSet Name="UserHistoricEvent" Association="Mumble.Timerou.Domain.Users.UserHistoricEvent">
+            <End Role="User" EntitySet="Users" />
+            <End Role="HistoricEvent" EntitySet="MapObjects" /></AssociationSet>
+          </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" />
+          <Property Type="String" Name="LastName" Nullable="false" />
+          <Property Type="String" Name="Address" />
+          <Property Type="String" Name="Email" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="Mumble.Timerou.Domain.Users.GroupUser" FromRole="User" ToRole="Group" />
+          <Property Type="Single" Name="Lat" />
+          <Property Type="Single" Name="Lng" />
+          <NavigationProperty Name="Pictures" Relationship="Mumble.Timerou.Domain.Users.UserPicture" FromRole="User" ToRole="Picture" />
+          <NavigationProperty Name="HistoricEvents" Relationship="Mumble.Timerou.Domain.Users.UserHistoricEvent" FromRole="User" ToRole="HistoricEvent" />
+          <Property Type="String" Name="Culture" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Mumble.Timerou.Domain.Users.GroupUser" FromRole="Group" ToRole="User" />
+          </EntityType>
+        <Association Name="GroupUser">
+          <End Type="Mumble.Timerou.Domain.Users.Group" Role="Group" Multiplicity="*" />
+          <End Type="Mumble.Timerou.Domain.Users.User" Role="User" Multiplicity="*" /></Association>
+        <EntityType Name="Picture" BaseType="Mumble.Timerou.Domain.Users.MapObject">
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Body" Nullable="false" />
+          <Property Type="String" Name="Date" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Mumble.Timerou.Domain.Users.UserPicture" FromRole="Picture" ToRole="User" />
+          <Property Type="Int32" Name="Height" />
+          <Property Type="Int32" Name="Width" />
+          </EntityType>
+        <EntityType Name="MapObject">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <NavigationProperty Name="Tags" Relationship="Mumble.Timerou.Domain.Users.TaggedObjectTag" FromRole="TaggedObject" ToRole="Tag" />
+          <NavigationProperty Name="Comments" Relationship="Mumble.Timerou.Domain.Users.SocialObjectComment" FromRole="SocialObject" ToRole="Comment" />
+          <Property Type="Int32" Name="Views" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="Single" Name="Lat" Nullable="false" />
+          <Property Type="Single" Name="Lng" Nullable="false" />
+          <Property Type="String" Name="Country" />
+          <Property Type="String" Name="PostalCode" />
+          <Property Type="String" Name="City" />
+          <Property Type="String" Name="Region" />
+          <Property Type="String" Name="Address" />
+          <Property Type="String" Name="Province" />
+          </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" /></EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Mumble.Timerou.Domain.Users.CommentUser" FromRole="Comment" ToRole="User" />
+          <Property Type="String" Name="Body" Nullable="false" />
+          <NavigationProperty Name="Childs" Relationship="Mumble.Timerou.Domain.Users.CommentComment" FromRole="Comment" ToRole="Comment1" />
+          <NavigationProperty Name="Parent" Relationship="Mumble.Timerou.Domain.Users.CommentComment" FromRole="Comment1" ToRole="Comment" /></EntityType>
+        <Association Name="CommentUser">
+          <End Type="Mumble.Timerou.Domain.Users.Comment" Role="Comment" Multiplicity="*" />
+          <End Type="Mumble.Timerou.Domain.Users.User" Role="User" Multiplicity="0..1" /></Association>
+        <Association Name="TaggedObjectTag">
+          <End Type="Mumble.Timerou.Domain.Users.MapObject" Role="TaggedObject" Multiplicity="0..1" />
+          <End Type="Mumble.Timerou.Domain.Users.Tag" Role="Tag" Multiplicity="*" /></Association>
+        <Association Name="SocialObjectComment">
+          <End Type="Mumble.Timerou.Domain.Users.MapObject" Role="SocialObject" Multiplicity="0..1" />
+          <End Type="Mumble.Timerou.Domain.Users.Comment" Role="Comment" Multiplicity="*" /></Association>
+        <Association Name="CommentComment">
+          <End Type="Mumble.Timerou.Domain.Users.Comment" Role="Comment" Multiplicity="0..1" />
+          <End Type="Mumble.Timerou.Domain.Users.Comment" Role="Comment1" Multiplicity="*" /></Association>
+        <Association Name="UserPicture">
+          <End Type="Mumble.Timerou.Domain.Users.User" Role="User" Multiplicity="0..1" />
+          <End Type="Mumble.Timerou.Domain.Users.Picture" Role="Picture" Multiplicity="*" /></Association>
+        <EntityType Name="HistoricEvent" BaseType="Mumble.Timerou.Domain.Users.MapObject" >
+          <Property Type="String" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" />
+          <Property Type="String" Name="Body" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Mumble.Timerou.Domain.Users.UserHistoricEvent" FromRole="HistoricEvent" ToRole="User" /></EntityType>
+        <Association Name="UserHistoricEvent">
+          <End Type="Mumble.Timerou.Domain.Users.User" Role="User" Multiplicity="1" />
+          <End Type="Mumble.Timerou.Domain.Users.HistoricEvent" Role="HistoricEvent" Multiplicity="*" /></Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+  <EntityContainerMapping StorageEntityContainer="MumbleTimerouDomainUsersStoreContainer" CdmEntityContainer="TimerouContainer">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Timerou.Domain.Users.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="Culture" ColumnName="Culture" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Timerou.Domain.Users.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MapObjects">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Timerou.Domain.Users.MapObject)">
+        <MappingFragment StoreEntitySet="MapObjects">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Views" ColumnName="Views" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Lat" ColumnName="Lat" />
+          <ScalarProperty Name="Lng" ColumnName="Lng" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Timerou.Domain.Users.Picture)">
+        <MappingFragment StoreEntitySet="MapObjects_Picture">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Height" ColumnName="Height" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Timerou.Domain.Users.HistoricEvent)">
+        <MappingFragment StoreEntitySet="MapObjects_HistoricEvent">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Timerou.Domain.Users.Tag)">
+        <MappingFragment StoreEntitySet="Tags">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(Mumble.Timerou.Domain.Users.Comment)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="GroupUser" TypeName="Mumble.Timerou.Domain.Users.GroupUser" StoreEntitySet="GroupUser">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id" ColumnName="Groups_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Users_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CommentUser" TypeName="Mumble.Timerou.Domain.Users.CommentUser" StoreEntitySet="Comments">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Comment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TaggedObjectTag" TypeName="Mumble.Timerou.Domain.Users.TaggedObjectTag" StoreEntitySet="Tags">
+      <EndProperty Name="TaggedObject">
+        <ScalarProperty Name="Id" ColumnName="TaggedObjectTag_Tag_Id" />
+      </EndProperty>
+      <EndProperty Name="Tag">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="TaggedObjectTag_Tag_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SocialObjectComment" TypeName="Mumble.Timerou.Domain.Users.SocialObjectComment" StoreEntitySet="Comments">
+      <EndProperty Name="SocialObject">
+        <ScalarProperty Name="Id" ColumnName="SocialObjectComment_Comment_Id" />
+      </EndProperty>
+      <EndProperty Name="Comment">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="SocialObjectComment_Comment_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CommentComment" TypeName="Mumble.Timerou.Domain.Users.CommentComment" StoreEntitySet="Comments">
+      <EndProperty Name="Comment">
+        <ScalarProperty Name="Id" ColumnName="Parent_Id" />
+      </EndProperty>
+      <EndProperty Name="Comment1">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Parent_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserPicture" TypeName="Mumble.Timerou.Domain.Users.UserPicture" StoreEntitySet="MapObjects_Picture">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="Picture">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="User_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="UserHistoricEvent" TypeName="Mumble.Timerou.Domain.Users.UserHistoricEvent" StoreEntitySet="MapObjects_HistoricEvent">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="User_Id" />
+      </EndProperty>
+      <EndProperty Name="HistoricEvent">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="UsersContainer" ZoomLevel="100" >
+        <EntityTypeShape EntityType="Mumble.Timerou.Domain.Users.User" Width="1.5" PointX="2.25" PointY="0.75" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="Mumble.Timerou.Domain.Users.Group" Width="1.5" PointX="0.5" PointY="0.75" Height="1.59568359375" />
+        <AssociationConnector Association="Mumble.Timerou.Domain.Users.GroupUser">
+          <ConnectorPoint PointX="2" PointY="1.547841796875" />
+          <ConnectorPoint PointX="2.25" PointY="1.547841796875" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Timerou.Domain.Users.Picture" Width="1.5" PointX="4.125" PointY="4.75" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="Mumble.Timerou.Domain.Users.MapObject" Width="1.5" PointX="5.125" PointY="0.625" Height="3.5186979166666656" />
+        <EntityTypeShape EntityType="Mumble.Timerou.Domain.Users.Tag" Width="1.5" PointX="9" PointY="0.625" Height="1.4033821614583331" />
+        <EntityTypeShape EntityType="Mumble.Timerou.Domain.Users.Comment" Width="1.5" PointX="9.125" PointY="2.25" Height="2.1725878906249996" />
+        <AssociationConnector Association="Mumble.Timerou.Domain.Users.CommentUser" ManuallyRouted="false">
+          <ConnectorPoint PointX="9.125" PointY="3.7327759374999991" />
+          <ConnectorPoint PointX="6.875" PointY="3.7327759374999991" />
+          <ConnectorPoint PointX="6.875" PointY="0.375" />
+          <ConnectorPoint PointX="3" PointY="0.375" />
+          <ConnectorPoint PointX="3" PointY="0.75" />
+          </AssociationConnector>
+        <InheritanceConnector EntityType="Mumble.Timerou.Domain.Users.Picture" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.875" PointY="2.6052864583333335" />
+          <ConnectorPoint PointX="5.875" PointY="3.625" />
+          <ConnectorPoint PointX="5" PointY="3.625" />
+          <ConnectorPoint PointX="5" PointY="4" />
+          </InheritanceConnector>
+        <AssociationConnector Association="Mumble.Timerou.Domain.Users.TaggedObjectTag">
+          <ConnectorPoint PointX="6.625" PointY="1.3266910807291665" />
+          <ConnectorPoint PointX="6.791666666666667" PointY="1.3266910807291659" />
+          <ConnectorPoint PointX="6.958333333333333" PointY="1.3266910807291665" />
+          <ConnectorPoint PointX="9" PointY="1.3266910807291665" />
+          </AssociationConnector>
+        <AssociationConnector Association="Mumble.Timerou.Domain.Users.SocialObjectComment">
+          <ConnectorPoint PointX="6.625" PointY="3.1968489583333328" />
+          <ConnectorPoint PointX="6.791666666666667" PointY="3.1968489583333324" />
+          <ConnectorPoint PointX="6.958333333333333" PointY="3.1968489583333328" />
+          <ConnectorPoint PointX="9.125" PointY="3.1968489583333328" />
+          </AssociationConnector>
+        <InheritanceConnector EntityType="Mumble.Timerou.Domain.Users.Picture">
+          <ConnectorPoint PointX="7.125" PointY="2.7302864583333331" />
+          <ConnectorPoint PointX="7.125" PointY="3.5000000000000004" />
+          <ConnectorPoint PointX="6.375" PointY="3.5000000000000004" />
+          <ConnectorPoint PointX="6.375" PointY="3.625" /></InheritanceConnector>
+        <AssociationConnector Association="Mumble.Timerou.Domain.Users.CommentComment">
+          <ConnectorPoint PointX="9.6569230769230767" PointY="4.422587890625" />
+          <ConnectorPoint PointX="9.6569230769230767" PointY="4.672587890625" />
+          <ConnectorPoint PointX="10.103461538461538" PointY="4.672587890625" />
+          <ConnectorPoint PointX="10.103461538461538" PointY="4.422587890625" /></AssociationConnector>
+        <AssociationConnector Association="Mumble.Timerou.Domain.Users.UserPicture">
+          <ConnectorPoint PointX="3.75" PointY="4.076396484375" />
+          <ConnectorPoint PointX="4.125" PointY="4.75" />
+          </AssociationConnector>
+        <EntityTypeShape EntityType="Mumble.Timerou.Domain.Users.HistoricEvent" Width="1.5" PointX="6.625" PointY="4.75" Height="1.7879850260416665" />
+        <InheritanceConnector EntityType="Mumble.Timerou.Domain.Users.HistoricEvent">
+          <ConnectorPoint PointX="5.875" PointY="2.6052864583333335" />
+          <ConnectorPoint PointX="5.875" PointY="3.625" />
+          <ConnectorPoint PointX="7" PointY="3.625" />
+          <ConnectorPoint PointX="7" PointY="4" /></InheritanceConnector>
+        <AssociationConnector Association="Mumble.Timerou.Domain.Users.UserHistoricEvent">
+          <ConnectorPoint PointX="2.968748" PointY="4.076396484375" />
+          <ConnectorPoint PointX="2.968748" PointY="4.625" />
+          <ConnectorPoint PointX="3.9720782531375192" PointY="4.6249999999999991" />
+          <ConnectorPoint PointX="4.1387449198041857" PointY="4.625" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="4.6249999999999991" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="4.625" />
+          <ConnectorPoint PointX="6.25" PointY="4.625" />
+          <ConnectorPoint PointX="6.25" PointY="5.6439925130208337" />
+          <ConnectorPoint PointX="6.625" PointY="5.6439925130208337" />
+          </AssociationConnector>
+        <InheritanceConnector EntityType="Mumble.Timerou.Domain.Users.HistoricEvent">
+          <ConnectorPoint PointX="5.875" PointY="4.1436979166666656" />
+          <ConnectorPoint PointX="5.875" PointY="4.45" />
+          <ConnectorPoint PointX="7.375" PointY="4.45" />
+          <ConnectorPoint PointX="7.375" PointY="4.75" />
+          </InheritanceConnector>
+        <InheritanceConnector EntityType="Mumble.Timerou.Domain.Users.Picture">
+          <ConnectorPoint PointX="5.875" PointY="4.1436979166666656" />
+          <ConnectorPoint PointX="5.875" PointY="4.45" />
+          <ConnectorPoint PointX="4.875" PointY="4.45" />
+          <ConnectorPoint PointX="4.875" PointY="4.75" /></InheritanceConnector>
+        </Diagram></edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
