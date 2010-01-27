@@ -18,6 +18,7 @@ using System.Threading;
 using Mumble.Timerou.Models.Auth;
 using System.IO;
 using Newtonsoft.Json;
+using Mumble.Timerou.Models.Pages;
 
 namespace Mumble.Timerou.Controllers
 {
@@ -82,6 +83,29 @@ namespace Mumble.Timerou.Controllers
         public ActionResult Register()
         {
             return View();
+        }
+
+        /// <summary>
+        /// Render upload form
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Upload(float? lat, float? lng, int? zoom)
+        {
+            try
+            {
+                Authorize();
+            }
+            catch (AuthException)
+            {
+                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Upload", "Account") });
+            }
+
+            return View(new UploadModel()
+            {
+                Lat = lat,
+                Lng = lng,
+                Zoom = zoom
+            });
         }
 
         /// <summary>

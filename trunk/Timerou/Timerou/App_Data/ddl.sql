@@ -1,6 +1,6 @@
 USE [Timerou]
 GO
-/****** Object:  Table [dbo].[Groups]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  Table [dbo].[Groups]    Script Date: 01/27/2010 23:42:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[Groups](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 01/27/2010 23:42:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -35,7 +35,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MapObjects]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  Table [dbo].[MapObjects]    Script Date: 01/27/2010 23:42:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -53,9 +53,9 @@ CREATE TABLE [dbo].[MapObjects](
 	[Address] [nvarchar](max) NULL,
 	[Province] [nvarchar](max) NULL,
 	[Title] [nvarchar](50) NULL,
-	[Body] [text] NOT NULL,
-	[Height] [int] NOT NULL,
-	[Width] [int] NOT NULL,
+	[Body] [text] NULL,
+	[Height] [int] NULL,
+	[Width] [int] NULL,
 	[User_Id] [uniqueidentifier] NOT NULL,
 	[Discriminator] [smallint] NOT NULL,
  CONSTRAINT [PK_MapObjects] PRIMARY KEY CLUSTERED 
@@ -64,7 +64,7 @@ CREATE TABLE [dbo].[MapObjects](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[GroupUser]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  Table [dbo].[GroupUser]    Script Date: 01/27/2010 23:42:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -79,7 +79,7 @@ CREATE TABLE [dbo].[GroupUser](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Comments]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  Table [dbo].[Comments]    Script Date: 01/27/2010 23:42:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -96,7 +96,7 @@ CREATE TABLE [dbo].[Comments](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tags]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  Table [dbo].[Tags]    Script Date: 01/27/2010 23:42:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -111,37 +111,37 @@ CREATE TABLE [dbo].[Tags](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  ForeignKey [FK_Comments_MapObjects]    Script Date: 01/27/2010 17:57:52 ******/
-ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_MapObjects] FOREIGN KEY([MapObject_Id])
-REFERENCES [dbo].[MapObjects] ([Id])
-GO
-ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_MapObjects]
-GO
-/****** Object:  ForeignKey [FK_Comments_Users]    Script Date: 01/27/2010 17:57:52 ******/
-ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_Users] FOREIGN KEY([User_Id])
-REFERENCES [dbo].[Users] ([Id])
-GO
-ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_Users]
-GO
-/****** Object:  ForeignKey [FK_GroupUser_Group]    Script Date: 01/27/2010 17:57:52 ******/
-ALTER TABLE [dbo].[GroupUser]  WITH NOCHECK ADD  CONSTRAINT [FK_GroupUser_Group] FOREIGN KEY([Groups_Id])
-REFERENCES [dbo].[Groups] ([Id])
-GO
-ALTER TABLE [dbo].[GroupUser] CHECK CONSTRAINT [FK_GroupUser_Group]
-GO
-/****** Object:  ForeignKey [FK_GroupUser_User]    Script Date: 01/27/2010 17:57:52 ******/
-ALTER TABLE [dbo].[GroupUser]  WITH NOCHECK ADD  CONSTRAINT [FK_GroupUser_User] FOREIGN KEY([Users_Id])
-REFERENCES [dbo].[Users] ([Id])
-GO
-ALTER TABLE [dbo].[GroupUser] CHECK CONSTRAINT [FK_GroupUser_User]
-GO
-/****** Object:  ForeignKey [FK_MapObjects_Users]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  ForeignKey [FK_MapObjects_Users]    Script Date: 01/27/2010 23:42:55 ******/
 ALTER TABLE [dbo].[MapObjects]  WITH CHECK ADD  CONSTRAINT [FK_MapObjects_Users] FOREIGN KEY([User_Id])
 REFERENCES [dbo].[Users] ([Id])
 GO
 ALTER TABLE [dbo].[MapObjects] CHECK CONSTRAINT [FK_MapObjects_Users]
 GO
-/****** Object:  ForeignKey [FK_TaggedObjectTag]    Script Date: 01/27/2010 17:57:52 ******/
+/****** Object:  ForeignKey [FK_GroupUser_Group]    Script Date: 01/27/2010 23:42:55 ******/
+ALTER TABLE [dbo].[GroupUser]  WITH NOCHECK ADD  CONSTRAINT [FK_GroupUser_Group] FOREIGN KEY([Groups_Id])
+REFERENCES [dbo].[Groups] ([Id])
+GO
+ALTER TABLE [dbo].[GroupUser] CHECK CONSTRAINT [FK_GroupUser_Group]
+GO
+/****** Object:  ForeignKey [FK_GroupUser_User]    Script Date: 01/27/2010 23:42:55 ******/
+ALTER TABLE [dbo].[GroupUser]  WITH NOCHECK ADD  CONSTRAINT [FK_GroupUser_User] FOREIGN KEY([Users_Id])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[GroupUser] CHECK CONSTRAINT [FK_GroupUser_User]
+GO
+/****** Object:  ForeignKey [FK_Comments_MapObjects]    Script Date: 01/27/2010 23:42:55 ******/
+ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_MapObjects] FOREIGN KEY([MapObject_Id])
+REFERENCES [dbo].[MapObjects] ([Id])
+GO
+ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_MapObjects]
+GO
+/****** Object:  ForeignKey [FK_Comments_Users]    Script Date: 01/27/2010 23:42:55 ******/
+ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_Users] FOREIGN KEY([User_Id])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_Users]
+GO
+/****** Object:  ForeignKey [FK_TaggedObjectTag]    Script Date: 01/27/2010 23:42:55 ******/
 ALTER TABLE [dbo].[Tags]  WITH NOCHECK ADD  CONSTRAINT [FK_TaggedObjectTag] FOREIGN KEY([MapObject_Id])
 REFERENCES [dbo].[MapObjects] ([Id])
 GO
