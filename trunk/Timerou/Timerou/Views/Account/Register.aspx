@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="RegisterContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -13,8 +13,8 @@
                     confirmPassword: { required: true, minlength: 5, equalTo: "#password" }
                 },
                 messages: {
-                    firstName: '<%= UIHelper.T("msg.firstNameRequried") %>',
-                    lastName: '<%= UIHelper.T("msg.lastNameRequried") %>',
+                    firstName: '<%= UIHelper.T("msg.firstNameRequired") %>',
+                    lastName: '<%= UIHelper.T("msg.lastNameRequired") %>',
                     email: '<%= UIHelper.T("msg.invalidEmail") %>',
                     password: { required: '<%= UIHelper.T("msg.passRequired") %>', minlength: '<%= UIHelper.T("msg.min5char") %>' },
                     confirmPassword: { 
@@ -32,7 +32,7 @@
         });
     </script>
 
-    <div class="register span-24 last">
+    <div class="register">
         <% using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "registerForm" }))
            { %>
             <fieldset>

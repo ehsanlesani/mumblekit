@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TimerouModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+    <Schema Namespace="TimerouModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
         <EntityContainer Name="TimerouModelStoreContainer">
           <EntitySet Name="Comments" EntityType="TimerouModel.Store.Comments" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Groups" EntityType="TimerouModel.Store.Groups" store:Type="Tables" Schema="dbo" />
@@ -78,9 +78,9 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Province" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
-          <Property Name="Body" Type="text" Nullable="false" />
-          <Property Name="Height" Type="int" Nullable="false" />
-          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Body" Type="text" />
+          <Property Name="Height" Type="int" />
+          <Property Name="Width" Type="int" />
           <Property Name="User_Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Discriminator" Type="smallint" Nullable="false" />
         </EntityType>
@@ -178,17 +178,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TimerouModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
         <EntityContainer Name="TimerouContainer">
-          <EntitySet Name="Comments" EntityType="TimerouModel.Comments" />
-          <EntitySet Name="Groups" EntityType="TimerouModel.Groups" />
-          <EntitySet Name="MapObjects" EntityType="TimerouModel.MapObjects" />
-          <EntitySet Name="Tags" EntityType="TimerouModel.Tags" />
-          <EntitySet Name="Users" EntityType="TimerouModel.Users" />
+          <EntitySet Name="Comments" EntityType="TimerouModel.Comment" />
+          <EntitySet Name="Groups" EntityType="TimerouModel.Group" />
+          <EntitySet Name="MapObjects" EntityType="TimerouModel.MapObject" />
+          <EntitySet Name="Tags" EntityType="TimerouModel.Tag" />
+          <EntitySet Name="Users" EntityType="TimerouModel.User" />
           <AssociationSet Name="FK_Comments_MapObjects" Association="TimerouModel.FK_Comments_MapObjects">
             <End Role="MapObjects" EntitySet="MapObjects" />
             <End Role="Comments" EntitySet="Comments" />
@@ -210,17 +209,17 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Comments">
+        <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="Created" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="MapObjects" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="Comments" ToRole="MapObjects" />
-          <NavigationProperty Name="Users" Relationship="TimerouModel.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
+          <NavigationProperty Name="MapObject" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="Comments" ToRole="MapObjects" />
+          <NavigationProperty Name="User" Relationship="TimerouModel.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Groups">
+        <EntityType Name="Group">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -228,7 +227,7 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Users" Relationship="TimerouModel.GroupUser" FromRole="Groups" ToRole="Users" />
         </EntityType>
-        <EntityType Name="MapObjects">
+        <EntityType Name="MapObject" Abstract="true">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -244,23 +243,20 @@
           <Property Name="Address" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Province" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Title" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="Height" Type="Int32" Nullable="false" />
-          <Property Name="Width" Type="Int32" Nullable="false" />
-          <Property Name="Discriminator" Type="Int16" Nullable="false" />
+          <Property Name="Body" Type="String" Nullable="true" MaxLength="Max" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Comments" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="MapObjects" ToRole="Comments" />
-          <NavigationProperty Name="Users" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="MapObjects" ToRole="Users" />
+          <NavigationProperty Name="User" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="MapObjects" ToRole="Users" />
           <NavigationProperty Name="Tags" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="MapObjects" ToRole="Tags" />
-        </EntityType>
-        <EntityType Name="Tags">
+          </EntityType>
+        <EntityType Name="Tag">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="MapObjects" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="Tags" ToRole="MapObjects" />
+          <NavigationProperty Name="MapObject" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="Tags" ToRole="MapObjects" />
         </EntityType>
-        <EntityType Name="Users">
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -278,33 +274,36 @@
           <NavigationProperty Name="Groups" Relationship="TimerouModel.GroupUser" FromRole="Users" ToRole="Groups" />
         </EntityType>
         <Association Name="FK_Comments_MapObjects">
-          <End Role="MapObjects" Type="TimerouModel.MapObjects" Multiplicity="1" />
-          <End Role="Comments" Type="TimerouModel.Comments" Multiplicity="*" />
+          <End Role="MapObjects" Type="TimerouModel.MapObject" Multiplicity="1" />
+          <End Role="Comments" Type="TimerouModel.Comment" Multiplicity="*" />
         </Association>
         <Association Name="FK_Comments_Users">
-          <End Role="Users" Type="TimerouModel.Users" Multiplicity="1" />
-          <End Role="Comments" Type="TimerouModel.Comments" Multiplicity="*" />
+          <End Role="Users" Type="TimerouModel.User" Multiplicity="1" />
+          <End Role="Comments" Type="TimerouModel.Comment" Multiplicity="*" />
         </Association>
         <Association Name="FK_MapObjects_Users">
-          <End Role="Users" Type="TimerouModel.Users" Multiplicity="1" />
-          <End Role="MapObjects" Type="TimerouModel.MapObjects" Multiplicity="*" />
+          <End Role="Users" Type="TimerouModel.User" Multiplicity="1" />
+          <End Role="MapObjects" Type="TimerouModel.MapObject" Multiplicity="*" />
         </Association>
         <Association Name="FK_TaggedObjectTag">
-          <End Role="MapObjects" Type="TimerouModel.MapObjects" Multiplicity="1" />
-          <End Role="Tags" Type="TimerouModel.Tags" Multiplicity="*" />
+          <End Role="MapObjects" Type="TimerouModel.MapObject" Multiplicity="1" />
+          <End Role="Tags" Type="TimerouModel.Tag" Multiplicity="*" />
         </Association>
         <Association Name="GroupUser">
-          <End Role="Groups" Type="TimerouModel.Groups" Multiplicity="*" />
-          <End Role="Users" Type="TimerouModel.Users" Multiplicity="*" />
+          <End Role="Groups" Type="TimerouModel.Group" Multiplicity="*" />
+          <End Role="Users" Type="TimerouModel.User" Multiplicity="*" />
         </Association>
-      </Schema>
+        <EntityType Name="Picture" BaseType="TimerouModel.MapObject" >
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" /></EntityType>
+        <EntityType Name="HistoricEvent" BaseType="TimerouModel.MapObject" /></Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
         <EntityContainerMapping StorageEntityContainer="TimerouModelStoreContainer" CdmEntityContainer="TimerouContainer">
           <EntitySetMapping Name="Comments">
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Comments)">
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Comment)">
               <MappingFragment StoreEntitySet="Comments">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Body" ColumnName="Body" />
@@ -313,7 +312,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Groups">
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Groups)">
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Group)">
               <MappingFragment StoreEntitySet="Groups">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -321,7 +320,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MapObjects">
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.MapObjects)">
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.MapObject)">
               <MappingFragment StoreEntitySet="MapObjects">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Views" ColumnName="Views" />
@@ -336,14 +335,20 @@
                 <ScalarProperty Name="Province" ColumnName="Province" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Body" ColumnName="Body" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
               </MappingFragment>
             </EntityTypeMapping>
-          </EntitySetMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Picture)">
+              <MappingFragment StoreEntitySet="MapObjects">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <Condition ColumnName="Discriminator" Value="1" /></MappingFragment></EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.HistoricEvent)">
+              <MappingFragment StoreEntitySet="MapObjects" >
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <Condition ColumnName="Discriminator" Value="2" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Tags">
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Tags)">
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Tag)">
               <MappingFragment StoreEntitySet="Tags">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -351,7 +356,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Users)">
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.User)">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -424,25 +429,36 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="TimerouContainer">
-        <EntityTypeShape EntityType="TimerouModel.Comments" Width="1.5" PointX="7.5" PointY="3.625" Height="1.9802864583333335" IsExpanded="true" />
-        <EntityTypeShape EntityType="TimerouModel.Groups" Width="1.5" PointX="0.75" PointY="4.125" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="TimerouModel.MapObjects" Width="1.5" PointX="5.25" PointY="5.25" Height="4.6725065104166648" IsExpanded="true" />
-        <EntityTypeShape EntityType="TimerouModel.Tags" Width="1.5" PointX="7.5" PointY="6.875" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="TimerouModel.Users" Width="1.5" PointX="3" PointY="3.25" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimerouModel.Comment" Width="1.5" PointX="9.375" PointY="3.5" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimerouModel.Group" Width="1.5" PointX="0.75" PointY="4.125" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimerouModel.MapObject" Width="1.5" PointX="6.125" PointY="3.25" Height="4.0956022135416656" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimerouModel.Tag" Width="1.5" PointX="9.375" PointY="5.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimerouModel.User" Width="1.5" PointX="3" PointY="3.25" Height="3.3263964843749996" IsExpanded="true" />
         <AssociationConnector Association="TimerouModel.FK_Comments_MapObjects" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.75" PointY="5.4276432291666667" />
-          <ConnectorPoint PointX="7.5" PointY="5.4276432291666667" /></AssociationConnector>
+          <ConnectorPoint PointX="7.625" PointY="4.4901432291666667" />
+          <ConnectorPoint PointX="9.375" PointY="4.4901432291666667" /></AssociationConnector>
         <AssociationConnector Association="TimerouModel.FK_Comments_Users" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="4.40625" />
-          <ConnectorPoint PointX="7.5" PointY="4.40625" /></AssociationConnector>
+          <ConnectorPoint PointX="3.75" PointY="3.25" />
+          <ConnectorPoint PointX="3.75" PointY="2.875" />
+          <ConnectorPoint PointX="10.125" PointY="2.875" />
+          <ConnectorPoint PointX="10.125" PointY="3.5" /></AssociationConnector>
         <AssociationConnector Association="TimerouModel.FK_MapObjects_Users" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="5.9131982421875" />
-          <ConnectorPoint PointX="5.25" PointY="5.9131982421875" /></AssociationConnector>
+          <ConnectorPoint PointX="4.5" PointY="4.9131982421875" />
+          <ConnectorPoint PointX="6.125" PointY="4.9131982421875" /></AssociationConnector>
         <AssociationConnector Association="TimerouModel.FK_TaggedObjectTag" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.75" PointY="7.672841796875" />
-          <ConnectorPoint PointX="7.5" PointY="7.672841796875" /></AssociationConnector>
+          <ConnectorPoint PointX="7.625" PointY="6.5478011067708328" />
+          <ConnectorPoint PointX="9.375" PointY="6.5478011067708328" /></AssociationConnector>
         <AssociationConnector Association="TimerouModel.GroupUser" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="4.922841796875" />
-          <ConnectorPoint PointX="3" PointY="4.922841796875" /></AssociationConnector></Diagram></edmx:Diagrams>
+          <ConnectorPoint PointX="3" PointY="4.922841796875" /></AssociationConnector>
+        <EntityTypeShape EntityType="TimerouModel.Picture" Width="1.5" PointX="5.125" PointY="8.25" Height="1.4033821614583335" />
+        <EntityTypeShape EntityType="TimerouModel.HistoricEvent" Width="1.5" PointX="7.25" PointY="8.25" Height="1.018779296875" />
+        <InheritanceConnector EntityType="TimerouModel.Picture" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.375" PointY="7.3456022135416656" />
+          <ConnectorPoint PointX="6.375" PointY="8.25" /></InheritanceConnector>
+        <InheritanceConnector EntityType="TimerouModel.HistoricEvent" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.4375" PointY="7.3456022135416656" />
+          <ConnectorPoint PointX="7.4375" PointY="8.25" />
+          </InheritanceConnector></Diagram></edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
