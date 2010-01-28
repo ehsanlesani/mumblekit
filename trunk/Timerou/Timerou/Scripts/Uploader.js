@@ -1,4 +1,6 @@
-﻿/// <reference path="Url.js" />
+﻿/// <reference path="libs/google.maps-v3-vsdoc.js" />
+/// <reference path="Url.js" />
+
 var __progressValue = 10;
 var __timer = null;
 
@@ -9,6 +11,7 @@ function Uploader(lat, lng, zoom) {
     this.zoom = zoom;
     this.pictureUploaded = false;
     this.pictureId = null;
+    this.marker = null;
     
     this.initialize();
 }
@@ -51,9 +54,13 @@ Uploader.prototype = {
             responseType: "json",
             onChange: function(file, extension) { },
             onSubmit: function(file, extension) {
-                $(".uploadStatus").html("Uploading " + file + "." + extension);
-
                 $(".uploadStatus").show();
+                if (!extension || !/^(jpg|jpeg)$/.test(extension.toLowerCase())) {
+                    $(".uploadStatus").html(FORMAT_NOT_ALLOWED);
+                    return false;
+                }
+
+                $(".uploadStatus").html(UPLOADING + " " + file);
                 $(".uploadProgress").show();
 
                 //animate progress bar
@@ -66,25 +73,55 @@ Uploader.prototype = {
                 }, 250);
             },
             onComplete: function(file, response) {
-                self.pictureUploaded = true;
-                self.pictureId = response.id;
-                $(".uploadStatus").html("Picture uploaded");
-                
                 //remove progressbar animation
                 window.clearInterval(__timer);
                 __timer = null;
                 $(".uploadProgress").hide();
 
-                $("#uploadButton").find("img").attr("src", Url.Pictures + response.picture.avatarPath);
+                if (response.error) {
+                    $(".uploadStatus").html(response.message);
+                } else {
+                    self.pictureUploaded = true;
+                    self.pictureId = response.id;
+                    $(".uploadStatus").html(PICTURE_UPLOADED);
+                    $("#uploadButton").find("img").attr("src", Url.Pictures + response.picture.avatarPath);
+                }
             }
         });
-
-
     },
 
     initializeMaps: function() {
-        var map = new google.maps.Map2(document.getElementById("map"));
-        map.setCenter(new google.maps.LatLng(40.0, 40.0), 10);
+        var self = this;
+
+        var map = new google.maps.Map(document.getElementById("map"), {
+            center: new google.maps.LatLng(50, 50),
+            zoom: 5,
+            scrollwheel: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false,
+            scaleControl: false
+        });
+
+        google.maps.event.addListener(map, "click", function(e) {
+            if (self.marker == null) {
+                self.marker = new google.maps.Marker({
+                    position: e.latLng,
+                    map: map
+                });
+            }
+
+            //get geolocation info of clicked point
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': e.latLng }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    self.marker.setPosition(e.latLng);
+                    map.panTo(e.latLng);
+                    $(".address").html(results[0].formatted_address);
+                } else {
+                    alert("Geocoder failed due to: " + status);
+                }
+            });
+        });
     },
 
     initializeTextareas: function() {
