@@ -161,12 +161,17 @@
     <Content Include="Views\Main\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\ddl.sql" />
     <EntityDeploy Include="Models\TimerouContainer.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TimerouContainer.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="App_Data\Timerou.mdf">
+    </Content>
+    <Content Include="App_Data\Timerou_log.ldf">
+      <DependentUpon>Timerou.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\Images\nophoto.png" />
+    <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />
     <Content Include="Scripts\tiny_mce\plugins\advhr\css\advhr.css" />

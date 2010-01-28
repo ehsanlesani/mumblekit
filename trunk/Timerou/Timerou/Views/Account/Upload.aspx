@@ -2,16 +2,19 @@
 
 <asp:Content ID="UploadContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAALR8bRKP-XQrzDCAShmrTvxRZcg6rHxTBMZ4Dun_V7KJl7bsRkRTyyWCSl2lWQpqYDZamuBcqyGfb-Q"></script>
     <script type="text/javascript">
-        google.load("maps", "2");
+        var FORMAT_NOT_ALLOWED = '<%= UIHelper.T("err.formatNotAllowed") %>';
+        var PICTURE_LOADED = '<%= UIHelper.T("msg.pictureUploaded") %>';
+        var UPLOADING = '<%= UIHelper.T("txt.uploading") %>';
     </script>
 
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="<%= UriHelper.Scripts %>jquery/ajaxupload.js" type="text/javascript"></script>
     <script src='<%= UriHelper.Scripts %>Uploader.js' type="text/javascript" ></script>
     <script src='<%= UriHelper.Scripts %>tiny_mce/tiny_mce.js' type="text/javascript" ></script>
     
-    <script type="text/javascript">
+    <script type="text/javascript">        
+    
         $(document).ready(function() {
             //initialize a new uploader in specified container  
             var guid = 1;
@@ -21,6 +24,7 @@
 
             var uploader = new Uploader(guid, lat, lng, zoom);
         });
+        
     </script>
     
     <div id="uploader">
@@ -57,31 +61,41 @@
                 <tr>
                     <td valign="top" style="width: 300px; padding: 3px;"><div id="map" style="height: 200px; width: 300px;"></div></td>
                     <td valign="top" style="padding: 3px;">
-                        <p>Italy</p>
-                        <p>Basilicata</p>
-                        <p>Matera</p>
-                        <p>Via E. de Martino 9, 75100 Matera</p>
-                        <p>Lat: 45.2156, Lng: 15.3467</p>
+                        <p class="country">Italy</p>
+                        <p class="region">Basilicata</p>
+                        <p class="city">Matera</p>
+                        <p class="address">Via E. de Martino 9, 75100 Matera</p>
+                        <p class="latlng">Lat: 45.2156, Lng: 15.3467</p>
                     </td>
                 </tr>
             </table>        
         </div>
         
-        <div class="box">
+        <div class="box">        
             <h3><%= UIHelper.T("msg.pictureInfos") %></h3>
             
-            <fieldset>
-                <p>
-                    <label><%= UIHelper.T("txt.title") %></label>
-                    <input type="text" style="width: 100%" />
-                </p>
+            <% using (Html.BeginForm("SavePicture", "Account")) { %>
+                <input type="hidden" name="tempPictureId" />
+                <input type="hidden" name="country" />
+                <input type="hidden" name="region" />
+                <input type="hidden" name="postalCode" />
+                <input type="hidden" name="city" />
+                <input type="hidden" name="province" />
+                <input type="hidden" name="lat" />
+                <input type="hidden" name="lng" />                
                 
-                <p>
-                    <label><%= UIHelper.T("txt.body") %></label>
-                    <textarea style="width: 100%" class="bodyEditor"></textarea>
-                </p>
-            </fieldset>
-        </div>
-    
+                <fieldset>
+                    <p>
+                        <label><%= UIHelper.T("txt.title")%></label>
+                        <input type="text" name="title" style="width: 100%" />
+                    </p>
+                    
+                    <p>
+                        <label><%= UIHelper.T("txt.body")%></label>
+                        <textarea style="width: 100%" class="bodyEditor" name="body"></textarea>
+                    </p>
+                </fieldset>
+            <% } %>            
+        </div>    
     </div>
 </asp:Content>

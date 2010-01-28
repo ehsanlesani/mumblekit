@@ -210,6 +210,13 @@ namespace Mumble.Timerou.Controllers
                 //Get file from post
                 HttpPostedFileBase file = Request.Files[0];
 
+                //check extension
+                string extension = Path.GetExtension(file.FileName).ToLower();
+                if (extension != "jpg" && extension != "jpeg")
+                {
+                    throw new FormatException();
+                }
+
                 if (file.ContentLength == 0)
                 {
                     throw new Exception("File not specified");
@@ -223,6 +230,10 @@ namespace Mumble.Timerou.Controllers
             catch (AuthException)
             {
                 response = new SimpleResponse(true, UIHelper.Translate("err.unauthorized"));
+            }
+            catch (FormatException ex)
+            {
+                response = new SimpleResponse(true, UIHelper.Translate("err.formatNotAllowed"));
             }
             catch (Exception ex)
             {
