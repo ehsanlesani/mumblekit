@@ -108,24 +108,6 @@ namespace Mumble.Timerou.Controllers
             });
         }
 
-        /// <summary>
-        /// Render user control panel. Needs user login
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult ControlPanel()
-        {
-            try
-            {
-                Authorize();
-            }
-            catch (AuthException)
-            {
-                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("ControlPanel", "Account") });
-            }
-
-            return View();
-        }
-
         #region Ajax
 
         /// <summary>
@@ -212,12 +194,12 @@ namespace Mumble.Timerou.Controllers
         }
 
         /// <summary>
-        /// Add a picture to specified user. This action result is not a json because this method is called by ajax uploader from an iframe
+        /// Add a temp picture to current user. This action result is not a json because this method is called by ajax uploader from an iframe
         /// </summary>
         /// <param name="albumId"></param>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddPicture(float lat, float lng)
+        public ActionResult AddPicture()
         {
             SimpleResponse response = null;
 
@@ -225,11 +207,16 @@ namespace Mumble.Timerou.Controllers
             {
                 Authorize();
 
-                User user = AccountManager.LoggedUser;
                 //Get file from post
                 HttpPostedFileBase file = Request.Files[0];
 
-                Picture picture = new Picture();
+                if (file.ContentLength == 0)
+                {
+                    throw new Exception("File not specified");
+                }
+
+                ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
+                Picture picture = controlPanel.CreateTempPicture(file.InputStream);
 
                 response = AddPictureResponse.FromPicture(picture);
             }
