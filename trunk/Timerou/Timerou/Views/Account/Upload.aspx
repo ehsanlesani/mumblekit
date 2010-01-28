@@ -6,13 +6,20 @@
     <script type="text/javascript">
         google.load("maps", "2");
     </script>
-    <script type="text/javascript" src='<%= UriHelper.Scripts %>Uploader.js'></script>
-    <script type="text/javascript" src='<%= UriHelper.Scripts %>tiny_mce/tiny_mce.js'></script>
+
+    <script src="<%= UriHelper.Scripts %>jquery/ajaxupload.js" type="text/javascript"></script>
+    <script src='<%= UriHelper.Scripts %>Uploader.js' type="text/javascript" ></script>
+    <script src='<%= UriHelper.Scripts %>tiny_mce/tiny_mce.js' type="text/javascript" ></script>
     
     <script type="text/javascript">
         $(document).ready(function() {
-            //initialize a new uploader in specified container
-            var uploader = new Uploader($("#uploader"));
+            //initialize a new uploader in specified container  
+            var guid = 1;
+            var lat = parseFloat('<%= Model.Lat %>');
+            var lng = parseFloat('<%= Model.Lng %>');
+            var zoom = parseInt('<%= Model.Zoom %>');
+
+            var uploader = new Uploader(guid, lat, lng, zoom);
         });
     </script>
     
@@ -28,12 +35,14 @@
             <h3><%= UIHelper.T("msg.selectPicture") %></h3>
             <table style="width: 100%;">
                 <tr>
-                    <td style="padding: 3px; width: 100px;"><img src="<%= UriHelper.Images %>nophoto.png" /></td>
+                    <td style="padding: 3px; width: 100px;">
+                        <div id="uploadButton" style="cursor: pointer;"><img src="<%= UriHelper.Images %>nophoto.png" /></div>
+                    </td>
                     <td style="padding: 3px;" >
                         <table width="100%">
                             <tr><td><%= UIHelper.T("msg.clickPictureToChange") %></tr>
-                            <tr><td><div class="uploadStatus">Status</div></td></tr>
-                            <tr><td><div class="uploadProgress"></div></td></tr>
+                            <tr><td><div class="uploadStatus hidden">Status</div></td></tr>
+                            <tr><td><div class="uploadProgress hidden"></div></td></tr>
                         </table>
                     </td>
                 </tr>

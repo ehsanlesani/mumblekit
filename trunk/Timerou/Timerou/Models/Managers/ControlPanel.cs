@@ -22,24 +22,27 @@ namespace Mumble.Timerou.Models.Managers
         }
 
         /// <summary>
-        /// Save a picture into album creating avatar and optimized into filesystem
+        /// Save temp picture for user
         /// </summary>
-        /// <param name="album"></param>
-        /// <param name="stream"></param>
-        /// <param name="p"></param>
+        /// <param name="pictureStream"></param>
         /// <returns></returns>
-        public Picture SavePicture(Stream pictureStraem, string fileName)
+        public Picture CreateTempPicture(Stream pictureStream)
         {
-            throw new NotImplementedException();
             //create picture object and save optimized, avatar and original
-            //Picture picture = Picture.CreatePicture(Guid.NewGuid(), 0, DateTime.Now, Path.GetFileNameWithoutExtension(fileName), false, 0, 0);
-            //album.Pictures.Add(picture);
-            
-            //picture.Save(pictureStraem);
+            Picture picture = new Picture()
+            {
+                Id = Guid.NewGuid(),
+                User = _user,
+                IsTemp = true,
+                Created = DateTime.Now                
+            };
 
-            //_container.SaveChanges();
+            picture.Save(pictureStream);
 
-            //return picture;
+            _container.AddToMapObjects(picture);
+            _container.SaveChanges();
+
+            return picture;
         }
     }
 }

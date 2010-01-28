@@ -80,6 +80,7 @@
     <Compile Include="Models\Exceptions\ExistingEmailException.cs" />
     <Compile Include="Models\Exceptions\LoginException.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\Helpers\ImageHelper.cs" />
     <Compile Include="Models\Helpers\UIHelper.cs" />
     <Compile Include="Models\Helpers\UriHelper.cs" />
     <Compile Include="Models\Managers\AccountManager.cs" />
