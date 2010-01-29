@@ -59,7 +59,7 @@
             <table>
                 <tr><td colspan="2" style="padding: 3px;"><input type="text" /><input type="button" value='<%= UIHelper.T("txt.search") %>' /></td></tr>            
                 <tr>
-                    <td valign="top" style="width: 300px; padding: 3px;"><div id="map" style="height: 200px; width: 300px;"></div></td>
+                    <td valign="top" style="width: 300px; padding: 3px;"><div id="map" style="height: 500px; width: 500px;"></div></td>
                     <td valign="top" style="padding: 3px;">
                         <p class="country">Italy</p>
                         <p class="region">Basilicata</p>

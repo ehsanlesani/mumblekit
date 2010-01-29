@@ -99,7 +99,8 @@ Uploader.prototype = {
             scrollwheel: true,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
-            scaleControl: false
+            scaleControl: false,
+            navigationControl: false
         });
 
         google.maps.event.addListener(map, "click", function(e) {
@@ -114,9 +115,10 @@ Uploader.prototype = {
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({ 'latLng': e.latLng }, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
-                    self.marker.setPosition(e.latLng);
-                    map.panTo(e.latLng);
+                    self.marker.setPosition(results[0].geometry.location);
                     $(".address").html(results[0].formatted_address);
+
+                    setTimeout(function() { map.panTo(results[0].geometry.location); }, 1000);
                 } else {
                     alert("Geocoder failed due to: " + status);
                 }
