@@ -18,7 +18,7 @@ namespace Mumble.Timerou.Models
         /// Save picture creating avatar and optimized using original stream
         /// </summary>
         /// <param name="pictureStream">Contains picture data</param>
-        public void Save(Stream pictureStream)
+        public void SaveFiles(Stream pictureStream)
         {
             //load original image
             Image original = Image.FromStream(pictureStream);
@@ -32,12 +32,80 @@ namespace Mumble.Timerou.Models
             pictureStream.Close();
         }
 
+        /// <summary>
+        /// Change picture assignment changing file names, height and width. This is possible only for temp pictures
+        /// </summary>
+        /// <param name="newPicture"></param>
+        public void AssignFilesToOtherPicture(Picture newPicture)
+        {
+            if (!(IsTemp.HasValue && IsTemp.Value))
+            {
+                throw new InvalidOperationException("You can change assignment only if picture is temporary");
+            }
+            
+            string originalPath = null;
+            string newPath = null;
+            
+            //rename original
+            originalPath = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], OriginalPath));
+            newPath = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], newPicture.OriginalPath));
+            this.RenameFile(originalPath, newPath);
+
+            //rename optimized
+            originalPath = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], OptimizedPath));
+            newPath = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], newPicture.OptimizedPath));
+            this.RenameFile(originalPath, newPath);
+
+            //rename avatar
+            originalPath = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], AvatarPath));
+            newPath = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], newPicture.AvatarPath));
+            this.RenameFile(originalPath, newPath);
+
+            newPicture.Height = Height;
+            newPicture.Width = Width;
+        }
+
+        /// <summary>
+        /// Delete all picture related files (if exists) from disk
+        /// </summary>
+        public void DeleteFiles()
+        {
+            string path = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], OriginalPath));
+            if (File.Exists(path)) { File.Delete(path); }
+            path = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], OptimizedPath));
+            if (File.Exists(path)) { File.Delete(path); }
+            path = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], AvatarPath));
+            if (File.Exists(path)) { File.Delete(path); }
+        }
+
+        private void RenameFile(string source, string destination)
+        {
+            //check if source exitst
+            if (File.Exists(source))
+            {
+                //check if destination exists and delete it
+                if (File.Exists(destination))
+                {
+                    File.Delete(destination);
+                }
+
+                File.Move(source, destination);
+            }
+            else
+            {
+                throw new FileNotFoundException(source);
+            }
+        }
+
         private void CreateOptimized(Image original)
         {
             int maxWidth = Int32.Parse(ConfigurationManager.AppSettings["MaxPictureWidth"]);
             int maxHeight = Int32.Parse(ConfigurationManager.AppSettings["MaxPictureHeight"]);
 
             Image optimized = ImageHelper.CreateOptimized(original, maxWidth, maxHeight);
+
+            Height = optimized.Height;
+            Width = optimized.Width;
 
             string path = HttpContext.Current.Server.MapPath(String.Format("/{0}/{1}", ConfigurationManager.AppSettings["BasePicturesPath"], OptimizedPath));
             SavePicture(optimized, path);

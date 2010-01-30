@@ -2,6 +2,8 @@
 
 <asp:Content ID="UploadContent" ContentPlaceHolderID="MainContent" runat="server">
 
+    <% if(Model != null) { %>
+
     <script type="text/javascript">
         var FORMAT_NOT_ALLOWED = '<%= UIHelper.T("err.formatNotAllowed") %>';
         var PICTURE_UPLOADED = '<%= UIHelper.T("msg.pictureUploaded") %>';
@@ -20,8 +22,8 @@
     <script type="text/javascript">
 
         $(document).ready(function() {
-            var lat = parseFloat('<%= Model.Lat %>');
-            var lng = parseFloat('<%= Model.Lng %>');
+            var lat = new Number('<%= Model.Lat %>');
+            var lng = new Number('<%= Model.Lng %>');
             var zoom = parseInt('<%= Model.Zoom %>');
             var year = parseInt('<%= Model.Year %>');
 
@@ -47,7 +49,14 @@
             <table style="width: 100%;">
                 <tr>
                     <td style="padding: 3px; width: 100px;">
-                        <div id="uploadButton" style="cursor: pointer;"><img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" /></div>
+                        <div id="uploadButton" style="cursor: pointer;">
+                            <% if (Model.Picture != null) { %> 
+                                <img src="<%= UriHelper.Pictures %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
+                            <% } else { %> 
+                                <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
+                            <% } %>
+                            
+                        </div>
                     </td>
                     <td style="padding: 3px;" >
                         <table width="100%">
@@ -95,27 +104,28 @@
             <div class="errorbox hidden" id="infoErrorBox">Error</div>
             
             <% using (Html.BeginForm("SavePicture", "Account", FormMethod.Post, new { id = "pictureForm" })) { %>
-                <input type="hidden" name="pictureId" />
-                <input type="hidden" name="tempPictureId" />
-                <input type="hidden" name="country" />
-                <input type="hidden" name="countryCode" />
-                <input type="hidden" name="region" />
-                <input type="hidden" name="postalCode" />
-                <input type="hidden" name="city" />
-                <input type="hidden" name="province" />
-                <input type="hidden" name="address" />
-                <input type="hidden" name="lat" />
-                <input type="hidden" name="lng" />                
+                <%= Html.Hidden("pictureId", Model.Val(x => x.Id)) %>
+                <%= Html.Hidden("tempPictureId") %>
+                <%= Html.Hidden("year", Model.Val(x => x.Year))%>
+                <%= Html.Hidden("country", Model.Val(x => x.Country)) %>
+                <%= Html.Hidden("countryCode", Model.Val(x => x.CountryCode)) %>
+                <%= Html.Hidden("region", Model.Val(x => x.Region)) %>
+                <%= Html.Hidden("postalCode", Model.Val(x => x.PostalCode)) %>
+                <%= Html.Hidden("city", Model.Val(x => x.City)) %>
+                <%= Html.Hidden("province", Model.Val(x => x.Province)) %>
+                <%= Html.Hidden("address", Model.Val(x => x.Address)) %>
+                <%= Html.Hidden("lat", Model.Val(x => x.Lat)) %>
+                <%= Html.Hidden("lng", Model.Val(x => x.Lng)) %>
                 
                 <fieldset>
                     <p>
                         <label><%= UIHelper.T("txt.title")%></label>
-                        <input type="text" name="title" id="pictureTitle" style="width: 100%" />
+                        <%= Html.TextBox("title", Model.Val(x => x.Title), new { id="pictureTitle", style="width: 100%;" })%>
                     </p>
                     
                     <p>
                         <label><%= UIHelper.T("txt.body")%></label>
-                        <textarea style="width: 100%" class="bodyEditor" id="pictureBody" name="body"></textarea>
+                        <textarea style="width: 100%" class="bodyEditor" id="pictureBody" name="body"><%= Model.Val(x => x.Body) %></textarea>
                     </p>
                 </fieldset>
                 
@@ -124,4 +134,6 @@
             <% } %>            
         </div>    
     </div>
+    
+    <% } %>
 </asp:Content>

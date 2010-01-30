@@ -47,3 +47,6 @@ msg.selectedLocation = msg.selectedLocation
 msg.savePicture = msg.savePicture
 msg.returnToMap = msg.returnToMap
 msg.checkInformations = msg.checkInformations
+msg.min5char = msg.min5char
+msg.badPasswordConfirm = msg.badPasswordConfirm
+msg.confirmPass = msg.confirmPass

@@ -75,7 +75,9 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\ControllerExtension.cs" />
-    <Compile Include="Models\Controls\LoginModel.cs" />
+    <Compile Include="Models\Exceptions\PropertyNotFoundException.cs" />
+    <Compile Include="Models\ViewData\BaseModel.cs" />
+    <Compile Include="Models\ViewData\LoginModel.cs" />
     <Compile Include="Models\Exceptions\AuthException.cs" />
     <Compile Include="Models\Exceptions\ExistingEmailException.cs" />
     <Compile Include="Models\Exceptions\LoginException.cs" />
@@ -85,7 +87,7 @@
     <Compile Include="Models\Helpers\UriHelper.cs" />
     <Compile Include="Models\Managers\AccountManager.cs" />
     <Compile Include="Models\Managers\ControlPanel.cs" />
-    <Compile Include="Models\Pages\UploadModel.cs" />
+    <Compile Include="Models\ViewData\UploadModel.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Responses\AddPictureResponse.cs" />
     <Compile Include="Models\Responses\CreateAlbumResponse.cs" />

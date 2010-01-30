@@ -69,15 +69,17 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Views" Type="int" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
-          <Property Name="Lat" Type="real" Nullable="false" />
-          <Property Name="Lng" Type="real" Nullable="false" />
+          <Property Name="Lat" Type="float" Nullable="false" />
+          <Property Name="Lng" Type="float" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
           <Property Name="Country" Type="nvarchar(max)" />
+          <Property Name="CountryCode" Type="nvarchar" MaxLength="20" />
           <Property Name="PostalCode" Type="nvarchar(max)" />
           <Property Name="City" Type="nvarchar(max)" />
           <Property Name="Region" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Province" Type="nvarchar(max)" />
-          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="Body" Type="text" />
           <Property Name="Height" Type="int" />
           <Property Name="Width" Type="int" />
@@ -103,8 +105,8 @@
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Lat" Type="real" />
-          <Property Name="Lng" Type="real" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Lng" Type="float" />
           <Property Name="Culture" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK_Comments_MapObjects">
@@ -235,8 +237,8 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Views" Type="Int32" Nullable="false" />
           <Property Name="Created" Type="DateTime" Nullable="false" />
-          <Property Name="Lat" Type="Single" Nullable="false" />
-          <Property Name="Lng" Type="Single" Nullable="false" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Lng" Type="Double" Nullable="false" />
           <Property Name="Country" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="PostalCode" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="City" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
@@ -248,7 +250,8 @@
           <NavigationProperty Name="Comments" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="MapObjects" ToRole="Comments" />
           <NavigationProperty Name="User" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="MapObjects" ToRole="Users" />
           <NavigationProperty Name="Tags" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="MapObjects" ToRole="Tags" />
-          </EntityType>
+          <Property Name="CountryCode" Type="String" Nullable="true" />
+          <Property Name="Year" Type="Int32" Nullable="false" /></EntityType>
         <EntityType Name="Tag">
           <Key>
             <PropertyRef Name="Id" />
@@ -267,8 +270,8 @@
           <Property Name="Address" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Lat" Type="Single" />
-          <Property Name="Lng" Type="Single" />
+          <Property Name="Lat" Type="Double" />
+          <Property Name="Lng" Type="Double" />
           <Property Name="Culture" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Comments" Relationship="TimerouModel.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
           <NavigationProperty Name="MapObjects" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="Users" ToRole="MapObjects" />
@@ -324,6 +327,8 @@
           <EntitySetMapping Name="MapObjects">
             <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.MapObject)">
               <MappingFragment StoreEntitySet="MapObjects">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Views" ColumnName="Views" />
                 <ScalarProperty Name="Created" ColumnName="Created" />

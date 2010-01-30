@@ -6,6 +6,7 @@ Url.HomeAddStatus = BASEURL + "Home/AddStatus";
 
 Url.AccountRegister = BASEURL + "Account/Register/";
 Url.AccountUpload = BASEURL + "Account/AddPicture";
+Url.AccountCulture = BASEURL + "Account/ChangeCulture";
 
 Url.Pictures = BASEURL + "Pictures/";
 

@@ -147,6 +147,7 @@ namespace Mumble.Timerou.Models.Managers
 
             User user = new User()
             {
+                Id = Guid.NewGuid(),
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,

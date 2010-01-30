@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Mumble.Timerou.Models.ViewData;
 
 namespace Mumble.Timerou.Models.Pages
 {
-    public class UploadModel
+    public class UploadModel : BaseModel<Picture>
     {
         public UploadModel()
         {
@@ -15,9 +16,15 @@ namespace Mumble.Timerou.Models.Pages
             Year = DateTime.Now.Year;
         }
 
-        public float Lat { get; set; }
-        public float Lng { get; set; }
+        public double Lat { get; set; }
+        public double Lng { get; set; }
         public int Zoom { get; set; }
         public int Year { get; set; }
+        public Picture Picture { get; set; }
+
+        protected override Picture GetValueObject()
+        {
+            return Picture;
+        }
     }
 }

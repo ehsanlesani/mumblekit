@@ -89,24 +89,98 @@ namespace Mumble.Timerou.Controllers
         /// Render upload form
         /// </summary>
         /// <returns></returns>
-        public ActionResult Upload(float? lat, float? lng, int? zoom, int? year)
+        public ActionResult Upload(Guid? id, float? lat, float? lng, int? zoom, int? year)
         {
             try
             {
                 Authorize();
+
+                UploadModel model = new UploadModel();
+
+                if (id.HasValue)
+                {
+                    model.Picture = Container.MapObjects.OfType<Picture>().Where(p => p.Id == id).First();
+                }
+
+                if (lat.HasValue) { model.Lat = lat.Value; }
+                if (lng.HasValue) { model.Lng = lng.Value; }
+                if (zoom.HasValue) { model.Zoom = zoom.Value; }
+                if (year.HasValue) { model.Year = year.Value; }
+
+                return View(model);
+            }
+            catch (AuthException)
+            {
+                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Upload", "Account") });
+            }            
+        }
+
+        /// <summary>
+        /// Save picture information
+        /// </summary>
+        /// <param name="pictureId"></param>
+        /// <param name="tempPictureId"></param>
+        /// <param name="title"></param>
+        /// <param name="body"></param>
+        /// <param name="country"></param>
+        /// <param name="countryCode"></param>
+        /// <param name="region"></param>
+        /// <param name="postalCode"></param>
+        /// <param name="city"></param>
+        /// <param name="province"></param>
+        /// <param name="address"></param>
+        /// <param name="lat"></param>
+        /// <param name="lng"></param>
+        /// <returns></returns>
+        [ValidateInput(false)]
+        public ActionResult SavePicture(
+            Guid? pictureId, //editing picture id. if null is a new picture
+            Guid? tempPictureId, 
+            string title,
+            string body,
+            string country, 
+            string countryCode, 
+            string region, 
+            string postalCode, 
+            string city, 
+            string province, 
+            string address, 
+            string lat,
+            string lng,
+            int year)
+        {
+            try
+            {
+                Authorize();
+
+                //load english culture for float parsing
+                CultureInfo culture = CultureInfo.GetCultureInfo("en-US");
+                double dLat = double.Parse(lat, culture.NumberFormat);
+                double dLng = double.Parse(lng, culture.NumberFormat);
+
+                ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
+                Picture picture = controlPanel.SavePicture(
+                    pictureId, 
+                    tempPictureId, 
+                    title, 
+                    body, 
+                    country, 
+                    countryCode, 
+                    region, 
+                    postalCode, 
+                    city, 
+                    province, 
+                    address, 
+                    dLat, 
+                    dLng,
+                    year);
+                return RedirectToAction("Show", "Pictures", new { id = picture.Id });
             }
             catch (AuthException)
             {
                 return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Upload", "Account") });
             }
-
-            UploadModel model = new UploadModel();
-            if (lat.HasValue) { model.Lat = lat.Value; }
-            if (lng.HasValue) { model.Lng = lng.Value; }
-            if (zoom.HasValue) { model.Zoom = zoom.Value; }
-            if (year.HasValue) { model.Year = year.Value; }
-
-            return View(model);
+            
         }
 
         #region Ajax
