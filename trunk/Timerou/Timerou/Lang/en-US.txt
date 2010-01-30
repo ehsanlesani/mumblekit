@@ -29,3 +29,21 @@ txt.select = Select
 
 //globals
 txt.confirm = Confirm
+
+txt.login = txt.login
+err.formatNotAllowed = err.formatNotAllowed
+msg.pictureUploaded = msg.pictureUploaded
+txt.uploading = txt.uploading
+err.locationUnavailable = err.locationUnavailable
+msg.selectPeriod = msg.selectPeriod
+msg.selectPicture = msg.selectPicture
+msg.clickPictureToChange = msg.clickPictureToChange
+msg.selectLocation = msg.selectLocation
+msg.noLocationSelected = msg.noLocationSelected
+msg.pictureInfos = msg.pictureInfos
+txt.title = txt.title
+txt.body = txt.body
+msg.selectedLocation = msg.selectedLocation
+msg.savePicture = msg.savePicture
+msg.returnToMap = msg.returnToMap
+msg.checkInformations = msg.checkInformations

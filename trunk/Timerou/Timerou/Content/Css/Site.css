@@ -257,3 +257,29 @@ label.error
 {
     border: 0px;
 }
+
+.fakeInput 
+{
+    border: solid 1px black;
+    padding: 3px;
+    height: 22px;
+    background-color: White;
+}
+
+.fakeInput td 
+{
+    vertical-align: middle;
+}
+
+.fakeInput input[type=text] 
+{
+    border: 0px;
+    width: 222px;
+    font-size: 14px;
+    margin: 0px;
+    width: 100%;
+}
+
+.fakeInput a:link, .fakeInput a:hover, .fakeInput a:visited
+{
+}

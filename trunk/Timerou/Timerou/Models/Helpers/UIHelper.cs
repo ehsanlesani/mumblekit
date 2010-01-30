@@ -98,9 +98,24 @@ namespace Mumble.Timerou.Models.Helpers
             Dictionary<string, string> dictionary = GetCurrentDictionary();
             if (dictionary.ContainsKey(key))
                 return dictionary[key];
-
+#if DEBUG
+            AddKeyToResourceFile(key);
+#endif
             return key;
         }
+
+#if DEBUG
+        private static void AddKeyToResourceFile(string key)
+        {
+            //if key not found add to current localization file
+            string path = HttpContext.Current.Server.MapPath(String.Format("/Lang/{0}.txt", CurrentCulture));
+            File.AppendAllText(path, String.Format("{0} = {0}{1}", key, Environment.NewLine));
+
+            //add current key to dictionary because is already inserted into file
+            Dictionary<string, string> dictionary = GetCurrentDictionary();
+            dictionary.Add(key, String.Format("ADD({0})", key));
+        }
+#endif
 
         /// <summary>
         /// Gets or load current culture dictionary

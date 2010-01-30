@@ -1,27 +1,57 @@
-﻿/// <reference path="libs/google.maps-v3-vsdoc.js" />
+﻿/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
+/// <reference path="libs/google.maps-v3-vsdoc.js" />
 /// <reference path="Url.js" />
 
-var __progressValue = 10;
-var __timer = null;
-
-function Uploader(lat, lng, zoom) {
-    this.year = new Date().getFullYear();
-    this.lat = lat;
-    this.lng = lng;
-    this.zoom = zoom;
-    this.pictureUploaded = false;
-    this.pictureId = null;
+function Uploader(lat, lng, zoom, year) {
+    //initial values getted from main map
+    this.lat = lat || 40.6686534; //initial lat
+    this.lng = lng || 16.6060872; //initial lng
+    this.zoom = zoom || 5; //initial zoom
+    this.year = year || new Date().getFullYear(); //initial year
     this.marker = null;
-    
-    this.initialize();
+    this.map = null;
+    this.errorTimers = {};
+    this.progressValue = 10; //progress bar variable for bar animation
+    this.progressTimer = null;
+
+    //check variables
+    this.pictureUploaded = false;
+    this.locationSelected = false;
 }
 
 Uploader.prototype = {
     initialize: function() {
+        var self = this;
+
         this.initializeSliders();
         this.initializeUpload();
         this.initializeMaps();
         this.initializeTextareas();
+
+        $("#pictureForm").submit(function() {
+            var allOk = true;
+
+            if (!self.pictureUploaded) {
+                allOk = false;
+                self.showErrorBox("upload", SELECT_PICTURE);
+            }
+
+            if (!self.locationSelected) {
+                allOk = false;
+                self.showErrorBox("map", SELECT_LOCATION);
+            }
+
+            if ($("#pictureTitle").val().length == 0) {
+                allOk = false;
+                self.showErrorBox("info", CHECK_INFORMATIONS);
+            }
+
+            return allOk;
+        });
+    },
+
+    checkFormHandler: function() {
+        
     },
 
     initializeSliders: function() {
@@ -29,21 +59,23 @@ Uploader.prototype = {
 
         $(".yearSlider").slider({
             min: 1839,
-            max: 2010,
+            max: new Date().getFullYear(),
             value: this.year,
             slide: function(event, ui) {
                 self.year = ui.value;
-                $(".year").html(self.year);
+                $("#yearLabel").html(self.year);
+                self.setInput("#yearLabel", self.year);
             }
         });
 
         $(".year").html(self.year);
+        self.setInput("year", self.year);
     },
 
     initializeUpload: function() {
         var self = this;
 
-        $(".uploadProgress").progressbar({ value: 10 });
+        $("#uploadProgress").progressbar({ value: 10 });
 
         new AjaxUpload('uploadButton', {
             action: Url.AccountUpload,
@@ -54,37 +86,39 @@ Uploader.prototype = {
             responseType: "json",
             onChange: function(file, extension) { },
             onSubmit: function(file, extension) {
-                $(".uploadStatus").show();
-                if (!extension || !/^(jpg|jpeg)$/.test(extension.toLowerCase())) {
-                    $(".uploadStatus").html(FORMAT_NOT_ALLOWED);
+                if (!(extension && /^(jpg|jpeg)$/.test(extension.toLowerCase()))) {
+                    self.showErrorBox("upload", FORMAT_NOT_ALLOWED, 5000);
                     return false;
                 }
 
-                $(".uploadStatus").html(UPLOADING + " " + file);
-                $(".uploadProgress").show();
+                self.hideErrorBox("upload");
+
+                $("#uploadStatus").show().html(UPLOADING + " " + file);
+                $("#uploadProgress").show();
 
                 //animate progress bar
-                __timer = window.setInterval(function() {
-                    __progressValue += 10;
-                    if (__progressValue > 100) {
-                        __progressValue = 10;
+                self.progressTimer = window.setInterval(function() {
+                    self.progressValue += 10;
+                    if (self.progressValue > 100) {
+                        self.progressValue = 10;
                     }
-                    $(".uploadProgress").progressbar("value", __progressValue);
+                    $("#uploadProgress").progressbar("value", self.progressValue);
                 }, 250);
             },
             onComplete: function(file, response) {
                 //remove progressbar animation
-                window.clearInterval(__timer);
-                __timer = null;
-                $(".uploadProgress").hide();
+                window.clearInterval(self.progressTimer);
+                self.progressTimer = null;
+                $("#uploadProgress").hide();
 
                 if (response.error) {
-                    $(".uploadStatus").html(response.message);
+                    self.showErrorBox("upload", response.message, 5000);
                 } else {
                     self.pictureUploaded = true;
-                    self.pictureId = response.id;
-                    $(".uploadStatus").html(PICTURE_UPLOADED);
+                    $("#uploadStatus").html(PICTURE_UPLOADED);
                     $("#uploadButton").find("img").attr("src", Url.Pictures + response.picture.avatarPath);
+
+                    self.setInput("tempPictureId", response.picture.id);
                 }
             }
         });
@@ -93,45 +127,209 @@ Uploader.prototype = {
     initializeMaps: function() {
         var self = this;
 
-        var map = new google.maps.Map(document.getElementById("map"), {
-            center: new google.maps.LatLng(50, 50),
-            zoom: 5,
+        //initialize map
+        self.map = new google.maps.Map(document.getElementById("map"), {
+            center: new google.maps.LatLng(self.lat, self.lng),
+            zoom: self.zoom,
             scrollwheel: true,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
             scaleControl: false,
-            navigationControl: false
+            navigationControl: true,
+            disableDoubleClickZoom: true
         });
 
-        google.maps.event.addListener(map, "click", function(e) {
-            if (self.marker == null) {
-                self.marker = new google.maps.Marker({
-                    position: e.latLng,
-                    map: map
-                });
-            }
-
+        google.maps.event.addListener(self.map, "click", function(e) {
             //get geolocation info of clicked point
             var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'latLng': e.latLng }, function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    self.marker.setPosition(results[0].geometry.location);
-                    $(".address").html(results[0].formatted_address);
+            geocoder.geocode({ 'latLng': e.latLng }, function(results, status) { self.geocodeResultHandler(results, status, e.latLng); });
+        });
 
-                    setTimeout(function() { map.panTo(results[0].geometry.location); }, 1000);
-                } else {
-                    alert("Geocoder failed due to: " + status);
-                }
-            });
+        //initialize search location
+
+        //set default action if ENTER is pressed
+        $("#mapSearchKeyword").keypress(function(e) {
+            if (e.which == 13) {
+                $("#mapSearchButton").click();
+            }
+        });
+
+        $("#mapSearchButton").click(function() {
+            //get geocode position
+            var keyword = $("#mapSearchKeyword").val();
+            if (keyword.length == 0) {
+                $("#mapSearchKeyword").focus();
+            }
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: keyword }, function(results, status) { self.geocodeResultHandler(results, status); });
         });
     },
 
+    geocodeResultHandler: function(results, status, markerLatLng, previousLatLng) {
+        var self = this;
+        if (status == google.maps.GeocoderStatus.OK) {
+            Utils.trace(results);
+
+            //hide error box if visible
+            self.hideErrorBox("map");
+            var bestResult = results[0];
+
+            //if marker latlng is null or undefined the handler is called by keyword search result, otherwise by map mouse click
+            if (Utils.isNullOrUndef(markerLatLng)) {
+                markerLatLng = bestResult.geometry.location;
+            }
+
+            //create marker object if not already created
+            if (self.marker == null) {
+                self.marker = new google.maps.Marker({
+                    position: markerLatLng,
+                    map: self.map,
+                    draggable: true
+                });
+
+                //drag&drop needs to store initial position to restore back position in case of geocode error
+                var markerStartPosition = null;
+                //initialize marker drag&drop
+                google.maps.event.addListener(self.marker, "dragstart", function(e) {
+                    markerStartPosition = self.marker.getPosition();
+                });
+
+                google.maps.event.addListener(self.marker, "dragend", function(e) {
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ 'latLng': e.latLng }, function(results, status) { self.geocodeResultHandler(results, status, e.latLng, markerStartPosition); });
+                });
+            }
+
+            //move map and marker to correct position
+            self.marker.setPosition(markerLatLng);
+            self.map.panTo(markerLatLng);
+
+            //set labels for user feedback
+            $("#mapLocationLabel").html(bestResult.formatted_address);
+            $("#mapLatLngLabel").html("Lat: " + markerLatLng.lat() + ", Lng: " + markerLatLng.lng());
+
+            //set inputs values using best result (usually the first)
+            var country = self.findCountryFromResult(bestResult);
+            var region = self.findRegionFromResult(bestResult);
+            var province = self.findProvinceFromResult(bestResult);
+            var postalCode = self.findPostalCodeFromResult(bestResult);
+            var city = self.findCityFromResult(bestResult);
+            var address = self.findAddressFromResult(bestResult);
+
+            self.setInput("country", country != null ? country.longName : "");
+            self.setInput("countryCode", country != null ? country.shortName : "");
+            self.setInput("region", region != null ? region.shortName : "");
+            self.setInput("postalCode", postalCode != null ? postalCode.shortName : "");
+            self.setInput("city", city != null ? city.shortName : "");
+            self.setInput("province", province != null ? province.shortName : "");
+            self.setInput("address", address != null ? address.longName : "");
+            self.setInput("lat", markerLatLng.lat());
+            self.setInput("lng", markerLatLng.lng());
+
+            //set title with formatted_address if is empty
+            if ($("#pictureTitle").val().length == 0) {
+                $("#pictureTitle").val(bestResult.formatted_address);
+            }
+
+            self.locationSelected = true;
+
+        } else {
+            //show error box
+            self.showErrorBox("map", LOCATION_UNAVAILABLE, 5000);
+
+            //if previus marker position is specified (usually from d&d), last position is restored
+            if (!Utils.isNullOrUndef(previousLatLng)) {
+                if (self.marker != null) {
+                    self.marker.setPosition(previousLatLng);
+                }
+            }
+
+            Utils.trace("Geocoder failed due to: " + status);
+        }
+    },
+
+    findCountryFromResult: function(result) {
+        return this.findFromResult(result, "country");
+    },
+
+    findRegionFromResult: function(result) {
+        return this.findFromResult(result, "administrative_area_level_1");
+    },
+
+    findProvinceFromResult: function(result) {
+        return this.findFromResult(result, "administrative_area_level_2");
+    },
+
+    findPostalCodeFromResult: function(result) {
+        return this.findFromResult(result, "postal_code");
+    },
+
+    findCityFromResult: function(result) {
+        return this.findFromResult(result, "locality");
+    },
+
+    findAddressFromResult: function(result) {
+        var route = this.findFromResult(result, "route");
+    },
+
+    findFromResult: function(result, key) {
+        var value = null;
+
+        $(result.address_components).each(function(i, address) {
+            if ($.inArray(key, address.types) != -1) {
+                value = { longName: address.long_name, shortName: address.short_name };
+                return;
+            }
+        });
+
+        Utils.trace(key);
+        if (value != null) { Utils.trace(value); }
+        else { Utils.trace("value is null"); }
+
+        return result;
+    },
+
     initializeTextareas: function() {
+        var self = this;
+
+        $("#pictureTitle").change(function() {
+            if ($("#pictureTitle").val().length > 0) {
+                self.hideErrorBox("info");
+            } else {
+                self.showErrorBox("info", CHECK_INFORMATIONS);
+            }
+        });
+
         tinyMCE.init({
             mode: "textareas",
             theme: "simple",
             editor_selector: "bodyEditor",
             editor_deselector: "mceNoEditor"
         });
+    },
+
+    setInput: function(inputName, value) {
+        $('input [type="hidden"][name="' + inputName + '"]').val(value);
+    },
+
+    showErrorBox: function(area, message, closeDelay) {
+        if (!Utils.isNullOrUndef(this.errorTimers[area])) {
+            window.clearTimeout(this.errorTimers[area]);
+        }
+
+        $("#" + area + "ErrorBox").html(message)
+        $("#" + area + "ErrorBox:hidden").show("blind", 250);
+        if (!Utils.isNullOrUndef(closeDelay)) {
+            this.errorTimers[area] = window.setInterval(function() { $("#" + area + "ErrorBox:visible").hide("blind", 250) }, closeDelay);
+        }
+    },
+
+    hideErrorBox: function(area, message, closeDelay) {
+        if (!Utils.isNullOrUndef(this.errorTimers[area])) {
+            window.clearTimeout(this.errorTimers[area]);
+        }
+
+        $("#" + area + "ErrorBox:visible").hide("blind", 250)
     }
 };

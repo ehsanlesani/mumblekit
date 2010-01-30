@@ -89,7 +89,7 @@ namespace Mumble.Timerou.Controllers
         /// Render upload form
         /// </summary>
         /// <returns></returns>
-        public ActionResult Upload(float? lat, float? lng, int? zoom)
+        public ActionResult Upload(float? lat, float? lng, int? zoom, int? year)
         {
             try
             {
@@ -100,12 +100,13 @@ namespace Mumble.Timerou.Controllers
                 return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Upload", "Account") });
             }
 
-            return View(new UploadModel()
-            {
-                Lat = lat,
-                Lng = lng,
-                Zoom = zoom
-            });
+            UploadModel model = new UploadModel();
+            if (lat.HasValue) { model.Lat = lat.Value; }
+            if (lng.HasValue) { model.Lng = lng.Value; }
+            if (zoom.HasValue) { model.Zoom = zoom.Value; }
+            if (year.HasValue) { model.Year = year.Value; }
+
+            return View(model);
         }
 
         #region Ajax
@@ -210,16 +211,16 @@ namespace Mumble.Timerou.Controllers
                 //Get file from post
                 HttpPostedFileBase file = Request.Files[0];
 
-                //check extension
-                string extension = Path.GetExtension(file.FileName).ToLower();
-                if (extension != "jpg" && extension != "jpeg")
-                {
-                    throw new FormatException();
-                }
-
                 if (file.ContentLength == 0)
                 {
                     throw new Exception("File not specified");
+                }
+
+                //check extension
+                string extension = Path.GetExtension(file.FileName).ToLower();
+                if (extension != ".jpg" && extension != ".jpeg")
+                {
+                    throw new FormatException();
                 }
 
                 ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
@@ -231,7 +232,7 @@ namespace Mumble.Timerou.Controllers
             {
                 response = new SimpleResponse(true, UIHelper.Translate("err.unauthorized"));
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 response = new SimpleResponse(true, UIHelper.Translate("err.formatNotAllowed"));
             }

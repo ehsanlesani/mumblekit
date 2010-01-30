@@ -7,3 +7,9 @@ Utils.isNullOrUndef = function(obj) {
 Utils.isNullOrEmpty = function (string) {
     return (string == undefined || string == null || string == "");
 };
+
+Utils.trace = function(string) {
+    if (window.console) {
+        window.console.log(string);
+    }
+}

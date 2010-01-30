@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -122,7 +122,6 @@
     <Content Include="Content\Images\profile.png" />
     <Content Include="Global.asax" />
     <Content Include="Lang\en-US.txt" />
-    <Content Include="Lib\Newtonsoft.Json.Net20.dll" />
     <Content Include="Scripts\Account.js" />
     <Content Include="Scripts\ActionBox.js" />
     <Content Include="Scripts\jquery\ajaxupload.js" />
@@ -171,6 +170,8 @@
       <DependentUpon>Timerou.mdf</DependentUpon>
     </Content>
     <Content Include="Content\Images\nophoto.png" />
+    <Content Include="Content\Images\search.png" />
+    <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />

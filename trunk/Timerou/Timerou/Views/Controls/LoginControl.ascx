@@ -8,8 +8,8 @@
                 password: "required"
             },
             messages: {
-                email: '<%= UIHelper.T("msg.lgn.invalidEmail") %>',
-                password: '<%= UIHelper.T("msg.lgn.passRequired") %>'
+                email: '<%= UIHelper.T("msg.invalidEmail") %>',
+                password: '<%= UIHelper.T("msg.passRequired") %>'
             }
         });
     });
@@ -18,7 +18,7 @@
 <% using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
    { %>
     <fieldset>
-        <legend><%= UIHelper.T("txt.sheepLogin")%></legend>
+        <legend><%= UIHelper.T("txt.login")%></legend>
         
         <% if (Model.HasError) { %>
                 <div class="errorbox"><%= Model.Error %></div>
