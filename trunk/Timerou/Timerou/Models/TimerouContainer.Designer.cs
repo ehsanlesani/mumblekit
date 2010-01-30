@@ -16,7 +16,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "GroupUser", "Groups", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Group), "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.User))]
 
 // Original file name:
-// Generation date: 28/01/2010 13:27:44
+// Generation date: 30/01/2010 21:55:22
 namespace Mumble.Timerou.Models
 {
     
@@ -508,7 +508,7 @@ namespace Mumble.Timerou.Models
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public float Lat
+        public double Lat
         {
             get
             {
@@ -523,15 +523,15 @@ namespace Mumble.Timerou.Models
                 this.OnLatChanged();
             }
         }
-        private float _Lat;
-        partial void OnLatChanging(float value);
+        private double _Lat;
+        partial void OnLatChanging(double value);
         partial void OnLatChanged();
         /// <summary>
         /// There are no comments for Property Lng in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public float Lng
+        public double Lng
         {
             get
             {
@@ -546,8 +546,8 @@ namespace Mumble.Timerou.Models
                 this.OnLngChanged();
             }
         }
-        private float _Lng;
-        partial void OnLngChanging(float value);
+        private double _Lng;
+        partial void OnLngChanging(double value);
         partial void OnLngChanged();
         /// <summary>
         /// There are no comments for Property Country in the schema.
@@ -733,6 +733,52 @@ namespace Mumble.Timerou.Models
         private string _Body;
         partial void OnBodyChanging(string value);
         partial void OnBodyChanged();
+        /// <summary>
+        /// There are no comments for Property CountryCode in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string CountryCode
+        {
+            get
+            {
+                return this._CountryCode;
+            }
+            set
+            {
+                this.OnCountryCodeChanging(value);
+                this.ReportPropertyChanging("CountryCode");
+                this._CountryCode = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("CountryCode");
+                this.OnCountryCodeChanged();
+            }
+        }
+        private string _CountryCode;
+        partial void OnCountryCodeChanging(string value);
+        partial void OnCountryCodeChanged();
+        /// <summary>
+        /// There are no comments for Property Year in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public int Year
+        {
+            get
+            {
+                return this._Year;
+            }
+            set
+            {
+                this.OnYearChanging(value);
+                this.ReportPropertyChanging("Year");
+                this._Year = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Year");
+                this.OnYearChanged();
+            }
+        }
+        private int _Year;
+        partial void OnYearChanging(int value);
+        partial void OnYearChanged();
         /// <summary>
         /// There are no comments for Comments in the schema.
         /// </summary>
@@ -1094,7 +1140,7 @@ namespace Mumble.Timerou.Models
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Nullable<float> Lat
+        public global::System.Nullable<double> Lat
         {
             get
             {
@@ -1109,15 +1155,15 @@ namespace Mumble.Timerou.Models
                 this.OnLatChanged();
             }
         }
-        private global::System.Nullable<float> _Lat;
-        partial void OnLatChanging(global::System.Nullable<float> value);
+        private global::System.Nullable<double> _Lat;
+        partial void OnLatChanging(global::System.Nullable<double> value);
         partial void OnLatChanged();
         /// <summary>
         /// There are no comments for Property Lng in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Nullable<float> Lng
+        public global::System.Nullable<double> Lng
         {
             get
             {
@@ -1132,8 +1178,8 @@ namespace Mumble.Timerou.Models
                 this.OnLngChanged();
             }
         }
-        private global::System.Nullable<float> _Lng;
-        partial void OnLngChanging(global::System.Nullable<float> value);
+        private global::System.Nullable<double> _Lng;
+        partial void OnLngChanging(global::System.Nullable<double> value);
         partial void OnLngChanged();
         /// <summary>
         /// There are no comments for Property Culture in the schema.
@@ -1241,7 +1287,8 @@ namespace Mumble.Timerou.Models
         /// <param name="created">Initial value of Created.</param>
         /// <param name="lat">Initial value of Lat.</param>
         /// <param name="lng">Initial value of Lng.</param>
-        public static Picture CreatePicture(global::System.Guid id, int views, global::System.DateTime created, float lat, float lng)
+        /// <param name="year">Initial value of Year.</param>
+        public static Picture CreatePicture(global::System.Guid id, int views, global::System.DateTime created, double lat, double lng, int year)
         {
             Picture picture = new Picture();
             picture.Id = id;
@@ -1249,6 +1296,7 @@ namespace Mumble.Timerou.Models
             picture.Created = created;
             picture.Lat = lat;
             picture.Lng = lng;
+            picture.Year = year;
             return picture;
         }
         /// <summary>
@@ -1340,7 +1388,8 @@ namespace Mumble.Timerou.Models
         /// <param name="created">Initial value of Created.</param>
         /// <param name="lat">Initial value of Lat.</param>
         /// <param name="lng">Initial value of Lng.</param>
-        public static HistoricEvent CreateHistoricEvent(global::System.Guid id, int views, global::System.DateTime created, float lat, float lng)
+        /// <param name="year">Initial value of Year.</param>
+        public static HistoricEvent CreateHistoricEvent(global::System.Guid id, int views, global::System.DateTime created, double lat, double lng, int year)
         {
             HistoricEvent historicEvent = new HistoricEvent();
             historicEvent.Id = id;
@@ -1348,6 +1397,7 @@ namespace Mumble.Timerou.Models
             historicEvent.Created = created;
             historicEvent.Lat = lat;
             historicEvent.Lng = lng;
+            historicEvent.Year = year;
             return historicEvent;
         }
     }

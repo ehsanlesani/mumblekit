@@ -50,12 +50,14 @@ Uploader.prototype = {
         });
     },
 
-    checkFormHandler: function() {
-        
-    },
-
     initializeSliders: function() {
         var self = this;
+
+        //check if editing picture and year already exists
+        var loadedYear = self.getInput("year");
+        if (loadedYear.length > 0) {
+            self.year = parseInt(loadedYear);
+        }
 
         $(".yearSlider").slider({
             min: 1839,
@@ -64,16 +66,19 @@ Uploader.prototype = {
             slide: function(event, ui) {
                 self.year = ui.value;
                 $("#yearLabel").html(self.year);
-                self.setInput("#yearLabel", self.year);
+                self.setInput("year", self.year);
             }
         });
 
-        $(".year").html(self.year);
+        $("#yearLabel").html(self.year);
         self.setInput("year", self.year);
     },
 
     initializeUpload: function() {
         var self = this;
+
+        //if there is a picture id into hidden input, is sure that a image exists
+        if (self.getInput("pictureId").length > 0) { self.pictureUploaded = true; }
 
         $("#uploadProgress").progressbar({ value: 10 });
 
@@ -145,8 +150,24 @@ Uploader.prototype = {
             geocoder.geocode({ 'latLng': e.latLng }, function(results, status) { self.geocodeResultHandler(results, status, e.latLng); });
         });
 
-        //initialize search location
+        //check if there is lat and lng loaded
+        var loadedLat = self.getInput("lat");
+        var loadedLng = self.getInput("lng");
 
+        if (loadedLat.length > 0 && loadedLng.length > 0) {
+            loadedLat = new Number(loadedLat);
+            loadedLng = new Number(loadedLng);
+
+            self.initializeMarker(new google.maps.LatLng(loadedLat, loadedLng));
+
+            //set labels for user feedback
+            $("#mapLocationLabel").html(self.getInput("address"));
+            $("#mapLatLngLabel").html("Lat: " + loadedLat + ", Lng: " + loadedLng);
+
+            self.locationSelected = true;
+        }
+
+        //initialize search location
         //set default action if ENTER is pressed
         $("#mapSearchKeyword").keypress(function(e) {
             if (e.which == 13) {
@@ -182,23 +203,7 @@ Uploader.prototype = {
 
             //create marker object if not already created
             if (self.marker == null) {
-                self.marker = new google.maps.Marker({
-                    position: markerLatLng,
-                    map: self.map,
-                    draggable: true
-                });
-
-                //drag&drop needs to store initial position to restore back position in case of geocode error
-                var markerStartPosition = null;
-                //initialize marker drag&drop
-                google.maps.event.addListener(self.marker, "dragstart", function(e) {
-                    markerStartPosition = self.marker.getPosition();
-                });
-
-                google.maps.event.addListener(self.marker, "dragend", function(e) {
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({ 'latLng': e.latLng }, function(results, status) { self.geocodeResultHandler(results, status, e.latLng, markerStartPosition); });
-                });
+                self.initializeMarker(markerLatLng);
             }
 
             //move map and marker to correct position
@@ -223,14 +228,12 @@ Uploader.prototype = {
             self.setInput("postalCode", postalCode != null ? postalCode.shortName : "");
             self.setInput("city", city != null ? city.shortName : "");
             self.setInput("province", province != null ? province.shortName : "");
-            self.setInput("address", address != null ? address.longName : "");
+            self.setInput("address", address != null ? address.longName : bestResult.formatted_address);
             self.setInput("lat", markerLatLng.lat());
             self.setInput("lng", markerLatLng.lng());
 
-            //set title with formatted_address if is empty
-            if ($("#pictureTitle").val().length == 0) {
-                $("#pictureTitle").val(bestResult.formatted_address);
-            }
+            //set title with formatted_address
+            $("#pictureTitle").val(bestResult.formatted_address);
 
             self.locationSelected = true;
 
@@ -247,6 +250,28 @@ Uploader.prototype = {
 
             Utils.trace("Geocoder failed due to: " + status);
         }
+    },
+
+    initializeMarker: function(markerLatLng) {
+        var self = this;
+
+        self.marker = new google.maps.Marker({
+            position: markerLatLng,
+            map: self.map,
+            draggable: true
+        });
+
+        //drag&drop needs to store initial position to restore back position in case of geocode error
+        var markerStartPosition = null;
+        //initialize marker drag&drop
+        google.maps.event.addListener(self.marker, "dragstart", function(e) {
+            markerStartPosition = self.marker.getPosition();
+        });
+
+        google.maps.event.addListener(self.marker, "dragend", function(e) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': e.latLng }, function(results, status) { self.geocodeResultHandler(results, status, e.latLng, markerStartPosition); });
+        });
     },
 
     findCountryFromResult: function(result) {
@@ -283,11 +308,7 @@ Uploader.prototype = {
             }
         });
 
-        Utils.trace(key);
-        if (value != null) { Utils.trace(value); }
-        else { Utils.trace("value is null"); }
-
-        return result;
+        return value;
     },
 
     initializeTextareas: function() {
@@ -310,7 +331,11 @@ Uploader.prototype = {
     },
 
     setInput: function(inputName, value) {
-        $('input [type="hidden"][name="' + inputName + '"]').val(value);
+        $('input[type="hidden"][name="' + inputName + '"]').val(value);
+    },
+
+    getInput: function(inputName) {
+        return $('input[type="hidden"][name="' + inputName + '"]').val();
     },
 
     showErrorBox: function(area, message, closeDelay) {
