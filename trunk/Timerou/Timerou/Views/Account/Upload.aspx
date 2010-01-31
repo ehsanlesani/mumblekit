@@ -116,6 +116,7 @@
                 <%= Html.Hidden("address", Model.Val(x => x.Address)) %>
                 <%= Html.Hidden("lat", Model.Val(x => x.Lat)) %>
                 <%= Html.Hidden("lng", Model.Val(x => x.Lng)) %>
+                <input type="hidden" name="goToNewPicture" value="true" />
                 
                 <fieldset>
                     <p>
@@ -129,8 +130,8 @@
                     </p>
                 </fieldset>
                 
-                <input type="submit" value='<%= UIHelper.T("msg.savePicture") %>' />
-                <input type="button" value='<%= UIHelper.T("msg.returnToMap") %>' />
+                <input type="button" value='<%= UIHelper.T("msg.savePictureAndGoToUpload") %>' id="saveAndGoToUploadButton" />
+                <input type="button" value='<%= UIHelper.T("msg.savePictureAndGoToPicture") %>' id="saveAndGoToPictureButton" />
             <% } %>            
         </div>    
     </div>

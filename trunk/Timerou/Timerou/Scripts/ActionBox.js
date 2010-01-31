@@ -1,21 +1,21 @@
-﻿/// <reference path="jquery/jquery-1.3.2.js" />
-function ActionBox(content) {
+﻿function ActionBox(content) {
     this.content = content;
     this.el = null;
+    this.options = {};
 }
 
 ActionBox.prototype = {
-    show: function (opt) {
+    show: function(opt) {
         var self = this;
 
         //initialize options
-        var options = $.extend({
+        this.options = $.extend({
             x: 0,
             y: 0,
             height: null,
             width: null,
             buttons: {
-                Close: function () { self.hide(); }
+                Close: function() { self.hide(); }
             }
         }, opt);
 
@@ -23,36 +23,29 @@ ActionBox.prototype = {
         var box = $("<div />")
             .addClass("actionbox")
             .css("position", "absolute")
-            .css("left", options.x + "px")
-            .css("top", options.y + "px")
+            .css("left", this.options.x + "px")
+            .css("top", this.options.y + "px")
             .css("z-index", 1000)
             .append(this.content);
 
-        if (options.height != null) {
-            box.css("height", options.height + "px")
+        if (this.options.height != null) {
+            box.css("height", this.options.height + "px")
         }
 
-        if (options.width != null) {
-            box.css("width", options.width + "px")
-
-            $.each(options.buttons, function (name, fn) {
-                box.find(".buttonsBar").append($("<a href='javascript:;' />"))
-                .addClass("button")
-                .html(name)
-                .click(function () { if (fn) { fn(); } });
-            });
+        if (this.options.width != null) {
+            box.css("width", this.options.width + "px")
         }
 
-        if ($(options.buttons).size() > 0) {
+        if ($(this.options.buttons).size() > 0) {
             var buttonsBar = box.append($("<div />")
                 .addClass("buttonsbar")
             );
 
-            $.each(options.buttons, function (name, fn) {
+            $.each(this.options.buttons, function(name, fn) {
                 box.find(".buttonsbar").append($("<a href='javascript:;' />")
                     .addClass("button")
                     .html(name)
-                    .click(function () { if (fn) { fn(); } })
+                    .click(function() { if (fn) { fn(); } })
                 );
             });
         }
@@ -60,9 +53,20 @@ ActionBox.prototype = {
         this.el = box;
 
         $("body").append(box);
+
+        this.options.height = this.el.height();
+        this.options.width = this.el.width();
     },
 
-    hide: function () {
+    hide: function() {
         this.el.remove();
+    },
+
+    center: function() {
+        this.options.x = ($(window).height() / 2) - (this.options.height / 2);
+        this.options.y = ($(window).width() / 2) - (this.options.width / 2);
+
+        this.el.css("top", this.options.x + "px");
+        this.el.css("left", this.options.y + "px");
     }
 };

@@ -216,13 +216,15 @@ label.error
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    
-    background-color: #E7F8E4;
+ 
+    background-color: #C7D7FC;
 }
 
 .actionbox .buttonsbar 
 {
     text-align: right;
+    position: relative;
+    bottom: 0px;
 }
 
 .actionbox .buttonsbar a:link, .actionbox .buttonsbar a:visited

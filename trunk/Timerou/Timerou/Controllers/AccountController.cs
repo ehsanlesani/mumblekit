@@ -147,7 +147,8 @@ namespace Mumble.Timerou.Controllers
             string address, 
             string lat,
             string lng,
-            int year)
+            int year,
+            bool? goToNewPicture)
         {
             try
             {
@@ -174,7 +175,16 @@ namespace Mumble.Timerou.Controllers
                     dLat, 
                     dLng,
                     year);
-                return RedirectToAction("Show", "Pictures", new { id = picture.Id });
+
+                if (goToNewPicture.HasValue && goToNewPicture.Value)
+                {
+                    return RedirectToAction("Show", "Pictures", new { id = picture.Id });
+                }
+                else
+                {
+                    ViewData["Message"] = UIHelper.Translate("msg.pictureSaved");
+                    return RedirectToAction("Upload", "Account", new { message = UIHelper.Translate("msg.pictureSaved") });
+                }
             }
             catch (AuthException)
             {
