@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Mumble.Web.StarterKit.Models
+namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
-    public partial class Attachment 
+    public partial class Section
     {
         public override string ToString()
         {
-            return Title +" "+ Description;
+            return Description;
         }
     }
 }

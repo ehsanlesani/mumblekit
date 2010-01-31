@@ -7,6 +7,6 @@ namespace Mumble.Web.StarterKit.Views.Shared.Menu
 {
     interface IMenu
     {
-        void Render();
+        string Render();
     }
 }

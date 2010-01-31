@@ -9,11 +9,11 @@
 //------------------------------------------------------------------------------
 
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("Users", "GroupUser", "Group", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.Group), "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.User))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("AgriturismiModel", "GroupUser", "Groups", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Group), "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.User))]
 
 // Original file name:
-// Generation date: 21/01/2010 18:03:14
-namespace Mumble.Web.StarterKit.Models
+// Generation date: 31/01/2010 20:13:00
+namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
     /// <summary>
@@ -47,21 +47,6 @@ namespace Mumble.Web.StarterKit.Models
         }
         partial void OnContextCreated();
         /// <summary>
-        /// There are no comments for Users in the schema.
-        /// </summary>
-        public global::System.Data.Objects.ObjectQuery<User> Users
-        {
-            get
-            {
-                if ((this._Users == null))
-                {
-                    this._Users = base.CreateQuery<User>("[Users]");
-                }
-                return this._Users;
-            }
-        }
-        private global::System.Data.Objects.ObjectQuery<User> _Users;
-        /// <summary>
         /// There are no comments for Groups in the schema.
         /// </summary>
         public global::System.Data.Objects.ObjectQuery<Group> Groups
@@ -79,10 +64,18 @@ namespace Mumble.Web.StarterKit.Models
         /// <summary>
         /// There are no comments for Users in the schema.
         /// </summary>
-        public void AddToUsers(User user)
+        public global::System.Data.Objects.ObjectQuery<User> Users
         {
-            base.AddObject("Users", user);
+            get
+            {
+                if ((this._Users == null))
+                {
+                    this._Users = base.CreateQuery<User>("[Users]");
+                }
+                return this._Users;
+            }
         }
+        private global::System.Data.Objects.ObjectQuery<User> _Users;
         /// <summary>
         /// There are no comments for Groups in the schema.
         /// </summary>
@@ -90,14 +83,112 @@ namespace Mumble.Web.StarterKit.Models
         {
             base.AddObject("Groups", group);
         }
+        /// <summary>
+        /// There are no comments for Users in the schema.
+        /// </summary>
+        public void AddToUsers(User user)
+        {
+            base.AddObject("Users", user);
+        }
     }
     /// <summary>
-    /// There are no comments for Users.User in the schema.
+    /// There are no comments for AgriturismiModel.Group in the schema.
     /// </summary>
     /// <KeyProperties>
     /// Id
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Users", Name="User")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="AgriturismiModel", Name="Group")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Group : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Group object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        /// <param name="description">Initial value of Description.</param>
+        public static Group CreateGroup(global::System.Guid id, string description)
+        {
+            Group group = new Group();
+            group.Id = id;
+            group.Description = description;
+            return group;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property Description in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description
+        {
+            get
+            {
+                return this._Description;
+            }
+            set
+            {
+                this.OnDescriptionChanging(value);
+                this.ReportPropertyChanging("Description");
+                this._Description = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Description");
+                this.OnDescriptionChanged();
+            }
+        }
+        private string _Description;
+        partial void OnDescriptionChanging(string value);
+        partial void OnDescriptionChanged();
+        /// <summary>
+        /// There are no comments for Users in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("AgriturismiModel", "GroupUser", "Users")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<User> Users
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<User>("AgriturismiModel.GroupUser", "Users");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<User>("AgriturismiModel.GroupUser", "Users", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for AgriturismiModel.User in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="AgriturismiModel", Name="User")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
     public partial class User : global::System.Data.Objects.DataClasses.EntityObject
@@ -280,7 +371,7 @@ namespace Mumble.Web.StarterKit.Models
         /// <summary>
         /// There are no comments for Groups in the schema.
         /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Users", "GroupUser", "Group")]
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("AgriturismiModel", "GroupUser", "Groups")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
@@ -288,104 +379,13 @@ namespace Mumble.Web.StarterKit.Models
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Group>("Users.GroupUser", "Group");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Group>("AgriturismiModel.GroupUser", "Groups");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Group>("Users.GroupUser", "Group", value);
-                }
-            }
-        }
-    }
-    /// <summary>
-    /// There are no comments for Users.Group in the schema.
-    /// </summary>
-    /// <KeyProperties>
-    /// Id
-    /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="Users", Name="Group")]
-    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
-    [global::System.Serializable()]
-    public partial class Group : global::System.Data.Objects.DataClasses.EntityObject
-    {
-        /// <summary>
-        /// Create a new Group object.
-        /// </summary>
-        /// <param name="id">Initial value of Id.</param>
-        /// <param name="description">Initial value of Description.</param>
-        public static Group CreateGroup(global::System.Guid id, string description)
-        {
-            Group group = new Group();
-            group.Id = id;
-            group.Description = description;
-            return group;
-        }
-        /// <summary>
-        /// There are no comments for Property Id in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Guid Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                this.OnIdChanging(value);
-                this.ReportPropertyChanging("Id");
-                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Id");
-                this.OnIdChanged();
-            }
-        }
-        private global::System.Guid _Id;
-        partial void OnIdChanging(global::System.Guid value);
-        partial void OnIdChanged();
-        /// <summary>
-        /// There are no comments for Property Description in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Description
-        {
-            get
-            {
-                return this._Description;
-            }
-            set
-            {
-                this.OnDescriptionChanging(value);
-                this.ReportPropertyChanging("Description");
-                this._Description = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
-                this.ReportPropertyChanged("Description");
-                this.OnDescriptionChanged();
-            }
-        }
-        private string _Description;
-        partial void OnDescriptionChanging(string value);
-        partial void OnDescriptionChanged();
-        /// <summary>
-        /// There are no comments for Users in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("Users", "GroupUser", "User")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<User> Users
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<User>("Users.GroupUser", "User");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<User>("Users.GroupUser", "User", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Group>("AgriturismiModel.GroupUser", "Groups", value);
                 }
             }
         }

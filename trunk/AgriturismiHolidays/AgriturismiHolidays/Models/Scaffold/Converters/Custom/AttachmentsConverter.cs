@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
+using System.Net.Mime;
+using Mumble.Web.StarterKit.Models.Images;
+using System.Drawing;
+using Mumble.Web.StarterKit.Models.ExtPartial;
 
 namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
 {
@@ -37,7 +41,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
 
                         if (info.Id.HasValue && info.Delete)
                         {
-                            attachment.Page = null;
+                            attachment.Pages = null;
                             container.DeleteObject(attachment);
                         }
                         else
@@ -48,8 +52,19 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
                             HttpPostedFile file = HttpContext.Current.Request.Files[info.FileInput];
                             if (file != null && file.ContentLength > 0)
                             {
-                                file.SaveAs(HttpContext.Current.Server.MapPath("~/Public/") + file.FileName);
-                                attachment.Path = file.FileName;
+                                if (file.ContentType.Equals("image/jpg") ||
+                                    file.ContentType.Equals("image/jpeg"))
+                                {
+                                    // TODO: Code Below is just for a "friend" usage. Please modify it to be useful in a general purpose context.
+                                    //file.SaveAs(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + ".jpg");
+                                    Image tmpImage = null;
+                                    tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 640, 480);                                    
+                                    attachment.Path = attachment.Id.ToString();
+                                    tmpImage.Save(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + ".jpg");
+
+                                    tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 150, 150);
+                                    tmpImage.Save(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + "_lil.jpg");
+                                }
 
                                 if (newRecord)
                                     entity.Attachments.Add(attachment);
