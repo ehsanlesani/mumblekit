@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mumble.Web.StarterKit.Views.Utilities;
+using System.Text;
 
 namespace Mumble.Web.StarterKit.Views.Shared.Menu
 {
@@ -19,9 +20,16 @@ namespace Mumble.Web.StarterKit.Views.Shared.Menu
             Helper = helper;
         }
 
-        public void Render()
+        public string Render()
         {
-                                 
+            StringBuilder sbTree = new StringBuilder();
+
+            foreach (MenuNode root in Nodes) 
+            {
+                sbTree.Append(ReadMenuNodes(root));
+            }
+
+            return sbTree.ToString();
         }
 
         private string ReadMenuNodes(MenuNode menunode) 
@@ -34,7 +42,8 @@ namespace Mumble.Web.StarterKit.Views.Shared.Menu
                 {
                     TagBuilder tagLi = new TagBuilder("li");
                     TagBuilder tagSpan = new TagBuilder("span");
-                    tagSpan.SetInnerText(m.Title);
+                    //To Do: Set Title
+                    //tagSpan.SetInnerText(m.);
                     tagSpan.AddCssClass("folder");
 
                     if (m.Childs.Count > 0)       

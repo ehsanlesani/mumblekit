@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Objects.DataClasses;
 
-namespace Mumble.Web.StarterKit.Models
+namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     interface IEntityWithAttachments
     {

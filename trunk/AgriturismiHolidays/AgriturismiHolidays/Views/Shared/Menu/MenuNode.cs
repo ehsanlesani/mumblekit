@@ -7,7 +7,6 @@ namespace Mumble.Web.StarterKit.Views.Shared.Menu
 {
     public class MenuNode 
     {
-        public string Title { get; set; }
         public List<MenuNode> Childs { get; set; }
         public List<Node> Nodes { get; set; }
 

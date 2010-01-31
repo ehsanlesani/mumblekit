@@ -7,6 +7,7 @@ using System.Web.Mvc.Ajax;
 using Mumble.Web.StarterKit.Models;
 using System.Collections;
 using Mumble.Web.StarterKit.Models.Common;
+using Mumble.Web.StarterKit.Models.ExtPartial;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
+using Mumble.Web.StarterKit.Models.ExtPartial;
 
 namespace Mumble.Web.StarterKit.Models.Common
 {

@@ -1,5 +1,7 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 
+<%@ Import Namespace="Mumble.Web.StarterKit.Views.Shared.Menu" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
@@ -37,17 +39,17 @@
                         <td class="content">
                             <ul id="menu" class="filetree">
                                 <li><span class="file">Home page</span></li>
-                                <li>
+                                <li class="closed">
                                     <span class="folder">Sicurezza</span>
                                     <ul>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Utenti</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/User.aspx/Edit") %>">Nuovo utente</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/User.aspx/List") %>">Gestione utenti</a></span></li>
                                             </ul>
                                         </li>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Gruppi</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Group.aspx/Edit") %>">Nuovo gruppo</a></span></li>
@@ -56,10 +58,10 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="closed">
                                     <span class="folder">Pagine Statiche</span>
                                     <ul>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Sezioni</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Section.aspx/Edit") %>">Nuova sezione</a></span></li>
@@ -67,7 +69,7 @@
                                                 
                                             </ul>
                                         </li>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Pagine</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Page.aspx/Edit") %>">Nuova pagina</a></span></li>
@@ -76,24 +78,24 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="closed">
                                     <span class="folder">Localizzazione</span>
                                     <ul>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Regioni</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Region.aspx/Edit") %>">Nuova regione</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Region.aspx/List") %>">Lista regioni</a></span></li>                                                
                                             </ul>
                                         </li>  
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Province</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Province.aspx/Edit") %>">Nuova provincia</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Province.aspx/List") %>">Lista province</a></span></li>                                                
                                             </ul>
                                         </li>  
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Comuni</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Municipality.aspx/Edit") %>">Nuovo comune</a></span></li>
@@ -102,17 +104,17 @@
                                         </li>                                   
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="closed">
                                     <span class="folder">Strutture</span>
                                     <ul>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Struttura</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Accommodation.aspx/Edit") %>">Nuova struttura</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Accommodation.aspx/List") %>">Lista strutture</a></span></li>                                                
                                             </ul>
                                         </li>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Sistemazioni</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Room.aspx/Edit") %>">Nuova sistemazione</a></span></li>
@@ -121,24 +123,24 @@
                                         </li>                                        
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="closed">
                                     <span class="folder">Listini</span>
                                     <ul>
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Categorie</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/PriceListEntry.aspx/Edit") %>">Nuova categoria</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/PriceListEntry.aspx/List") %>">Lista categorie</a></span></li>                                                
                                             </ul>
                                         </li>  
-                                        <li>
+                                        <li class="closed">
                                             <span class="folder">Stagioni</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/PriceListSeason.aspx/Edit") %>">Nuova stagione</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/PriceListSeason.aspx/List") %>">Lista stagioni</a></span></li>                                                
                                             </ul>
                                         </li> 
-                                         <li>
+                                         <li class="closed">
                                             <span class="folder">Prezzi Stanze</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/RoomPriceList.aspx/Edit") %>">Nuovo Prezzo</a></span></li>

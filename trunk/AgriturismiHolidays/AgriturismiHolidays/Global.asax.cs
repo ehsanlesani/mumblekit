@@ -12,6 +12,7 @@ using Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom;
 using System.Data.Metadata.Edm;
 using System.Text;
 using System.Data.Objects.DataClasses;
+using Mumble.Web.StarterKit.Models.ExtPartial;
 
 namespace MumbleKit
 {
