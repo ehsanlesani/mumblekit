@@ -28,6 +28,10 @@ Uploader.prototype = {
         this.initializeMaps();
         this.initializeTextareas();
 
+        //configure buttons
+        $("#saveAndGoToUploadButton").click(function() { self.setInput("goToNewPicture", false); $("#pictureForm").submit(); });
+        $("#saveAndGoToPictureButton").click(function() { self.setInput("goToNewPicture", true); $("#pictureForm").submit(); });
+
         $("#pictureForm").submit(function() {
             var allOk = true;
 

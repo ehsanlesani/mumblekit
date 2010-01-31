@@ -144,6 +144,8 @@ namespace Mumble.Timerou.Models
         {
             get
             {
+                if (User == null) { throw new ArgumentNullException("User"); }
+
                 return String.Format("{0}/{1}.{2}",
                     User.Email.Replace("@", "_"),
                     String.Format(ConfigurationManager.AppSettings["PictureAvatar"], Id),
@@ -158,6 +160,8 @@ namespace Mumble.Timerou.Models
         {
             get
             {
+                if (User == null) { throw new ArgumentNullException("User"); }
+
                 return String.Format("{0}/{1}.{2}",
                     User.Email.Replace("@", "_"),
                     String.Format(ConfigurationManager.AppSettings["PictureOriginal"], Id),
@@ -172,6 +176,8 @@ namespace Mumble.Timerou.Models
         {
             get
             {
+                if (User == null) { throw new ArgumentNullException("User"); }
+
                 return String.Format("{0}/{1}.{2}",
                     User.Email.Replace("@", "_"),
                     String.Format(ConfigurationManager.AppSettings["PictureOptimized"], Id),

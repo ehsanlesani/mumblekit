@@ -23,8 +23,14 @@
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
-        $(document).ready(function () {
-            $(".culture").click(function () {
+        $(document).ready(function() {
+
+            var message = '<%= Request.QueryString["message"] %>';
+            if (message.length > 0) {
+                Utils.showInfo(message);
+            }
+
+            $(".culture").click(function() {
                 var culture = $(this).attr("culture");
                 new Account().changeCulture(culture);
             });
