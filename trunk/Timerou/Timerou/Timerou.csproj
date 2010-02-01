@@ -80,6 +80,7 @@
     <Compile Include="Models\LatLng.cs" />
     <Compile Include="Models\Managers\MapManager.cs" />
     <Compile Include="Models\MapBounds.cs" />
+    <Compile Include="Models\MapObject.cs" />
     <Compile Include="Models\ViewData\BaseModel.cs" />
     <Compile Include="Models\ViewData\LoginModel.cs" />
     <Compile Include="Models\Exceptions\AuthException.cs" />
