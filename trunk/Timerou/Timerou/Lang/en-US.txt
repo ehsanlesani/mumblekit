@@ -50,3 +50,6 @@ msg.checkInformations = msg.checkInformations
 msg.min5char = msg.min5char
 msg.badPasswordConfirm = msg.badPasswordConfirm
 msg.confirmPass = msg.confirmPass
+msg.savePictureAndGoToUpload = msg.savePictureAndGoToUpload
+msg.savePictureAndGoToPicture = msg.savePictureAndGoToPicture
+msg.pictureSaved = msg.pictureSaved
