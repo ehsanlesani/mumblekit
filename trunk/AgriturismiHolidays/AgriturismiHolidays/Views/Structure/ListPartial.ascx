@@ -16,7 +16,20 @@
             <img src="/Public/<%=item.Attachments.ElementAt<Attachment>(0).Path %>_lil.jpg" alt="nome struttura" class="item-image" />
     <% } %>
     <div class="item-info">
-        <p><span class="info-title">Stelle:</span><span class="info-description"><%=item.Quality%></span></p>
+        
+        <%
+            if (item.Quality > 0)
+            {
+        %>
+            <p>
+                <% for (int i = 0; i < item.Quality; i++) { %>
+                        <img src="../../Content/Images/star_16x16.png" alt="<%=item.Quality%> stelle" class="quality" />
+                <% } %>
+            </p>
+        <%
+            }
+        %>
+        <p><span class="info-title"><%=item.Name%></span></p>
         <p><span class="info-title">Descrizione:</span><span class="info-description"><%=item.Description%></span></p>
         <p><span class="info-title">valore:</span><span class="info-description">ciao da me!</span></p>
         <p class="info-btn">entra</p>

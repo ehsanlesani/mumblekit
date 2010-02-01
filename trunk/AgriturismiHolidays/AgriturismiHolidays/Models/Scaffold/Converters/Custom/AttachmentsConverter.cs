@@ -62,7 +62,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
                                     attachment.Path = attachment.Id.ToString();
                                     tmpImage.Save(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + ".jpg");
 
-                                    tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 150, 150);
+                                    tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 100, 100);
                                     tmpImage.Save(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + "_lil.jpg");
                                 }
 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using Mumble.Web.StarterKit.Models.ViewModels;
 using Mumble.Web.StarterKit.Models.ExtPartial;
+using Mumble.Web.StarterKit.Models.Common;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
@@ -16,6 +17,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
         public ActionResult Index()
         {
+            ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+
+            //Accommodation a = new Accommodation();
+            //a.
+
             return View();
         }
 
@@ -23,11 +29,14 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             try
             {
+                ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+
                 StarterKitContainer context = new StarterKitContainer();
                 string cat = "";
-                //Accommodation a = new Accommodation(); //a.Attachments.ElementAt<Attachment>(0).Path
+
                 if (category != null)
-                    cat = category.Replace("_", " ");
+                    if (category.Length > 0)
+                        cat = category.Replace("_", " ");
 
                 var res = (from a in context.Accommodations where a.AccommodationType.Name == cat select a).AsEnumerable<Accommodation>();
 

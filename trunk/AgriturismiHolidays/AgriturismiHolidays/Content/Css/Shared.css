@@ -261,10 +261,17 @@ img { border:none; }
 
 img.item-image {
 	float:left;
+	margin-right:10px;
 }
 
 .item-info{
 	margin-left:150px;
+}
+
+.item-info p {
+    paddin:0;
+    margin:0;
+    margin-bottom:3px;
 }
 
 .info-title {
