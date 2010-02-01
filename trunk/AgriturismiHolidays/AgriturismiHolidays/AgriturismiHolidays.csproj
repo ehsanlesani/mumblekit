@@ -351,6 +351,7 @@
     <Content Include="Views\Structure\List.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Models\Agriturismi.bak" />
     <None Include="Models\ExtPartial\StarterKitContainer.edmx.sql" />
     <EntityDeploy Include="Models\ExtPartial\StarterKitModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -362,6 +363,7 @@
       <LastGenOutput>UsersModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Views\Home\Index.aspx.old" />
+    <Content Include="Content\Images\star_16x16.png" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\HomePage.Master" />
     <Content Include="Views\Shared\Internal.Master" />

@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="Mumble.Web.StarterKit.Views.Utilities.Helpers" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -39,6 +40,10 @@
                 </div>
             </div>
             <div id="main-menu" class="span-24 last">
+                <ul id="menu-list">
+                    <li class="first"><img src="../../Content/Images/homeicon.png" alt="home" id="homeicon" />Home</li>
+                    <%=Html.TabbedMenu(ViewData["MenuTabs"] as IEnumerable<Mumble.Web.StarterKit.Models.Common.MenuTab>)%>
+                </ul>
             </div>
             <div id="body" class="span-24">  
                 <asp:ContentPlaceHolder ID="BodyContent" runat="server" />
@@ -47,7 +52,7 @@
     </div>    
     <div id="footer">
         <p id="email"><span class="title">E-Mail.</span><span class="content">info@agriturismi.com</span></p>
-        <p id="tel"><span class="title">Tel.</span><span class="content">+39 0835 29 20 14</span></p>
+        <p id="tel"><span class="title">Tutti i diritti riservati</span></p>
         <p id="menu">
             <span class="title">Chi Siamo</span>
             <span class="content">/</span>
