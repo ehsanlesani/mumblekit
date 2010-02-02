@@ -65,6 +65,7 @@
 		}
 		
 		private function mapMoveTimerComplete(e:TimerEvent):void {
+			this.loadPictures();
 			this.mediaContainer.show();
 			this.map.hideTypeButtons();
 		}
@@ -96,7 +97,6 @@
 			try 
 			{
 				var bounds:LatLngBounds = map.latLngBounds;
-				trace(bounds);
 				var request:URLRequest = new URLRequest("http://localhost:1095/Map/LoadPictures");
 				request.method = URLRequestMethod.POST;
 				var variables :URLVariables = new URLVariables();			
@@ -119,9 +119,10 @@
 		}
 		
 		public function setPicturesData(jsonData:String):void {
+			trace(jsonData);
 			this.pictureData = JSON.deserialize(jsonData);
 			if (!pictureData.error) {
-				map.addPictures(pictureData.pictures);
+				this.mediaContainer.load(pictureData.pictures);
 			}
 		}		
 	}	

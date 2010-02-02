@@ -13,7 +13,7 @@ package
 	public class MediaContainer extends MovieClip
 	{
 		private const BACKGROUND_COLOR:uint = 0x333333;
-		private const BACKGROUND_ALPHA:Number = 0.90;
+		private const BACKGROUND_ALPHA:Number = 1;
 		private const BORDER_DISTANCE:int = 25;
 		private const ROUND_SIZE:int = 5;
 		
@@ -63,7 +63,13 @@ package
 		
 		public function load(pictures:Array):void {
 			this.pictures = pictures;
+			var pb:PictureBox = new PictureBox();
+			pb.url = "http://localhost:1095/Pictures/" + this.pictures[0].avatarPath;
 			
+			addChild(pb);
+			
+			pb.x = BORDER_DISTANCE + 10;
+			pb.y = BORDER_DISTANCE + 10;
 		}
 		 
 		
