@@ -1,20 +1,29 @@
 package
 {
+	import fl.transitions.Tween;
+	import fl.transitions.easing.Regular;
+	
 	import flash.display.Bitmap;
 	import flash.display.Loader;
-	import flash.display.Sprite;
+	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.geom.Matrix;
 	import flash.net.URLRequest;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
 	
-	public class PictureBox extends Sprite
+	public class PictureBox extends MovieClip
 	{
-		public const BACKGROUND_COLOR:uint = 0x2F2F2F;
-		public const BORDER_COLOR:uint = 0x3A3A3A;
+		public const BACKGROUND_COLOR:uint = 0x515151;
+		public const BORDER_COLOR:uint = 0x7C7C7C;
+		public const TEXT_HEIGHT:int = 14;
 		
 		private var bitmap:Bitmap = null;
+		private var tween:Tween = null;
 		
 		public var url:String = null;
+		public var title:String = "Matera";
 		public var pictureHeight:int = 50;
 		public var pictureWidth:int = 100;
 		public var padding:int = 5;
@@ -34,6 +43,8 @@ package
 					if(bitmap != null) {
 						drawBox();
 						drawPicture();
+						drawTitle();
+						animate();
 					}
 				});
 				loader.load(request);
@@ -47,7 +58,7 @@ package
 		private function drawBox():void {
 			graphics.beginFill(BACKGROUND_COLOR, 1);
 			graphics.lineStyle(1, BORDER_COLOR);
-			graphics.drawRect(0, 0, pictureWidth + padding * 2, pictureHeight + padding * 2);
+			graphics.drawRect(0, 0, pictureWidth + padding * 2, pictureHeight + padding * 2 + TEXT_HEIGHT);
 			graphics.endFill();
 		}
 		
@@ -61,6 +72,28 @@ package
 			graphics.lineStyle(1, 0xFFFFFF);
 			graphics.drawRect(padding, padding, pictureWidth, pictureHeight);
 			graphics.endFill();
+		}
+		
+		private function drawTitle():void {
+			var txt:TextField =new TextField();
+			var format:TextFormat = new TextFormat();
+			format.align = TextFormatAlign.LEFT;
+			format.font = "verdana";
+			format.size = 10;
+			format.color = 0xDDDDDD;
+			format.bold = true;
+			txt.defaultTextFormat = format;
+			txt.width = pictureWidth;
+			txt.height = TEXT_HEIGHT;
+			txt.x = this.padding;
+			txt.y = this.padding + this.pictureHeight;
+			txt.text = this.title;
+			
+			addChild(txt);
+		}
+		
+		private function animate():void {
+			tween = new Tween(this, "alpha", Regular.easeIn, 0, 1, 0.25, true);
 		}
 
 	}
