@@ -69,7 +69,7 @@ package
 			var dy:int = (this.bitmap.height - pictureHeight) / 2;			
 			//matrix.translate(dx, dy);			
 			graphics.beginBitmapFill(bitmap.bitmapData, matrix, true, true);
-			graphics.lineStyle(1, 0xFFFFFF);
+			graphics.lineStyle(1, 0xEEEEEE);
 			graphics.drawRect(padding, padding, pictureWidth, pictureHeight);
 			graphics.endFill();
 		}

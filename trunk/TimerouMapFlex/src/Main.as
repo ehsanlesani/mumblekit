@@ -25,6 +25,8 @@
 	[SWF(height = 600, width = 800)]
 	public class Main extends MovieClip 
 	{
+		public static const BASEURL:String = "http://localhost:1095/Pictures/";
+		
 		private var pictureData:* = null;		
 		private var map:TimerouMap = null;
 		private var mediaContainer:MediaContainer = null;
@@ -66,14 +68,10 @@
 		
 		private function mapMoveTimerComplete(e:TimerEvent):void {
 			this.loadPictures();
-			this.mediaContainer.show();
-			this.map.hideTypeButtons();
 		}
 		
 		private function mapMoveStart(e:Event):void {
 			this.mapMoveTimer.stop();
-			this.map.showTypeButtons();
-			this.mediaContainer.hide();
 		}
 		
 		private function mapMoveEnd(e:Event):void {
