@@ -4,19 +4,17 @@
 	import com.google.maps.LatLngBounds;
 	import com.google.maps.Map;
 	import com.google.maps.MapEvent;
-	import com.google.maps.MapMouseEvent;
 	import com.google.maps.MapMoveEvent;
 	import com.google.maps.MapType;
 	import com.google.maps.overlays.Marker;
 	import com.google.maps.overlays.MarkerOptions;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.BitmapFilter;
 	import flash.filters.ColorMatrixFilter;
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.text.TextField;
 	/**
 	 * ...
 	 * @author bruno
@@ -28,6 +26,7 @@
 		private var map:Map = new Map();
 		private var mapKey:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxRZcg6rHxTBMZ4Dun_V7KJl7bsRkRTyyWCSl2lWQpqYDZamuBcqyGfb-Q";		
 		private var filter:ColorMatrixFilter = new ColorMatrixFilter();
+		private var localizedPictureMarker:Marker = null;
 		
 		public var ready:Boolean = false;
 
@@ -82,7 +81,7 @@
 		
 			map.setSize(new Point(stage.stageWidth, stage.stageHeight));
 			map.setCenter(new LatLng(40.6686534, 16.6060872), 5);
-			map.setMapType(MapType.SATELLITE_MAP_TYPE);
+			map.setMapType(MapType.HYBRID_MAP_TYPE);
 			map.enableScrollWheelZoom();	
 			
 			createButtons();
@@ -111,7 +110,7 @@
 			satelliteButton = new RoundedButton();
 			satelliteButton.y = 5;
 			satelliteButton.text = "Satellite";
-			satelliteButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void { map.setMapType(MapType.SATELLITE_MAP_TYPE); } );
+			satelliteButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void { map.setMapType(MapType.HYBRID_MAP_TYPE); } );
 			addChild(satelliteButton);
 
 			roadButton.y = 5;
@@ -235,6 +234,24 @@
 		public function hideTypeButtons():void {
 			this.satelliteButton.visible = false;
 			this.roadButton.visible = false;
+		}
+		
+		public function showPictureLocation(pictureData:*):void {
+			this.clearPictureLocation();
+			
+			var latLng:LatLng = new LatLng(pictureData.lat, pictureData.lng);
+			var icon:PictureIcon = new PictureIcon(Main.BASEURL + pictureData.avatarPath);			
+			var options:MarkerOptions = new MarkerOptions();
+			options.icon = icon;
+			this.localizedPictureMarker = new Marker(latLng, options);
+			map.addOverlay(localizedPictureMarker);
+		}
+		
+		public function clearPictureLocation():void {
+			if(this.localizedPictureMarker != null) {
+				map.removeOverlay(this.localizedPictureMarker);
+				this.localizedPictureMarker = null;
+			}
 		}
 	}
 

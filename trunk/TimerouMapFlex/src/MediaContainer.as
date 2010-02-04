@@ -12,7 +12,6 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
-	import flash.filters.DropShadowFilter;
 	import flash.net.URLRequest;
 	import flash.utils.Timer;
 	import flash.utils.setTimeout;
@@ -38,7 +37,7 @@ package
 		private var pictures:Array = null;
 		private var slideshowTimer:Timer = null;
 		private var currentPictureIndex:int = 0;
-		private var currentPicture:Sprite = null;
+		private var currentPictureSprite:Sprite = null;
 		private var tween:Tween = null;
 	
 		public function MediaContainer() {
@@ -89,16 +88,14 @@ package
 				g.moveTo(MINIMIZED_WIDTH, 0);
 				g.lineTo(MINIMIZED_WIDTH, MINIMIZED_HEIGHT);
 				g.lineTo(0, MINIMIZED_HEIGHT);
-				/*g.moveTo(0, 0),
-				g.lineTo(MINIMIZED_WIDTH, 0);
-				g.lineTo(MINIMIZED_WIDTH, MINIMIZED_HEIGHT - ROUND_SIZE);
-				g.curveTo(MINIMIZED_WIDTH, MINIMIZED_HEIGHT, MINIMIZED_WIDTH - ROUND_SIZE, MINIMIZED_HEIGHT);
-				g.lineTo(0, MINIMIZED_HEIGHT);
-				*/
-				this.contentRectangle.filters = [ new DropShadowFilter() ];
 			}
 			
 			g.endFill();
+		}
+		
+		public function getCurrentSlideshowPicture():* {
+			if(this.pictures == null || this.pictures.length == 0) { return null; }
+			return this.pictures[this.currentPictureIndex];	
 		}
 		
 		public function startSlideshow():void {
@@ -121,6 +118,10 @@ package
 			var request:URLRequest = new URLRequest(Main.BASEURL + this.pictures[this.currentPictureIndex].avatarPath);
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
+				
+				//dispatch event to show picture on the map
+				dispatchEvent(new Event("slideshowChanged"));
+				
 				drawSlideshowPicture(loader.content as Bitmap);
 				slideshowTimer.start();
 			});
@@ -151,10 +152,10 @@ package
 				//remove last picture from stage
 				setTimeout(function():void {
 					trace("removing last picture..."); 
-					if(currentPicture != null) {
-						removeChild(currentPicture);
+					if(currentPictureSprite != null) {
+						removeChild(currentPictureSprite);
 					}
-					currentPicture = sprite;
+					currentPictureSprite = sprite;
 				}, 250);
 			}
 
