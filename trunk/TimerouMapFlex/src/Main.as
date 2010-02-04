@@ -14,7 +14,6 @@
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.utils.Timer;
-	import flash.utils.setTimeout;
 	
 	
 	/**
@@ -57,6 +56,7 @@
 			
 			this.map = new TimerouMap();
 			this.mediaContainer = new MediaContainer();
+			this.mediaContainer.addEventListener("slideshowChanged", showPictureOnMap);
 			
 			addChild(map);
 			addChild(mediaContainer);
@@ -64,6 +64,13 @@
 			//map.addEventListener("timerouMapReady", mapReady);
 			map.addEventListener("timerouMapMoveStart", mapMoveStart);
 			map.addEventListener("timerouMapMoveEnd", mapMoveEnd);
+		}
+		
+		private function showPictureOnMap(e:Event):void {
+			var pictureData:* = this.mediaContainer.getCurrentSlideshowPicture();
+			if(pictureData != null) {
+				this.map.showPictureLocation(pictureData);
+			}
 		}
 		
 		private function mapMoveTimerComplete(e:TimerEvent):void {
@@ -120,6 +127,9 @@
 			trace(jsonData);
 			this.pictureData = JSON.deserialize(jsonData);
 			if (!pictureData.error) {
+				//clear current picture location on map
+				this.map.clearPictureLocation();
+				//and load pictures on media container
 				this.mediaContainer.load(pictureData.pictures);
 			}
 		}		
