@@ -177,6 +177,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UsersModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\CustomViewModel.cs" />
+    <Compile Include="Models\ViewModels\StructureViewModel.cs" />
     <Compile Include="Models\ViewModels\StructureListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Shared\Menu\IMenu.cs" />
@@ -346,10 +348,11 @@
     <Content Include="Views\Scaffold\Edit.aspx" />
     <Content Include="Views\Scaffold\List.aspx" />
     <Content Include="Views\Shared\Temp.htm" />
-    <Content Include="Views\Structure\Index.aspx" />
+    <Content Include="Views\Structure\Show.aspx" />
     <Content Include="Views\Structure\List.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Css\jquery\white\Thumbs.db" />
     <None Include="Models\Agriturismi.bak" />
     <None Include="Models\ExtPartial\StarterKitContainer.edmx.sql" />
     <EntityDeploy Include="Models\ExtPartial\StarterKitModel.edmx">
@@ -362,11 +365,48 @@
       <LastGenOutput>UsersModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Views\Home\Index.aspx.old" />
+    <Content Include="Content\Css\jquery\white\ajax-loader_b.gif" />
+    <Content Include="Content\Css\jquery\white\ajax-loader_w.gif" />
+    <Content Include="Content\Css\jquery\white\bg_load.gif" />
+    <Content Include="Content\Css\jquery\white\bg_load.png" />
+    <Content Include="Content\Css\jquery\white\bg_load_w.png" />
+    <Content Include="Content\Css\jquery\white\b_c.png" />
+    <Content Include="Content\Css\jquery\white\b_l.png" />
+    <Content Include="Content\Css\jquery\white\b_r.png" />
+    <Content Include="Content\Css\jquery\white\c.png" />
+    <Content Include="Content\Css\jquery\white\close_btn3.png" />
+    <Content Include="Content\Css\jquery\white\credits_bg.png" />
+    <Content Include="Content\Css\jquery\white\c_l.png" />
+    <Content Include="Content\Css\jquery\white\c_r.png" />
+    <Content Include="Content\Css\jquery\white\img_bg.png" />
+    <Content Include="Content\Css\jquery\white\link_out.gif" />
+    <Content Include="Content\Css\jquery\white\link_out.png" />
+    <Content Include="Content\Css\jquery\white\link_out_h.gif" />
+    <Content Include="Content\Css\jquery\white\link_out_h.png" />
+    <Content Include="Content\Css\jquery\white\next.png" />
+    <Content Include="Content\Css\jquery\white\nextoutside.png" />
+    <Content Include="Content\Css\jquery\white\nextoutside_h.png" />
+    <Content Include="Content\Css\jquery\white\next_h.png" />
+    <Content Include="Content\Css\jquery\white\pause.png" />
+    <Content Include="Content\Css\jquery\white\pause_h.png" />
+    <Content Include="Content\Css\jquery\white\pirobox_down.png" />
+    <Content Include="Content\Css\jquery\white\play.png" />
+    <Content Include="Content\Css\jquery\white\play_h.png" />
+    <Content Include="Content\Css\jquery\white\prev.png" />
+    <Content Include="Content\Css\jquery\white\prevoutside.png" />
+    <Content Include="Content\Css\jquery\white\prevoutside_h.png" />
+    <Content Include="Content\Css\jquery\white\prev_h.png" />
+    <Content Include="Content\Css\jquery\white\style.css" />
+    <Content Include="Content\Css\jquery\white\t_c.png" />
+    <Content Include="Content\Css\jquery\white\t_l.png" />
+    <Content Include="Content\Css\jquery\white\t_r.png" />
     <Content Include="Content\Images\star_16x16.png" />
+    <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\HomePage.Master" />
     <Content Include="Views\Shared\Internal.Master" />
+    <Content Include="Views\Structure\Index.ascx" />
     <Content Include="Views\Structure\ListPartial.ascx" />
     <Content Include="Views\Structure\NewsletterPartial.ascx" />
     <Content Include="Views\Web.config" />

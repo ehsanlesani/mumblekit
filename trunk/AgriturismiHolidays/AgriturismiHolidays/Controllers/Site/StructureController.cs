@@ -18,15 +18,13 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         public ActionResult Index()
         {
             ViewData["MenuTabs"] = MenuTab.GetMenuItems();
-
-            //Accommodation a = new Accommodation();
-            //a.
-
             return View();
         }
 
         public ActionResult List(string category) 
         {
+            StructureListViewModel vm = new StructureListViewModel();
+
             try
             {
                 ViewData["MenuTabs"] = MenuTab.GetMenuItems();
@@ -40,15 +38,38 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
                 var res = (from a in context.Accommodations where a.AccommodationType.Name == cat select a).AsEnumerable<Accommodation>();
 
-                StructureListViewModel vm = new StructureListViewModel(res);
+                vm.Accommodations = res;
                 vm.SectionName = cat;
 
                 return View(vm);
             }
-            catch(Exception) 
+            catch(Exception ex) 
             {
-                return View();
+                vm.SetError(ex.Message);
+                return View(vm);
             }
+        }
+
+        public ActionResult Show(string id)
+        {
+            StructureViewModel vm = new StructureViewModel();
+
+            try
+            {
+                StarterKitContainer context = new StarterKitContainer();                
+                Guid guid = new Guid(id);
+
+                var acco = (from a in context.Accommodations where a.Id.Equals(guid) select a).FirstOrDefault<Accommodation>();
+
+                vm.Accommodation = acco;
+
+                return View(vm);
+            }
+            catch(Exception ex)
+            {
+                vm.SetError(ex.Message);
+                return View(vm);
+            }           
         }
     }
 }

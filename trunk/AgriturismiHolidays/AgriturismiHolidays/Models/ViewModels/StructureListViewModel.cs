@@ -6,7 +6,7 @@ using Mumble.Web.StarterKit.Models.ExtPartial;
 
 namespace Mumble.Web.StarterKit.Models.ViewModels
 {
-    public class StructureListViewModel
+    public class StructureListViewModel : CustomViewModel
     {
         public IEnumerable<Accommodation> Accommodations { get; set; }
         public string SectionName { get; set; }
@@ -15,5 +15,7 @@ namespace Mumble.Web.StarterKit.Models.ViewModels
         {
             Accommodations = accommodations;
         }
+
+        public StructureListViewModel() { }
     }
 }

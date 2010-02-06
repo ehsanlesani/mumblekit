@@ -9,7 +9,10 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
     {
         public override string ToString()
         {
-            return Title +" "+ Description;
+            string value = this.Title;
+            value += (this.Description != null) ? ", " + this.Description : "";
+            
+            return value;
         }
     }
 }
