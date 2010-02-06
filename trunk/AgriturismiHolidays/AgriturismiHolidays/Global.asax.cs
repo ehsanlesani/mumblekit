@@ -171,7 +171,7 @@ namespace MumbleKit
             FieldBuilder.Instance.SetControl(typeof(IEnumerable<Attachment>), RelationshipMultiplicity.Many, "Custom/Attachments.ascx", null, new AttachmentsConverter());
             FieldBuilder.Instance.SetControl(typeof(Page), "Body", "Custom/Html.ascx", null, null);
             FieldBuilder.Instance.SetControl(typeof(Room), "Text", "Custom/Textarea.ascx", null, null);
-            FieldBuilder.Instance.SetControl(typeof(EntityObject), "Description", "Custom/Html.ascx", null, null);
+            FieldBuilder.Instance.SetControl(typeof(Object), "Description", "Custom/Html.ascx", null, null);
         }
 
         protected void Application_Start()

@@ -264,7 +264,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields
         {
             var controlReference = (from cr in _controlsMap
                            where cr.IsSpecific == true
-                           && cr.EntityType == entityType
+                           && (cr.EntityType == entityType || entityType.IsSubclassOf(cr.EntityType) || entityType.GetInterfaces().Contains(cr.EntityType))
                            && cr.PropertyName == propertyName
                            select cr).FirstOrDefault();
 
