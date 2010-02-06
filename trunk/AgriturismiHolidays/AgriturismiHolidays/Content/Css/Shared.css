@@ -267,6 +267,7 @@ img.item-image {
 .result-item {
     border-top:1px dotted #A1562C;
     padding:15px 0 15px 0;
+    height:100px;
 }
 
 .item-info{
