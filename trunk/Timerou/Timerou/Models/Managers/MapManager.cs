@@ -27,10 +27,10 @@ namespace Mumble.Timerou.Models.Managers
         public IEnumerable<Picture> LoadPictures(MapBounds bounds, int? year)
         {
             int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
-            var crossMeridian = bounds.TopLeft.Lng > bounds.BottomRight.Lng;
+            var crossMeridian = bounds.CrossMeridian;
 
             var pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
-                            where (year.HasValue || p.Year == year)
+                            where (year.HasValue && p.Year == year)
                             && p.Lat <= bounds.TopLeft.Lat
                             && p.Lat >= bounds.BottomRight.Lat
                             && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
@@ -47,9 +47,23 @@ namespace Mumble.Timerou.Models.Managers
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public IEnumerable<Picture> LoadRelatedPictures(Picture source)
+        public IEnumerable<Picture> LoadRelatedPictures(MapBounds mapViewBounds, Picture picture)
         {
-            throw new NotImplementedException();
+            double size = mapViewBounds.Width / 7.0;
+            MapBounds searchBounds = MapBounds.CreateFromPoint(new LatLng(picture.Lat, picture.Lng), size);
+            
+            int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
+            var crossMeridian = searchBounds.CrossMeridian;
+
+            var pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
+                            where p.Lat <= searchBounds.TopLeft.Lat
+                            && p.Lat >= searchBounds.BottomRight.Lat
+                            && ((crossMeridian && (p.Lng >= searchBounds.TopLeft.Lng || p.Lng <= searchBounds.BottomRight.Lng))
+                               || (!crossMeridian && (p.Lng >= searchBounds.TopLeft.Lng && p.Lng <= searchBounds.BottomRight.Lng)))
+                            orderby p.Year, p.Views, p.Created descending
+                            select p).Take(limit);
+
+            return pictures;
         }
     }
 }

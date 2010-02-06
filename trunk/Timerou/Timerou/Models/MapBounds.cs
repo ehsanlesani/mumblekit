@@ -20,13 +20,27 @@ namespace Mumble.Timerou.Models
         }
 
         /// <summary>
-        /// Calculate bounds height
+        /// Creates a new instance of bounds width specified center and size
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static MapBounds CreateFromPoint(LatLng center, double size)
+        {
+            LatLng topLeft = new LatLng(center.Lat + size / 2.0, center.Lng - size / 2.0);
+            LatLng bottomRight = new LatLng(center.Lat - size / 2.0, center.Lng + size / 2.0);
+
+            return new MapBounds(topLeft, bottomRight);
+        }
+
+        /// <summary>
+        /// Calculate bounds height. Lat on top is > than lat on bottom
         /// </summary>
         public double Height
         {
             get
             {
-                return (BottomRight.Lat - TopLeft.Lat);
+                return (TopLeft.Lat - BottomRight.Lat);
             }
         }
 
@@ -84,17 +98,6 @@ namespace Mumble.Timerou.Models
             {
                 return TopLeft.Lng > BottomRight.Lng;
             }
-        }
-
-        /// <summary>
-        /// Move bounds to specified point
-        /// </summary>
-        /// <param name="point"></param>
-        public void Move(LatLng point)
-        {
-            var center = Center;
-
-            
         }
 
         public LatLng TopLeft { get; set; }
