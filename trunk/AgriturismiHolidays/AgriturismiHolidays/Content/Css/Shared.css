@@ -264,8 +264,13 @@ img.item-image {
 	margin-right:10px;
 }
 
+.result-item {
+    border-top:1px dotted #A1562C;
+    padding:15px 0 15px 0;
+}
+
 .item-info{
-	margin-left:150px;
+	margin-left:110px;
 }
 
 .item-info p {
