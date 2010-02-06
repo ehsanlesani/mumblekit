@@ -13,7 +13,6 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Accommodations_AccommodationTypes", "AccommodationTypes", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Web.StarterKit.Models.ExtPartial.AccommodationType), "Accommodations", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Accommodation))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Accommodations_Municipalities", "Municipalities", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Municipality), "Accommodations", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Accommodation))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Attachments_Accommodations", "Accommodations", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Accommodation), "Attachments", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Attachment))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_PageAttachment", "Pages", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Page), "Attachments", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Attachment))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Municipalities_Provinces", "Provinces", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Province), "Municipalities", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Municipality))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_SectionPage", "Sections", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Section), "Pages", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Page))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_RoomPriceList_PriceListEntries", "PriceListEntries", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.PriceListEntry), "RoomPriceList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.RoomPriceList))]
@@ -22,7 +21,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_RoomPriceList_Rooms", "Rooms", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Room), "RoomPriceList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.RoomPriceList))]
 
 // Original file name:
-// Generation date: 31/01/2010 20:12:59
+// Generation date: 06/02/2010 20:49:08
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
@@ -550,6 +549,98 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         partial void OnQualityChanging(global::System.Nullable<int> value);
         partial void OnQualityChanged();
         /// <summary>
+        /// There are no comments for Property OnShowcase in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Nullable<bool> OnShowcase
+        {
+            get
+            {
+                return this._OnShowcase;
+            }
+            set
+            {
+                this.OnOnShowcaseChanging(value);
+                this.ReportPropertyChanging("OnShowcase");
+                this._OnShowcase = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("OnShowcase");
+                this.OnOnShowcaseChanged();
+            }
+        }
+        private global::System.Nullable<bool> _OnShowcase;
+        partial void OnOnShowcaseChanging(global::System.Nullable<bool> value);
+        partial void OnOnShowcaseChanged();
+        /// <summary>
+        /// There are no comments for Property Tel in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Tel
+        {
+            get
+            {
+                return this._Tel;
+            }
+            set
+            {
+                this.OnTelChanging(value);
+                this.ReportPropertyChanging("Tel");
+                this._Tel = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Tel");
+                this.OnTelChanged();
+            }
+        }
+        private string _Tel;
+        partial void OnTelChanging(string value);
+        partial void OnTelChanged();
+        /// <summary>
+        /// There are no comments for Property Fax in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Fax
+        {
+            get
+            {
+                return this._Fax;
+            }
+            set
+            {
+                this.OnFaxChanging(value);
+                this.ReportPropertyChanging("Fax");
+                this._Fax = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Fax");
+                this.OnFaxChanged();
+            }
+        }
+        private string _Fax;
+        partial void OnFaxChanging(string value);
+        partial void OnFaxChanged();
+        /// <summary>
+        /// There are no comments for Property StreetNr in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string StreetNr
+        {
+            get
+            {
+                return this._StreetNr;
+            }
+            set
+            {
+                this.OnStreetNrChanging(value);
+                this.ReportPropertyChanging("StreetNr");
+                this._StreetNr = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("StreetNr");
+                this.OnStreetNrChanged();
+            }
+        }
+        private string _StreetNr;
+        partial void OnStreetNrChanging(string value);
+        partial void OnStreetNrChanged();
+        /// <summary>
         /// There are no comments for Rooms in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_AccommodationRooms_Accommodations", "Rooms")]
@@ -734,6 +825,29 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         partial void OnNameChanging(string value);
         partial void OnNameChanged();
         /// <summary>
+        /// There are no comments for Property Priority in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Nullable<byte> Priority
+        {
+            get
+            {
+                return this._Priority;
+            }
+            set
+            {
+                this.OnPriorityChanging(value);
+                this.ReportPropertyChanging("Priority");
+                this._Priority = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Priority");
+                this.OnPriorityChanged();
+            }
+        }
+        private global::System.Nullable<byte> _Priority;
+        partial void OnPriorityChanging(global::System.Nullable<byte> value);
+        partial void OnPriorityChanged();
+        /// <summary>
         /// There are no comments for Accommodations in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_Accommodations_AccommodationTypes", "Accommodations")]
@@ -902,43 +1016,6 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Accommodation>("StarterKitModel.FK_Attachments_Accommodations", "Accommodations", value);
-                }
-            }
-        }
-        /// <summary>
-        /// There are no comments for Pages in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_PageAttachment", "Pages")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public Page Pages
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("StarterKitModel.FK_PageAttachment", "Pages").Value;
-            }
-            set
-            {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("StarterKitModel.FK_PageAttachment", "Pages").Value = value;
-            }
-        }
-        /// <summary>
-        /// There are no comments for Pages in the schema.
-        /// </summary>
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<Page> PagesReference
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Page>("StarterKitModel.FK_PageAttachment", "Pages");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Page>("StarterKitModel.FK_PageAttachment", "Pages", value);
                 }
             }
         }
@@ -1251,27 +1328,6 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         private string _Body;
         partial void OnBodyChanging(string value);
         partial void OnBodyChanged();
-        /// <summary>
-        /// There are no comments for Attachments in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_PageAttachment", "Attachments")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<Attachment> Attachments
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Attachment>("StarterKitModel.FK_PageAttachment", "Attachments");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Attachment>("StarterKitModel.FK_PageAttachment", "Attachments", value);
-                }
-            }
-        }
         /// <summary>
         /// There are no comments for Sections in the schema.
         /// </summary>

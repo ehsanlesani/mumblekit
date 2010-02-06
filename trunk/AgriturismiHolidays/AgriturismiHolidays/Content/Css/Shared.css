@@ -275,7 +275,7 @@ img.item-image {
 }
 
 .item-info p {
-    paddin:0;
+    padding:0;
     margin:0;
     margin-bottom:3px;
 }
@@ -283,6 +283,23 @@ img.item-image {
 .info-title {
 	font-weight:bold;
 	padding-right:3px;
+}
+
+.info-name {
+    text-transform:uppercase;
+    font-size:14px;
+}
+
+.info-btn {
+    text-align:right;
+}
+
+.info-btn a:link, .info-btn a:visited{
+    color:#A1562C;
+}
+
+.info-btn a:hover {
+    color:#DE9347;
 }
 
 .info-description{

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
-    public partial class Page : IEntityWithAttachments
+    public partial class Page
     {
         public override string ToString()
         {

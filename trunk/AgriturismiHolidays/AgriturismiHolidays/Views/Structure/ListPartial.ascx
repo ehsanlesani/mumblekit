@@ -36,7 +36,7 @@
         <%
             }
         %>
-        <p><span class="info-title"><%=item.Name%></span></p>
+        <p><span class="info-title info-name"><%=item.Name%></span></p>
         <p><span class="info-title">Descrizione:</span><span class="info-description"><%=item.ShortDescription%></span></p>
         <p class="info-btn"><%= Html.ActionLink("dettagli", "Show", "Structure", new { Id = item.Id }, null) %></p>
     </div>
