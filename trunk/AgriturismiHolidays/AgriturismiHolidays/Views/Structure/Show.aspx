@@ -16,13 +16,12 @@
                 var img = accomodation.Attachments.ElementAt<Attachment>(0);               
         %>
                 <a href="/Public/<%=img.Path %>.jpg" title="<%=img%>" class="pirobox_gall">
-                    <img src="/Public/<%=img.Path %>_lil.jpg" alt="<%=img.Description%>" id="structure-main-pic" />
+                    <img src="/Public/<%=img.Path %>_lil.jpg" alt="<%=img.Title%>" id="structure-main-pic" />
                 </a>
         <%  }
             else 
-            {
-        %>
-             <img src="<%=ResolveUrl("~/Content/Image/no_picture.jpeg") %>" alt="<%=img.Description%>" id="structure-main-pic" style="border:none;" />         
+            {        %>
+             <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=accomodation.Name%>" id="structure-main-pic" style="border:none;" />         
         <%  } %>
         <div class="span-5">
             <p id="badge-title">

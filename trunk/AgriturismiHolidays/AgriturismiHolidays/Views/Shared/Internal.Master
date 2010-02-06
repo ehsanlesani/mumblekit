@@ -41,7 +41,7 @@
             </div>
             <div id="main-menu" class="span-24 last">
                 <ul id="menu-list">
-                    <li class="first"><img src="../../Content/Images/homeicon.png" alt="home" id="homeicon" />Home</li>
+                    <li class="first"><a href="http://<%=Request.ServerVariables["HTTP_HOST"]%>"><img src="../../Content/Images/homeicon.png" alt="home" id="homeicon" />Home</a></li>
                     <%=Html.TabbedMenu(ViewData["MenuTabs"] as IEnumerable<Mumble.Web.StarterKit.Models.Common.MenuTab>)%>
                 </ul>
             </div>

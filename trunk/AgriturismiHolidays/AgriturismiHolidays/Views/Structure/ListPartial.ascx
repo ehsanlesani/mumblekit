@@ -11,16 +11,16 @@
     <%
         if (!item.Attachments.IsLoaded)
             item.Attachments.Load();
-
+        
         if (item.Attachments.Count > 0)
         {
     %>
-            <img src="/Public/<%=item.Attachments.ElementAt<Attachment>(0).Path %>_lil.jpg" alt="nome struttura" class="item-image" />
+            <img src="/Public/<%=item.Attachments.ElementAt<Attachment>(0).Path %>_lil.jpg" alt="<%=item.Name%>" class="item-image" />
     <%  }
         else 
         {
     %>
-         <img src="<%=ResolveUrl("~/Content/Image/no_picture.jpeg") %>" alt="nome struttura" class="item-image" />         
+         <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=item.Name%>" class="item-image" />         
     <% } %>
     <div class="item-info">
         
