@@ -44,7 +44,7 @@
         <p class="message"><%= ViewData["Message"] %></p>
     <% } %>
     
-    <form method="post" action="<%= ResolveUrl(Model.SaveAction) %>">
+    <form method="post" action="<%= ResolveUrl(Model.SaveAction) %>" enctype="multipart/form-data">
         <% Scaffolder.Edit(ViewContext, EntityType, Id); %>
     </form>
 </asp:Content>

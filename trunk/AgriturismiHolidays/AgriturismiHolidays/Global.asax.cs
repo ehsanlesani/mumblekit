@@ -25,19 +25,6 @@ namespace MumbleKit
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                "AdminDefault",
-                "Admin.aspx",
-                new { controller = "Main", action = "Index" },
-                new string[] { "Mumble.Web.StarterKit.Controllers.Admin" }
-            );
-
-            routes.MapRoute(
-                "Admin",
-                "Admin/{controller}.aspx/{action}/{id}",
-                new { controller = "Main", action = "Index", id = "" },
-                new string[] { "Mumble.Web.StarterKit.Controllers.Admin" }
-            );
                         
             routes.MapRoute(
                 "Default",
@@ -55,11 +42,33 @@ namespace MumbleKit
 
             routes.MapRoute(
                 "Structures",
+                "{controller}.aspx/{action}/{id}",
+                new { controller = "Structures", action = "Index", id = "" },
+                new string[] { "Mumble.Web.StarterKit.Controllers.Site" }
+            );
+
+            routes.MapRoute(
+                "Admin",
+                "Admin/{controller}.aspx/{action}/{id}",
+                new { controller = "Main", action = "Index", id = "" },
+                new string[] { "Mumble.Web.StarterKit.Controllers.Admin" }
+            );
+            
+            routes.MapRoute(
+                "AdminDefault",
+                "Admin/",
+                new { controller = "Main", action = "Index" },
+                new string[] { "Mumble.Web.StarterKit.Controllers.Admin" }
+            );
+
+            /*
+            routes.MapRoute(
+                "Structures",
                 "{controller}.aspx/{action}/{category}",
                 new { controller = "Structure", action = "Index", category = "" },
                 new string[] { "Mumble.Web.StarterKit.Controllers.Site" }
             );
-
+            */
             
         }
 
@@ -162,6 +171,7 @@ namespace MumbleKit
             FieldBuilder.Instance.SetControl(typeof(IEnumerable<Attachment>), RelationshipMultiplicity.Many, "Custom/Attachments.ascx", null, new AttachmentsConverter());
             FieldBuilder.Instance.SetControl(typeof(Page), "Body", "Custom/Html.ascx", null, null);
             FieldBuilder.Instance.SetControl(typeof(Room), "Text", "Custom/Textarea.ascx", null, null);
+            FieldBuilder.Instance.SetControl(typeof(EntityObject), "Description", "Custom/Html.ascx", null, null);
         }
 
         protected void Application_Start()

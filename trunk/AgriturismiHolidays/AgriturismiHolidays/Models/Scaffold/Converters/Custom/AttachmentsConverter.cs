@@ -27,7 +27,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
                         bool newRecord = false;
                         
                         Attachment attachment = null;
-                        //check if exits
+                        //check if exists
                         if (info.Id.HasValue)
                         {
                             attachment = container.Attachments.Where(a => a.Id == info.Id).First();
@@ -53,21 +53,26 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
                             if (file != null && file.ContentLength > 0)
                             {
                                 if (file.ContentType.Equals("image/jpg") ||
-                                    file.ContentType.Equals("image/jpeg"))
+                                    file.ContentType.Equals("image/jpeg") ||
+                                    file.ContentType.Equals("image/pjpeg"))
                                 {
                                     // TODO: Code Below is just for a "friend" usage. Please modify it to be useful in a general purpose context.
                                     //file.SaveAs(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + ".jpg");
                                     Image tmpImage = null;
-                                    tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 640, 480);                                    
+                                    tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 640, 480);
                                     attachment.Path = attachment.Id.ToString();
                                     tmpImage.Save(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + ".jpg");
 
                                     tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 100, 100);
                                     tmpImage.Save(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + "_lil.jpg");
-                                }
 
-                                if (newRecord)
-                                    entity.Attachments.Add(attachment);
+                                    if (newRecord)
+                                        entity.Attachments.Add(attachment);
+                                }
+                                else 
+                                {
+                                    throw new FormatException("You can upload only *.JPEG");
+                                }
                             }
                         }
                     }
