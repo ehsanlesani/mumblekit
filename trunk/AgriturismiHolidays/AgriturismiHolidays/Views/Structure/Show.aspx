@@ -31,9 +31,9 @@
             </p>
             <div id="badge-details">
                 <p><span class="lightorange"><%=accomodation.Street %></span></p>
-                <p><span class="lightbrown">Tel.</span><span class="lightorange"></span></p>
-                <p><span class="lightbrown">Fax.</span><span class="lightorange">0835 50 90 78</span></p>
-                <p><span class="lightbrown">email</span><span class="lightorange"><%=accomodation.Email %></span></p>
+                <p><span class="lightbrown">Tel.</span><span class="lightorange"><%=accomodation.Tel%></span></p>
+                <p><span class="lightbrown">Fax.</span><span class="lightorange"><%=accomodation.Fax%></span></p>
+                <p><span class="lightbrown">E-mail</span><span class="lightorange"><%=accomodation.Email%></span></p>
             </div>    
         </div>
     </div>
@@ -57,10 +57,23 @@
         %>
     </div>
     <div id="tariffe" class="span-8">        
+    </div>    
+    <div id="dove" class="span-8">
+        <% if (accomodation.ShowMap.GetValueOrDefault())
+           {
+               if (!accomodation.MunicipalitiesReference.IsLoaded)
+                   accomodation.MunicipalitiesReference.Load();
+               
+               string geolocation = Server.UrlEncode(accomodation.MunicipalitiesReference.Value.Name.Trim() + "," + accomodation.Street.Trim() +" "+ accomodation.StreetNr.Trim());
+               char label = (accomodation.Name.Length > 0) ? accomodation.Name[0] : 'S';               
+        %>
+            <img src="http://maps.google.com/maps/api/staticmap?markers=color:red|label:<%=label%>|<%=geolocation%>&zoom=14&size=300x300&sensor=false&key=ABQIAAAAbxDwSkSkkRmlIPj2OQG-6RQ976ET3a5nyeSd_F-Qgih1n2nlaxRdfBT2uWFHuUz_WnZJfFDRnEn2Sw" alt="<%=accomodation.Street%>" />
+        <% } %>
+        <p>
+        <%=accomodation.WhereWeAre%>
+        </p>
     </div>
-    <div id="dove">
-    </div>
-    <div id="servizi">
+    <div id="servizi" class="span-8">
     </div>
 </asp:Content>
 

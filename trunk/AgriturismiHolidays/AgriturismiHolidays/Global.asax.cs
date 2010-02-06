@@ -108,10 +108,14 @@ namespace MumbleKit
             accommodationConfiguration.AddColumn("Name", "Nome");
             accommodationConfiguration.AddColumn("Description", "Descrizione");
             accommodationConfiguration.AddColumn("Street", "Ind.");
+            accommodationConfiguration.AddColumn("StreetNr", "Ind.Nr");
             accommodationConfiguration.AddColumn("Cap", "Cap");
             accommodationConfiguration.AddColumn("ShowMap", "Mappa");
             accommodationConfiguration.AddColumn("WhereWeAre", "Dove");
             accommodationConfiguration.AddColumn("Email", "Mail");
+            accommodationConfiguration.AddColumn("Tel", "Tel");
+            accommodationConfiguration.AddColumn("Fax", "Fax");
+            accommodationConfiguration.AddColumn("OnShowcase", "Consigliata");
             accommodationConfiguration.AddColumn("Quality", "Stelle");
             accommodationConfiguration.AddColumn("AccommodationType", "Tipologia");
             accommodationConfiguration.AddColumn("Attachments", "Foto", Formatters.EnumerationFormatter);

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StarterKitModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+    <Schema Namespace="StarterKitModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
         <EntityContainer Name="StarterKitModelStoreContainer">
           <EntitySet Name="Accommodations" EntityType="StarterKitModel.Store.Accommodations" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AccommodationTypes" EntityType="StarterKitModel.Store.AccommodationTypes" store:Type="Tables" Schema="dbo" />
@@ -39,10 +39,6 @@
             <End Role="Provinces" EntitySet="Provinces" />
             <End Role="Municipalities" EntitySet="Municipalities" />
           </AssociationSet>
-          <AssociationSet Name="FK_PageAttachment" Association="StarterKitModel.Store.FK_PageAttachment">
-            <End Role="Pages" EntitySet="Pages" />
-            <End Role="Attachments" EntitySet="Attachments" />
-          </AssociationSet>
           <AssociationSet Name="FK_Provinces_Region" Association="StarterKitModel.Store.FK_Provinces_Region">
             <End Role="Region" EntitySet="Region" />
             <End Role="Provinces" EntitySet="Provinces" />
@@ -69,13 +65,17 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="Description" Type="text" />
           <Property Name="Street" Type="nvarchar" MaxLength="50" />
+          <Property Name="StreetNr" Type="nchar" MaxLength="10" />
           <Property Name="Cap" Type="nvarchar" MaxLength="50" />
           <Property Name="ShowMap" Type="bit" />
           <Property Name="WhereWeAre" Type="text" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="OnShowcase" Type="bit" />
+          <Property Name="Tel" Type="nvarchar" MaxLength="100" />
+          <Property Name="Fax" Type="nchar" MaxLength="100" />
           <Property Name="Quality" Type="int" />
           <Property Name="AccommodationType_Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Municipality_Id" Type="uniqueidentifier" />
@@ -85,7 +85,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Priority" Type="tinyint" />
         </EntityType>
         <EntityType Name="Attachments">
           <Key>
@@ -94,8 +95,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="50" />
-          <Property Name="Path" Type="varchar(max)" />
-          <Property Name="Page_Id" Type="uniqueidentifier" />
+          <Property Name="Path" Type="varchar" MaxLength="255" />
           <Property Name="Accommodations_Id" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Municipalities">
@@ -111,12 +111,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
           <Property Name="Priority" Type="int" />
           <Property Name="Visible" Type="bit" />
           <Property Name="ValidFrom" Type="datetime" />
           <Property Name="ValidTo" Type="datetime" />
-          <Property Name="Body" Type="nvarchar(max)" />
+          <Property Name="Body" Type="nvarchar" MaxLength="255" />
           <Property Name="Section_Id" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="PriceListEntries">
@@ -149,7 +149,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="RoomPriceList">
           <Key>
@@ -254,18 +254,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PageAttachment">
-          <End Role="Pages" Type="StarterKitModel.Store.Pages" Multiplicity="0..1" />
-          <End Role="Attachments" Type="StarterKitModel.Store.Attachments" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pages">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Attachments">
-              <PropertyRef Name="Page_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Provinces_Region">
           <End Role="Region" Type="StarterKitModel.Store.Region" Multiplicity="1" />
           <End Role="Provinces" Type="StarterKitModel.Store.Provinces" Multiplicity="*" />
@@ -326,8 +314,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StarterKitModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
@@ -358,10 +345,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Attachments_Accommodations" Association="StarterKitModel.FK_Attachments_Accommodations">
             <End Role="Accommodations" EntitySet="Accommodations" />
-            <End Role="Attachments" EntitySet="Attachments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PageAttachment" Association="StarterKitModel.FK_PageAttachment">
-            <End Role="Pages" EntitySet="Pages" />
             <End Role="Attachments" EntitySet="Attachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Municipalities_Provinces" Association="StarterKitModel.FK_Municipalities_Provinces">
@@ -406,7 +389,10 @@
           <NavigationProperty Name="AccommodationType" Relationship="StarterKitModel.FK_Accommodations_AccommodationTypes" FromRole="Accommodations" ToRole="AccommodationTypes" />
           <NavigationProperty Name="Municipalities" Relationship="StarterKitModel.FK_Accommodations_Municipalities" FromRole="Accommodations" ToRole="Municipalities" />
           <NavigationProperty Name="Attachments" Relationship="StarterKitModel.FK_Attachments_Accommodations" FromRole="Accommodations" ToRole="Attachments" />
-        </EntityType>
+          <Property Name="OnShowcase" Type="Boolean" Nullable="true" />
+          <Property Name="Tel" Type="String" Nullable="true" />
+          <Property Name="Fax" Type="String" Nullable="true" />
+          <Property Name="StreetNr" Type="String" Nullable="true" /></EntityType>
         <EntityType Name="AccommodationType">
           <Key>
             <PropertyRef Name="Id" />
@@ -414,7 +400,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.FK_Accommodations_AccommodationTypes" FromRole="AccommodationTypes" ToRole="Accommodations" />
-        </EntityType>
+          <Property Name="Priority" Type="Byte" Nullable="true" /></EntityType>
         <EntityType Name="Attachment">
           <Key>
             <PropertyRef Name="Id" />
@@ -424,7 +410,6 @@
           <Property Name="Description" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="Path" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.FK_Attachments_Accommodations" FromRole="Attachments" ToRole="Accommodations" />
-          <NavigationProperty Name="Pages" Relationship="StarterKitModel.FK_PageAttachment" FromRole="Attachments" ToRole="Pages" />
         </EntityType>
         <EntityType Name="Municipality">
           <Key>
@@ -446,7 +431,6 @@
           <Property Name="ValidFrom" Type="DateTime" />
           <Property Name="ValidTo" Type="DateTime" />
           <Property Name="Body" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Attachments" Relationship="StarterKitModel.FK_PageAttachment" FromRole="Pages" ToRole="Attachments" />
           <NavigationProperty Name="Sections" Relationship="StarterKitModel.FK_SectionPage" FromRole="Pages" ToRole="Sections" />
         </EntityType>
         <EntityType Name="PriceListEntry">
@@ -534,10 +518,6 @@
           <End Role="Accommodations" Type="StarterKitModel.Accommodation" Multiplicity="0..1" />
           <End Role="Attachments" Type="StarterKitModel.Attachment" Multiplicity="*" />
         </Association>
-        <Association Name="FK_PageAttachment">
-          <End Role="Pages" Type="StarterKitModel.Page" Multiplicity="0..1" />
-          <End Role="Attachments" Type="StarterKitModel.Attachment" Multiplicity="*" />
-        </Association>
         <Association Name="FK_Municipalities_Provinces">
           <End Role="Provinces" Type="StarterKitModel.Province" Multiplicity="1" />
           <End Role="Municipalities" Type="StarterKitModel.Municipality" Multiplicity="*" />
@@ -571,6 +551,10 @@
           <EntitySetMapping Name="Accommodations">
             <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.Accommodation)">
               <MappingFragment StoreEntitySet="Accommodations">
+                <ScalarProperty Name="StreetNr" ColumnName="StreetNr" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="OnShowcase" ColumnName="OnShowcase" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -586,6 +570,7 @@
           <EntitySetMapping Name="AccommodationTypes">
             <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.AccommodationType)">
               <MappingFragment StoreEntitySet="AccommodationTypes">
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -722,15 +707,6 @@
             </EndProperty>
             <Condition ColumnName="Accommodations_Id" IsNull="false" />
           </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_PageAttachment" TypeName="StarterKitModel.FK_PageAttachment" StoreEntitySet="Attachments">
-            <EndProperty Name="Pages">
-              <ScalarProperty Name="Id" ColumnName="Page_Id" />
-            </EndProperty>
-            <EndProperty Name="Attachments">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-            <Condition ColumnName="Page_Id" IsNull="false" />
-          </AssociationSetMapping>
           <AssociationSetMapping Name="FK_Municipalities_Provinces" TypeName="StarterKitModel.FK_Municipalities_Provinces" StoreEntitySet="Municipalities">
             <EndProperty Name="Provinces">
               <ScalarProperty Name="Id" ColumnName="ProvinceID" />
@@ -803,7 +779,7 @@
     <edmx:Diagrams>
       <Diagram Name="StarterKitModel">
         <EntityTypeShape EntityType="StarterKitModel.Accommodation" Width="1.75" PointX="7.5" PointY="3.125" Height="3.5186979166666665" IsExpanded="true" />
-        <EntityTypeShape EntityType="StarterKitModel.AccommodationType" Width="2" PointX="5.25" PointY="1" Height="1.59568359375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarterKitModel.AccommodationType" Width="2" PointX="4.875" PointY="0.875" Height="1.787985026041667" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.Attachment" Width="1.5" PointX="9.75" PointY="0.75" Height="2.172587890625" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.Municipality" Width="1.5" PointX="5.25" PointY="4" Height="1.7879850260416665" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.Page" Width="1.5" PointX="7.5" PointY="8.375" Height="2.7494921874999996" IsExpanded="true" />
@@ -816,29 +792,25 @@
         <EntityTypeShape EntityType="StarterKitModel.Section" Width="1.5" PointX="5.25" PointY="8.5" Height="2.3648893229166674" IsExpanded="true" />
         <AssociationConnector Association="StarterKitModel.FK_AccommodationRooms_Accommodations" ManuallyRouted="false">
           <ConnectorPoint PointX="9.25" PointY="4.8362939453125" />
-          <ConnectorPoint PointX="9.4166666666666661" PointY="4.8362939453124989" />
-          <ConnectorPoint PointX="9.5833333333333339" PointY="4.8362939453125" />
-          <ConnectorPoint PointX="9.75" PointY="4.8362939453125" /></AssociationConnector>
+          <ConnectorPoint PointX="9.75" PointY="4.8362939453125" />
+          </AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_Accommodations_AccommodationTypes" ManuallyRouted="false">
-          <ConnectorPoint PointX="7.03125" PointY="2.59568359375" />
-          <ConnectorPoint PointX="7.03125" PointY="3.53125" />
-          <ConnectorPoint PointX="7.5" PointY="3.53125" /></AssociationConnector>
+          <ConnectorPoint PointX="5.03125" PointY="2.662985026041667" />
+          <ConnectorPoint PointX="5.03125" PointY="6.5355436197916665" />
+          <ConnectorPoint PointX="7.5" PointY="6.5355436197916665" /></AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_Accommodations_Municipalities" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="4.8939925130208337" />
-          <ConnectorPoint PointX="7.5" PointY="4.8939925130208337" /></AssociationConnector>
+          <ConnectorPoint PointX="7.5" PointY="4.8939925130208337" />
+          </AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_Attachments_Accommodations" ManuallyRouted="false">
           <ConnectorPoint PointX="8.375" PointY="3.125" />
           <ConnectorPoint PointX="8.375" PointY="1.8362939453125" />
           <ConnectorPoint PointX="9.75" PointY="1.8362939453125" />
           </AssociationConnector>
-        <AssociationConnector Association="StarterKitModel.FK_PageAttachment" ManuallyRouted="false">
-          <ConnectorPoint PointX="8.25" PointY="8.375" />
-          <ConnectorPoint PointX="8.25" PointY="6.8936979166666674" />
-          <ConnectorPoint PointX="9.5" PointY="6.8936979166666674" />
-          <ConnectorPoint PointX="9.5" PointY="2.41069291796875" />
-          <ConnectorPoint PointX="9.75" PointY="2.41069291796875" /></AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_Municipalities_Provinces" ManuallyRouted="false">
           <ConnectorPoint PointX="4.5" PointY="4.8939925130208337" />
+          <ConnectorPoint PointX="4.947916666666667" PointY="4.8939925130208328" />
+          <ConnectorPoint PointX="5.114583333333333" PointY="4.8939925130208337" />
           <ConnectorPoint PointX="5.25" PointY="4.8939925130208337" /></AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_SectionPage" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="9.6824446614583337" />

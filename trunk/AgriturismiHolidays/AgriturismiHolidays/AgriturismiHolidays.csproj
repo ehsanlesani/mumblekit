@@ -347,7 +347,6 @@
     <Content Include="Views\Scaffold\Controls\ZeroOrOne.ascx" />
     <Content Include="Views\Scaffold\Edit.aspx" />
     <Content Include="Views\Scaffold\List.aspx" />
-    <Content Include="Views\Shared\Temp.htm" />
     <Content Include="Views\Structure\Show.aspx" />
     <Content Include="Views\Structure\List.aspx" />
   </ItemGroup>
@@ -404,6 +403,7 @@
     <Content Include="Content\Images\star_16x16.png" />
     <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
+    <Content Include="Notes\GoogleMaps.txt" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\HomePage.Master" />
     <Content Include="Views\Shared\Internal.Master" />
@@ -414,7 +414,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\EdmxModels\" />
     <Folder Include="Models\Scaffold\CustomTypes\" />
     <Folder Include="Public\" />
     <Folder Include="Views\Account\" />

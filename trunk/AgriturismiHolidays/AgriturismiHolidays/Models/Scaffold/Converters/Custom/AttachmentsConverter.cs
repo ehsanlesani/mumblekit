@@ -41,7 +41,6 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
 
                         if (info.Id.HasValue && info.Delete)
                         {
-                            attachment.Pages = null;
                             container.DeleteObject(attachment);
                         }
                         else

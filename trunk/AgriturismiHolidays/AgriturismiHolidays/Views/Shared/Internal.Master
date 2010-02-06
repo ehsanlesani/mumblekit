@@ -1,5 +1,6 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <%@ Import Namespace="Mumble.Web.StarterKit.Views.Utilities.Helpers" %>
+<%@ Import Namespace="Mumble.Web.StarterKit.Models.Common" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -42,7 +43,7 @@
             <div id="main-menu" class="span-24 last">
                 <ul id="menu-list">
                     <li class="first"><a href="http://<%=Request.ServerVariables["HTTP_HOST"]%>"><img src="../../Content/Images/homeicon.png" alt="home" id="homeicon" />Home</a></li>
-                    <%=Html.TabbedMenu(ViewData["MenuTabs"] as IEnumerable<Mumble.Web.StarterKit.Models.Common.MenuTab>)%>
+                    <%=Html.TabbedMenu(ViewData["MenuTabs"] as IEnumerable<MenuTab>)%>
                 </ul>
             </div>
             <div id="body" class="span-24">  
