@@ -26,12 +26,20 @@ namespace Mumble.Timerou.Models
             }
             set
             {
-                if (value > 90 || value < -90)
+                if (value > 90)
                 {
-                    throw new ArgumentException("Value must be between -90 and 90", "Lat");
+                    var delta = value - 90;
+                    _lat = (90 - delta) * -1;
                 }
-
-                _lat = value;
+                else if (value < -90)
+                {
+                    var delta = Math.Abs(value) - 90;
+                    _lat = (90 - delta);
+                }
+                else
+                {
+                    _lat = value;
+                }
             }
         }
 
@@ -43,12 +51,20 @@ namespace Mumble.Timerou.Models
             }
             set
             {
-                if (value > 180 || value < -180)
+                if (value > 180)
                 {
-                    throw new ArgumentException("Value must be between -180 and 180", "Lng");
+                    var delta = value - 180;
+                    _lng = (180 - delta) * -1;
                 }
-
-                _lng = value;
+                else if (value < -180)
+                {
+                    var delta = Math.Abs(value) - 180;
+                    _lng = (180 - delta);
+                }
+                else
+                {
+                    _lng = value;
+                }
             }
         }
         

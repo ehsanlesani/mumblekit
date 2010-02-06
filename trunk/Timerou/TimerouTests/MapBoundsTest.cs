@@ -63,8 +63,8 @@ namespace TimerouTests
         [TestMethod]
         public void TestValues()
         {
-            var topLeft = new LatLng(10, 175);
-            var bottomRight = new LatLng(40, -165);
+            var topLeft = new LatLng(10, 181);
+            var bottomRight = new LatLng(40, 179);
 
             var bounds = new MapBounds(topLeft, bottomRight);
 
@@ -72,6 +72,14 @@ namespace TimerouTests
             TestContext.WriteLine("Height: {0}", bounds.Height);
             TestContext.WriteLine("Width: {0}", bounds.Width);
             TestContext.WriteLine("Center: {0}", bounds.Center);
+
+            var extend =  MapBounds.CreateFromPoint(new LatLng(50, -190), 50);
+            TestContext.WriteLine("CrossMeridian: {0}", extend.CrossMeridian);
+            TestContext.WriteLine("Height: {0}", extend.Height);
+            TestContext.WriteLine("Width: {0}", extend.Width);
+            TestContext.WriteLine("TopLeft: {0}", extend.TopLeft);
+            TestContext.WriteLine("BottomRight: {0}", extend.BottomRight);
+            TestContext.WriteLine("Center: {0}", extend.Center);
         }
     }
 }

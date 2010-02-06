@@ -38,5 +38,33 @@ namespace Mumble.Timerou.Controllers
             }
         }
 
+        /// <summary>
+        /// Get related pictures. A related picture is a picture near specified
+        /// </summary>
+        /// <param name="pictureId"></param>
+        /// <param name="lat1"></param>
+        /// <param name="lng1"></param>
+        /// <param name="lat2"></param>
+        /// <param name="lng2"></param>
+        /// <returns></returns>
+        public ActionResult LoadRelatedPictures(Guid pictureId, double lat1, double lng1, double lat2, double lng2)
+        {
+            try
+            {
+                MapBounds mapViewBounds = new MapBounds(new LatLng(lat1, lng1), new LatLng(lat2, lng2));
+                Picture picture = Container.MapObjects.OfType<Picture>().Where(p => p.Id == pictureId).First();
+
+                MapManager mapManager = new MapManager(Container);
+                IEnumerable<Picture> pictures = mapManager.LoadRelatedPictures(mapViewBounds, picture);
+                LoadPicturesResponse response = LoadPicturesResponse.FromList(pictures);
+
+                return this.CamelCaseJson(response);
+            }
+            catch (Exception ex)
+            {
+                return this.CamelCaseJson(new SimpleResponse(true, ex.Message));
+            }
+        }
+
     }
 }
