@@ -11,5 +11,16 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         {
             return Name;
         }
+
+        public string ShortDescription 
+        {
+            get 
+            {
+                if (Description.Length > 260)
+                    return Description.Remove(260) +"...";
+                else
+                    return Description;
+            }
+        }
     }
 }

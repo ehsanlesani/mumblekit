@@ -400,6 +400,7 @@
     <Content Include="Content\Css\jquery\white\t_c.png" />
     <Content Include="Content\Css\jquery\white\t_l.png" />
     <Content Include="Content\Css\jquery\white\t_r.png" />
+    <Content Include="Content\Images\no_picture.png" />
     <Content Include="Content\Images\star_16x16.png" />
     <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
