@@ -127,7 +127,7 @@
                         {
                             var img = a.Attachments.ElementAt<Attachment>(0);               
                         %>
-                                <a href="/Public/<%=img.Path %>.jpg" title="<%=a.Name%>">
+                                <a href="Structure.aspx/Show/<%=a.Id%>" title="<%=a.Name%>">
                                     <img src="/Public/<%=img.Path %>_lil.jpg" alt="<%=a.Name%>" />
                                 </a>
                         <%  }
