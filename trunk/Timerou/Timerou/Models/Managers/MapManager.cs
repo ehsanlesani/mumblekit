@@ -55,7 +55,7 @@ namespace Mumble.Timerou.Models.Managers
             int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
             var crossMeridian = searchBounds.CrossMeridian;
 
-            var pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
+            var pictures = (from p in _container.MapObjects.OfType<Picture>()
                             where p.Lat <= searchBounds.TopLeft.Lat
                             && p.Lat >= searchBounds.BottomRight.Lat
                             && ((crossMeridian && (p.Lng >= searchBounds.TopLeft.Lng || p.Lng <= searchBounds.BottomRight.Lng))
