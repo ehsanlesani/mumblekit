@@ -306,4 +306,18 @@ img.item-image {
 
 }
 
+img.section-title 
+{
+    display:block;
+    clear:both;
+}
+
+.inner-section {
+    margin-top:15px;
+}
+
+.section-title {
+    margin-bottom:20px;
+}
+
 

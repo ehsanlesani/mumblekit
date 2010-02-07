@@ -53,6 +53,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         public ActionResult Show(string id)
         {
             StructureViewModel vm = new StructureViewModel();
+            ViewData["MenuTabs"] = MenuTab.GetMenuItems();
 
             try
             {

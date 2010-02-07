@@ -401,6 +401,7 @@
     <Content Include="Content\Css\jquery\white\t_c.png" />
     <Content Include="Content\Css\jquery\white\t_l.png" />
     <Content Include="Content\Css\jquery\white\t_r.png" />
+    <Content Include="Content\Images\announced-by.png" />
     <Content Include="Content\Images\where-title.png" />
     <Content Include="Content\Images\no_picture.png" />
     <Content Include="Content\Images\services-title.png" />
@@ -412,6 +413,7 @@
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\HomePage.Master" />
     <Content Include="Views\Shared\Internal.Master" />
+    <Content Include="Views\Shared\MainMenu.ascx" />
     <Content Include="Views\Structure\Index.ascx" />
     <Content Include="Views\Structure\ListPartial.ascx" />
     <Content Include="Views\Structure\NewsletterPartial.ascx" />

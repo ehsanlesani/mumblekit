@@ -62,55 +62,57 @@
             }
         %>
     </div>
-    <div id="tariffe" class="span-8">    
-        <img src="<%=ResolveUrl("~/Content/Images/prices-title.png")%>" alt="servizi" />
-        <%
-            if (!accomodation.Rooms.IsLoaded)
-                accomodation.Rooms.Load();
+    <div class="span-24 last">
+        <div id="tariffe" class="span-8  inner-section">    
+            <img src="<%=ResolveUrl("~/Content/Images/prices-title.png")%>" alt="servizi" class="section-title" />
+            <%
+                if (!accomodation.Rooms.IsLoaded)
+                    accomodation.Rooms.Load();
 
-            foreach (Room r in accomodation.Rooms)
-            {
-                if (!r.RoomPriceList.IsLoaded)
-                    r.RoomPriceList.Load();
-
-                foreach (RoomPriceList rp in r.RoomPriceList) 
+                foreach (Room r in accomodation.Rooms)
                 {
-                    if (!rp.PriceListSeasonsReference.IsLoaded)
-                        rp.PriceListSeasonsReference.Load();
-                    
-                    //rp.PriceListSeasons
-                }
-            }
-            
-        %>    
-    </div>    
-    <div id="dove" class="span-8">
-        <img src="<%=ResolveUrl("~/Content/Images/where-title.png")%>" alt="servizi" />
-        <% if (accomodation.ShowMap.GetValueOrDefault())
-           {
-               string geolocation = Server.UrlEncode(accomodation.MunicipalitiesReference.Value.Name.Trim() + "," + accomodation.Street.Trim() +" "+ accomodation.StreetNr.Trim());
-               char label = (accomodation.Name.Length > 0) ? accomodation.Name[0] : 'S';               
-        %>
-            <img src="http://maps.google.com/maps/api/staticmap?markers=color:red|label:<%=label%>|<%=geolocation%>&zoom=14&size=250x250&sensor=false&key=ABQIAAAAbxDwSkSkkRmlIPj2OQG-6RQ976ET3a5nyeSd_F-Qgih1n2nlaxRdfBT2uWFHuUz_WnZJfFDRnEn2Sw" alt="<%=accomodation.Street%>" />
-        <% } %>
-        <p>
-        <%=accomodation.WhereWeAre%>
-        </p>
-    </div>    
-    <div id="servizi" class="span-8">
-        <img src="<%=ResolveUrl("~/Content/Images/services-title.png")%>" alt="servizi" />
-        <ul class="service-ul">
-        <%
-            if (!accomodation.Services.IsLoaded)
-                accomodation.Services.Load();
+                    if (!r.RoomPriceList.IsLoaded)
+                        r.RoomPriceList.Load();
 
-            foreach (Service service in accomodation.Services)
-            {                 
-        %>
-                <li title="<%=service.Description%>"><%=service.Name%></li>
-        <%  } %>
-        </ul>
-    </div>
+                    foreach (RoomPriceList rp in r.RoomPriceList) 
+                    {
+                        if (!rp.PriceListSeasonsReference.IsLoaded)
+                            rp.PriceListSeasonsReference.Load();
+                        
+                        //rp.PriceListSeasons
+                    }
+                }
+                
+            %>    
+        </div>    
+        <div id="dove" class="span-8  inner-section">
+            <img src="<%=ResolveUrl("~/Content/Images/where-title.png")%>" alt="servizi" class="section-title" />
+            <% if (accomodation.ShowMap.GetValueOrDefault())
+               {
+                   string geolocation = Server.UrlEncode(accomodation.MunicipalitiesReference.Value.Name.Trim() + "," + accomodation.Street.Trim() +" "+ accomodation.StreetNr.Trim());
+                   char label = (accomodation.Name.Length > 0) ? accomodation.Name[0] : 'S';               
+            %>
+                <img style="margin-bottom:10px;" src="http://maps.google.com/maps/api/staticmap?markers=color:red|label:<%=label%>|<%=geolocation%>&zoom=14&size=300x300&sensor=false&key=ABQIAAAAbxDwSkSkkRmlIPj2OQG-6RQ976ET3a5nyeSd_F-Qgih1n2nlaxRdfBT2uWFHuUz_WnZJfFDRnEn2Sw" alt="<%=accomodation.Street%>" />
+            <% } %>
+            <p>
+            <%=accomodation.WhereWeAre%>
+            </p>
+        </div>    
+        <div id="servizi" class="span-8 last inner-section">
+            <img src="<%=ResolveUrl("~/Content/Images/services-title.png")%>" alt="servizi" class="section-title" />
+            <ul class="service-ul">
+            <%
+                if (!accomodation.Services.IsLoaded)
+                    accomodation.Services.Load();
+
+                foreach (Service service in accomodation.Services)
+                {                 
+            %>
+                    <li title="<%=service.Description%>"><%=service.Name%></li>
+            <%  } %>
+            </ul>
+        </div>
+    </div>    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">

@@ -22,14 +22,23 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             {
                 ViewData["RegionItems"] = GetRegionsSelectList();
                 ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+                ViewData["Showcase"] = GetOnShowCaseAccomodations();
             }
-            catch(Exception) 
+            catch (Exception)
             {
             }
-            
-            return View();            
+
+            return View();
         }
-        
+
+        private IEnumerable<Accommodation> GetOnShowCaseAccomodations()
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            var showcased = (from a in context.Accommodations where a.OnShowcase == true select a).AsEnumerable<Accommodation>();
+
+            return showcased;
+        }        
+
         private IList<SelectListItem> GetRegionsSelectList() 
         {
             StarterKitContainer context = new StarterKitContainer();
