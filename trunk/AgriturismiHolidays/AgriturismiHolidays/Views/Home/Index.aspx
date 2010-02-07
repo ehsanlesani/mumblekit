@@ -63,47 +63,7 @@
     </div>
 </div>
 <div id="centerside" class="column span-8">
-    <div id="findApartment">
-        <% using (Html.BeginForm()){ %> 
-        <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-            <td class="align-right bold">Destinazione:</td>
-            <td>
-                <% if (ViewData["RegionItems"] != null) { } %>
-                <%//Html.DropDownList("RegionItems")%>                
-            </td>
-        </tr>    
-        <tr>
-            <td class="align-right bold">Dal:</td>                        
-            <td><input type="text" class="datepicker" /></td>
-        </tr>
-        <tr>
-            <td class="align-right bold">Al:</td>
-            <td><input type="text" class="datepicker" /></td>
-        </tr>
-        <tr>
-            <td class="align-right bold">Persone:</td>
-            <td>
-            <select>
-                <option>2 persone</option>
-            </select>
-            </td>
-        </tr>
-        <tr>
-            <td class="align-right bold">Camere:</td>
-            <td>
-            <select>
-                <option>1 camera</option>
-            </select>
-            </td>
-        </tr>
-        <tr>
-            <td class="align-right"><input type="button" value="cerca" /></td>
-            <td></td>
-        </tr>        
-        </table>  
-        <% } %>                  
-    </div>                
+          
 </div>
 <div id="rightside" class="column span-8 last">
     <div id="border-left">                    
