@@ -41,10 +41,7 @@
                 </div>
             </div>
             <div id="main-menu" class="span-24 last">
-                <ul id="menu-list">
-                    <li class="first"><a href="http://<%=Request.ServerVariables["HTTP_HOST"]%>"><img src="../../Content/Images/homeicon.png" alt="home" id="homeicon" />Home</a></li>
-                    <%=Html.TabbedMenu(ViewData["MenuTabs"] as IEnumerable<MenuTab>)%>
-                </ul>
+                <% Html.RenderPartial("MainMenu"); %>
             </div>
             <div id="body" class="span-24">  
                 <asp:ContentPlaceHolder ID="BodyContent" runat="server" />

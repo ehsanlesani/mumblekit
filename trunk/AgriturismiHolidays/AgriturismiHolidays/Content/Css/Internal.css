@@ -1,5 +1,5 @@
 ﻿#structure-main-pic {
-    border:5px solid #603934;
+    border:3px solid #603934;
     float:left;
 }
 
@@ -41,4 +41,12 @@
 	float:left;
 	border:5px solid #E2DED3;
 	margin:15px;
+}
+
+#gallery a.gal-image:link, #gallery a.gal-image:visited{
+	border:3px solid #E2DED3;
+}
+
+#gallery a.gal-image:hover {
+    border:3px solid #DE9347;
 }
