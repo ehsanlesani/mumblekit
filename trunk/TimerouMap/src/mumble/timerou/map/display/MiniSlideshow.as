@@ -23,9 +23,9 @@ package mumble.timerou.map.display
 		private const HEIGHT:int = 105;
 		private const PICTURE_WIDTH:int = 100; 
 		private const PICTURE_HEIGHT:int = 100;
-		private const BACKGROUND_COLOR:uint = 0x333333;
+		private const BACKGROUND_COLOR:uint = 0xFFFFFF;
+		private const BORDER_COLOR:uint = 0xEEEEEE;
 		private const BACKGROUND_ALPHA:Number = 1;
-		private const BORDER_COLOR:uint = 0x999999;
 		private const ROUND_SIZE:int = 0;
 		private const SLIDESHOW_DELAY:int = 3000; //milliseconds
 		
@@ -105,7 +105,7 @@ package mumble.timerou.map.display
 				this.currentPictureIndex = 0;
 			}
 			
-			var request:URLRequest = new URLRequest(Main.BASEURL + this.pictures[this.currentPictureIndex].avatarPath);
+			var request:URLRequest = new URLRequest(Main.BASEPICTURESURL + this.pictures[this.currentPictureIndex].avatarPath);
 			var loader:Loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {				
 				//dispatch event to show picture on the map

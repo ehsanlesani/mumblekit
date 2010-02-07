@@ -2,6 +2,9 @@
 {
 	import com.google.maps.LatLngBounds;
 	
+	import fl.transitions.Tween;
+	import fl.transitions.easing.Strong;
+	
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -13,11 +16,12 @@
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.utils.Timer;
+	import flash.utils.setTimeout;
 	
 	import mumble.timerou.map.data.JSON;
 	import mumble.timerou.map.data.PictureData;
+	import mumble.timerou.map.display.MediaBar;
 	import mumble.timerou.map.display.MediaContainer;
-	import mumble.timerou.map.display.MiniSlideshow;
 	import mumble.timerou.map.display.TimerouMap;
 	
 	
@@ -29,12 +33,16 @@
 	[SWF(height = 600, width = 800)]
 	public class Main extends MovieClip 
 	{
-		public static const BASEURL:String = "http://localhost:1095/Pictures/";
+		public static var BASEURL:String = "http://localhost:1095/";
+		public static var BASEPICTURESURL:String = "http://localhost:1095/Pictures/";
+		public static var MAPKEY:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxRZcg6rHxTBMZ4Dun_V7KJl7bsRkRTyyWCSl2lWQpqYDZamuBcqyGfb-Q";
 		
 		private var map:TimerouMap = null;
-		private var miniSlideshow:MiniSlideshow = null;
+		private var mediaContainer:MediaContainer = null;
+		private var mediaBar:MediaBar = null;
 		private var mapMoveTimer:Timer = null;
 		private var pictures:Array = new Array();
+		private var tween:Tween = null;
 		
 		public function Main():void 
 		{
@@ -57,27 +65,23 @@
 			stage.align = StageAlign.TOP_LEFT;
 			
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			// entry point
+			// entry point			
 			
+			this.map = new TimerouMap();			
+			this.mediaContainer = new MediaContainer();
+			this.mediaContainer.visible = false;
 			
-			this.map = new TimerouMap();
-			this.miniSlideshow = new MiniSlideshow();
-			this.miniSlideshow.addEventListener("slideshowChanged", showPictureOnMap);
+			this.mediaBar = new MediaBar();
+			this.mediaBar.visible = false;
+			this.mediaBar.map = map;
 			
 			addChild(map);
-			addChild(miniSlideshow);
-			addChild(new MediaContainer());
-			
+			addChild(mediaBar);
+			addChild(mediaContainer);
+						
 			//map.addEventListener("timerouMapReady", mapReady);
 			map.addEventListener("timerouMapMoveStart", mapMoveStart);
 			map.addEventListener("timerouMapMoveEnd", mapMoveEnd);
-		}
-		
-		private function showPictureOnMap(e:Event):void {
-			var pictureData:* = this.miniSlideshow.getCurrentSlideshowPicture();
-			if(pictureData != null) {
-				this.map.showPictureLocation(pictureData);
-			}
 		}
 		
 		private function mapMoveTimerComplete(e:TimerEvent):void {
@@ -85,8 +89,8 @@
 		}
 		
 		private function mapMoveStart(e:Event):void {
-			this.map.clearPictureLocation();
-			this.miniSlideshow.hide();
+			this.hideMediaContainer();
+			this.mediaBar.hide();
 			this.mapMoveTimer.stop();
 		}
 		
@@ -132,20 +136,52 @@
 			}
 		}
 		
+		private function hideMediaContainer():void {
+			var duration:Number = 0.25;
+			tween = new Tween(mediaContainer, "x", Strong.easeOut, 0, mediaContainer.width * -1, duration, true);
+			tween = new Tween(mediaContainer, "y", Strong.easeOut, 0, mediaContainer.height * -1, duration, true);
+			
+			setTimeout(function():void { mediaContainer.visible = false; }, duration * 1000);
+		}
+		
+		private function showMediaContainer():void {
+			mediaContainer.visible = true;
+			var duration:Number = 0.25;
+			tween = new Tween(mediaContainer, "x", Strong.easeOut, mediaContainer.x, 0, duration, true);
+			tween = new Tween(mediaContainer, "y", Strong.easeOut, mediaContainer.y, 0, duration, true);
+		}
+		
 		public function setPicturesData(jsonData:String):void {
+			this.pictures = new Array();
 			var result:* = JSON.deserialize(jsonData);
 			if (result != null && !result.error) {
 				//load as known objects
-				this.pictures = new Array();
+				for(var  c:int = 0; c < 10; c++)
 				for(var i:int = 0; i < result.pictures.length; i++) {
 					this.pictures.push(new PictureData(result.pictures[i]));
 				}
 				
-				//clear current picture location on map
-				this.map.clearPictureLocation();
+				//and load pictures on media container
+				hideMediaContainer();
+				this.mediaBar.load(this.pictures);
+				this.mediaBar.show();
+			}
+		}		
+		
+		public function setPicturesRelatedData(jsonData:String):void {
+			this.pictures = new Array();
+			var result:* = JSON.deserialize(jsonData);
+			if (result != null && !result.error) {
+				//load as known objects
+				for(var  c:int = 0; c < 10; c++) {
+				for(var i:int = 0; i < result.pictures.length; i++) {
+					this.pictures.push(new PictureData(result.pictures[i]));
+				}
+				}				
 
 				//and load pictures on media container
-				this.miniSlideshow.load(this.pictures);
+				this.mediaContainer.load(this.pictures);
+				showMediaContainer();							
 			}
 		}		
 	}	

@@ -4,10 +4,15 @@
 	import com.google.maps.LatLngBounds;
 	import com.google.maps.Map;
 	import com.google.maps.MapEvent;
+	import com.google.maps.MapMouseEvent;
 	import com.google.maps.MapMoveEvent;
 	import com.google.maps.MapType;
 	import com.google.maps.overlays.Marker;
 	import com.google.maps.overlays.MarkerOptions;
+	import com.google.maps.overlays.Polygon;
+	import com.google.maps.overlays.PolygonOptions;
+	import com.google.maps.styles.FillStyle;
+	import com.google.maps.styles.StrokeStyle;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -15,8 +20,13 @@
 	import flash.filters.BitmapFilter;
 	import flash.filters.ColorMatrixFilter;
 	import flash.geom.Point;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
 	
 	import mumble.timerou.map.controls.RoundedButton;
+	import mumble.timerou.map.data.JSON;
 	import mumble.timerou.map.data.PictureData;
 	/**
 	 * ...
@@ -25,7 +35,6 @@
 	public class TimerouMap extends Sprite
 	{		
 		private var map:Map = new Map();
-		private var mapKey:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxRZcg6rHxTBMZ4Dun_V7KJl7bsRkRTyyWCSl2lWQpqYDZamuBcqyGfb-Q";		
 		private var filter:ColorMatrixFilter = new ColorMatrixFilter();
 		private var localizedPictureMarker:Marker = null;
 		
@@ -70,7 +79,7 @@
 		}
 		
 		private function init(e:Event):void {
-			map.key = mapKey;
+			map.key = Main.MAPKEY;
 			map.addEventListener(MapEvent.MAP_READY, onMapReady);
 			map.addEventListener(MapMoveEvent.MOVE_START, onMapMoveStart);
 			map.addEventListener(MapMoveEvent.MOVE_END, onMapMoveEnd);
@@ -163,7 +172,7 @@
 			this.clearPictureLocation();
 			
 			var latLng:LatLng = pictureData.latLng;
-			var icon:PictureIcon = new PictureIcon(Main.BASEURL + pictureData.avatarPath);			
+			var icon:PictureIcon = new PictureIcon(Main.BASEPICTURESURL + pictureData.avatarPath);			
 			var options:MarkerOptions = new MarkerOptions();
 			options.icon = icon;
 			this.localizedPictureMarker = new Marker(latLng, options);
