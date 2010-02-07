@@ -7,21 +7,27 @@
         var accomodation = ViewData.Model.Accommodation; 
         
         if (!accomodation.Attachments.IsLoaded)
-                accomodation.Attachments.Load();    
+                accomodation.Attachments.Load();
+
+        if (!accomodation.MunicipalitiesReference.IsLoaded)
+            accomodation.MunicipalitiesReference.Load();
     %>
-        <div id="badge" class="span-10">
+        <div id="badge" class="span-8">
         <%
+            string location = accomodation.MunicipalitiesReference.Value.Name +", "+ accomodation.Street +" "+ accomodation.StreetNr;
+            
             if (accomodation.Attachments.Count > 0)
             {
                 var img = accomodation.Attachments.ElementAt<Attachment>(0);               
         %>
-                <a href="/Public/<%=img.Path %>.jpg" title="<%=img%>" class="pirobox_gall">
+                <a href="/Public/<%=img.Path %>.jpg" title="<%=img%>" class="pirobox">
                     <img src="/Public/<%=img.Path %>_lil.jpg" alt="<%=img.Title%>" id="structure-main-pic" />
                 </a>
         <%  }
             else 
-            {        %>
-             <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=accomodation.Name%>" id="structure-main-pic" style="border:none;" />         
+            {   
+        %>
+                <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=accomodation.Name%>" id="structure-main-pic" style="border:none;" />         
         <%  } %>
         <div class="span-5">
             <p id="badge-title">
@@ -30,14 +36,14 @@
                 </span>
             </p>
             <div id="badge-details">
-                <p><span class="lightorange"><%=accomodation.Street %></span></p>
+                <p><span class="lightorange"><%=location%></span></p>
                 <p><span class="lightbrown">Tel.</span><span class="lightorange"><%=accomodation.Tel%></span></p>
                 <p><span class="lightbrown">Fax.</span><span class="lightorange"><%=accomodation.Fax%></span></p>
                 <p><span class="lightbrown">E-mail</span><span class="lightorange"><%=accomodation.Email%></span></p>
             </div>    
         </div>
     </div>
-    <div id="structure-description" class="span-13 last">
+    <div id="structure-description" class="span-15 last">
         <%=accomodation.Description%>
     </div>    
     <div id="gallery" class="span-24 last">
@@ -56,24 +62,54 @@
             }
         %>
     </div>
-    <div id="tariffe" class="span-8">        
+    <div id="tariffe" class="span-8">    
+        <img src="<%=ResolveUrl("~/Content/Images/prices-title.png")%>" alt="servizi" />
+        <%
+            if (!accomodation.Rooms.IsLoaded)
+                accomodation.Rooms.Load();
+
+            foreach (Room r in accomodation.Rooms)
+            {
+                if (!r.RoomPriceList.IsLoaded)
+                    r.RoomPriceList.Load();
+
+                foreach (RoomPriceList rp in r.RoomPriceList) 
+                {
+                    if (!rp.PriceListSeasonsReference.IsLoaded)
+                        rp.PriceListSeasonsReference.Load();
+                    
+                    //rp.PriceListSeasons
+                }
+            }
+            
+        %>    
     </div>    
     <div id="dove" class="span-8">
+        <img src="<%=ResolveUrl("~/Content/Images/where-title.png")%>" alt="servizi" />
         <% if (accomodation.ShowMap.GetValueOrDefault())
            {
-               if (!accomodation.MunicipalitiesReference.IsLoaded)
-                   accomodation.MunicipalitiesReference.Load();
-               
                string geolocation = Server.UrlEncode(accomodation.MunicipalitiesReference.Value.Name.Trim() + "," + accomodation.Street.Trim() +" "+ accomodation.StreetNr.Trim());
                char label = (accomodation.Name.Length > 0) ? accomodation.Name[0] : 'S';               
         %>
-            <img src="http://maps.google.com/maps/api/staticmap?markers=color:red|label:<%=label%>|<%=geolocation%>&zoom=14&size=300x300&sensor=false&key=ABQIAAAAbxDwSkSkkRmlIPj2OQG-6RQ976ET3a5nyeSd_F-Qgih1n2nlaxRdfBT2uWFHuUz_WnZJfFDRnEn2Sw" alt="<%=accomodation.Street%>" />
+            <img src="http://maps.google.com/maps/api/staticmap?markers=color:red|label:<%=label%>|<%=geolocation%>&zoom=14&size=250x250&sensor=false&key=ABQIAAAAbxDwSkSkkRmlIPj2OQG-6RQ976ET3a5nyeSd_F-Qgih1n2nlaxRdfBT2uWFHuUz_WnZJfFDRnEn2Sw" alt="<%=accomodation.Street%>" />
         <% } %>
         <p>
         <%=accomodation.WhereWeAre%>
         </p>
-    </div>
+    </div>    
     <div id="servizi" class="span-8">
+        <img src="<%=ResolveUrl("~/Content/Images/services-title.png")%>" alt="servizi" />
+        <ul class="service-ul">
+        <%
+            if (!accomodation.Services.IsLoaded)
+                accomodation.Services.Load();
+
+            foreach (Service service in accomodation.Services)
+            {                 
+        %>
+                <li title="<%=service.Description%>"><%=service.Name%></li>
+        <%  } %>
+        </ul>
     </div>
 </asp:Content>
 

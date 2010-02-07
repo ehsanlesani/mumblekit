@@ -19,9 +19,10 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_RoomPriceList_PriceListSeasons", "PriceListSeasons", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.PriceListSeason), "RoomPriceList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.RoomPriceList))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Provinces_Region", "Region", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Region), "Provinces", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Province))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_RoomPriceList_Rooms", "Rooms", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Room), "RoomPriceList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.RoomPriceList))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "AccomodationService", "Accommodation", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Accommodation), "Services", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Service))]
 
 // Original file name:
-// Generation date: 06/02/2010 20:49:08
+// Generation date: 07/02/2010 19:59:40
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
@@ -236,6 +237,21 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         }
         private global::System.Data.Objects.ObjectQuery<Section> _Sections;
         /// <summary>
+        /// There are no comments for Services in the schema.
+        /// </summary>
+        public global::System.Data.Objects.ObjectQuery<Service> Services
+        {
+            get
+            {
+                if ((this._Services == null))
+                {
+                    this._Services = base.CreateQuery<Service>("[Services]");
+                }
+                return this._Services;
+            }
+        }
+        private global::System.Data.Objects.ObjectQuery<Service> _Services;
+        /// <summary>
         /// There are no comments for Accommodations in the schema.
         /// </summary>
         public void AddToAccommodations(Accommodation accommodation)
@@ -318,6 +334,13 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         public void AddToSections(Section section)
         {
             base.AddObject("Sections", section);
+        }
+        /// <summary>
+        /// There are no comments for Services in the schema.
+        /// </summary>
+        public void AddToServices(Service service)
+        {
+            base.AddObject("Services", service);
         }
     }
     /// <summary>
@@ -753,6 +776,27 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Attachment>("StarterKitModel.FK_Attachments_Accommodations", "Attachments", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Services in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "AccomodationService", "Services")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Service> Services
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Service>("StarterKitModel.AccomodationService", "Services");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Service>("StarterKitModel.AccomodationService", "Services", value);
                 }
             }
         }
@@ -2356,6 +2400,118 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Page>("StarterKitModel.FK_SectionPage", "Pages", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for StarterKitModel.Service in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="StarterKitModel", Name="Service")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Service : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Service object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        public static Service CreateService(global::System.Guid id)
+        {
+            Service service = new Service();
+            service.Id = id;
+            return service;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property Name in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
+            }
+        }
+        private string _Name;
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Property Description in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description
+        {
+            get
+            {
+                return this._Description;
+            }
+            set
+            {
+                this.OnDescriptionChanging(value);
+                this.ReportPropertyChanging("Description");
+                this._Description = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Description");
+                this.OnDescriptionChanged();
+            }
+        }
+        private string _Description;
+        partial void OnDescriptionChanging(string value);
+        partial void OnDescriptionChanged();
+        /// <summary>
+        /// There are no comments for Accommodations in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "AccomodationService", "Accommodation")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Accommodation> Accommodations
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Accommodation>("StarterKitModel.AccomodationService", "Accommodation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Accommodation>("StarterKitModel.AccomodationService", "Accommodation", value);
                 }
             }
         }

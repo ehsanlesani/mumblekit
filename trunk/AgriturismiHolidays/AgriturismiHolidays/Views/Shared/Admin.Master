@@ -120,7 +120,14 @@
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Room.aspx/Edit") %>">Nuova sistemazione</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Room.aspx/List") %>">Lista sistemazioni</a></span></li>                                                
                                             </ul>
-                                        </li>                                        
+                                        </li>  
+                                        <li class="closed">
+                                            <span class="folder">Servizi</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Service.aspx/Edit") %>">Nuovo servizio</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Service.aspx/List") %>">Lista servizi</a></span></li>                                                
+                                            </ul>
+                                        </li>                                                                              
                                     </ul>
                                 </li>
                                 <li class="closed">
