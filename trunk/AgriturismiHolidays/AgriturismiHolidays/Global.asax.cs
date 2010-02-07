@@ -106,7 +106,7 @@ namespace MumbleKit
 
             ListConfiguration accommodationConfiguration = new ListConfiguration();
             accommodationConfiguration.AddColumn("Name", "Nome");
-            accommodationConfiguration.AddColumn("Description", "Descrizione");
+            //accommodationConfiguration.AddColumn("Description", "Descrizione");
             accommodationConfiguration.AddColumn("Street", "Ind.");
             accommodationConfiguration.AddColumn("StreetNr", "Ind.Nr");
             accommodationConfiguration.AddColumn("Cap", "Cap");

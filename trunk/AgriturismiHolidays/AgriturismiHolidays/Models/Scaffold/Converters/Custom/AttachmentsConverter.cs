@@ -58,7 +58,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters.Custom
                                     // TODO: Code Below is just for a "friend" usage. Please modify it to be useful in a general purpose context.
                                     //file.SaveAs(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + ".jpg");
                                     Image tmpImage = null;
-                                    tmpImage = ImageHelper.CreateAvatar(Image.FromStream(file.InputStream), 640, 480);
+                                    tmpImage = ImageHelper.CreateOptimized(Image.FromStream(file.InputStream), 800, 600);
                                     attachment.Path = attachment.Id.ToString();
                                     tmpImage.Save(HttpContext.Current.Server.MapPath("~/Public/") + attachment.Id.ToString() + ".jpg");
 

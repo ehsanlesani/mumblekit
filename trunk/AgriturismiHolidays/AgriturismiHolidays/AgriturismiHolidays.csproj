@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Admin\AccommodationController.cs" />
+    <Compile Include="Controllers\Admin\ServiceController.cs" />
     <Compile Include="Controllers\Admin\GroupController.cs" />
     <Compile Include="Controllers\Admin\LoginController.cs" />
     <Compile Include="Controllers\Admin\MainController.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Models\ExtPartial\AccommodationType.cs" />
     <Compile Include="Models\ExtPartial\Attachment.cs" />
     <Compile Include="Models\Common\MenuTab.cs" />
+    <Compile Include="Models\ExtPartial\Service.cs" />
     <Compile Include="Models\ExtPartial\Group.cs" />
     <Compile Include="Models\ExtPartial\IEntityWithAttachments.cs" />
     <Compile Include="Models\Images\ImageHelper.cs" />
@@ -399,8 +401,11 @@
     <Content Include="Content\Css\jquery\white\t_c.png" />
     <Content Include="Content\Css\jquery\white\t_l.png" />
     <Content Include="Content\Css\jquery\white\t_r.png" />
+    <Content Include="Content\Images\where-title.png" />
     <Content Include="Content\Images\no_picture.png" />
+    <Content Include="Content\Images\services-title.png" />
     <Content Include="Content\Images\star_16x16.png" />
+    <Content Include="Content\Images\prices-title.png" />
     <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Notes\GoogleMaps.txt" />
