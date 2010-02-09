@@ -121,8 +121,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ProvinceID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProvinceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Prefix" Type="nchar" MaxLength="10" />
+          <Property Name="PostalCode" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Pages">
           <Key>
@@ -134,7 +136,7 @@
           <Property Name="Visible" Type="bit" />
           <Property Name="ValidFrom" Type="datetime" />
           <Property Name="ValidTo" Type="datetime" />
-          <Property Name="Body" Type="nvarchar" MaxLength="255" />
+          <Property Name="Body" Type="ntext" />
           <Property Name="Section_Id" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="PriceListEntries">
@@ -300,7 +302,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Municipalities">
-              <PropertyRef Name="ProvinceID" />
+              <PropertyRef Name="ProvinceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -424,7 +426,8 @@
           <EntitySet Name="Services" EntityType="StarterKitModel.Service" />
           <AssociationSet Name="AccomodationService" Association="StarterKitModel.AccomodationService">
             <End Role="Accommodation" EntitySet="Accommodations" />
-            <End Role="Services" EntitySet="Services" /></AssociationSet></EntityContainer>
+            <End Role="Services" EntitySet="Services" /></AssociationSet>
+          </EntityContainer>
         <EntityType Name="Accommodation">
           <Key>
             <PropertyRef Name="Id" />
@@ -473,7 +476,9 @@
           <Property Name="Name" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.FK_Accommodations_Municipalities" FromRole="Municipalities" ToRole="Accommodations" />
           <NavigationProperty Name="Provinces" Relationship="StarterKitModel.FK_Municipalities_Provinces" FromRole="Municipalities" ToRole="Provinces" />
-        </EntityType>
+          <Property Name="Prefix" Type="String" Nullable="true" />
+          <Property Name="PostalCode" Type="String" Nullable="true" />
+          </EntityType>
         <EntityType Name="Page">
           <Key>
             <PropertyRef Name="Id" />
@@ -514,7 +519,7 @@
           <Property Name="Name" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Municipalities" Relationship="StarterKitModel.FK_Municipalities_Provinces" FromRole="Provinces" ToRole="Municipalities" />
           <NavigationProperty Name="Region" Relationship="StarterKitModel.FK_Provinces_Region" FromRole="Provinces" ToRole="Region" />
-        </EntityType>
+          </EntityType>
         <EntityType Name="Region">
           <Key>
             <PropertyRef Name="Id" />
@@ -605,7 +610,8 @@
           <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.AccomodationService" FromRole="Services" ToRole="Accommodation" /></EntityType>
         <Association Name="AccomodationService">
           <End Type="StarterKitModel.Accommodation" Role="Accommodation" Multiplicity="*" />
-          <End Type="StarterKitModel.Service" Role="Services" Multiplicity="*" /></Association></Schema>
+          <End Type="StarterKitModel.Service" Role="Services" Multiplicity="*" /></Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -652,6 +658,8 @@
           <EntitySetMapping Name="Municipalities">
             <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.Municipality)">
               <MappingFragment StoreEntitySet="Municipalities">
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -772,8 +780,7 @@
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK_Municipalities_Provinces" TypeName="StarterKitModel.FK_Municipalities_Provinces" StoreEntitySet="Municipalities">
             <EndProperty Name="Provinces">
-              <ScalarProperty Name="Id" ColumnName="ProvinceID" />
-            </EndProperty>
+              <ScalarProperty Name="Id" ColumnName="ProvinceId" /></EndProperty>
             <EndProperty Name="Municipalities">
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
@@ -832,7 +839,8 @@
             <EndProperty Name="Services">
               <ScalarProperty Name="Id" ColumnName="Service_Id" /></EndProperty>
             <EndProperty Name="Accommodation">
-              <ScalarProperty Name="Id" ColumnName="Accomodation_Id" /></EndProperty></AssociationSetMapping></EntityContainerMapping>
+              <ScalarProperty Name="Id" ColumnName="Accomodation_Id" /></EndProperty></AssociationSetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -850,7 +858,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="StarterKitModel" ZoomLevel="75">
+      <Diagram Name="StarterKitModel" ZoomLevel="65">
         <EntityTypeShape EntityType="StarterKitModel.Accommodation" Width="1.75" PointX="7.5" PointY="3.125" Height="3.5186979166666665" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.AccommodationType" Width="2" PointX="4.875" PointY="0.875" Height="1.787985026041667" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.Attachment" Width="1.5" PointX="9.75" PointY="0.75" Height="2.172587890625" IsExpanded="true" />
@@ -911,6 +919,7 @@
           <ConnectorPoint PointX="12.838544166666667" PointY="6.2737939453124989" />
           <ConnectorPoint PointX="13.005210833333335" PointY="6.2737939453125" />
           <ConnectorPoint PointX="14.28125" PointY="6.2737939453125" />
-          <ConnectorPoint PointX="14.28125" PointY="7.75" /></AssociationConnector></Diagram></edmx:Diagrams>
+          <ConnectorPoint PointX="14.28125" PointY="7.75" /></AssociationConnector>
+        </Diagram></edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
