@@ -366,6 +366,7 @@
     <Content Include="Views\Structure\List.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Agriturismi.bak" />
     <None Include="Content\Css\jquery\white\Thumbs.db" />
     <None Include="Models\ExtPartial\StarterKitContainer.edmx.sql" />
     <EntityDeploy Include="Models\ExtPartial\StarterKitModel.edmx">
