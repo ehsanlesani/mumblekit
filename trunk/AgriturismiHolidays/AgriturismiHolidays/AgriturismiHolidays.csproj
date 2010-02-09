@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Admin\AccommodationController.cs" />
+    <Compile Include="Controllers\Admin\AccommodationTypeController.cs" />
     <Compile Include="Controllers\Admin\ServiceController.cs" />
     <Compile Include="Controllers\Admin\GroupController.cs" />
     <Compile Include="Controllers\Admin\LoginController.cs" />
@@ -366,14 +367,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Css\jquery\white\Thumbs.db" />
-    <None Include="Miscellaneous\Agriturismi.bak" />
     <None Include="Models\ExtPartial\StarterKitContainer.edmx.sql" />
     <EntityDeploy Include="Models\ExtPartial\StarterKitModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>StarterKitModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Models\ExtPartial\UsersContainer.edmx.sql" />
-    <None Include="Miscellaneous\out.sql" />
     <EntityDeploy Include="Models\ExtPartial\UsersModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UsersModel.Designer.cs</LastGenOutput>
@@ -423,13 +422,9 @@
     <Content Include="Content\JS\jquery\jquery-1.3.2-vsdoc2.js" />
     <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Content\swf\italy.swf" />
-    <Content Include="Lang\en-US.txt" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
-    <Content Include="Miscellaneous\GoogleMaps.txt" />
     <Content Include="Content\JS\Account.js" />
     <Content Include="Content\JS\jquery\jquery.validate.min.js" />
-    <Content Include="Views\Account\Login.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Home\StaticPage.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />
@@ -439,6 +434,7 @@
     <Content Include="Views\Structure\Index.ascx" />
     <Content Include="Views\Structure\ListPartial.ascx" />
     <Content Include="Views\Structure\NewsletterPartial.ascx" />
+    <Content Include="Views\Structure\SideStaticContent.ascx" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.config" />
   </ItemGroup>

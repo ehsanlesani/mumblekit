@@ -13,9 +13,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             try
@@ -34,6 +35,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             return View();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult StaticPage(string id) 
         {
             try
@@ -49,6 +55,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             return View();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private Page GetPage(string id)
         {
             StarterKitContainer context = new StarterKitContainer();
@@ -62,7 +73,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
             return page;
         }
-
+        
         private IEnumerable<Accommodation> GetOnShowCaseAccomodations()
         {
             StarterKitContainer context = new StarterKitContainer();

@@ -20,9 +20,10 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Provinces_Region", "Region", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Region), "Provinces", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Province))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_RoomPriceList_Rooms", "Rooms", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Room), "RoomPriceList", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.RoomPriceList))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "AccomodationService", "Accommodation", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Accommodation), "Services", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Service))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Pages_AccommodationTypes", "AccommodationType", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.AccommodationType), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Page))]
 
 // Original file name:
-// Generation date: 09/02/2010 17:49:34
+// Generation date: 09/02/2010 20:33:58
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
@@ -252,6 +253,21 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         }
         private global::System.Data.Objects.ObjectQuery<Service> _Services;
         /// <summary>
+        /// There are no comments for Newsletter in the schema.
+        /// </summary>
+        public global::System.Data.Objects.ObjectQuery<Newsletter> Newsletter
+        {
+            get
+            {
+                if ((this._Newsletter == null))
+                {
+                    this._Newsletter = base.CreateQuery<Newsletter>("[Newsletter]");
+                }
+                return this._Newsletter;
+            }
+        }
+        private global::System.Data.Objects.ObjectQuery<Newsletter> _Newsletter;
+        /// <summary>
         /// There are no comments for Accommodations in the schema.
         /// </summary>
         public void AddToAccommodations(Accommodation accommodation)
@@ -341,6 +357,13 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         public void AddToServices(Service service)
         {
             base.AddObject("Services", service);
+        }
+        /// <summary>
+        /// There are no comments for Newsletter in the schema.
+        /// </summary>
+        public void AddToNewsletter(Newsletter newsletter)
+        {
+            base.AddObject("Newsletter", newsletter);
         }
     }
     /// <summary>
@@ -912,6 +935,27 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 }
             }
         }
+        /// <summary>
+        /// There are no comments for Pages in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_Pages_AccommodationTypes", "Page")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Page> Pages
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Page>("StarterKitModel.FK_Pages_AccommodationTypes", "Page");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Page>("StarterKitModel.FK_Pages_AccommodationTypes", "Page", value);
+                }
+            }
+        }
     }
     /// <summary>
     /// There are no comments for StarterKitModel.Attachment in the schema.
@@ -1452,6 +1496,43 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Section>("StarterKitModel.FK_SectionPage", "Sections", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for AccommodationTypes in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("StarterKitModel", "FK_Pages_AccommodationTypes", "AccommodationType")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public AccommodationType AccommodationTypes
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AccommodationType>("StarterKitModel.FK_Pages_AccommodationTypes", "AccommodationType").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AccommodationType>("StarterKitModel.FK_Pages_AccommodationTypes", "AccommodationType").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for AccommodationTypes in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<AccommodationType> AccommodationTypesReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<AccommodationType>("StarterKitModel.FK_Pages_AccommodationTypes", "AccommodationType");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<AccommodationType>("StarterKitModel.FK_Pages_AccommodationTypes", "AccommodationType", value);
                 }
             }
         }
@@ -2561,5 +2642,73 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 }
             }
         }
+    }
+    /// <summary>
+    /// There are no comments for StarterKitModel.Newsletter in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="StarterKitModel", Name="Newsletter")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class Newsletter : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Newsletter object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        public static Newsletter CreateNewsletter(global::System.Guid id)
+        {
+            Newsletter newsletter = new Newsletter();
+            newsletter.Id = id;
+            return newsletter;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property email in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string email
+        {
+            get
+            {
+                return this._email;
+            }
+            set
+            {
+                this.OnemailChanging(value);
+                this.ReportPropertyChanging("email");
+                this._email = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("email");
+                this.OnemailChanged();
+            }
+        }
+        private string _email;
+        partial void OnemailChanging(string value);
+        partial void OnemailChanged();
     }
 }

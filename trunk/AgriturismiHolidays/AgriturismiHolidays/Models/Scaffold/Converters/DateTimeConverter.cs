@@ -12,13 +12,17 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters
 
         public object Convert(string value)
         {
-            DateTime dateTime = DateTime.MinValue;
             try
             {
-                return DateTime.ParseExact(value, DateFormat, Thread.CurrentThread.CurrentCulture.DateTimeFormat);
+                if (!String.IsNullOrEmpty(value))
+                    return DateTime.ParseExact(value, DateFormat, Thread.CurrentThread.CurrentCulture.DateTimeFormat);
+                else
+                    return null;
             }
-            catch(FormatException) { }
-            return null;
+            catch(FormatException) 
+            {
+                return null;
+            }            
         }
 
         public string Convert(object value)
@@ -30,7 +34,7 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Converters
             }
             else
             {
-                return DateTime.MinValue.ToString(DateFormat);
+                return null;
             }
         }
     }
