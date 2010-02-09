@@ -1,6 +1,6 @@
-﻿<%@ Page Title="Timerou: login page" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="Timerou: login page" Language="C#" MasterPageFile="~/Views/Shared/Main.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
-<asp:Content ID="LoginContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="LoginContent" ContentPlaceHolderID="BodyContent" runat="server">
 
     <script type="text/javascript" src="<%= UriHelper.Scripts %>Account.js"></script>
 
