@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Main.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
-<asp:Content ID="RegisterContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="RegisterContent" ContentPlaceHolderID="BodyContent" runat="server">
 
     <script type="text/javascript">
         var BASEURL = '<%=ResolveUrl("~/") %>';

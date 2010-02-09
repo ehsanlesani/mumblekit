@@ -5,7 +5,7 @@ function Account() {}
 Account.prototype = {
     register: function (data, resultDiv, loadingDiv) {
         if (loadingDiv != undefined) { $(loadingDiv).fadeIn(250); }
-        $.post(BASEURL + "/Account.aspx/Register", data, function (result) {
+        $.post(BASEURL + "Account.aspx/Register", data, function (result) {
             if (loadingDiv != undefined) { $(loadingDiv).fadeOut(250); }
             if (resultDiv != undefined) {
                 if (result.error) {

@@ -23,7 +23,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
     [HandleError]
     public class AccountController : Controller
     {
-
+        public ActionResult Register()
+        {
+            return View();
+        }
 
         /// <summary>
         /// Register new user and logon if ok
