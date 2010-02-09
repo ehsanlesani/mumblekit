@@ -414,6 +414,7 @@
     <Content Include="Notes\GoogleMaps.txt" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />
+    <Content Include="Views\Shared\Header.ascx" />
     <Content Include="Views\Shared\HomePage.Master" />
     <Content Include="Views\Shared\Internal.Master" />
     <Content Include="Views\Shared\MainMenu.ascx" />
