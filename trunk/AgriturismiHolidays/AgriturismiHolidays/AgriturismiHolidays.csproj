@@ -91,7 +91,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountManager.cs" />
+    <Compile Include="Models\Auth\AuthController.cs" />
+    <Compile Include="Models\Auth\AuthPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Models\ControllerExtension.cs" />
+    <Compile Include="Models\Exceptions\AuthException.cs" />
     <Compile Include="Models\Exceptions\ExistingEmailException.cs" />
     <Compile Include="Models\ExtPartial\Accommodation.cs" />
     <Compile Include="Models\ExtPartial\AccommodationType.cs" />
