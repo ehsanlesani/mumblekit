@@ -5,6 +5,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContent" runat="server">
 <div id="leftside" class="column span-12">                     
     <img src="../../Content/Images/findApartment-title.png" alt="trova il tuo alloggio!!" />
+    <div id="searchForm">
+    <% Html.BeginForm(); %>
+    <table class="reset">
+    <tr>    
+        <td>Regione:</td>    
+        <td><%=Html.DropDownList("RegionItems")%></td>
+        <td>Tipologia:</td>
+        <td><%=Html.DropDownList("AccommodationType")%></td>
+        <td><input type="button" value="cerca" /></td>
+    </tr>
+    </table>
+    <% Html.EndForm(); %>
+    </div>
     <div>
     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="400" height="400" id="<%=ResolveUrl("~/Content/swf/italy.swf") %>" align="middle">
 	    <param name="allowScriptAccess" value="sameDomain">
