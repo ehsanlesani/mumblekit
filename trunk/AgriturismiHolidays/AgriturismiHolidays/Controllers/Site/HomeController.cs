@@ -23,6 +23,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 ViewData["RegionItems"] = GetRegionsSelectList();
                 ViewData["MenuTabs"] = MenuTab.GetMenuItems();
                 ViewData["Showcase"] = GetOnShowCaseAccomodations();
+                ViewData["Footer"] = MenuTab.GetGlobalPages();
             }
             catch (Exception)
             {

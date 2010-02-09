@@ -48,16 +48,6 @@
             </div>           
         </div>
     </div>    
-    <div id="footer">
-        <p id="email"><span class="title">E-Mail.</span><span class="content">info@agriturismi.com</span></p>
-        <p id="tel"><span class="title">Tutti i diritti riservati</span></p>
-        <p id="menu">
-            <span class="title">Chi Siamo</span>
-            <span class="content">/</span>
-            <span class="title">Dove Siamo</span>
-            <span class="content">/</span>
-            <span class="title">Contattaci</span>
-        </p>
-    </div>     
+    <% Html.RenderPartial("Footer"); %>     
 </body>
 </html>

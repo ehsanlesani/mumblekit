@@ -41,5 +41,20 @@ namespace Mumble.Web.StarterKit.Models.Common
 
             return listitems.AsEnumerable<MenuTab>();
         }
+
+        public static IEnumerable<MenuTab> GetGlobalPages()
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            var items = (from p in context.Pages where p.Sections.Description == "global" orderby p.Description ascending select p);
+
+            IList<MenuTab> listitems = new List<MenuTab>();
+            foreach (Page p in items)
+            {
+                MenuTab li = new MenuTab(p.Description, "List", "Page", p.Description.Replace(" ", "_"));
+                listitems.Add(li);
+            }
+
+            return listitems.AsEnumerable<MenuTab>();
+        }
     }
 }
