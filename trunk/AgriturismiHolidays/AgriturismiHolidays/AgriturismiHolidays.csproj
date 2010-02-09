@@ -80,7 +80,6 @@
     <Compile Include="Controllers\Admin\RoomPriceListController.cs" />
     <Compile Include="Controllers\Admin\SectionController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
-    <Compile Include="Controllers\Site\PageController.cs" />
     <Compile Include="Controllers\Site\HomeController.cs" />
     <Compile Include="Controllers\Site\StructureController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -411,6 +410,7 @@
     <Content Include="Content\swf\italy.swf" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Notes\GoogleMaps.txt" />
+    <Content Include="Views\Home\StaticPage.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\Shared\Header.ascx" />

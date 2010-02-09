@@ -32,6 +32,36 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             return View();
         }
 
+        public ActionResult StaticPage(string id) 
+        {
+            try
+            {
+                ViewData["RegionItems"] = GetRegionsSelectList();
+                ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+                ViewData["Footer"] = MenuTab.GetGlobalPages();
+                ViewData["Body"] = GetPage(id);                
+            }
+            catch (Exception)
+            {
+            }
+
+            return View();
+        }
+
+        private Page GetPage(string id)
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            string pageName = id.Replace("_", " ");
+            var page = (from p in context.Pages 
+                            where 
+                            p.Description.Equals(pageName) && 
+                            (DateTime.Today >= p.ValidFrom  &&
+                            DateTime.Today <= p.ValidTo)
+                        orderby p.Priority ascending select p).FirstOrDefault<Page>();
+
+            return page;
+        }
+
         private IEnumerable<Accommodation> GetOnShowCaseAccomodations()
         {
             StarterKitContainer context = new StarterKitContainer();
