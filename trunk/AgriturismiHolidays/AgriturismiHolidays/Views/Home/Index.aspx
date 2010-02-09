@@ -6,14 +6,14 @@
 <div id="leftside" class="column span-12">                     
     <img src="../../Content/Images/findApartment-title.png" alt="trova il tuo alloggio!!" />
     <div id="searchForm">
-    <% Html.BeginForm(); %>
-    <table class="reset" cellpadding="0" cellspacing="0">
+    <% Html.BeginForm("List", "Structure"); %>
+    <table class="reset" cellpadding="0" cellspacing="0" id="searchTable">
     <tr>    
         <td>Regione:</td>    
         <td><%=Html.DropDownList("RegionItems")%></td>
         <td>Tipologia:</td>
-        <td><%=Html.DropDownList("AccommodationType")%></td>
-        <td><input type="button" value="cerca" /></td>
+        <td><%=Html.DropDownList("Category")%></td>
+        <td><input title="cerca" type="submit" value="cerca" /></td>
     </tr>
     </table>
     <% Html.EndForm(); %>
@@ -26,7 +26,7 @@
 	    <param name="bgcolor" value="#ffffff">
 	    <param name="menu" value="false">
 	    <param name="loop" value="false">
-	    <embed src="<%=ResolveUrl("~/Content/swf/italy.swf") %>"italy.swf" quality="high" bgcolor="#ffffff" width="400" height="400" name="<%=ResolveUrl("~/Content/swf/italy.swf") %>" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+	    <embed src="<%=ResolveUrl("~/Content/swf/italy.swf") %>" quality="high" bgcolor="#ffffff" width="400" height="400" name="<%=ResolveUrl("~/Content/swf/italy.swf") %>" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
     </object>
     </div>
 </div>
@@ -86,8 +86,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
 <script type="text/javascript">
-function ChangeRegion(id) {
-  alert('confirm: '+ id);
-}
+    /// <reference path="../../Content/JS/jquery/jquery-1.3.2-vsdoc2.js" />
+
+    function ChangeRegion(id) { 
+        var regionList = new Array ("abruzzo", "basilicata", "calabria", "campania", "emilia", "friuli", "lazio", "liguria", "lombardia"
+        ,"marche", "molise", "piemonte", "puglia", "sardegna", "sicilia", "toscana", "trentino", "umbria", "valledaosta", "veneto");
+        //alert(id);
+        var itemId = jQuery.inArray(id, regionList);
+        $("#RegionItems option").eq(itemId).attr("selected", "selected");
+    }
 </script>
 </asp:Content>

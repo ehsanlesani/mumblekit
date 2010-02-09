@@ -60,15 +60,24 @@ div#header_bkg {
    padding:2px;
 }
 
-table.reset, table.reset tbody,  table.reset td{
+table#searchTable {
+    margin-top:5px;
+    margin-left:15px;
+}
+
+table#searchTable td {
+    padding:2px;
+}
+
+table.reset, table.reset tbody,  table.reset td {
     margin:0;
     padding:0;
+    width:auto;
 }
 
 /* MAIN MENU */
 
-#main_menu_bkg 
-{
+#main_menu_bkg {
 	position:absolute;
 	top:45px;
 	left:0;
@@ -77,8 +86,7 @@ table.reset, table.reset tbody,  table.reset td{
 	height:31px;
 }
 
-#main-menu 
-{
+#main-menu {
 	font-size:11px;
 	color:White;
 	position:relative;
@@ -197,6 +205,14 @@ div#header_logon input[type=text], div#header_logon input[type=password]
 	margin:3px;
 	font-size:12px;
 	border:2px solid #895550;		
+}
+
+table#searchTable select {
+    font-size:13px;
+    width:140px;
+    font-family:tahoma, verdana;
+    padding:0;
+    margin:0;
 }
 
 .literalText 
