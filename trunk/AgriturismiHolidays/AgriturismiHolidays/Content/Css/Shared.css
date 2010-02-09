@@ -56,6 +56,10 @@ div#header_bkg {
 	left:0;
 }
 
+#logon-table td {
+   padding:2px;
+}
+
 /* MAIN MENU */
 
 #main_menu_bkg 
@@ -326,5 +330,3 @@ img.section-title
 .section-title {
     margin-bottom:20px;
 }
-
-

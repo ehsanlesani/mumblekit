@@ -366,7 +366,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UsersModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Views\Home\Index.aspx.old" />
     <Content Include="Content\Css\jquery\white\ajax-loader_b.gif" />
     <Content Include="Content\Css\jquery\white\ajax-loader_w.gif" />
     <Content Include="Content\Css\jquery\white\bg_load.gif" />
@@ -415,8 +414,7 @@
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\Shared\Header.ascx" />
-    <Content Include="Views\Shared\HomePage.Master" />
-    <Content Include="Views\Shared\Internal.Master" />
+    <Content Include="Views\Shared\Main.Master" />
     <Content Include="Views\Shared\MainMenu.ascx" />
     <Content Include="Views\Structure\Index.ascx" />
     <Content Include="Views\Structure\ListPartial.ascx" />

@@ -3,7 +3,7 @@
 <div id="header_logon">    
     <% using (Html.BeginForm())
        { %>                   
-    <table border="0" cellpadding="0" cellspacing="0">                                            
+    <table border="0" cellpadding="0" cellspacing="0" id="logon-table">                                            
     <tr>
         <td>Nome Utente:</td>
         <td><%= Html.TextBox("login-user", null)%></td>
