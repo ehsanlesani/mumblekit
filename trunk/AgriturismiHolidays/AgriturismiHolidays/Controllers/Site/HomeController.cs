@@ -28,6 +28,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             }
             catch (Exception)
             {
+                throw;
             }
 
             return View();
