@@ -23,7 +23,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Pages_AccommodationTypes", "AccommodationType", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.AccommodationType), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Page))]
 
 // Original file name:
-// Generation date: 09/02/2010 20:33:58
+// Generation date: 09/02/2010 23:46:38
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     

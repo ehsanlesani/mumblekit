@@ -12,7 +12,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("AgriturismiModel", "GroupUser", "Groups", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Group), "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.User))]
 
 // Original file name:
-// Generation date: 31/01/2010 20:13:00
+// Generation date: 09/02/2010 23:46:36
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
