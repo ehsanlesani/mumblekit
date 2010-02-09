@@ -16,7 +16,7 @@
             { 
     %>            
                 <span class="title">
-                    <%=Html.ActionLink(tab.Text, "StaticPage", new { Id = tab.Text.Replace(" ", "_") })%>
+                    <%=Html.ActionLink(tab.Text, "StaticPage", "Home", new { Id = tab.Text.Replace(" ", "_") }, null)%>
                 </span>    
     <%            
                 if(i<max)

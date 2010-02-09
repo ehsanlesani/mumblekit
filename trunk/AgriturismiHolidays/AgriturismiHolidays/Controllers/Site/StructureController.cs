@@ -12,6 +12,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 {
     public class StructureController : Controller
     {
+        private int _itemsPerPage = 3;
         //
         // GET: /Structure/
 
@@ -22,7 +23,13 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             return View();
         }
 
-        public ActionResult List(string category) 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="toSkip">Page Number</param>
+        /// <returns></returns>
+        public ActionResult List(string category, int? toSkip) 
         {
             StructureListViewModel vm = new StructureListViewModel();
 
@@ -33,16 +40,24 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
                 StarterKitContainer context = new StarterKitContainer();
                 string cat = "";
+                
 
                 if (category != null)
                     if (category.Length > 0)
                         cat = category.Replace("_", " ");
 
-                var res = (from a in context.Accommodations where a.AccommodationType.Name == cat select a).AsEnumerable<Accommodation>();
+                var res = (from a in context.Accommodations 
+                            where a.AccommodationType.Name == cat 
+                           select a).AsEnumerable<Accommodation>();
 
-                vm.Accommodations = res;
+                //items to skip
+                int itemsToSkip = (int)(toSkip.GetValueOrDefault() * _itemsPerPage);
+                vm.Accommodations = res.Skip(itemsToSkip).Take(_itemsPerPage);
                 vm.SectionName = cat;
-
+                vm.Pages = (int) (Math.Ceiling((res.Count() / (double)_itemsPerPage)) - 1);
+                vm.ActualPage = toSkip.GetValueOrDefault();
+                vm.ItemsPerPage = _itemsPerPage;
+                
                 return View(vm);
             }
             catch(Exception ex) 
@@ -65,7 +80,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
                 var acco = (from a in context.Accommodations where a.Id.Equals(guid) select a).FirstOrDefault<Accommodation>();
 
-                vm.Accommodation = acco;
+                vm.Accommodation = acco;                
 
                 return View(vm);
             }

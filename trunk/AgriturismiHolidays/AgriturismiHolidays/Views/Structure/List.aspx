@@ -15,6 +15,17 @@
         </div>
         
         <% Html.RenderPartial("ListPartial", ViewData.Model.Accommodations); %>
+        
+        <div class="paging">
+        <%        
+           for(int i=0; i<=Model.Pages; i++)
+           {
+               string className = (Model.ActualPage != i) ? "page" : "actualPage";                              
+               var actionLnk = Html.ActionLink((i+1).ToString(), "List", new { category = Model.SectionName.Replace(" ", "_"), toSkip = i }, new { @class = className });
+               Response.Write(actionLnk);
+           }            
+        %>
+        </div>
     </div>
     
 </asp:Content>
