@@ -330,3 +330,32 @@ img.section-title
 .section-title {
     margin-bottom:20px;
 }
+
+/** PAGING **/
+
+.paging a {
+    margin:5px;
+}
+
+.paging a.page:link, .paging a.page:visited {
+    padding:2px;
+    border:1px solid #A3562C;
+    color:#A3562C;
+    text-decoration:none;
+}
+
+.paging a.page:hover {
+    padding:2px;
+    border:1px solid #A3562C;
+    background-color:#A3562C;
+    color:White;
+    text-decoration:none;
+}
+
+.paging a.actualPage:hover, .paging a.actualPage:link, .paging a.actualPage:visited {
+    padding:3px;
+    border:1px solid #A3562C;
+    background-color:#A3562C;    
+    color:White;
+    text-decoration:none;
+}

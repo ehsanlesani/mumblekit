@@ -10,6 +10,9 @@ namespace Mumble.Web.StarterKit.Models.ViewModels
     {
         public IEnumerable<Accommodation> Accommodations { get; set; }
         public string SectionName { get; set; }
+        public int Pages { get; set; }
+        public int ItemsPerPage { get; set; }
+        public int ActualPage { get; set; }
 
         public StructureListViewModel(IEnumerable<Accommodation> accommodations) 
         {
