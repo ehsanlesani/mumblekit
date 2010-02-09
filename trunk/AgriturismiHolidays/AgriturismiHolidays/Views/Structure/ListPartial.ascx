@@ -43,4 +43,7 @@
 </div>
 <% 
     } 
+    
+    if(Model.Count()==0)        
 %>
+        Nessun Elemento Trovato

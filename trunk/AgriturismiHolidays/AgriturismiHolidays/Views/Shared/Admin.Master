@@ -108,7 +108,14 @@
                                     <span class="folder">Strutture</span>
                                     <ul>
                                         <li class="closed">
-                                            <span class="folder">Struttura</span>
+                                            <span class="folder">Tipologie Strutture</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/AccommodationType.aspx/Edit") %>">Nuova tipologia</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/AccommodationType.aspx/List") %>">Lista tipologie</a></span></li>                                                
+                                            </ul>
+                                        </li>
+                                        <li class="closed">
+                                            <span class="folder">Strutture</span>
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Accommodation.aspx/Edit") %>">Nuova struttura</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Accommodation.aspx/List") %>">Lista strutture</a></span></li>                                                

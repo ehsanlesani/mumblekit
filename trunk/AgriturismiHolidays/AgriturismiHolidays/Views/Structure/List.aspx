@@ -6,15 +6,16 @@
 
     <div id="col-sx" class="span-7">
         <% Html.RenderPartial("NewsletterPartial"); %>
+        <% Html.RenderPartial("SideStaticContent", Model.StaticPages); %>
     </div>
     <div id="col-dx" class="span-17 last">
         <div id="section-info">
             <img src="../../Content/Images/arrow-bottom-right.png" alt="sezione:" class="section-arrow" />
             <span class="section-title">sezione:</span>
-            <span class="section-name"><%=ViewData.Model.SectionName%></span> 
+            <span class="section-name"><%=Model.SectionName%></span> 
         </div>
         
-        <% Html.RenderPartial("ListPartial", ViewData.Model.Accommodations); %>
+        <% Html.RenderPartial("ListPartial", Model.Accommodations); %>
         
         <div class="paging">
         <%        

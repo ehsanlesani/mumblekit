@@ -30,7 +30,7 @@ namespace Mumble.Web.StarterKit.Models.Common
         public static IEnumerable<MenuTab> GetMenuItems()
         {
             StarterKitContainer context = new StarterKitContainer();
-            var items = (from i in context.AccommodationTypes orderby i.Name select i);
+            var items = (from i in context.AccommodationTypes orderby i.Priority select i);
 
             IList<MenuTab> listitems = new List<MenuTab>();
             foreach (AccommodationType a in items)
@@ -45,7 +45,14 @@ namespace Mumble.Web.StarterKit.Models.Common
         public static IEnumerable<MenuTab> GetGlobalPages()
         {
             StarterKitContainer context = new StarterKitContainer();
-            var items = (from p in context.Pages where p.Sections.Description == "global" orderby p.Description ascending select p);
+            var items = (from p in context.Pages where 
+                             p.Sections.Description == "global" && 
+                             p.Visible.Value &&
+                             (((p.ValidFrom.HasValue && DateTime.Now >= p.ValidFrom)
+                              && (p.ValidTo.HasValue && DateTime.Now <= p.ValidTo)) ||
+                               (p.ValidFrom.HasValue && DateTime.Now >= p.ValidFrom))
+                         orderby p.Priority ascending 
+                         select p);
 
             IList<MenuTab> listitems = new List<MenuTab>();
             foreach (Page p in items)

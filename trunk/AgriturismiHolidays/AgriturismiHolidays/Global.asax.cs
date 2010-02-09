@@ -76,7 +76,7 @@ namespace MumbleKit
         {
             ListConfiguration pageConfiguration = new ListConfiguration();
             pageConfiguration.AddColumn("Description", "Description");
-            pageConfiguration.AddColumn("Visible", "Visibility", o => ((bool)o) ? "Visible" : "Not visible");
+            pageConfiguration.AddColumn("Visible", "Visibility", o => (((bool?)o).GetValueOrDefault()) ? "Visible" : "Not visible");
 
             ListConfiguration userConfiguration = new ListConfiguration();
             userConfiguration.AddColumn("FirstName", "Nome");
@@ -137,9 +137,10 @@ namespace MumbleKit
             });
 
             ListConfiguration priceListSeasonConfiguration = new ListConfiguration();
-            priceListSeasonConfiguration.AddColumn("PeriodStart", "Inizio");
-            priceListSeasonConfiguration.AddColumn("PeriodEnd", "Fine");
+            priceListSeasonConfiguration.AddColumn("PeriodStart", "Inizio", o => String.Format("dd/MM/yyyy", o));
+            priceListSeasonConfiguration.AddColumn("PeriodEnd", "Fine", o => String.Format("dd/MM/yyyy", o));
             priceListSeasonConfiguration.AddColumn("Description", "Descrizione");
+            /*
             priceListSeasonConfiguration.AddColumn("RoomPriceList", "Prezzo", o =>
             {
                 StringBuilder b = new StringBuilder();
@@ -151,6 +152,7 @@ namespace MumbleKit
                 
                 return b.ToString().Remove(b.Length - 3, 3);
             });
+            */
 
             ListConfiguration roomPriceListConfiguration = new ListConfiguration();
             roomPriceListConfiguration.AddColumn("Rooms", "Sistemazione");
