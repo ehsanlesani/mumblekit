@@ -18,6 +18,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         public ActionResult Index()
         {
             ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+            ViewData["Footer"] = MenuTab.GetGlobalPages();
             return View();
         }
 
@@ -28,6 +29,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             try
             {
                 ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+                ViewData["Footer"] = MenuTab.GetGlobalPages();
 
                 StarterKitContainer context = new StarterKitContainer();
                 string cat = "";
@@ -54,6 +56,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             StructureViewModel vm = new StructureViewModel();
             ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+            ViewData["Footer"] = MenuTab.GetGlobalPages();
 
             try
             {
