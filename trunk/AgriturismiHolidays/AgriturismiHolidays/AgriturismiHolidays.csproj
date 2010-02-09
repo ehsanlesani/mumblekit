@@ -354,13 +354,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Css\jquery\white\Thumbs.db" />
-    <None Include="Models\Agriturismi.bak" />
+    <None Include="Miscellaneous\Agriturismi.bak" />
     <None Include="Models\ExtPartial\StarterKitContainer.edmx.sql" />
     <EntityDeploy Include="Models\ExtPartial\StarterKitModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>StarterKitModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Models\ExtPartial\UsersContainer.edmx.sql" />
+    <None Include="Miscellaneous\out.sql" />
     <EntityDeploy Include="Models\ExtPartial\UsersModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>UsersModel.Designer.cs</LastGenOutput>
@@ -409,7 +410,7 @@
     <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Content\swf\italy.swf" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
-    <Content Include="Notes\GoogleMaps.txt" />
+    <Content Include="Miscellaneous\GoogleMaps.txt" />
     <Content Include="Views\Home\StaticPage.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />
