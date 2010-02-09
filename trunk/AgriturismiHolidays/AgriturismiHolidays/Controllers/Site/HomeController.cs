@@ -21,6 +21,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             try
             {
                 ViewData["RegionItems"] = GetRegionsSelectList();
+                ViewData["AccommodationType"] = GetAccommodationTypeList();
                 ViewData["MenuTabs"] = MenuTab.GetMenuItems();
                 ViewData["Showcase"] = GetOnShowCaseAccomodations();
                 ViewData["Footer"] = MenuTab.GetGlobalPages();
@@ -36,7 +37,6 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             try
             {
-                ViewData["RegionItems"] = GetRegionsSelectList();
                 ViewData["MenuTabs"] = MenuTab.GetMenuItems();
                 ViewData["Footer"] = MenuTab.GetGlobalPages();
                 ViewData["Body"] = GetPage(id);                
@@ -68,9 +68,26 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             var showcased = (from a in context.Accommodations where a.OnShowcase == true select a).AsEnumerable<Accommodation>();
 
             return showcased;
-        }        
+        }
 
-        private IList<SelectListItem> GetRegionsSelectList() 
+        private IEnumerable<SelectListItem> GetAccommodationTypeList() 
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            var atypes = (from a in context.AccommodationTypes orderby a.Name select a);
+
+            IList<SelectListItem> items = new List<SelectListItem>();
+            foreach (AccommodationType a in atypes)
+            {
+                SelectListItem s = new SelectListItem();
+                s.Text = a.Name;
+                s.Value = a.Id.ToString();
+                items.Add(s);
+            }
+
+            return items;
+        }
+
+        private IEnumerable<SelectListItem> GetRegionsSelectList() 
         {
             StarterKitContainer context = new StarterKitContainer();
             var regions = (from r in context.Regions orderby r.Description select r);
