@@ -29,7 +29,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         /// <param name="category"></param>
         /// <param name="toSkip">Page Number</param>
         /// <returns></returns>
-        public ActionResult List(string category, int? toSkip) 
+        public ActionResult List(string category, Guid? regionItems, int? toSkip) 
         {
             StructureListViewModel vm = new StructureListViewModel();
 
@@ -46,12 +46,14 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                     if (category.Length > 0)
                         cat = category.Replace("_", " ");
 
-                var res = (from a in context.Accommodations 
-                            where a.AccommodationType.Name == cat 
-                           select a).AsEnumerable<Accommodation>();
+                var res = (from a in context.Accommodations
+                           where (!regionItems.HasValue || a.Municipalities.Provinces.Region.Id == regionItems)
+                           && a.AccommodationType.Name == cat orderby a.Name ascending
+                           select a);
 
                 //items to skip
                 int itemsToSkip = (int)(toSkip.GetValueOrDefault() * _itemsPerPage);
+
                 vm.Accommodations = res.Skip(itemsToSkip).Take(_itemsPerPage);
                 vm.SectionName = cat;
                 vm.Pages = (int) (Math.Ceiling((res.Count() / (double)_itemsPerPage)) - 1);

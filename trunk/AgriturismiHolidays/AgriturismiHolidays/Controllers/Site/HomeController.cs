@@ -21,7 +21,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             try
             {
                 ViewData["RegionItems"] = GetRegionsSelectList();
-                ViewData["AccommodationType"] = GetAccommodationTypeList();
+                ViewData["Category"] = GetAccommodationTypeList();
                 ViewData["MenuTabs"] = MenuTab.GetMenuItems();
                 ViewData["Showcase"] = GetOnShowCaseAccomodations();
                 ViewData["Footer"] = MenuTab.GetGlobalPages();
@@ -80,7 +80,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             {
                 SelectListItem s = new SelectListItem();
                 s.Text = a.Name;
-                s.Value = a.Id.ToString();
+                s.Value = a.Name.Replace(" ", "_");
                 items.Add(s);
             }
 

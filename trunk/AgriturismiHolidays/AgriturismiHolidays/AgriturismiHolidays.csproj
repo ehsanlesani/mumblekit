@@ -407,6 +407,7 @@
     <Content Include="Content\Images\services-title.png" />
     <Content Include="Content\Images\star_16x16.png" />
     <Content Include="Content\Images\prices-title.png" />
+    <Content Include="Content\JS\jquery\jquery-1.3.2-vsdoc2.js" />
     <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Content\swf\italy.swf" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
