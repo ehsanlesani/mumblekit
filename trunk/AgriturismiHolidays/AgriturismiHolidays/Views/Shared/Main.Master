@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>Struttura</title>
+    <title>expoholidays.com</title>
     <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/jquery/jquery-1.3.2.min.js") %>"></script>
     <script type="text/javascript" src="<%=ResolveUrl("~/Content/JS/jquery/jquery-ui-1.7.2.custom.min.js") %>"></script>
     <link rel="stylesheet" href="<%=ResolveUrl("~/Content/Css/blueprint/screen.css") %>" type="text/css" media="screen, projection" />
@@ -18,8 +18,7 @@
     <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/Internal.css") %>" />    
     <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/StickyFooter.css") %>" />
     <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/jquery/ui-lightness/jquery-ui-1.7.2.custom.css") %>" />    
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="head" runat="server" />
 </head>
 <body>
     <div id="header_bkg"></div>
@@ -27,27 +26,16 @@
     <div id="wrap">
         <div id="main" class="container">
             <div id="header" class="span-24 last">
-                <div id="header_logon">    
-                    <% using (Html.BeginForm()){ %>                   
-                    <table border="0" cellpadding="0" cellspacing="0">                                            
-                    <tr>
-                        <td>Nome Utente:</td>
-                        <td><%= Html.TextBox("login-user", null)%></td>
-                        <td>Password:</td>
-                        <td><%= Html.Password("login-password", null)%></td>
-                    </tr>                                                  
-                    </table>         
-                    <% } %>       
-                </div>
+                <% Html.RenderPartial("~/Views/Shared/Header.ascx"); %>
             </div>
             <div id="main-menu" class="span-24 last">
-                <% Html.RenderPartial("MainMenu"); %>
+                <% Html.RenderPartial("~/Views/Shared/MainMenu.ascx"); %>
             </div>
             <div id="body" class="span-24">  
                 <asp:ContentPlaceHolder ID="BodyContent" runat="server" />
             </div>           
         </div>
     </div>    
-    <% Html.RenderPartial("Footer"); %>     
+    <% Html.RenderPartial("~/Views/Shared/Footer.ascx"); %>     
 </body>
 </html>

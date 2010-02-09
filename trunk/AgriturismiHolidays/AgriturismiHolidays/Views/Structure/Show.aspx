@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Internal.Master" Inherits="System.Web.Mvc.ViewPage<StructureViewModel>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Main.Master" Inherits="System.Web.Mvc.ViewPage<StructureViewModel>" %>
 <%@ Import Namespace="Mumble.Web.StarterKit.Models.ViewModels" %>
 <%@ Import Namespace="Mumble.Web.StarterKit.Models.ExtPartial" %>
 

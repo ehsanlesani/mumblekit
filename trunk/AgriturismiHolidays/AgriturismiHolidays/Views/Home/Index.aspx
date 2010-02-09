@@ -1,5 +1,6 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/HomePage.Master" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Main.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="Mumble.Web.StarterKit.Models.ExtPartial" %>
+<%@ Import Namespace="System.IO" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContent" runat="server">
 <div id="leftside" class="column span-12">                     
@@ -12,16 +13,11 @@
 	    <param name="bgcolor" value="#ffffff">
 	    <param name="menu" value="false">
 	    <param name="loop" value="false">
-	    <embed src="<%=ResolveUrl("~/Content/swf/italy.swf") %>"italy.swf" quality="high" bgcolor="#ffffff" width="250" height="250" name="<%=ResolveUrl("~/Content/swf/italy.swf") %>" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+	    <embed src="<%=ResolveUrl("~/Content/swf/italy.swf") %>"italy.swf" quality="high" bgcolor="#ffffff" width="400" height="400" name="<%=ResolveUrl("~/Content/swf/italy.swf") %>" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
     </object>
     </div>
 </div>
-<div id="centerside" class="column span-8">
-          
-</div>
-<div id="rightside" class="column span-8 last">
-    <div id="border-left">                    
-    </div>
+<div id="rightside" class="column span-12 last">
     <div id="announced">
         <img src="../../Content/Images/announced-by.png" alt="segnalati da noi" class="section-title" />
         <%
@@ -36,20 +32,37 @@
                     {
                         if (!a.Attachments.IsLoaded)
                             a.Attachments.Load();
-                        
+
+                        Attachment img = null;
                         if (a.Attachments.Count > 0)
                         {
-                            var img = a.Attachments.ElementAt<Attachment>(0);               
-                        %>
-                                <a href="Structure.aspx/Show/<%=a.Id%>" title="<%=a.Name%>">
-                                    <img src="/Public/<%=img.Path %>_lil.jpg" alt="<%=a.Name%>" />
+                            img = a.Attachments.ElementAt<Attachment>(0);
+                            string hrefPath = "Structure.aspx/Show/" + a.Id;
+                            string imgPath = "/Public/" + img.Path + "_lil.jpg";
+
+                            if (File.Exists(imgPath))
+                            {
+                            %>
+                                <a href="<%=hrefPath%>" title="<%=a.Name%>">                                
+                                    <img src="<%=imgPath%>" alt="<%=a.Name%>" />
                                 </a>
-                        <%  }
+                            <%
+                            }
                             else 
-                            {   
+                            {
+                            %>
+                                 <a href="<%=hrefPath%>" title="<%=a.Name%>">                                
+                                    <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" />
+                                 </a>
+                            <%
+                            }
+                        }
+                        else 
+                        {
                         %>
-                                <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" id="structure-main-pic" style="border:none;" />         
-                        <%  }
+                            <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" />
+                        <%
+                        }
                     }
                 }                                
             }  
