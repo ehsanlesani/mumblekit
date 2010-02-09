@@ -22,7 +22,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "AccomodationService", "Accommodation", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Accommodation), "Services", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Service))]
 
 // Original file name:
-// Generation date: 07/02/2010 19:59:40
+// Generation date: 09/02/2010 17:49:34
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
@@ -1131,6 +1131,52 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         private string _Name;
         partial void OnNameChanging(string value);
         partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Property Prefix in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Prefix
+        {
+            get
+            {
+                return this._Prefix;
+            }
+            set
+            {
+                this.OnPrefixChanging(value);
+                this.ReportPropertyChanging("Prefix");
+                this._Prefix = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Prefix");
+                this.OnPrefixChanged();
+            }
+        }
+        private string _Prefix;
+        partial void OnPrefixChanging(string value);
+        partial void OnPrefixChanged();
+        /// <summary>
+        /// There are no comments for Property PostalCode in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string PostalCode
+        {
+            get
+            {
+                return this._PostalCode;
+            }
+            set
+            {
+                this.OnPostalCodeChanging(value);
+                this.ReportPropertyChanging("PostalCode");
+                this._PostalCode = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("PostalCode");
+                this.OnPostalCodeChanged();
+            }
+        }
+        private string _PostalCode;
+        partial void OnPostalCodeChanging(string value);
+        partial void OnPostalCodeChanged();
         /// <summary>
         /// There are no comments for Accommodations in the schema.
         /// </summary>
