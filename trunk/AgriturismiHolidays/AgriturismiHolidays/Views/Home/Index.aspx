@@ -7,7 +7,7 @@
     <img src="../../Content/Images/findApartment-title.png" alt="trova il tuo alloggio!!" />
     <div id="searchForm">
     <% Html.BeginForm(); %>
-    <table class="reset">
+    <table class="reset" cellpadding="0" cellspacing="0">
     <tr>    
         <td>Regione:</td>    
         <td><%=Html.DropDownList("RegionItems")%></td>

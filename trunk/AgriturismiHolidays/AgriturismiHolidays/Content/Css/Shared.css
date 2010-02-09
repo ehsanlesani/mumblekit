@@ -60,6 +60,11 @@ div#header_bkg {
    padding:2px;
 }
 
+table.reset, table.reset tbody,  table.reset td{
+    margin:0;
+    padding:0;
+}
+
 /* MAIN MENU */
 
 #main_menu_bkg 
