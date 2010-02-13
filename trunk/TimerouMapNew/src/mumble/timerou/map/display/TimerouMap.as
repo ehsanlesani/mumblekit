@@ -26,7 +26,9 @@
 	{		
 		private var map:Map = new Map();
 		private var filter:ColorMatrixFilter = new ColorMatrixFilter();
-		private var localizedPictureMarker:Marker = null;
+		private var pictureMarkers:Array = new Array();
+		private var satelliteButton:RoundedButton = new RoundedButton();
+		private var roadButton:RoundedButton = new RoundedButton();
 		
 		public var ready:Boolean = false;
 
@@ -84,7 +86,7 @@
 			map.setMapType(MapType.HYBRID_MAP_TYPE);
 			map.enableScrollWheelZoom();	
 
-			createButtons();
+			//createButtons();
 			
 			ready = true;			
 			dispatchEvent(new Event("timerouMapReady"));
@@ -96,24 +98,23 @@
 		}		
 		
 		private function onMapMoveStart(e:MapEvent):void {
+			hideTypeButtons();
 			dispatchEvent(new Event("timerouMapMoveStart"));
 		}
 		
 		private function onMapMoveEnd(e:MapEvent):void {
+			showTypeButtons();
 			dispatchEvent(new Event("timerouMapMoveEnd"));
 		}
 		
-		private var satelliteButton:RoundedButton = new RoundedButton();
-		private var roadButton:RoundedButton = new RoundedButton();
-		
 		private function createButtons():void {
 			satelliteButton = new RoundedButton();
-			satelliteButton.y = 5;
+			satelliteButton.y = 65;
 			satelliteButton.text = "Hibrid";
 			satelliteButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void { map.setMapType(MapType.HYBRID_MAP_TYPE); } );
 			addChild(satelliteButton);
 
-			roadButton.y = 5;
+			roadButton.y = 65;
 			roadButton.text = "Road";
 			roadButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void { map.setMapType(MapType.NORMAL_MAP_TYPE); } );
 			addChild(roadButton);			
@@ -159,21 +160,21 @@
 		}
 		
 		public function showPictureLocation(pictureData:PictureData):void {
-			this.clearPictureLocation();
-			
 			var latLng:LatLng = pictureData.latLng;
-			var icon:PictureIcon = new PictureIcon(Main.BASEPICTURESURL + pictureData.avatarPath);			
+			var icon:PictureIcon = new PictureIcon();			
 			var options:MarkerOptions = new MarkerOptions();
 			options.icon = icon;
-			this.localizedPictureMarker = new Marker(latLng, options);
-			map.addOverlay(localizedPictureMarker);
+			var marker:Marker = new Marker(latLng, options);
+			pictureMarkers.push(marker);
+			map.addOverlay(marker);
 		}
 		
-		public function clearPictureLocation():void {
-			if(this.localizedPictureMarker != null) {
-				map.removeOverlay(this.localizedPictureMarker);
-				this.localizedPictureMarker = null;
+		public function clearPictureLocations():void {
+			for each(var marker:Marker in pictureMarkers) {
+				map.removeOverlay(marker);
 			}
+			
+			pictureMarkers = new Array();
 		}
 		public function getPicturePoint(pictureData:PictureData):Point {
 			return map.fromLatLngToViewport(pictureData.latLng);

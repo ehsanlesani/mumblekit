@@ -9,6 +9,7 @@ package mumble.timerou.map.display
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -37,8 +38,10 @@ package mumble.timerou.map.display
 		
 		private var displayNumber:int = 0;
 		private var yDistance:int = 0;
+		private var background:Sprite = null;
 		private var loadedMediaSprites:Array = null;
 		private var tween:Tween = null;
+		private var boundsTween:Tween = null;
 		private var preview:Preview = null;
 
 		public var map:TimerouMap = null;
@@ -48,22 +51,33 @@ package mumble.timerou.map.display
 		}
 		
 		private function init(e:Event):void {
-			
+			var self:MovieClip = this;
 			preview = new Preview();
+			preview.addEventListener(Preview.MOVE_COMPLETE, function(e:Event):void {
+				var bounds:Rectangle = preview.getBounds(self);
+				
+				if(bounds.y <= HEIGHT) {
+					boundsTween = new Tween(background, "alpha", Strong.easeOut, background.alpha, 0.3, 0.25, true);
+				} else {
+					restoreBackgroundAlpha();
+				}
+			}); 
 			addChild(preview);
 			
 			drawBackground();
 			setupInterface();
 			
-			addEventListener(MouseEvent.ROLL_OUT, function(e:MouseEvent):void { preview.hide(); });
+			addEventListener(MouseEvent.ROLL_OUT, function(e:MouseEvent):void { restoreBackgroundAlpha();; preview.hide(); });
 		}
 		
 		private function drawBackground():void {
-			graphics.beginFill(BACKGROUND_COLOR, BACKGROUND_ALPHA),
-			graphics.drawRect(0, 0, stage.stageWidth, HEIGHT);
-			graphics.lineStyle(1, BORDER_COLOR);
-			graphics.moveTo(0, HEIGHT);
-			graphics.lineTo(stage.stageWidth, HEIGHT);
+			background = new Sprite();
+			background.graphics.beginFill(BACKGROUND_COLOR, BACKGROUND_ALPHA),
+			background.graphics.drawRect(0, 0, stage.stageWidth, HEIGHT);
+			background.graphics.lineStyle(1, BORDER_COLOR);
+			background.graphics.moveTo(0, HEIGHT);
+			background.graphics.lineTo(stage.stageWidth, HEIGHT);
+			addChild(background);
 		}
 		
 		private function setupInterface():void {
@@ -101,9 +115,11 @@ package mumble.timerou.map.display
 			//clear
 			if(loadedMediaSprites != null) {
 				for each(var obj:DisplayObject in loadedMediaSprites) {
-					removeChild(obj);	
+					background.removeChild(obj);	
 				}
 			}
+			
+			clearLocations();
 			
 			loadedMediaSprites = new Array();
 			var counter:int = 0;
@@ -117,16 +133,19 @@ package mumble.timerou.map.display
 				var sprite:Sprite = createPictureSprite(pictureData);
 				sprite.x = correctMargin + (correctMargin * counter) + (counter * PICTURE_WIDTH);
 				sprite.y = MARGIN;
-				addChild(sprite),
+				background.addChild(sprite);
 				loadedMediaSprites.push(sprite);				
 				counter++;
+				map.showPictureLocation(pictureData);
 				if(counter == displayNumber) { break; }
 			}
 		}
 		
-		public function createPictureSprite(pictureData:PictureData):Sprite {
-			var remotePicture:Sprite = new RemotePicture(Main.BASEPICTURESURL + pictureData.avatarPath, PICTURE_WIDTH, PICTURE_HEIGHT, false);
-			remotePicture.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+		private function createPictureSprite(pictureData:PictureData):Sprite {
+			var self:MovieClip = this;
+			
+			var remotePicture:RemotePicture = new RemotePicture(Main.BASEPICTURESURL + pictureData.avatarPath, PICTURE_WIDTH, PICTURE_HEIGHT, false);
+				remotePicture.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
 				if(preview.visible) { preview.hide(); }
 				var sprite:Sprite = createOldPictureSprite(pictureData);
 				sprite.x = 100;
@@ -135,27 +154,37 @@ package mumble.timerou.map.display
 			});
 			
 			remotePicture.addEventListener(MouseEvent.ROLL_OVER, function(e:MouseEvent):void {
+				restoreBackgroundAlpha();
+				
 				var previewX:int = remotePicture.x + remotePicture.width / 2;
 				var previewY:int = HEIGHT + MARGIN;
 				
 				if(map != null) { 
-					map.showPictureLocation(pictureData); 
 					var point:Point = map.getPicturePoint(pictureData);
 					previewX = point.x;
 					previewY = point.y;
 				}
-				
-				trace(previewX, previewY);
-				
-				if(!preview.visible) { preview.show(new Point(previewX, previewY)); }
-				else { preview.move(new Point(previewX, previewY)); }
-				//preview.loadPicture(pictureData);
+
+				if(!preview.visible) { 
+					preview.show(new Point(previewX, previewY));
+				} else { 
+					preview.move(new Point(previewX, previewY));
+				}
+				preview.loadPicture(pictureData);
 			});
 			
 			remotePicture.addEventListener(MouseEvent.ROLL_OUT, function(e:MouseEvent):void {
 				//if(map != null) { map.clearPictureLocation(); }
 			});
 			return remotePicture;
+		}
+		
+		private function restoreBackgroundAlpha():void {
+			if(boundsTween != null && boundsTween.isPlaying) {
+				boundsTween.stop();
+			}
+			
+			background.alpha = 1;
 		}
 		
 		public function show():void {
@@ -168,6 +197,12 @@ package mumble.timerou.map.display
 			if(!visible) { return; }
 			tween = new Tween(this, "y", Strong.easeOut, this.y, HEIGHT * -1, 0.25, true);
 			setTimeout(function():void { visible = false; }, 250);
+		}
+		
+		public function clearLocations():void {
+			if(map != null) {
+				map.clearPictureLocations();
+			}
 		}
 	}
 }

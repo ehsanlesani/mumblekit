@@ -8,7 +8,6 @@ package mumble.timerou.map.data
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.net.URLRequest;
-	import flash.utils.setTimeout;
 	
 	import mumble.timerou.map.display.Loading;
 
@@ -24,6 +23,8 @@ package mumble.timerou.map.data
 		public var borderOverColor:uint = 0xEEEEEE;	
 		public var showBorder:Boolean = true;
 		public var roundCornerSize:int = 0;
+		
+		private var loader:Loader = null;
 		
 		public function RemotePicture(url:String, width:int, height:int, maintainProportions:Boolean = true) {
 			this.url = url;
@@ -50,7 +51,7 @@ package mumble.timerou.map.data
 			
 			//load picture
 			var request:URLRequest = new URLRequest(this.url);
-			var loader:Loader = new Loader();
+			loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
 				//remove loading
 				removeChildAt(0);
@@ -80,10 +81,10 @@ package mumble.timerou.map.data
 					if(roundCornerSize > 0) { g.drawRoundRect(0, 0, pictureWidth, pictureHeight, roundCornerSize, roundCornerSize); }
 					else { g.drawRect(0, 0, pictureWidth, pictureHeight); }
 					g.endFill();
+
 				}
 				
-				if(showBorder) {
-				
+				if(showBorder) {				
 					addEventListener(MouseEvent.ROLL_OVER, function(e:MouseEvent):void {  
 						g.endFill();
 						g.lineStyle(1, borderOverColor);
@@ -100,11 +101,21 @@ package mumble.timerou.map.data
 				
 				}
 				
+				loader.unload();
+
 				dispatchEvent(new Event(LOAD_COMPLETE));
 			});
-			
+
 			loader.load(request);
 		}
 		
+		public function unload():void {
+			if(loader != null) {
+				try {
+					loader.close();
+				} catch(err:Error) { trace(err); }
+				loader.unload();
+			}
+		}
 	}
 }

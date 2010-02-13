@@ -1,9 +1,10 @@
 package mumble.timerou.map.display
 {
+	import fl.transitions.TransitionManager;
 	import fl.transitions.Tween;
 	import fl.transitions.easing.Strong;
 	
-	import flash.display.Sprite;
+	import flash.display.MovieClip;
 	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
 	import flash.geom.Point;
@@ -12,79 +13,57 @@ package mumble.timerou.map.display
 	import mumble.timerou.map.data.PictureData;
 	import mumble.timerou.map.data.RemotePicture;
 
-	public class Preview extends Sprite
+	public class Preview extends MovieClip
 	{
+		public static const MOVE_COMPLETE:String = "move_complete";
+		
 		private const INITIAL_WIDTH:int = 200;
 		private const INITIAL_HEIGHT:int = 200; 
 		private const BACKGROUND_COLOR:uint = 0x333333;
-		private const BORDER_COLOR:uint = 0x555555;
+		private const BACKGROUND_ALPHA:Number = 0.50;
+		private const BORDER_COLOR:uint = 0xFFFFFF;
+		private const BORDER_THICKNESS:int = 3;
 		private const PADDING:int = 5;
-		private const MARKER_SIZE:int = 6;
+		private const MARKER_SIZE:int = 10;
 		
 		private const MARKER_EDGE_TOP:int = 1;
 		private const MARKER_EDGE_LEFT:int = 2;
 		private const MARKER_EDGE_BOTTOM:int = 3;
 		private const MARKER_EDGE_RIGHT:int = 4;
 		
-		public var pictureData:PictureData = null;
+		public var pictureData:PictureData = null;	
 		
 		private var remotePicture:RemotePicture = null;
-		private var position:Point = null;
-		private var tween:Tween = null;
+		private var tweenX:Tween = null;
+		private var tweenY:Tween = null;
 		private var showTween:Tween = null;
+		private var pictureFadeTween:Tween = null;
+		private var transitionManager:TransitionManager = null;
+		private var position:Point = new Point();
+		private var markerEdge:int = 0;
+		private var rectX:Number = 0;
+		private var rectY:Number = 0;
+		private var hiding:Boolean = false;
 		
 		public function Preview() {
+			transitionManager = new TransitionManager(this);
+			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
 		private function init(e:Event):void {
-			drawBox();
 			this.visible = false; //starts invisible
 			
-			filters = [ new DropShadowFilter() ];
+			filters = [ new DropShadowFilter(0, 0, 0, 1, 5, 5, 1, 1) ];
 		}
 		
 		private function drawBox():void {
-			var correctWidth:int = INITIAL_WIDTH + PADDING * 2;
-			var correctHeight:int = INITIAL_HEIGHT + PADDING * 2;
-			
-			graphics.clear();
-			graphics.beginFill(BACKGROUND_COLOR);
-			graphics.lineStyle(1, BORDER_COLOR);
-			graphics.drawRect(0, 0, correctWidth, correctHeight);
-			graphics.endFill();
-		}
-		
-		private function drawPicture():void {
-			if(remotePicture != null) {
-				removeChild(remotePicture);
-			}
-			remotePicture = new RemotePicture(Main.BASEPICTURESURL + pictureData.optimizedPath, INITIAL_WIDTH, INITIAL_HEIGHT, true);
-			remotePicture.x = PADDING;
-			remotePicture.y = PADDING;
-			addChild(remotePicture);
-			remotePicture.addEventListener(RemotePicture.LOAD_COMPLETE, function(e:Event):void { 
-				adjustSize();
-			});
-		}
-		
-		public function loadPicture(pictureData:PictureData):void {
-			this.pictureData = pictureData;
-			drawPicture();
-		}
-		
-		public function move(position:Point):void {
-			this.position = position;
-			this.y = position.y
-			if(tween != null) {
-				if(tween.isPlaying) { tween.stop(); }
-			}
 			
 			//get max space and select best edge
-			var spaceRight:int = stage.stageWidth - position.x;
-			var spaceLeft:int = stage.stageWidth - spaceRight;
-			var spaceBottom:int = stage.stageHeight - position.y;
-			var spaceTop:int = stage.stageHeight - spaceBottom;
+			var spaceRight:Number = stage.stageWidth - position.x;
+			var spaceLeft:Number = stage.stageWidth - spaceRight;
+			var spaceBottom:Number = stage.stageHeight - position.y;
+			var spaceTop:Number = stage.stageHeight - spaceBottom;
 			
 			var possibilities:Array = [ 
 				{ value: spaceRight, marker: MARKER_EDGE_LEFT },
@@ -93,17 +72,14 @@ package mumble.timerou.map.display
 			 	{ value: spaceTop, marker: MARKER_EDGE_BOTTOM }
 			];
 			
-			var markerEdge:int = possibilities[0].marker;			
-			var lastPossibility:* = possibilities[0];
+			markerEdge = possibilities[0].marker;			
+			var bestPossibility:* = possibilities[0];
 			for each(var possibility:* in possibilities) {
-				if(lastPossibility.value < possibility.value) { markerEdge = possibility.marker; }
+				if(bestPossibility.value < possibility.value) { markerEdge = possibility.marker; bestPossibility = possibility; }
 			}
 			
-			var rectX:int = 0;
-			var rectY:int = 0;
-			
 			if(markerEdge == MARKER_EDGE_TOP || markerEdge == MARKER_EDGE_BOTTOM) {
-				rectX = position.x - INITIAL_WIDTH / 2 + MARKER_SIZE;
+				rectX = position.x - INITIAL_WIDTH / 2;
 				if(rectX < 0) {
 					rectX = 0;
 				} else if(rectX + INITIAL_WIDTH > stage.stageWidth) {
@@ -116,7 +92,7 @@ package mumble.timerou.map.display
 					rectY = position.y - MARKER_SIZE - INITIAL_HEIGHT;
 				}
 			} else if(markerEdge == MARKER_EDGE_LEFT || markerEdge == MARKER_EDGE_RIGHT) {
-				rectY = position.y - INITIAL_HEIGHT / 2 + MARKER_SIZE;
+				rectY = position.y - INITIAL_HEIGHT / 2;
 				if(rectY < 0) {
 					rectY = 0;
 				} else if(rectY + INITIAL_HEIGHT > stage.stageHeight) {
@@ -128,40 +104,138 @@ package mumble.timerou.map.display
 				} else {
 					rectX = position.x - INITIAL_WIDTH - MARKER_SIZE;
 				}
+			}			
+						
+			graphics.clear();
+			graphics.endFill();
+			graphics.beginFill(BACKGROUND_COLOR, BACKGROUND_ALPHA);
+			graphics.lineStyle(BORDER_THICKNESS, BORDER_COLOR);
+						
+			/*if(markerEdge == MARKER_EDGE_LEFT) {
+				graphics.moveTo(position.x, position.y);
+				graphics.lineTo(rectX, position.y + MARKER_SIZE);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, position.y - MARKER_SIZE);
+			} else if (markerEdge == MARKER_EDGE_RIGHT) {
+				graphics.moveTo(position.x, position.y);
+				graphics.lineTo(rectX + INITIAL_WIDTH, position.y - MARKER_SIZE);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, position.y + MARKER_SIZE);
+			} else if (markerEdge == MARKER_EDGE_TOP) {
+				graphics.moveTo(position.x, position.y);
+				graphics.lineTo(rectX - MARKER_SIZE, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(rectX + MARKER_SIZE, rectY) 
+			} else if (markerEdge == MARKER_EDGE_BOTTOM) {
+				graphics.moveTo(position.x, position.y);
+				graphics.lineTo(position.x + MARKER_SIZE, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(position.x - MARKER_SIZE, rectY + INITIAL_HEIGHT);
+			}*/
+			
+			rectX -= position.x;
+			rectY -= position.y;
+			
+			if(markerEdge == MARKER_EDGE_LEFT) {
+				graphics.moveTo(0, 0);
+				graphics.lineTo(rectX, 0 + MARKER_SIZE);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, 0 - MARKER_SIZE);
+			} else if (markerEdge == MARKER_EDGE_RIGHT) {
+				graphics.moveTo(0, 0);
+				graphics.lineTo(rectX + INITIAL_WIDTH, 0 - MARKER_SIZE);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, 0 + MARKER_SIZE);
+			} else if (markerEdge == MARKER_EDGE_TOP) {
+				graphics.moveTo(0, 0);
+				graphics.lineTo(0 - MARKER_SIZE, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(0 + MARKER_SIZE, rectY) 
+			} else if (markerEdge == MARKER_EDGE_BOTTOM) {
+				graphics.moveTo(0, 0);
+				graphics.lineTo(0 + MARKER_SIZE, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(rectX + INITIAL_WIDTH, rectY);
+				graphics.lineTo(rectX, rectY);
+				graphics.lineTo(rectX, rectY + INITIAL_HEIGHT);
+				graphics.lineTo(0 - MARKER_SIZE, rectY + INITIAL_HEIGHT);
 			}
 			
-			trace(markerEdge);
-			
-			graphics.clear();
-			graphics.beginFill(BACKGROUND_COLOR);
-			graphics.drawRect(rectX, rectY, INITIAL_WIDTH, INITIAL_HEIGHT);
 			graphics.endFill();
-			//tween = new Tween(this, "x", Strong.easeOut, this.x, newX, 0.5, true);
+
 		}
 		
-		private function adjustSize():void {
-			if(this.remotePicture == null) {
-				return;
+		private function drawPicture():void {
+			if(pictureFadeTween != null && pictureFadeTween.isPlaying) { pictureFadeTween.stop(); }
+
+			if(remotePicture != null) {
+				remotePicture.unload();
+				removeChild(remotePicture);				
 			}
+			remotePicture = new RemotePicture(Main.BASEPICTURESURL + pictureData.optimizedPath, INITIAL_WIDTH - PADDING * 2, INITIAL_HEIGHT - PADDING * 2, true);
+			remotePicture.x = rectX + PADDING;
+			remotePicture.y = rectY + PADDING;
+			remotePicture.showBorder = false;
+			addChild(remotePicture);
+			remotePicture.addEventListener(RemotePicture.LOAD_COMPLETE, function(e:Event):void { 
+				pictureFadeTween = new Tween(remotePicture, "alpha", Strong.easeOut, 0, 1, 0.25, true);
+			});
+		}
+		
+		public function loadPicture(pictureData:PictureData):void {
+			this.pictureData = pictureData;
+			drawPicture();
+		}
+
+		public function move(position:Point):void {
+			this.position = position;			
+			drawBox();
 			
-			var newWidth:int = this.remotePicture.width + (PADDING * 2);
-			var newHeight:int = this.remotePicture.height + (PADDING * 2);
+			if(tweenX != null && tweenX.isPlaying) { tweenX.stop(); }
+			if(tweenY != null && tweenY.isPlaying) { tweenY.stop(); }
+						
+			var duration:Number = 0.5;
+						
+			tweenX = new Tween(this, "x", Strong.easeOut, this.x, position.x, duration, true);
+			tweenY = new Tween(this, "y", Strong.easeOut, this.y, position.y, duration, true);
 			
-			tween = new Tween(this, "width", Strong.easeOut, this.width, newWidth, 0.25, true);
-			tween = new Tween(this, "height", Strong.easeOut, this.height, newHeight, 0.25, true);
+			setTimeout(function():void { if(!hiding && visible) { dispatchEvent(new Event(MOVE_COMPLETE)); } }, duration * 1000);
 		}
 		
 		public function show(position:Point):void {
 			if(visible) { return; }
 			visible = true;
+			hiding = false;
 			showTween = new Tween(this, "alpha", Strong.easeOut, 0, 1, 0.25, true);
 			move(position);
 		}
 		
 		public function hide():void {
 			if(!visible) { return; }
+			hiding = true;
 			showTween = new Tween(this, "alpha", Strong.easeOut, 1, 0, 0.25, true);
-			setTimeout(function():void { visible = false; }, 250);
+			setTimeout(function():void { visible = false; hiding = false; }, 250);
 		}
 	}
 }
