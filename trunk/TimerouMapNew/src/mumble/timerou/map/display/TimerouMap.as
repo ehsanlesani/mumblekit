@@ -6,17 +6,20 @@
 	import com.google.maps.MapEvent;
 	import com.google.maps.MapMoveEvent;
 	import com.google.maps.MapType;
+	import com.google.maps.controls.PositionControl;
+	import com.google.maps.controls.ZoomControl;
+	import com.google.maps.interfaces.IMapType;
 	import com.google.maps.overlays.Marker;
 	import com.google.maps.overlays.MarkerOptions;
+	import com.google.maps.services.ClientGeocoder;
+	import com.google.maps.services.GeocodingEvent;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.filters.BitmapFilter;
 	import flash.filters.ColorMatrixFilter;
 	import flash.geom.Point;
 	
-	import mumble.timerou.map.controls.RoundedButton;
 	import mumble.timerou.map.data.PictureData;
 	/**
 	 * ...
@@ -24,11 +27,11 @@
 	 */
 	public class TimerouMap extends Sprite
 	{		
-		private var map:Map = new Map();
+		private const MARGIN_BOTTOM:int = 60;
+		
+		private var map:Map = null;
 		private var filter:ColorMatrixFilter = new ColorMatrixFilter();
 		private var pictureMarkers:Array = new Array();
-		private var satelliteButton:RoundedButton = new RoundedButton();
-		private var roadButton:RoundedButton = new RoundedButton();
 		
 		public var ready:Boolean = false;
 
@@ -71,6 +74,7 @@
 		}
 		
 		private function init(e:Event):void {
+			map = new Map();
 			map.key = Main.MAPKEY;
 			map.addEventListener(MapEvent.MAP_READY, onMapReady);
 			map.addEventListener(MapMoveEvent.MOVE_START, onMapMoveStart);
@@ -79,49 +83,28 @@
 			addChild(map);
 		}
 		
-		private function onMapReady(e:MapEvent):void {
-		
-			map.setSize(new Point(stage.stageWidth, stage.stageHeight));
+		private function onMapReady(e:MapEvent):void {		
+			map.setSize(new Point(stage.stageWidth, stage.stageHeight - MARGIN_BOTTOM));
 			map.setCenter(new LatLng(40.6686534, 16.6060872), 5);
-			map.setMapType(MapType.HYBRID_MAP_TYPE);
+			map.setMapType(MapType.NORMAL_MAP_TYPE);
+			map.addControl(new ZoomControl()); 
+  			map.addControl(new PositionControl());
 			map.enableScrollWheelZoom();	
-
-			//createButtons();
 			
 			ready = true;			
 			dispatchEvent(new Event("timerouMapReady"));
 			stage.addEventListener(Event.RESIZE, function(e:Event):void { 
-				map.setSize(new Point(stage.stageWidth, stage.stageHeight)); 
-				satelliteButton.x = stage.stageWidth - satelliteButton.width - 5;
-				roadButton.x = stage.stageWidth - roadButton.width * 2 - 10;
+				map.setSize(new Point(stage.stageWidth, stage.stageHeight - MARGIN_BOTTOM)); 
 			});
 		}		
 		
 		private function onMapMoveStart(e:MapEvent):void {
-			hideTypeButtons();
 			dispatchEvent(new Event("timerouMapMoveStart"));
 		}
 		
 		private function onMapMoveEnd(e:MapEvent):void {
-			showTypeButtons();
 			dispatchEvent(new Event("timerouMapMoveEnd"));
 		}
-		
-		private function createButtons():void {
-			satelliteButton = new RoundedButton();
-			satelliteButton.y = 65;
-			satelliteButton.text = "Hibrid";
-			satelliteButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void { map.setMapType(MapType.HYBRID_MAP_TYPE); } );
-			addChild(satelliteButton);
-
-			roadButton.y = 65;
-			roadButton.text = "Road";
-			roadButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void { map.setMapType(MapType.NORMAL_MAP_TYPE); } );
-			addChild(roadButton);			
-
-			satelliteButton.x = stage.stageWidth - satelliteButton.width - 5;
-			roadButton.x = stage.stageWidth - roadButton.width * 2 - 10;
-		}	
 		
 		private function calculateFilterMatrix():Array {
 			var invertedOldStyle:int = 100 - _oldStyle; //inversion to be oldest at 100%
@@ -148,18 +131,8 @@
 			var s2:Sprite = s1.getChildAt(0) as Sprite;
 			s2.filters = [ filter ];
 		}
-	
-		public function showTypeButtons():void {
-			this.satelliteButton.visible = true;
-			this.roadButton.visible = true;
-		}
 		
-		public function hideTypeButtons():void {
-			this.satelliteButton.visible = false;
-			this.roadButton.visible = false;
-		}
-		
-		public function showPictureLocation(pictureData:PictureData):void {
+		public function showPictureLocation(pictureData:PictureData):PictureIcon {
 			var latLng:LatLng = pictureData.latLng;
 			var icon:PictureIcon = new PictureIcon();			
 			var options:MarkerOptions = new MarkerOptions();
@@ -167,6 +140,8 @@
 			var marker:Marker = new Marker(latLng, options);
 			pictureMarkers.push(marker);
 			map.addOverlay(marker);
+			
+			return icon;
 		}
 		
 		public function clearPictureLocations():void {
@@ -176,8 +151,33 @@
 			
 			pictureMarkers = new Array();
 		}
+		
 		public function getPicturePoint(pictureData:PictureData):Point {
 			return map.fromLatLngToViewport(pictureData.latLng);
+		}
+		
+		public function setMapType(type:IMapType):void {
+			map.setMapType(type);
+		}
+		
+		public function goToLocation(key:String):void {
+			var geocoder:ClientGeocoder = new ClientGeocoder(); 
+		    geocoder.addEventListener(GeocodingEvent.GEOCODING_SUCCESS, 
+  				function(event:GeocodingEvent):void { 
+		        var placemarks:Array = event.response.placemarks; 
+		        if (placemarks.length > 0) { 
+	        		var accuracy:int = placemarks[0].AddressDetails.Accuracy;
+		        	var zoom:int = 18 * accuracy / 8;
+		        	zoom += 3;
+		        	
+		        	map.setCenter(placemarks[0].point, zoom);
+		        } 
+		    }); 
+		    geocoder.addEventListener(GeocodingEvent.GEOCODING_FAILURE, 
+		        function(event:GeocodingEvent):void { 
+		            trace("Geocoding failed"); 
+		        }); 
+		    geocoder.geocode(key); 
 		}
 	}
 
