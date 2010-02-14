@@ -24,20 +24,36 @@ namespace Mumble.Timerou.Models.Managers
         /// <param name="bounds"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public IEnumerable<Picture> LoadPictures(MapBounds bounds, int? year)
+        public IEnumerable<Picture> LoadPictures(MapBounds bounds, int? year, int? page, int? pageSize, out int totalCount)
         {
             int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            var pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
+            IQueryable<Picture> pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
                             where (year.HasValue && p.Year == year)
                             && p.Lat <= bounds.TopLeft.Lat
                             && p.Lat >= bounds.BottomRight.Lat
                             && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
                                || (!crossMeridian && (p.Lng >= bounds.TopLeft.Lng && p.Lng <= bounds.BottomRight.Lng)))
                             orderby p.Year, p.Views, p.Created descending
-                            select p).Take(limit);
+                            select p);
 
+            totalCount = pictures.Count();
+
+            if (page.HasValue)
+            {
+                if (!pageSize.HasValue)
+                {
+                    throw new ArgumentException("pageSize");
+                }
+
+                int offset = (page.Value - 1) * pageSize.Value;
+                pictures = pictures.Skip(offset).Take(pageSize.Value);
+            }
+            else
+            {
+                pictures = pictures.Take(limit);
+            }
 
             return pictures;
         }

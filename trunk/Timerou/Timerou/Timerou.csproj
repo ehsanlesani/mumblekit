@@ -180,6 +180,7 @@
     <Content Include="Content\Images\search.png" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
+    <Content Include="Scripts\MapCom.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />
     <Content Include="Scripts\tiny_mce\plugins\advhr\css\advhr.css" />
@@ -424,6 +425,7 @@
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\Uploader.js" />
     <Content Include="Views\Account\Upload.aspx" />
+    <Content Include="Views\Main\MapObject.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.config" />
