@@ -13,6 +13,8 @@ using System.Data.Metadata.Edm;
 using System.Text;
 using System.Data.Objects.DataClasses;
 using Mumble.Web.StarterKit.Models.ExtPartial;
+using Mumble.Web.StarterKit.Models.Scaffold.Fields.Config;
+using Mumble.Web.StarterKit.Models.Scaffold.Converters;
 
 namespace MumbleKit
 {
@@ -177,6 +179,7 @@ namespace MumbleKit
             ListManager.Instance.RegisterConfiguration(typeof(RoomPriceList), roomPriceListConfiguration);
 
             FieldBuilder.Instance.SetControl(typeof(IEnumerable<Attachment>), RelationshipMultiplicity.Many, "Custom/Attachments.ascx", null, new AttachmentsConverter());
+            FieldBuilder.Instance.SetControl(typeof(Municipality), RelationshipMultiplicity.ZeroOrOne, "ZeroOrOne.ascx", new StandardRelationshipPropertiesInjector() { OrderByExpression = "it.Name" }, new OneRelationshipConverter());
             FieldBuilder.Instance.SetControl(typeof(Page), "Body", "Custom/Html.ascx", null, null);
             FieldBuilder.Instance.SetControl(typeof(Room), "Text", "Custom/Textarea.ascx", null, null);
             FieldBuilder.Instance.SetControl(typeof(Object), "Description", "Custom/Html.ascx", null, null);

@@ -15,7 +15,11 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields.Config
     {
         public void Inject(FieldControl fieldControl, Scaffolder Scaffolder)
         {
-            var items = Scaffolder.ObjectContext.CreateQuery<object>(fieldControl.RelationshipMetadata.To.EntitySet).ToList();
+            var items = Scaffolder.ObjectContext.CreateQuery<object>(fieldControl.RelationshipMetadata.To.EntitySet);
+            if (OrderByExpression != null)
+            {
+                items = items.OrderBy(OrderByExpression);
+            }
 
             List<SelectListItem> selectItems = new List<SelectListItem>();
             //selectItems.Add(new SelectListItem() { Text = "(Seleziona)", Value = null, Selected = true });
@@ -36,5 +40,12 @@ namespace Mumble.Web.StarterKit.Models.Scaffold.Fields.Config
 
             fieldControl.AddProperty("Items", new SelectList(selectItems, "Value", "Text"));
         }
+
+        /// <summary>
+        /// Contains expression to have an ordered list
+        /// </summary>
+        public string OrderByExpression { get; set; }
     }
+
+    
 }
