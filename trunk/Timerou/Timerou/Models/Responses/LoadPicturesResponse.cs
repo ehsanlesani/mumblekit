@@ -17,7 +17,8 @@ namespace Mumble.Timerou.Models.Responses
 
             return response;
         }
-        
+
+        public int TotalCount { get; set; }
         public List<PictureData> Pictures { get; set; }
 
         public LoadPicturesResponse(bool error, string message)

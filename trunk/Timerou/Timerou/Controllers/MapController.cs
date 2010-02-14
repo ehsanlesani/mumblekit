@@ -22,13 +22,16 @@ namespace Mumble.Timerou.Controllers
         /// <param name="lng2"></param>
         /// <param name="startOffset"></param>
         /// <returns></returns>
-        public ActionResult LoadPictures(double lat1, double lng1, double lat2, double lng2, int year)
+        public ActionResult LoadPictures(double lat1, double lng1, double lat2, double lng2, int year, int page, int pageSize)
         {
             try
             {
                 MapManager mapManager = new MapManager(Container);
-                IEnumerable<Picture> pictures = mapManager.LoadPictures(new MapBounds(new LatLng(lat1, lng1), new LatLng(lat2, lng2)), year);
+
+                int totalCount = 0;
+                IEnumerable<Picture> pictures = mapManager.LoadPictures(new MapBounds(new LatLng(lat1, lng1), new LatLng(lat2, lng2)), year, page, pageSize, out totalCount);
                 LoadPicturesResponse response = LoadPicturesResponse.FromList(pictures);
+                response.TotalCount = totalCount;
 
                 return this.CamelCaseJson(response);
             }
