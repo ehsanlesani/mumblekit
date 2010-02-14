@@ -163,6 +163,18 @@
                                         </li>                                    
                                     </ul>
                                 </li>
+                                <li class="closed">
+                                    <span class="folder">Varie</span>
+                                    <ul>
+                                        <li class="closed">
+                                            <span class="folder">Newsletter</span>
+                                            <ul>
+                                                <li><span class="add"><a href="<%= ResolveUrl("~/Admin/Newsletter.aspx/Edit") %>">Nuovo iscritto</a></span></li>
+                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/Newsletter.aspx/List") %>">Gestione iscritti</a></span></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </td>
                     </tr>

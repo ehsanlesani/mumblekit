@@ -100,8 +100,10 @@ namespace MumbleKit
                     b.Append(price.Price.GetValueOrDefault().ToString("0.00€ - "));
                 }
 
-
-                return b.ToString().Remove(b.Length - 3, 3);
+                if (b.Length > 3)
+                    return b.ToString().Remove(b.Length - 3, 3);
+                else
+                    return b.ToString();
             });
 
             ListConfiguration accommodationConfiguration = new ListConfiguration();

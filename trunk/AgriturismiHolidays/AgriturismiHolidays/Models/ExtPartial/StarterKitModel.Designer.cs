@@ -23,7 +23,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "FK_Pages_AccommodationTypes", "AccommodationType", global::System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Mumble.Web.StarterKit.Models.ExtPartial.AccommodationType), "Page", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Page))]
 
 // Original file name:
-// Generation date: 09/02/2010 23:46:38
+// Generation date: 14/02/2010 20:00:44
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
@@ -896,7 +896,7 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Nullable<byte> Priority
+        public global::System.Nullable<int> Priority
         {
             get
             {
@@ -911,8 +911,8 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 this.OnPriorityChanged();
             }
         }
-        private global::System.Nullable<byte> _Priority;
-        partial void OnPriorityChanging(global::System.Nullable<byte> value);
+        private global::System.Nullable<int> _Priority;
+        partial void OnPriorityChanging(global::System.Nullable<int> value);
         partial void OnPriorityChanged();
         /// <summary>
         /// There are no comments for Accommodations in the schema.
@@ -2273,7 +2273,7 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Nullable<short> Persons
+        public global::System.Nullable<int> Persons
         {
             get
             {
@@ -2288,8 +2288,8 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 this.OnPersonsChanged();
             }
         }
-        private global::System.Nullable<short> _Persons;
-        partial void OnPersonsChanging(global::System.Nullable<short> value);
+        private global::System.Nullable<int> _Persons;
+        partial void OnPersonsChanging(global::System.Nullable<int> value);
         partial void OnPersonsChanged();
         /// <summary>
         /// There are no comments for Accommodations in the schema.

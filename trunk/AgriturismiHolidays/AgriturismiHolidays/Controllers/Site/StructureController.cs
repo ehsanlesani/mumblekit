@@ -10,7 +10,7 @@ using Mumble.Web.StarterKit.Models.Common;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
-    public class StructureController : Controller
+    public class StructureController : BaseController
     {
         StarterKitContainer _context = new StarterKitContainer();
         private int _itemsPerPage = 10;
@@ -21,7 +21,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         /// <returns></returns>
         public ActionResult Index()
         {
-            Initialize();
+            Populate();
             return View();
         }
 
@@ -37,7 +37,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
             try
             {
-                Initialize();
+                Populate();
                 string cat = "";
 
                 if (category != null)
@@ -99,7 +99,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         public ActionResult Show(string id)
         {
             StructureViewModel vm = new StructureViewModel();
-            Initialize();
+            Populate();
 
             try
             {               
@@ -116,12 +116,6 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 vm.SetError(ex.Message);
                 return View(vm);
             }           
-        }
-
-        private void Initialize() 
-        {
-            ViewData["MenuTabs"] = MenuTab.GetMenuItems();
-            ViewData["Footer"] = MenuTab.GetGlobalPages();
         }
     }
 }

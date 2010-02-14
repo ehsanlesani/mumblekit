@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Admin\AccommodationController.cs" />
     <Compile Include="Controllers\Admin\AccommodationTypeController.cs" />
+    <Compile Include="Controllers\Admin\NewsletterController.cs" />
     <Compile Include="Controllers\Admin\ServiceController.cs" />
     <Compile Include="Controllers\Admin\GroupController.cs" />
     <Compile Include="Controllers\Admin\LoginController.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Controllers\Admin\SectionController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Site\AccountController.cs" />
+    <Compile Include="Controllers\Site\BaseController.cs" />
     <Compile Include="Controllers\Site\HomeController.cs" />
     <Compile Include="Controllers\Site\StructureController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -103,6 +105,7 @@
     <Compile Include="Models\ExtPartial\AccommodationType.cs" />
     <Compile Include="Models\ExtPartial\Attachment.cs" />
     <Compile Include="Models\Common\MenuTab.cs" />
+    <Compile Include="Models\ExtPartial\Newsletter.cs" />
     <Compile Include="Models\ExtPartial\Service.cs" />
     <Compile Include="Models\ExtPartial\Group.cs" />
     <Compile Include="Models\ExtPartial\IEntityWithAttachments.cs" />
@@ -368,6 +371,8 @@
   <ItemGroup>
     <None Include="Agriturismi.bak" />
     <None Include="Content\Css\jquery\white\Thumbs.db" />
+    <None Include="Miscellaneous\Agriturismi.bak" />
+    <None Include="Miscellaneous\out.sql" />
     <None Include="Models\ExtPartial\StarterKitContainer.edmx.sql" />
     <EntityDeploy Include="Models\ExtPartial\StarterKitModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -423,9 +428,13 @@
     <Content Include="Content\JS\jquery\jquery-1.3.2-vsdoc2.js" />
     <Content Include="Content\JS\jquery\piroBox.1_2_min.js" />
     <Content Include="Content\swf\italy.swf" />
+    <Content Include="Lang\en-US.txt" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Content\JS\Account.js" />
     <Content Include="Content\JS\jquery\jquery.validate.min.js" />
+    <Content Include="Miscellaneous\GoogleMaps.txt" />
+    <Content Include="Views\Account\Login.aspx" />
+    <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Home\StaticPage.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />

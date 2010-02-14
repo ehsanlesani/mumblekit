@@ -21,10 +21,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 {
 
     [HandleError]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         public ActionResult Register()
         {
+            Populate();
             return View();
         }
 

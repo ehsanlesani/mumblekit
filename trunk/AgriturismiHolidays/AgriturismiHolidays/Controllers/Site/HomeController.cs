@@ -11,7 +11,7 @@ using Mumble.Web.StarterKit.Models.ExtPartial;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         /// <summary>
         /// 
@@ -21,11 +21,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             try
             {
+                Populate();
                 ViewData["RegionItems"] = GetRegionsSelectList();
                 ViewData["Category"] = GetAccommodationTypeList();
-                ViewData["MenuTabs"] = MenuTab.GetMenuItems();
                 ViewData["Showcase"] = GetOnShowCaseAccomodations();
-                ViewData["Footer"] = MenuTab.GetGlobalPages();
             }
             catch (Exception)
             {
@@ -44,8 +43,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             try
             {
-                ViewData["MenuTabs"] = MenuTab.GetMenuItems();
-                ViewData["Footer"] = MenuTab.GetGlobalPages();
+                Populate();
                 ViewData["Body"] = GetPage(id);                
             }
             catch (Exception)
