@@ -11,12 +11,7 @@
           <EntitySet Name="AccomodationService" EntityType="StarterKitModel.Store.AccomodationService" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Attachments" EntityType="StarterKitModel.Store.Attachments" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Municipalities" EntityType="StarterKitModel.Store.Municipalities" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Newsletter" EntityType="StarterKitModel.Store.Newsletter" store:Type="Tables" store:Schema="dbo" store:Name="Newsletter">
-            <DefiningQuery>SELECT 
-      [Newsletter].[Id] AS [Id], 
-      [Newsletter].[email] AS [email]
-      FROM [dbo].[Newsletter] AS [Newsletter]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Newsletter" EntityType="StarterKitModel.Store.Newsletter" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="StarterKitModel.Store.Pages" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PriceListEntries" EntityType="StarterKitModel.Store.PriceListEntries" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PriceListSeasons" EntityType="StarterKitModel.Store.PriceListSeasons" store:Type="Tables" Schema="dbo" />
@@ -106,7 +101,7 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" />
-          <Property Name="Priority" Type="tinyint" />
+          <Property Name="Priority" Type="int" />
         </EntityType>
         <EntityType Name="AccomodationService">
           <Key>
@@ -136,9 +131,6 @@
           <Property Name="Prefix" Type="nchar" MaxLength="10" />
           <Property Name="PostalCode" Type="nchar" MaxLength="10" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'Agriturismi.dbo.Newsletter' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="Newsletter">
           <Key>
             <PropertyRef Name="Id" />
@@ -209,7 +201,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" />
           <Property Name="Text" Type="ntext" />
-          <Property Name="Persons" Type="smallint" />
+          <Property Name="Persons" Type="int" />
           <Property Name="Accommodation_Id" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Sections">
@@ -493,7 +485,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.FK_Accommodations_AccommodationTypes" FromRole="AccommodationTypes" ToRole="Accommodations" />
-          <Property Name="Priority" Type="Byte" Nullable="true" />
+          <Property Name="Priority" Type="Int32" Nullable="true" />
           <NavigationProperty Name="Pages" Relationship="StarterKitModel.FK_Pages_AccommodationTypes" FromRole="AccommodationType" ToRole="Page" /></EntityType>
         <EntityType Name="Attachment">
           <Key>
@@ -582,7 +574,7 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
           <Property Name="Text" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Persons" Type="Int16" />
+          <Property Name="Persons" Type="Int32" />
           <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.FK_AccommodationRooms_Accommodations" FromRole="Rooms" ToRole="Accommodations" />
           <NavigationProperty Name="RoomPriceList" Relationship="StarterKitModel.FK_RoomPriceList_Rooms" FromRole="Rooms" ToRole="RoomPriceList" />
         </EntityType>
@@ -912,7 +904,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="StarterKitModel" ZoomLevel="65">
+      <Diagram Name="StarterKitModel" ZoomLevel="85">
         <EntityTypeShape EntityType="StarterKitModel.Accommodation" Width="1.75" PointX="7.5" PointY="3.125" Height="3.5186979166666665" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.AccommodationType" Width="2" PointX="3.125" PointY="6.375" Height="1.9802864583333331" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.Attachment" Width="1.5" PointX="9.75" PointY="0.75" Height="2.172587890625" IsExpanded="true" />

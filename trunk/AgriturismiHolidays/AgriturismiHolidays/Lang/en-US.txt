@@ -1,1 +1,13 @@
-﻿
+﻿msg.firstNameRequired = nome richiesto
+msg.lastNameRequired = cognome richiesto
+msg.invalidEmail = email non valida
+msg.passRequired = password richiesta
+msg.min5char = minimo 5 caratteri
+msg.badPasswordConfirm = conferma password errata
+txt.register = registrazione
+txt.firstName = nome
+txt.lastName = cognome
+msg.yourPassword = password
+msg.confirmPass = conferma password
+msg.ok = ok
+msg.cancel = annulla

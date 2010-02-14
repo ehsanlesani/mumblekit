@@ -31,8 +31,9 @@
     </div>
 </div>
 <div id="rightside" class="column span-12 last">
+    <p id="subscription">Vuoi inserire la tua struttura? <%=Html.ActionLink("iscriviti", "Register", "Account", null, new { @class="subscription-link" })%></p>
     <div id="announced">
-        <img src="../../Content/Images/announced-by.png" alt="segnalati da noi" class="section-title" />
+        <img src="../../Content/Images/announced-by.png" alt="segnalati da noi" class="section-title" id="advice-by-title" />
         <%
             if (ViewData["Showcase"] != null) 
             {

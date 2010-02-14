@@ -66,7 +66,7 @@
                     <input type="password" class="" name="confirmPassword" />
                 </p>                
                 <p>
-                    <input type="submit" value="<%= UIHelper.T("txt.register") %>" />
+                    <input type="submit" value="<%= UIHelper.T("msg.ok") %>" />
                     <img src="<%= ResolveUrl("~/Content/Images/ajaxLoading.gif") %>" alt="loading" id="registerLoading" class="hide" />
                 </p>
             </fieldset>

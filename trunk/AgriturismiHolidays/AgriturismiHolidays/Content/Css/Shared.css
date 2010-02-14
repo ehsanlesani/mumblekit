@@ -384,3 +384,29 @@ img.section-title
 .sidepage {
     margin:15px;    
 }
+
+#advice-by-title {
+    position:relative;
+    left:100px;
+}
+
+p#subscription {
+    text-align:right;
+}
+
+p#subscription a.subscription-link:link, a.subscription-link:visited {
+    color:#E3933B;
+    text-transform:uppercase;
+    text-decoration:none;
+}
+
+p#subscription a.subscription-link:hover {
+    color:#603836;
+    text-decoration:underline;
+}
+
+.error 
+{
+    margin:0 10px;
+    padding:0 10px;
+}
