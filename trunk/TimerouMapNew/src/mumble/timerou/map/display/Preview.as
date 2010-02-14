@@ -25,6 +25,7 @@ package mumble.timerou.map.display
 		private const BORDER_THICKNESS:int = 3;
 		private const PADDING:int = 5;
 		private const MARKER_SIZE:int = 10;
+		private const MARGIN_BOTTOM:int = 60;
 		
 		private const MARKER_EDGE_TOP:int = 1;
 		private const MARKER_EDGE_LEFT:int = 2;
@@ -95,8 +96,8 @@ package mumble.timerou.map.display
 				rectY = position.y - INITIAL_HEIGHT / 2;
 				if(rectY < 0) {
 					rectY = 0;
-				} else if(rectY + INITIAL_HEIGHT > stage.stageHeight) {
-					rectY = stage.stageHeight - INITIAL_HEIGHT;
+				} else if(rectY + INITIAL_HEIGHT > stage.stageHeight - MARGIN_BOTTOM) {
+					rectY = stage.stageHeight - INITIAL_HEIGHT - MARGIN_BOTTOM;
 				}
 				
 				if(markerEdge == MARKER_EDGE_LEFT) {
