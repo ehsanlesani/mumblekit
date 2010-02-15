@@ -11,3 +11,5 @@ msg.yourPassword = password
 msg.confirmPass = conferma password
 msg.ok = ok
 msg.cancel = annulla
+msg.existentEmail = indirizzo email esistente
+err.badLogin = email o password errata

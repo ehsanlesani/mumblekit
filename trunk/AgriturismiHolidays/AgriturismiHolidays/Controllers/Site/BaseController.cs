@@ -10,10 +10,6 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 {
     public class BaseController : Controller
     {
-        protected void Populate() 
-        {
-            ViewData["MenuTabs"] = MenuTab.GetMenuItems();
-            ViewData["Footer"] = MenuTab.GetGlobalPages();
-        }
+        
     }
 }

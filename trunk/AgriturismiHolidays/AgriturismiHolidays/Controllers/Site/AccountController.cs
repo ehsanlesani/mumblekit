@@ -17,6 +17,7 @@ using Mumble.Web.StarterKit.Models.Exceptions;
 using Mumble.Web.StarterKit.Models.Helpers;
 using Mumble.Web.StarterKit.Models.ViewModels;
 using Mumble.Web.StarterKit.Models.Auth;
+using Mumble.Web.StarterKit.Models.Common;
 
 
 namespace Mumble.Web.StarterKit.Controllers.Site
@@ -27,7 +28,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
     {
         public ActionResult Register()
         {
-            return View();
+            LoginModel loginModel = new LoginModel();
+            loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
+
+            return View(loginModel);
         }
 
         /// <summary>
@@ -47,11 +51,14 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             }
             catch (LoginException)
             {
+                return RedirectToAction("LandingAction", "Home", new { error = UIHelper.Translate("err.badLogin") });
+                /*
                 return View(new LoginModel()
                 {
                     Error = UIHelper.Translate("err.badLogin"),
                     RedirectUrl = redirectUrl
                 });
+                */
             }
 
             if (String.IsNullOrEmpty(redirectUrl))
@@ -79,6 +86,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 model.RedirectUrl = redirectUrl;
             }
             return View(model);
+        }
+
+        public ActionResult Logout() 
+        {
+            return RedirectToAction("LandingAction", "Home", new { error = UIHelper.Translate("err.badLogin") });
         }
 
         /// <summary>
@@ -122,6 +134,21 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             }
 
             return this.CamelCaseJson(new SimpleResponse(false, UIHelper.Translate("msg.registered")));
+        }
+
+        protected void Populate()
+        {
+            ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+            ViewData["Footer"] = MenuTab.GetGlobalPages();
+        }
+
+        public ActionResult PersonalPage() 
+        {
+            Populate();
+            LoginModel loginModel = new LoginModel();
+            loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
+
+            return View(loginModel);
         }
     }
 }
