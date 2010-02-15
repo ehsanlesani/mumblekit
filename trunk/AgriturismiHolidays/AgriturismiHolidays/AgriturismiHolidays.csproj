@@ -432,7 +432,6 @@
     <Content Include="Content\JS\Account.js" />
     <Content Include="Content\JS\jquery\jquery.validate.min.js" />
     <Content Include="Miscellaneous\GoogleMaps.txt" />
-    <Content Include="Views\Account\Login.aspx" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Home\StaticPage.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
