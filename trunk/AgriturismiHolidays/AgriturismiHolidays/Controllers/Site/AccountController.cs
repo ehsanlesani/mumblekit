@@ -71,6 +71,5 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
             return this.CamelCaseJson(new SimpleResponse(false, UIHelper.Translate("msg.registered")));
         }
-
     }
 }
