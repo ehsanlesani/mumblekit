@@ -15,18 +15,70 @@ using Mumble.Web.StarterKit.Models;
 using Mumble.Web.StarterKit.Models.ExtPartial;
 using Mumble.Web.StarterKit.Models.Exceptions;
 using Mumble.Web.StarterKit.Models.Helpers;
+using Mumble.Web.StarterKit.Models.ViewModels;
+using Mumble.Web.StarterKit.Models.Auth;
 
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
 
     [HandleError]
-    public class AccountController : BaseController
+    public class AccountController : AuthController
     {
         public ActionResult Register()
         {
-            Populate();
             return View();
+        }
+
+        /// <summary>
+        /// Execute user login and render redirect/home page
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="redirectUrl"></param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Login(string email, string password, string redirectUrl)
+        {
+            try
+            {
+                AccountManager accountManager = new AccountManager(UsersContainer);
+                accountManager.Login(email, password);
+            }
+            catch (LoginException)
+            {
+                return View(new LoginModel()
+                {
+                    Error = UIHelper.Translate("err.badLogin"),
+                    RedirectUrl = redirectUrl
+                });
+            }
+
+            if (String.IsNullOrEmpty(redirectUrl))
+            {
+                return RedirectToAction("Index", "Home", null);
+            }
+            else
+            {
+                return Redirect(redirectUrl);
+            }
+        }
+
+        /// <summary>
+        /// Go to login page. Specify a redirectUrl from an unauthorized page
+        /// </summary>
+        /// <param name="redirectUrl"></param>
+        /// <returns></returns>
+        public ActionResult Login(string redirectUrl)
+        {
+            //if redirecturl was sended, the action was called by an unauthorized user
+            LoginModel model = new LoginModel();
+            if (redirectUrl != null)
+            {
+                model.Error = UIHelper.Translate("err.unauthorized");
+                model.RedirectUrl = redirectUrl;
+            }
+            return View(model);
         }
 
         /// <summary>
