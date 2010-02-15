@@ -23,7 +23,6 @@ using Mumble.Timerou.Models.Pages;
 namespace Mumble.Timerou.Controllers
 {
 
-    [HandleError]
     public class AccountController : AuthController
     {
         /// <summary>
@@ -36,6 +35,8 @@ namespace Mumble.Timerou.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Login(string email, string password, string redirectUrl)
         {
+            ViewData["debug"] = String.Format("{0}, {1}, {2}", email, password, redirectUrl);
+            
             try
             {
                 AccountManager accountManager = new AccountManager(Container);
@@ -43,7 +44,8 @@ namespace Mumble.Timerou.Controllers
             }
             catch (LoginException)
             {
-                return View(new LoginModel() { 
+                return View("Login", new LoginModel()
+                {
                     Error = UIHelper.Translate("err.badLogin"),
                     RedirectUrl = redirectUrl
                 });

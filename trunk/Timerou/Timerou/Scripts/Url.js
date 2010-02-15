@@ -1,12 +1,8 @@
 ﻿function Url() { };
 
-Url.Home = BASEURL + "Home/Index";
-Url.HomeStatuses = BASEURL + "Home/FindStatuses";
-Url.HomeAddStatus = BASEURL + "Home/AddStatus";
-
-Url.AccountRegister = BASEURL + "Account/Register/";
-Url.AccountUpload = BASEURL + "Account/AddPicture";
-Url.AccountCulture = BASEURL + "Account/ChangeCulture";
+Url.AccountRegister = BASEURL + "Account.aspx/Register/";
+Url.AccountUpload = BASEURL + "Account.aspx/AddPicture";
+Url.AccountCulture = BASEURL + "Account.aspx/ChangeCulture";
 
 Url.Pictures = BASEURL + "Pictures/";
 
