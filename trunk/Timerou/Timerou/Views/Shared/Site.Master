@@ -40,6 +40,10 @@
 </head>
 
 <body>
+    <pre>
+    <%=ViewData["debug"] %>
+    </pre>
+
     <div class="container">
         <div class="header span-24 last">
             <h1>Timerou</h1>

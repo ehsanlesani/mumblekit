@@ -19,7 +19,7 @@ namespace Mumble.Timerou
 
             routes.MapRoute(
                 "Default",                                              // Route name
-                "{controller}/{action}/{id}",                           // URL with parameters
+                "{controller}.aspx/{action}/{id}",                      // URL with parameters
                 new { controller = "Main", action = "Index", id = "" }  // Parameter defaults
             );
         }
@@ -32,6 +32,11 @@ namespace Mumble.Timerou
         protected void Session_Start()
         {
             UIHelper.ChangeCulture(UIHelper.DefaultCulture);
+        }
+
+        protected void Application_Error()
+        {
+            Application["LastError"] = Server.GetLastError();
         }
     }
 }
