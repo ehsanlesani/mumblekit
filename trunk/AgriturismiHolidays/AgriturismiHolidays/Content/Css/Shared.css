@@ -197,7 +197,7 @@ div#header_logon
 	color:White;
 	font-size:12px;
 	top:8px;
-	left:450px;
+	right:0px;
 }
 
 div#header_logon input[type=text], div#header_logon input[type=password]
@@ -409,4 +409,16 @@ p#subscription a.subscription-link:hover {
 {
     margin:0 10px;
     padding:0 10px;
+}
+
+a.logout {
+    margin:0 10px;
+}
+
+a.logout:link, a.logout:visited {
+    color:White;
+}
+
+a.logout:hover {
+    color:#DE9347;
 }

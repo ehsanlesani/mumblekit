@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LoginModel>" %>
+<%@ Import Namespace="Mumble.Web.StarterKit.Models.ViewModels" %>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -13,25 +14,41 @@
             }
         });
     });
-    </script>
+</script>
 
-<% using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
-   { %>
-    <fieldset>
-        <legend><%= UIHelper.T("txt.login")%></legend>
+
+
+<% 
+    AccountManager manager = ViewData["AccountManager"] as AccountManager;
+
+    if (!manager.HasLoggedUser)
+    {
+        using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
+        { 
+           %>   
+        <input type="hidden" name="redirectUrl" value="<%= Model.RedirectUrl %>" /
+        <table cellpadding="0" cellspacing="0">
+        <tr>      
+            <% if (Model.HasError)
+           { %>
+                <td><%= Model.Error%></td>
+            <% } %>            
+            <td>Email*</td>
+            <td><input type="text" class="" name="email" /></td>
+            <td>Password*</td>
+            <td><input type="password" class="" name="password" /></td>
+            <td><input type="image" src="<%=ResolveUrl("~/Content/Images/arrow-right.png") %>" title="entra" /></td>
+        </tr>
+        </table> 
+<% 
+    }
+    }
+    else 
+    { 
+        %>
+        <span><%=Html.ActionLink("logout", "Logout", "Account", new { @class="logout" })%></span>
+        <span><%=Html.ActionLink("area privata", "PersonalPage", "Account", new { @class = "logout" })%></span>
+        <%
+    }
         
-        <% if (Model.HasError) { %>
-                <div class="errorbox"><%= Model.Error %></div>
-        <% } %>
-        <input type="hidden" name="redirectUrl" value="<%= Model.RedirectUrl %>" />
-        <p>
-            <label>Email*</label><br />
-            <input type="text" class="" name="email" />
-        </p>
-        <p>
-            <label>Password*</label><br />
-            <input type="password" class="" name="password" />
-        </p>
-        <p><input type="submit" value="Login" /></p>
-    </fieldset>
-<% } %>
+%>

@@ -198,6 +198,7 @@
     <Compile Include="Models\ViewModels\BaseModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\CustomViewModel.cs" />
+    <Compile Include="Models\ViewModels\FiltersViewModel.cs" />
     <Compile Include="Models\ViewModels\StructureViewModel.cs" />
     <Compile Include="Models\ViewModels\StructureListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -433,6 +434,7 @@
     <Content Include="Content\JS\jquery\jquery.validate.min.js" />
     <Content Include="Miscellaneous\GoogleMaps.txt" />
     <Content Include="Views\Account\Login.aspx" />
+    <Content Include="Views\Account\PersonalPage.aspx" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Controls\LoginControl.ascx" />
     <Content Include="Views\Home\StaticPage.aspx" />
@@ -441,6 +443,7 @@
     <Content Include="Views\Shared\Header.ascx" />
     <Content Include="Views\Shared\Main.Master" />
     <Content Include="Views\Shared\MainMenu.ascx" />
+    <Content Include="Views\Structure\Filters.ascx" />
     <Content Include="Views\Structure\Index.ascx" />
     <Content Include="Views\Structure\ListPartial.ascx" />
     <Content Include="Views\Structure\NewsletterPartial.ascx" />

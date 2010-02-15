@@ -2,8 +2,6 @@
 
 <asp:Content ID="LoginContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script type="text/javascript" src="<%= UriHelper.Scripts %>Account.js"></script>
-
     <% Html.RenderPartial("~/Views/Controls/LoginControl.ascx"); %>
 
 </asp:Content>

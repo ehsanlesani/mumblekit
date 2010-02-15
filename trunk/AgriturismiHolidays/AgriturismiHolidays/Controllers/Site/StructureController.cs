@@ -7,13 +7,21 @@ using System.Web.Mvc.Ajax;
 using Mumble.Web.StarterKit.Models.ViewModels;
 using Mumble.Web.StarterKit.Models.ExtPartial;
 using Mumble.Web.StarterKit.Models.Common;
+using Mumble.Web.StarterKit.Models.Auth;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
-    public class StructureController : BaseController
+    public class StructureController : AuthController
     {
         StarterKitContainer _context = new StarterKitContainer();
         private int _itemsPerPage = 10;
+
+
+        protected void Populate()
+        {
+            ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+            ViewData["Footer"] = MenuTab.GetGlobalPages();
+        }
 
         /// <summary>
         /// 

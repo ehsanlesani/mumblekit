@@ -8,30 +8,49 @@ using Mumble.Web.StarterKit.Models;
 using System.Collections;
 using Mumble.Web.StarterKit.Models.Common;
 using Mumble.Web.StarterKit.Models.ExtPartial;
+using Mumble.Web.StarterKit.Models.ViewModels;
+using Mumble.Web.StarterKit.Models.Auth;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
-    public class HomeController : BaseController
+    public class HomeController : AuthController
     {
+        public ActionResult LandingAction(string Error) 
+        {
+            return RedirectToAction("Index", new { error = Error });
+        }
+
+        protected void Populate()
+        {
+            ViewData["MenuTabs"] = MenuTab.GetMenuItems();
+            ViewData["Footer"] = MenuTab.GetGlobalPages();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index()
+        public ActionResult Index(string error)
         {
+            LoginModel loginModel = new LoginModel();
+
             try
             {
                 Populate();
                 ViewData["RegionItems"] = GetRegionsSelectList();
                 ViewData["Category"] = GetAccommodationTypeList();
-                ViewData["Showcase"] = GetOnShowCaseAccomodations();
+                ViewData["Showcase"] = GetOnShowCaseAccomodations();                
+                loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
+
+                if (!String.IsNullOrEmpty(error) && error.Length > 0)
+                    loginModel.Error = error;
             }
             catch (Exception)
             {
-                throw;
+                //throw;
             }
 
-            return View();
+            return View(loginModel);
         }
 
         /// <summary>
@@ -41,16 +60,19 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         /// <returns></returns>
         public ActionResult StaticPage(string id) 
         {
+            LoginModel loginModel = new LoginModel();
+
             try
             {
                 Populate();
-                ViewData["Body"] = GetPage(id);                
+                ViewData["Body"] = GetPage(id);
+                loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
             }
             catch (Exception)
             {
             }
 
-            return View();
+            return View(loginModel);
         }
 
         /// <summary>
