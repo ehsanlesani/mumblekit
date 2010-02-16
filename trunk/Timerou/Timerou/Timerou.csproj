@@ -92,6 +92,7 @@
     <Compile Include="Models\Managers\MapManager.cs" />
     <Compile Include="Models\MapBounds.cs" />
     <Compile Include="Models\MapObject.cs" />
+    <Compile Include="Models\Responses\YearGroupedPicturesResponse.cs" />
     <Compile Include="Models\ViewData\BaseModel.cs" />
     <Compile Include="Models\ViewData\LoginModel.cs" />
     <Compile Include="Models\Exceptions\AuthException.cs" />
@@ -116,6 +117,7 @@
       <DependentUpon>TimerouContainer.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\YearGroupedPictures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -187,12 +189,21 @@
     <Content Include="App_Data\Timerou_log.ldf">
       <DependentUpon>Timerou.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\Css\Timebar.css" />
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\search.png" />
+    <Content Include="Content\Timebar\back.png" />
+    <Content Include="Content\Timebar\bar.png" />
+    <Content Include="Content\Timebar\begin.png" />
+    <Content Include="Content\Timebar\end.png" />
+    <Content Include="Content\Timebar\forward.png" />
+    <Content Include="Content\Timebar\pointer.png" />
+    <Content Include="Content\Timebar\step.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\MapCom.js" />
+    <Content Include="Scripts\Timebar.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />
     <Content Include="Scripts\tiny_mce\plugins\advhr\css\advhr.css" />

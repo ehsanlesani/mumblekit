@@ -1,0 +1,82 @@
+﻿#timebar
+{
+    height: 100;
+    position: relative;
+}
+
+#timebar .bar 
+{
+    position: absolute;
+    height: 35px;
+    left: 45px; /* back button + bar begin space */
+    right: 45px; /* forward button + bar end space */
+    top: 35px;
+    background-image: url("../timebar/bar.png")
+}
+
+#timebar .barBegin 
+{
+    position: absolute;
+    height: 35px;
+    width: 10px;
+    background-image: url("../timebar/begin.png");
+    background-repeat: no-repeat;
+    top: 35px;
+    left: 35px; /* back button space */
+}
+
+#timebar .barEnd
+{
+    position: absolute;
+    height: 35px;
+    width: 10px;
+    background-image: url("../timebar/end.png");
+    background-repeat: no-repeat;
+    top: 35px;
+    right: 35px; /* back button space */
+}
+
+#timebar .pointer 
+{
+    height: 24px;
+    width: 24px;
+    position: absolute;
+    background-image: url("../timebar/pointer.png");
+    background-repeat: no-repeat;
+    left: 50%;
+    top: 40px;
+    z-index: 50;
+}
+
+#timebar .bar .step 
+{
+    position: absolute;
+    height: 35px;
+    width: 16px;
+    background-image: url("../timebar/step.png");
+    background-repeat: no-repeat;
+}
+
+#timebar a.backButton:link, #timebar a.backButton:visited, #timebar a.backButton:hover
+{
+    display: block;
+    height: 35px;
+    width: 35px;
+    position:absolute;
+    left: 0px;
+    top: 35px;
+    background-image: url("../timebar/back.png");
+    background-repeat: no-repeat;
+}
+
+#timebar a.forwardButton:link, #timebar a.forwardButton:visited, #timebar a.forwardButton:hover
+{
+    display: block;
+    height: 35px;
+    width: 35px;
+    position:absolute;
+    right: 0px;
+    top: 35px;
+    background-image: url("../timebar/forward.png");
+    background-repeat: no-repeat;
+}
