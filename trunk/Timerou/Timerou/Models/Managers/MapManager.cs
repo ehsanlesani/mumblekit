@@ -30,13 +30,13 @@ namespace Mumble.Timerou.Models.Managers
             var crossMeridian = bounds.CrossMeridian;
 
             IQueryable<Picture> pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
-                            where (year.HasValue && p.Year == year)
-                            && p.Lat <= bounds.TopLeft.Lat
-                            && p.Lat >= bounds.BottomRight.Lat
-                            && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
-                               || (!crossMeridian && (p.Lng >= bounds.TopLeft.Lng && p.Lng <= bounds.BottomRight.Lng)))
-                            orderby p.Year, p.Views, p.Created descending
-                            select p);
+                                            where (year.HasValue && p.Year == year)
+                                            && p.Lat <= bounds.TopLeft.Lat
+                                            && p.Lat >= bounds.BottomRight.Lat
+                                            && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
+                                               || (!crossMeridian && (p.Lng >= bounds.TopLeft.Lng && p.Lng <= bounds.BottomRight.Lng)))
+                                            orderby p.Year, p.Views, p.Created descending
+                                            select p);
 
             totalCount = pictures.Count();
 
@@ -59,6 +59,37 @@ namespace Mumble.Timerou.Models.Managers
         }
 
         /// <summary>
+        /// Loaded pictures located inside specified bounds in specified year period, grouped by year
+        /// </summary>
+        /// <param name="bounds"></param>
+        /// <param name="startYear"></param>
+        /// <param name="stopYear"></param>
+        /// <returns></returns>
+        public IEnumerable<YearGroupedPictures> LoadOnePicturePerYear(MapBounds bounds, int startYear, int stopYear)
+        {
+            int picturesPerYear = Int32.Parse(ConfigurationManager.AppSettings["PicturesPerYear"]);
+            var crossMeridian = bounds.CrossMeridian;
+
+            var yearGroupedPicturesList = (from p in _container.MapObjects.Include("User").OfType<Picture>()
+                                           where startYear <= p.Year
+                                           && stopYear >= p.Year
+                                           && p.Lat <= bounds.TopLeft.Lat
+                                           && p.Lat >= bounds.BottomRight.Lat
+                                           && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
+                                              || (!crossMeridian && (p.Lng >= bounds.TopLeft.Lng && p.Lng <= bounds.BottomRight.Lng)))
+                                           orderby p.Year, p.Views, p.Created descending
+                                           group p by p.Year
+                                               into yearGroup
+                                               select new YearGroupedPictures()
+                                               {
+                                                   Year = yearGroup.Key,
+                                                   Pictures = yearGroup.Take(picturesPerYear)
+                                               });
+
+            return yearGroupedPicturesList;
+        }
+
+        /// <summary>
         /// Load related pictures. A related picture is a picture near origin
         /// </summary>
         /// <param name="source"></param>
@@ -67,7 +98,7 @@ namespace Mumble.Timerou.Models.Managers
         {
             double size = mapViewBounds.Width / 7.0;
             MapBounds searchBounds = MapBounds.CreateFromPoint(new LatLng(picture.Lat, picture.Lng), size);
-            
+
             int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
             var crossMeridian = searchBounds.CrossMeridian;
 

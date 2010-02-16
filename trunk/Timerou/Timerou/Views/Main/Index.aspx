@@ -11,8 +11,10 @@
     <script src="<%= UriHelper.Scripts %>jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>MapCom.js" type="text/javascript"></script>
-    
+
+    <script src="../../Scripts/Timebar.js" type="text/javascript"></script>
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
+    <link href="../../Content/Css/Timebar.css" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
         var mapCom = null;
@@ -38,18 +40,9 @@
                 }
             });
 
-            $("#yearSlider").slider({
-                min: 1839,
-                max: new Date().getFullYear(),
-                value: year,
-                slide: function(event, ui) {
-                    year = ui.value;
-                    mapCom.setYear(year);
-                    $("#yearLabel").html(year);
-                }
-            });
+            var timebar = new Timebar();
+            timebar.initialize();
 
-            $("#yearLabel").html(year);
         });
     </script>
     
@@ -78,7 +71,7 @@
         
         .timebar 
         {
-            height: 40px;
+            height: 100px;
             border-bottom: solid 2px #333333; 
             padding: 5px;
             text-align: center;
@@ -93,22 +86,12 @@
         .mapContainer 
         {
             position:absolute;
-            top: 125px;
+            top: 185px;
             bottom: 0px;
             left: 0px;
             right: 0px;
         }
         
-        #yearLabel 
-        {
-            font-size: 14px;
-            font-weight: bold;
-        }
-        
-        #yearSlider 
-        {
-
-        }
             
     </style>
 </head>
@@ -120,8 +103,14 @@
         <span class="title">Timerou preview</span>
     </div>
     <div class="timebar">
-        <div id="yearSlider"></div>
-        <span id="yearLabel">2010</span>
+        <div id="timebar">
+            <a href="javascript:;" class="backButton"></a>
+            <div class="barBegin"></div>
+            <div class="bar"></div>
+            <div class="barEnd"></div>
+            <a href="javascript:;" class="forwardButton"></a>
+            <div class="pointer"></div>
+        </div>
     </div>        
     <div class="actions">
         <div style="float:right;">
