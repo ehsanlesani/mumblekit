@@ -75,6 +75,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,6 +189,7 @@
     </Content>
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\search.png" />
+    <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\MapCom.js" />
