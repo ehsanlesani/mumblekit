@@ -106,10 +106,12 @@
         <div id="timebar">
             <a href="javascript:;" class="backButton"></a>
             <div class="barBegin"></div>
-            <div class="bar"></div>
+            <div class="bar">
+                <div class="pointer"></div>
+            </div>
             <div class="barEnd"></div>
             <a href="javascript:;" class="forwardButton"></a>
-            <div class="pointer"></div>
+            
         </div>
     </div>        
     <div class="actions">
@@ -120,7 +122,7 @@
         <a href="javascript:;" id="searchButton">GO</a>        
     </div>
     <div class="mapContainer">
-        <% Html.RenderPartial("MapObject"); %>
+        <% //Html.RenderPartial("MapObject"); %>
     </div>
 </body>
 </html>
