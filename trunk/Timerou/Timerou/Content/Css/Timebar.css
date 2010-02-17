@@ -7,11 +7,13 @@
 #timebar .bar 
 {
     position: absolute;
-    height: 35px;
+    overflow: hidden;
+    height: 50px;
     left: 45px; /* back button + bar begin space */
     right: 45px; /* forward button + bar end space */
     top: 35px;
-    background-image: url("../timebar/bar.png")
+    background-image: url("../timebar/bar.png");
+    background-repeat: repeat-x;
 }
 
 #timebar .barBegin 
@@ -36,7 +38,7 @@
     right: 35px; /* back button space */
 }
 
-#timebar .pointer 
+#timebar .bar .pointer 
 {
     height: 24px;
     width: 24px;
@@ -44,8 +46,13 @@
     background-image: url("../timebar/pointer.png");
     background-repeat: no-repeat;
     left: 50%;
-    top: 40px;
+    top: 5px;
     z-index: 50;
+}
+
+#timebar .bar .stepsContainer
+{
+    position: absolute;
 }
 
 #timebar .bar .step 
@@ -55,6 +62,18 @@
     width: 16px;
     background-image: url("../timebar/step.png");
     background-repeat: no-repeat;
+}
+
+#timebar .bar .stepYear
+{
+    position: absolute;
+    height: 35px;
+    width: 70px;
+    top: 35px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FC9804;
 }
 
 #timebar a.backButton:link, #timebar a.backButton:visited, #timebar a.backButton:hover
