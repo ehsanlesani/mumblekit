@@ -1,6 +1,6 @@
 ﻿#timebar
 {
-    height: 100;
+    height: 150px;
     position: relative;
 }
 
@@ -11,9 +11,19 @@
     height: 50px;
     left: 45px; /* back button + bar begin space */
     right: 45px; /* forward button + bar end space */
-    top: 35px;
+    top: 50px;
     background-image: url("../timebar/bar.png");
     background-repeat: repeat-x;
+}
+
+#timebar .picturesContainer 
+{
+    position: absolute;
+    overflow: hidden;
+    height: 50px;
+    left: 45px; /* back button + bar begin space */
+    right: 45px; /* forward button + bar end space */
+    top: 0px;
 }
 
 #timebar .barBegin 
@@ -23,7 +33,7 @@
     width: 10px;
     background-image: url("../timebar/begin.png");
     background-repeat: no-repeat;
-    top: 35px;
+    top: 50px;
     left: 35px; /* back button space */
 }
 
@@ -34,7 +44,7 @@
     width: 10px;
     background-image: url("../timebar/end.png");
     background-repeat: no-repeat;
-    top: 35px;
+    top: 50px;
     right: 35px; /* back button space */
 }
 
@@ -83,7 +93,7 @@
     width: 35px;
     position:absolute;
     left: 0px;
-    top: 35px;
+    top: 50px;
     background-image: url("../timebar/back.png");
     background-repeat: no-repeat;
 }
@@ -95,7 +105,29 @@
     width: 35px;
     position:absolute;
     right: 0px;
-    top: 35px;
+    top: 50px;
     background-image: url("../timebar/forward.png");
     background-repeat: no-repeat;
+}
+
+#timebar .barLoading 
+{
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    left: 50%;
+    margin-left: -8px;
+    top: 25px;
+    display: none;
+}
+
+#timebar .picturesContainer .picture 
+{
+    height: 40px;
+    width: 40px;
+    padding: 3px;
+    border: solid 1px #D2D2D2;
+    position: absolute;
+    top: 0px;
+    cursor: pointer;
 }

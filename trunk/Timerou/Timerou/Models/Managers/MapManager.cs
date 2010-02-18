@@ -84,7 +84,7 @@ namespace Mumble.Timerou.Models.Managers
                                                {
                                                    Year = yearGroup.Key,
                                                    Pictures = yearGroup.Take(picturesPerYear)
-                                               });
+                                               }).ToList(); //this is needed because include is not supported in sub queries and another query is required in pictures to get paths.
 
             return yearGroupedPicturesList;
         }

@@ -1,5 +1,10 @@
 ﻿/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
-function Timebar() {
+/// <reference path="Url.js" />
+/// <reference path="MapCom.js" />
+/// <reference path="Utils.js" />
+
+function Timebar(mapCom) {
+    this.mapCom = mapCom;
     this.yearsPositions = [];
     this.lastYear = new Date().getFullYear();
     this.firstYear = 0;
@@ -29,6 +34,7 @@ Timebar.prototype = {
     setYear: function(year) {
         this.year = year;
         var x = this._getYearPosition(year) - $("#timebar .bar .pointer").width() / 2;
+        MapCom.setYear(year);
         $("#timebar .bar .pointer").animate({ "left": x + "px" });
     },
 
@@ -44,6 +50,7 @@ Timebar.prototype = {
         this.currentStepsContainer = newStepsContainer;
         $(newStepsContainer).animate({ left: "0px" }, this.travelDuration, "swing");
         $(lastStepsContainer).animate({ left: this.barWidth + "px" }, this.travelDuration, "swing", function() { $(lastStepsContainer).remove(); });
+        this._loadPictures();
     },
 
     goForward: function() {
@@ -58,6 +65,7 @@ Timebar.prototype = {
         this.currentStepsContainer = newStepsContainer;
         $(newStepsContainer).animate({ left: "0px" }, this.travelDuration, "swing");
         $(lastStepsContainer).animate({ left: this.barWidth * -1 + "px" }, this.travelDuration, "swing", function() { $(lastStepsContainer).remove(); });
+        this._loadPictures();
     },
 
     _setupEvents: function() {
@@ -93,10 +101,7 @@ Timebar.prototype = {
 
             var step = $("<div />")
                 .addClass("step")
-                .data("year", yearPosition.year)
-                .click(function() {
-                    self.setYear($(this).data("year"));
-                });
+                .data("year", yearPosition.year);
             stepsContainer.append(step);
             //adjust step position
             var stepLeft = yearPosition.x - ($(step).width() / 2);
@@ -123,8 +128,59 @@ Timebar.prototype = {
         }
 
         return 0;
-    }
+    },
 
+    _loadPictures: function() {
+        var bounds = MapCom.getMapBounds();
+
+        var self = this;
+        //clear all existent pictures
+        this._clearPictures();
+
+        $("#timebar .barLoading").show();
+        $.post(Url.LoadOnePicturePerYear, {
+            lat1: bounds.lat1,
+            lng1: bounds.lng1,
+            lat2: bounds.lat2,
+            lng2: bounds.lng2,
+            startYear: this.firstYear,
+            stopYear: this.lastYear
+        }, function(response) {
+            $("#timebar .barLoading").hide();
+            if (response.error) {
+                alert(response.message);
+                return;
+            }
+
+            self._renderPictures(response.groupedPictures);
+        }, "json");
+    },
+
+    _clearPictures: function() {
+        $("#timebar .picturesContainer .picture").slideUp(250, function() { $(this).remove(); });
+    },
+
+    _renderPictures: function(groupedPictures) {
+        for (var i = 0; i < groupedPictures.length; i++) {
+            var group = groupedPictures[i];
+            //group.pictures is an array for a multi picture per year support
+            var picture = this._renderPicture(group.pictures[0]);
+            $("#timebar .picturesContainer").append(picture);
+            //adjust position            
+            $(picture).css("left", (this._getYearPosition(group.year) - $(picture).outerWidth() / 2) + "px").slideDown();
+        }
+    },
+
+    _renderPicture: function(pictureData) {
+        var self = this;
+        return $("<img />")
+            .attr("src", Url.Pictures + pictureData.avatarPath)
+            .addClass("picture")
+            .hide()
+            .click(function() {
+                self.setYear(pictureData.year);
+            });
+    }
 
 
 };
