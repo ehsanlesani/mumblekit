@@ -42,7 +42,7 @@ namespace Mumble.Timerou.Controllers
         }
 
         /// <summary>
-        /// Get related pictures. A related picture is a picture near specified
+        /// Load one pictures per year in specified years range
         /// </summary>
         /// <param name="pictureId"></param>
         /// <param name="lat1"></param>
@@ -50,16 +50,15 @@ namespace Mumble.Timerou.Controllers
         /// <param name="lat2"></param>
         /// <param name="lng2"></param>
         /// <returns></returns>
-        public ActionResult LoadRelatedPictures(Guid pictureId, double lat1, double lng1, double lat2, double lng2)
+        public ActionResult LoadOnePicturePerYear(double lat1, double lng1, double lat2, double lng2, int startYear, int stopYear)
         {
             try
             {
-                MapBounds mapViewBounds = new MapBounds(new LatLng(lat1, lng1), new LatLng(lat2, lng2));
-                Picture picture = Container.MapObjects.OfType<Picture>().Where(p => p.Id == pictureId).First();
+                MapBounds bounds = new MapBounds(new LatLng(lat1, lng1), new LatLng(lat2, lng2));
 
                 MapManager mapManager = new MapManager(Container);
-                IEnumerable<Picture> pictures = mapManager.LoadRelatedPictures(mapViewBounds, picture);
-                LoadPicturesResponse response = LoadPicturesResponse.FromList(pictures);
+                IEnumerable<YearGroupedPictures> groupedPictures = mapManager.LoadOnePicturePerYear(bounds, startYear, stopYear);
+                YearGroupedPicturesResponse response = YearGroupedPicturesResponse.FromList(groupedPictures);
 
                 return this.CamelCaseJson(response);
             }

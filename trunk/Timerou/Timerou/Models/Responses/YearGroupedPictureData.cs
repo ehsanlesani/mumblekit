@@ -8,11 +8,11 @@ namespace Mumble.Timerou.Models.Responses
     /// <summary>
     /// Represents a response that contains pictures grouped by year
     /// </summary>
-    public class YearGroupedPicturesResponse : SimpleResponse
+    public class YearGroupedPictureData
     {
-        public static YearGroupedPicturesResponse FromGroup(YearGroupedPictures pictures)
+        public static YearGroupedPictureData FromGroup(YearGroupedPictures pictures)
         {
-            var response = new YearGroupedPicturesResponse(false, "pictures loaded")
+            var response = new YearGroupedPictureData()
             {
                 Year = pictures.Year
             };
@@ -25,8 +25,7 @@ namespace Mumble.Timerou.Models.Responses
             return response;
         }
 
-        public YearGroupedPicturesResponse(bool error, string message) 
-            : base(error, message)
+        public YearGroupedPictureData()
         {
             Pictures = new List<PictureData>();
         }

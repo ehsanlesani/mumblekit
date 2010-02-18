@@ -8,40 +8,46 @@
 <head>
     <title>Index</title>
     
+    <script type="text/javascript">
+        var BASEURL = '<%= UriHelper.Base %>';
+    </script>
+    
     <script src="<%= UriHelper.Scripts %>jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
-    <script src="<%= UriHelper.Scripts %>MapCom.js" type="text/javascript"></script>
-
-    <script src="../../Scripts/Timebar.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>MapCom.js" type="text/javascript"></script>   
+    <script src="<%= UriHelper.Scripts %>Timebar.js" type="text/javascript"></script>
+    
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/Css/Timebar.css" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
-        var mapCom = null;
         var year = new Date().getFullYear();
 
         $(document).ready(function() {
-            mapCom = new MapCom();
 
             $("#hibridButton").click(function() {
-                mapCom.changeType(MapCom.MAPTYPE_HYBRID);
+                MapCom.changeType(MapCom.MAPTYPE_HYBRID);
             });
 
             $("#roadButton").click(function() {
-                mapCom.changeType(MapCom.MAPTYPE_ROAD);
+                MapCom.changeType(MapCom.MAPTYPE_ROAD);
             });
 
             $("#searchButton").click(function() {
                 var key = $("#locationKeyword").val();
                 if (key.length > 3) {
-                    mapCom.searchLocation(key);
+                    MapCom.searchLocation(key);
                 } else {
                     alert("Min keyword length: 3");
                 }
             });
 
             var timebar = new Timebar();
-            timebar.initialize();
+            $(MapCom).bind("mapReady", function() {
+                timebar.initialize();
+            });
 
         });
     </script>
@@ -102,18 +108,17 @@
         </div>
         <span class="title">Timerou preview</span>
     </div>
-    <div class="timebar">
-        <div id="timebar">
-            <a href="javascript:;" class="backButton"></a>
-            <div class="barBegin"></div>
-            <div class="bar">
-                <div class="pointer"></div>
-            </div>
-            <div class="barEnd"></div>
-            <a href="javascript:;" class="forwardButton"></a>
-            
+    <div id="timebar" class="timebar">
+        <a href="javascript:;" class="backButton"></a>
+        <div class="picturesContainer"></div>
+        <div class="barBegin"></div>
+        <div class="bar">
+            <div class="pointer"></div>
         </div>
-    </div>        
+        <div class="barEnd"></div>
+        <a href="javascript:;" class="forwardButton"></a>
+        <div class="barLoading"><img src="<%= UriHelper.Images %>ajaxLoading.gif" alt="loading..." /></div>
+    </div>
     <div class="actions">
         <div style="float:right;">
             <a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a>
@@ -122,7 +127,7 @@
         <a href="javascript:;" id="searchButton">GO</a>        
     </div>
     <div class="mapContainer">
-        <% //Html.RenderPartial("MapObject"); %>
+        <% Html.RenderPartial("MapObject"); %>
     </div>
 </body>
 </html>
