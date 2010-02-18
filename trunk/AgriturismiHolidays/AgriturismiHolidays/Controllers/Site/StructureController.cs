@@ -21,6 +21,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             ViewData["MenuTabs"] = MenuTab.GetMenuItems();
             ViewData["Footer"] = MenuTab.GetGlobalPages();
+
+            LoginModel loginModel = new LoginModel();
+            loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
+            ViewData["Login"] = loginModel;
         }
 
         /// <summary>

@@ -50,7 +50,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 //throw;
             }
 
-            return View(loginModel);
+            ViewData["Login"] = loginModel;
+
+            return View();
         }
 
         /// <summary>
@@ -72,7 +74,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             {
             }
 
-            return View(loginModel);
+            ViewData["Login"] = loginModel;
+
+            return View();
         }
 
         /// <summary>

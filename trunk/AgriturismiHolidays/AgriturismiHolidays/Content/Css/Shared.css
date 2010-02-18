@@ -422,3 +422,18 @@ a.logout:link, a.logout:visited {
 a.logout:hover {
     color:#DE9347;
 }
+
+table.room-prices {
+    border:1px solid #E2DED3; 
+    border-collapse:collapse; 
+    border-spacing:5px;
+    border-style:outset;
+}
+
+table.room-prices td 
+{
+    border:1px solid #E2DED3; 
+    border-collapse:collapse; 
+    padding:5px;
+    border-style:inset;
+}
