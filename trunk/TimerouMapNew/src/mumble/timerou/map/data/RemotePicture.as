@@ -5,6 +5,7 @@ package mumble.timerou.map.data
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	import flash.net.URLRequest;
@@ -106,8 +107,21 @@ package mumble.timerou.map.data
 				dispatchEvent(new Event(LOAD_COMPLETE));
 			});
 
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, function(e:IOErrorEvent):void {
+					removeChildAt(0); //remove loading;
+					
+					//draw error
+					graphics.beginFill(0xFF0000);
+					graphics.lineStyle();
+					graphics.drawCircle(pictureWidth / 2, pictureHeight / 2, 5);
+					graphics.endFill();
+					trace(e.text);
+				});
+
 			loader.load(request);
 		}
+		
+		
 		
 		public function unload():void {
 			if(loader != null) {
