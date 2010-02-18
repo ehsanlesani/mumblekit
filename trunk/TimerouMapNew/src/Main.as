@@ -1,5 +1,6 @@
 ﻿package
 {
+	import com.google.maps.LatLngBounds;
 	import com.google.maps.MapType;
 	
 	import fl.transitions.Tween;
@@ -9,7 +10,6 @@
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.external.ExternalInterface;
-	import flash.text.TextField;
 	
 	import mumble.timerou.map.display.MediaBar;
 	import mumble.timerou.map.display.TimerouMap;
@@ -23,9 +23,9 @@
 	[SWF(height = 600, width = 800, backgroundColor = 0xFFFFFF)]
 	public class Main extends MovieClip 
 	{
-		public static var BASEURL:String = "/";
+		public static var BASEURL:String = "http://localhost:1095/";
 		public static var BASEPICTURESURL:String = BASEURL + "Pictures/";
-		public static var LOAD_PICTURE_SERVICE_URL:String = BASEURL + "Map/LoadPictures";
+		public static var LOAD_PICTURE_SERVICE_URL:String = BASEURL + "Map.aspx/LoadPictures";
 		public static var MAPKEY:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxQb16FdzuBr0nZgkL4aiWmiDXxN7xS6cnax6FiU5Req07YU9Mfy4LamTg";		
 		
 		private var map:TimerouMap = null;
@@ -35,14 +35,29 @@
 		
 		public function Main():void 
 		{
+			ConfigureExternalInterface();
+			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
 		public function ConfigureExternalInterface():void {
-			ExternalInterface.addCallback("setYear", setYear);	
-			ExternalInterface.addCallback("setBase", setBase);	
-			ExternalInterface.addCallback("changeType", changeType);
-			ExternalInterface.addCallback("searchLocation", searchLocation);		
+			if(ExternalInterface.available) {
+				ExternalInterface.addCallback("setYear", setYear);	
+				ExternalInterface.addCallback("setBase", setBase);	
+				ExternalInterface.addCallback("changeType", changeType);
+				ExternalInterface.addCallback("searchLocation", searchLocation);	
+				ExternalInterface.addCallback("getMapBounds", getMapBounds);
+			}	
+		}
+		
+		private function getMapBounds():* {
+			if(map != null) {
+				var bounds:LatLngBounds = map.latLngBounds;
+				
+				return { lat1: bounds.getNorthWest().lat(), lng1: bounds.getNorthWest().lng(), lat2: bounds.getSouthEast().lat(), lng2: bounds.getSouthEast().lng() };
+			}
+			
+			return null;
 		}
 		
 		private function searchLocation(keyword:String):void {
@@ -83,10 +98,7 @@
 			stage.align = StageAlign.TOP_LEFT;
 			
 			removeEventListener(Event.ADDED_TO_STAGE, init);
-			
-			if(ExternalInterface.available) {
-				ConfigureExternalInterface();
-			}
+		
 			
 			this.map = new TimerouMap();			
 			this.mediaBar = new MediaBar();
@@ -102,7 +114,9 @@
 			setYear(new Date().getFullYear());
 			
 			if(!ExternalInterface.available) {
-				searchLocation("Matera");
+				searchLocation("Italia");
+			} else {
+				ExternalInterface.call("MapCom.onMapReady");
 			}
 		}
 				
