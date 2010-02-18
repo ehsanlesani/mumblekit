@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LoginModel>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Import Namespace="Mumble.Web.StarterKit.Models.ViewModels" %>
 
 <script type="text/javascript">
@@ -20,18 +20,19 @@
 
 <% 
     AccountManager manager = ViewData["AccountManager"] as AccountManager;
+    LoginModel login = ViewData["Login"] as LoginModel;
 
     if (!manager.HasLoggedUser)
     {
         using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
         { 
            %>   
-        <input type="hidden" name="redirectUrl" value="<%= Model.RedirectUrl %>" /
+        <input type="hidden" name="redirectUrl" value="<%= login.RedirectUrl %>" /
         <table cellpadding="0" cellspacing="0">
         <tr>      
-            <% if (Model.HasError)
+            <% if (login.HasError)
            { %>
-                <td><%= Model.Error%></td>
+                <td><%= login.Error%></td>
             <% } %>            
             <td>Email*</td>
             <td><input type="text" class="" name="email" /></td>

@@ -31,7 +31,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             LoginModel loginModel = new LoginModel();
             loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
 
-            return View(loginModel);
+            ViewData["Login"] = loginModel;
+
+            return View();
         }
 
         /// <summary>
@@ -85,7 +87,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 model.Error = UIHelper.Translate("err.unauthorized");
                 model.RedirectUrl = redirectUrl;
             }
-            return View(model);
+
+            ViewData["Login"] = model;
+
+            return View();
         }
 
         public ActionResult Logout() 
@@ -147,8 +152,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             Populate();
             LoginModel loginModel = new LoginModel();
             loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
+            ViewData["Login"] = loginModel;
 
-            return View(loginModel);
+            return View();
         }
     }
 }

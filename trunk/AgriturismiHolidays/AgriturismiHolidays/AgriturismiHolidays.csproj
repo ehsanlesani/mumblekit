@@ -83,7 +83,6 @@
     <Compile Include="Controllers\Admin\SectionController.cs" />
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Site\AccountController.cs" />
-    <Compile Include="Controllers\Site\BaseController.cs" />
     <Compile Include="Controllers\Site\HomeController.cs" />
     <Compile Include="Controllers\Site\StructureController.cs" />
     <Compile Include="Default.aspx.cs">

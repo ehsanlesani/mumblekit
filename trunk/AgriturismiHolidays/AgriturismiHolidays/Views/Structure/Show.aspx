@@ -71,16 +71,45 @@
 
                 foreach (Room r in accomodation.Rooms)
                 {
-                    if (!r.RoomPriceList.IsLoaded)
-                        r.RoomPriceList.Load();
+                    StarterKitContainer cnt = new StarterKitContainer();
+                    var price = from p in cnt.RoomPriceList where p.Rooms.Id == r.Id select p;
 
-                    foreach (RoomPriceList rp in r.RoomPriceList) 
+                    var lastinsertedroom = "";
+                    
+                    %>
+                    
+                    <table cellpadding="0" cellspacing="0" class="room-prices">
+                    <tr>
+                    
+                    <%
+                    foreach (RoomPriceList p in price) 
                     {
-                        if (!rp.PriceListSeasonsReference.IsLoaded)
-                            rp.PriceListSeasonsReference.Load();
+                        if (!p.PriceListSeasonsReference.IsLoaded)
+                            p.PriceListSeasonsReference.Load();
+
+                        if (!p.PriceListEntriesReference.IsLoaded)
+                            p.PriceListEntriesReference.Load();
+
+                        if (!lastinsertedroom.Equals(p.PriceListEntries.Description))
+                        {
+                            lastinsertedroom = p.PriceListEntries.Description;
+                            Response.Write("<td colspan=\"6\"><b>"+ lastinsertedroom  +"</b></td></tr><tr>");
+                        }
                         
-                        //rp.PriceListSeasons
-                    }
+                        %>                        
+                        
+                        <td><%=p.PriceListSeasons.Description%></td>                        
+                        <td><%=p.Price.GetValueOrDefault().ToString("0.00 €")%></td>                                               
+                        
+                        <%
+                    }                    
+                    
+                    %>
+                    
+                    </tr>
+                    </table>
+                        
+                    <%
                 }
                 
             %>    
