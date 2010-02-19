@@ -144,7 +144,7 @@ namespace Mumble.Timerou.Models
         {
             get
             {
-                if (!UserReference.IsLoaded) { UserReference.Load(); }
+                if (User == null && !UserReference.IsLoaded) { UserReference.Load(); }
                 if (User == null) { throw new ArgumentNullException("User"); }
 
                 return String.Format("{0}/{1}.{2}",
@@ -161,7 +161,7 @@ namespace Mumble.Timerou.Models
         {
             get
             {
-                if (!UserReference.IsLoaded) { UserReference.Load(); }
+                if (User == null && !UserReference.IsLoaded) { UserReference.Load(); }
                 if (User == null) { throw new ArgumentNullException("User"); }
 
                 return String.Format("{0}/{1}.{2}",
@@ -178,7 +178,7 @@ namespace Mumble.Timerou.Models
         {
             get
             {
-                if (!UserReference.IsLoaded) { UserReference.Load(); }
+                if (User == null && !UserReference.IsLoaded) { UserReference.Load(); }
                 if (User == null) { throw new ArgumentNullException("User"); }
 
                 return String.Format("{0}/{1}.{2}",

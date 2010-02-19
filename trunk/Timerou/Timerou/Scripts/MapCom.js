@@ -36,6 +36,11 @@ MapCom.getMapBounds = function() {
     return bounds;
 };
 
+//events in flash map
 MapCom.onMapReady = function() {
     $(MapCom).trigger("mapReady");
+}
+
+MapCom.onMapMoveEnd = function() {
+    $(MapCom).trigger("mapMoveEnd");
 }

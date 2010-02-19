@@ -31,6 +31,7 @@ namespace Mumble.Timerou.Models.Managers
 
             IQueryable<Picture> pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
                                             where (year.HasValue && p.Year == year)
+                                            && p.IsTemp == false
                                             && p.Lat <= bounds.TopLeft.Lat
                                             && p.Lat >= bounds.BottomRight.Lat
                                             && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
@@ -73,6 +74,7 @@ namespace Mumble.Timerou.Models.Managers
             var yearGroupedPicturesList = (from p in _container.MapObjects.Include("User").OfType<Picture>()
                                            where startYear <= p.Year
                                            && stopYear >= p.Year
+                                           && p.IsTemp == false
                                            && p.Lat <= bounds.TopLeft.Lat
                                            && p.Lat >= bounds.BottomRight.Lat
                                            && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
@@ -105,6 +107,7 @@ namespace Mumble.Timerou.Models.Managers
             var pictures = (from p in _container.MapObjects.OfType<Picture>()
                             where p.Lat <= searchBounds.TopLeft.Lat
                             && p.Lat >= searchBounds.BottomRight.Lat
+                            && p.IsTemp == false
                             && ((crossMeridian && (p.Lng >= searchBounds.TopLeft.Lng || p.Lng <= searchBounds.BottomRight.Lng))
                                || (!crossMeridian && (p.Lng >= searchBounds.TopLeft.Lng && p.Lng <= searchBounds.BottomRight.Lng)))
                             orderby p.Year, p.Views, p.Created descending
