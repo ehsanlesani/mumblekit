@@ -45,9 +45,6 @@
             });
 
             var timebar = new Timebar();
-            $(MapCom).bind("mapReady", function() {
-                timebar.initialize();
-            });
 
         });
     </script>
@@ -92,7 +89,7 @@
         .mapContainer 
         {
             position:absolute;
-            top: 185px;
+            top: 240px;
             bottom: 0px;
             left: 0px;
             right: 0px;
@@ -104,7 +101,7 @@
 <body>
     <div class="header">
         <div style="float:right;">
-            <a href="/Account/Login">login</a> | <a href="/Account/Register">register</a> | <a href="/Account/Upload">upload</a>
+            <%= Html.ActionLink("login", "Login", "Account") %> | <%= Html.ActionLink("register", "Register", "Account") %> | <%= Html.ActionLink("upload", "Upload", "Account") %>
         </div>
         <span class="title">Timerou preview</span>
     </div>

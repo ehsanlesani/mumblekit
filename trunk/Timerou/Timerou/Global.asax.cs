@@ -19,6 +19,12 @@ namespace Mumble.Timerou
 
             routes.MapRoute(
                 "Default",                                              // Route name
+                "",                                                     // URL with parameters
+                new { controller = "Main", action = "Index", id = "" }  // Parameter defaults
+            );
+
+            routes.MapRoute(
+                "Main",                                                 // Route name
                 "{controller}.aspx/{action}/{id}",                      // URL with parameters
                 new { controller = "Main", action = "Index", id = "" }  // Parameter defaults
             );
