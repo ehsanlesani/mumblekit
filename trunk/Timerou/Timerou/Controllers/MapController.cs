@@ -22,14 +22,14 @@ namespace Mumble.Timerou.Controllers
         /// <param name="lng2"></param>
         /// <param name="startOffset"></param>
         /// <returns></returns>
-        public ActionResult LoadPictures(double lat1, double lng1, double lat2, double lng2, int year, int page, int pageSize)
+        public ActionResult LoadPictures(double? lat1, double? lng1, double? lat2, double? lng2, int year, int page, int pageSize)
         {
             try
             {
                 MapManager mapManager = new MapManager(Container);
 
                 int totalCount = 0;
-                IEnumerable<Picture> pictures = mapManager.LoadPictures(new MapBounds(new LatLng(lat1, lng1), new LatLng(lat2, lng2)), year, page, pageSize, out totalCount);
+                IEnumerable<Picture> pictures = mapManager.LoadPictures(new MapBounds(new LatLng(lat1.Value, lng1.Value), new LatLng(lat2.Value, lng2.Value)), year, page, pageSize, out totalCount);
                 LoadPicturesResponse response = LoadPicturesResponse.FromList(pictures);
                 response.TotalCount = totalCount;
 
@@ -50,14 +50,15 @@ namespace Mumble.Timerou.Controllers
         /// <param name="lat2"></param>
         /// <param name="lng2"></param>
         /// <returns></returns>
-        public ActionResult LoadOnePicturePerYear(double lat1, double lng1, double lat2, double lng2, int startYear, int stopYear)
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult LoadOnePicturePerYear(double? lat1, double? lng1, double? lat2, double? lng2, int? startYear, int? stopYear)
         {
             try
             {
-                MapBounds bounds = new MapBounds(new LatLng(lat1, lng1), new LatLng(lat2, lng2));
+                MapBounds bounds = new MapBounds(new LatLng(lat1.Value, lng1.Value), new LatLng(lat2.Value, lng2.Value));
 
                 MapManager mapManager = new MapManager(Container);
-                IEnumerable<YearGroupedPictures> groupedPictures = mapManager.LoadOnePicturePerYear(bounds, startYear, stopYear);
+                IEnumerable<YearGroupedPictures> groupedPictures = mapManager.LoadOnePicturePerYear(bounds, startYear.Value, stopYear.Value);
                 YearGroupedPicturesResponse response = YearGroupedPicturesResponse.FromList(groupedPictures);
 
                 return this.CamelCaseJson(response);
