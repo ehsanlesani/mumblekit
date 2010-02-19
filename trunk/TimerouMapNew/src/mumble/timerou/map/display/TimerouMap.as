@@ -27,6 +27,10 @@
 	 */
 	public class TimerouMap extends Sprite
 	{		
+		public static const TIMEROUMAP_READY:String = "timerouMapReady";
+		public static const TIMEROUMAP_MOVESTART:String = "timerouMapMoveStart";
+		public static const TIMEROUMAP_MOVEEND:String = "timerouMapMoveEnd";
+		
 		private const MARGIN_BOTTOM:int = 60;
 		
 		private var map:Map = null;
@@ -92,18 +96,18 @@
 			map.enableScrollWheelZoom();	
 			
 			ready = true;			
-			dispatchEvent(new Event("timerouMapReady"));
+			dispatchEvent(new Event(TIMEROUMAP_READY));
 			stage.addEventListener(Event.RESIZE, function(e:Event):void { 
 				map.setSize(new Point(stage.stageWidth, stage.stageHeight - MARGIN_BOTTOM)); 
 			});
 		}		
 		
 		private function onMapMoveStart(e:MapEvent):void {
-			dispatchEvent(new Event("timerouMapMoveStart"));
+			dispatchEvent(new Event(TIMEROUMAP_MOVESTART));
 		}
 		
 		private function onMapMoveEnd(e:MapEvent):void {
-			dispatchEvent(new Event("timerouMapMoveEnd"));
+			dispatchEvent(new Event(TIMEROUMAP_MOVEEND));
 		}
 		
 		private function calculateFilterMatrix():Array {
