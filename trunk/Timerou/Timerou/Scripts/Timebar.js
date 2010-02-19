@@ -10,7 +10,7 @@ function Timebar(mapCom) {
     this.yearsPositions = [];
     this.lastYear = new Date().getFullYear();
     this.firstYear = 0;
-    this.minStepDistance = 100;
+    this.minStepDistance = 50;
     this.year = new Date().getFullYear();
     this.stepDistance = 10;
     this.numberOfSteps = 1;

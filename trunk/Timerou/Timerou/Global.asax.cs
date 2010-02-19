@@ -18,13 +18,13 @@ namespace Mumble.Timerou
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "Main",                                                 // Route name
-                "",                                                    // URL with parameters
+                "Site",                                                 // Route name
+                "",                                                     // URL with parameters
                 new { controller = "Main", action = "Index", id = "" }  // Parameter defaults
             );
 
             routes.MapRoute(
-                "Site",                                                 // Route name
+                "Main",                                                 // Route name
                 "{controller}.aspx/{action}/{id}",                      // URL with parameters
                 new { controller = "Main", action = "Index", id = "" }  // Parameter defaults
             );
