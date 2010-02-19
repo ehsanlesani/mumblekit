@@ -17,6 +17,8 @@ package mumble.timerou.map.display
 	
 	public class MediaBar extends MovieClip
 	{
+		public static const LOADING_PICTURES:String = "loadingPictures";
+		
 		private const HEIGHT:int = 60;
 		private const MARGIN:int = 5;
 		private const PICTURE_WIDTH:int = 50; 
@@ -240,6 +242,8 @@ package mumble.timerou.map.display
 		
 		private function loadPictures():void {
 			if(year != 0) { 
+				dispatchEvent(new Event(LOADING_PICTURES));
+				
 				pictureDataLoader.pageSize = displayNumber;
 				pictureDataLoader.load(map.latLngBounds, year);
 			}
