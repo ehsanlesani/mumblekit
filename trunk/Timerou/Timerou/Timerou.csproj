@@ -73,6 +73,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventsPoolController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MapController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -202,6 +203,7 @@
     <Content Include="Content\Timebar\step.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
+    <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\MapCom.js" />
     <Content Include="Scripts\Timebar.js" />
@@ -450,6 +452,7 @@
     <Content Include="Scripts\Uploader.js" />
     <Content Include="Views\Account\Upload.aspx" />
     <Content Include="Views\Error\Index.aspx" />
+    <Content Include="Views\Location\Index.aspx" />
     <Content Include="Views\Main\MapObject.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />

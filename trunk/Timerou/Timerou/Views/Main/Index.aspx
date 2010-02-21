@@ -24,6 +24,7 @@
     
     <script type="text/javascript">
         var year = new Date().getFullYear();
+        var timebar = null;
 
         $(document).ready(function() {
 
@@ -44,8 +45,7 @@
                 }
             });
 
-            var timebar = new Timebar();
-
+            timebar = new Timebar();
         });
     </script>
     
