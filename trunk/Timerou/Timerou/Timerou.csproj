@@ -203,6 +203,7 @@
     <Content Include="Content\Timebar\step.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
+    <Content Include="Scripts\Actions\ShowPictureAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\MapCom.js" />
