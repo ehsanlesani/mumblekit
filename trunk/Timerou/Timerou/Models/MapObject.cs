@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Mumble.Timerou.Models
 {
-    public partial class MapObject
+    public partial class Media
     {
         public LatLng LatLng { get { return new LatLng(Lat, Lng); } }
 
@@ -14,7 +14,7 @@ namespace Mumble.Timerou.Models
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public double Distance(MapObject other) 
+        public double Distance(Media other) 
         {
             return LatLng.Distance(other.LatLng);
         }

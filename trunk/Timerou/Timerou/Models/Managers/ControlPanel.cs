@@ -39,7 +39,7 @@ namespace Mumble.Timerou.Models.Managers
 
             picture.SaveFiles(pictureStream);
 
-            _container.AddToMapObjects(picture);
+            _container.AddToMedia(picture);
             _container.SaveChanges();
 
             return picture;
@@ -69,7 +69,7 @@ namespace Mumble.Timerou.Models.Managers
             //check if is a new picture or an existent one
             if (pictureId.HasValue)
             {
-                picture = _container.MapObjects.OfType<Picture>().Where(p => p.Id == pictureId).FirstOrDefault();
+                picture = _container.Media.OfType<Picture>().Where(p => p.Id == pictureId).FirstOrDefault();
                 if (picture == null)
                 {
                     throw new ArgumentException("pictureId");
@@ -78,7 +78,7 @@ namespace Mumble.Timerou.Models.Managers
                 //if is an existent picture and a temp picture id is passed, the picture is changed and a pictures file rename is required
                 if (tempPictureId.HasValue)
                 {
-                    Picture tempPicture = _container.MapObjects.OfType<Picture>().Where(p => p.Id == tempPictureId).FirstOrDefault();
+                    Picture tempPicture = _container.Media.OfType<Picture>().Where(p => p.Id == tempPictureId).FirstOrDefault();
                     tempPicture.AssignFilesToOtherPicture(picture);
                 }
             }
@@ -87,7 +87,7 @@ namespace Mumble.Timerou.Models.Managers
                 //if is a new picture, an initial temp picture is required
                 if(tempPictureId.HasValue)
                 {
-                    picture = _container.MapObjects.OfType<Picture>().Where(p => p.Id == tempPictureId).FirstOrDefault();
+                    picture = _container.Media.OfType<Picture>().Where(p => p.Id == tempPictureId).FirstOrDefault();
                     picture.Created = DateTime.Now;
                 }
 
@@ -113,7 +113,7 @@ namespace Mumble.Timerou.Models.Managers
             picture.Year = year;
 
             //delete all user temp pictures;
-            var tempPictures = from m in _container.MapObjects
+            var tempPictures = from m in _container.Media
                                where m is Picture
                                let p = (m as Picture)
                                where p.User.Id == _user.Id

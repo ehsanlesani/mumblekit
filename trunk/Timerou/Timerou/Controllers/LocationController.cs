@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
+using System.Configuration;
 
 namespace Mumble.Timerou.Controllers
 {
@@ -12,14 +13,22 @@ namespace Mumble.Timerou.Controllers
         //
         // GET: /Location/
 
-        public ActionResult Index()
+        public ActionResult Index(string bounds, int? year, double? r)
         {
-            return View();
-        }
+            ViewData["Bounds"] = bounds;
+            ViewData["Year"] = year.HasValue ? year.Value : DateTime.Now.Year;
+            double mapWidth = Double.Parse(ConfigurationManager.AppSettings["MiniMapWidth"]);
+            ViewData["MapWidth"] = mapWidth;
+            if (r.HasValue)
+            {
+                ViewData["MapHeight"] = mapWidth / r;
+            }
+            else
+            {
+                ViewData["MapHeight"] = mapWidth;
+            }
 
-        public ActionResult Date()
-        {
-            return Content(DateTime.Now.ToString());
+            return View();
         }
 
     }

@@ -10,8 +10,9 @@ Url.AccountCulture = BASEURL + "Account.aspx/ChangeCulture";
 
 Url.LoadOnePicturePerYear = BASEURL + "Map.aspx/LoadOnePicturePerYear";
 
-Url.Pictures = BASEURL + "Pictures/";
+Url.Location = "Location.aspx/"
 
+Url.Pictures = BASEURL + "Pictures/";
 Url.Images = BASEURL + "Content/Images/";
 
 var BASEURL;

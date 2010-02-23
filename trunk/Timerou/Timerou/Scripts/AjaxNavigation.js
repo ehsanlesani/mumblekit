@@ -52,6 +52,7 @@ AjaxNavigation.prototype = {
 
         if (Utils.isNullOrUndef(this.actions[this.action])) {
             alert("action " + this.action + " not found");
+            return;
         }
 
         this.actions[this.action].execute(this.parameters);

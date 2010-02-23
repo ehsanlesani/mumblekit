@@ -21,3 +21,21 @@ Utils.showInfo = function(message) {
     actionBox.show();
     actionBox.center();
 }
+
+Utils.boundsToString = function(bounds) {
+    return bounds.swlat + "," + bounds.swlng + "," + bounds.nelat + "," + bounds.nelng;
+}
+
+Utils.stringToBounds = function(string) {
+    var split = string.split(",");
+    return { swlat: split[0], swlng: split[1], nelat: split[2], nelng: split[3] };
+}
+
+Utils.googleBoundsToBounds = function(googleBounds) {
+    return {
+        swlat: googleBounds.getSouthWest().lat(),
+        swlng: googleBounds.getSouthWest().lng(),
+        nelat: googleBounds.getNorthEast().lat(),
+        nelng: googleBounds.getNorthEast().lng()
+    };
+}

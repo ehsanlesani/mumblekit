@@ -16,7 +16,7 @@
     <script src="<%= UriHelper.Scripts %>jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
-    <script src="<%= UriHelper.Scripts %>MapCom.js" type="text/javascript"></script>   
+    <script src="<%= UriHelper.Scripts %>FlashMapCom.js" type="text/javascript"></script>   
     <script src="<%= UriHelper.Scripts %>Timebar.js" type="text/javascript"></script>
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
@@ -45,7 +45,28 @@
                 }
             });
 
+            $(MapCom).bind("pictureClick", function(e, id) {
+                var bounds = Utils.boundsToString(MapCom.getMapBounds());
+                var r = $(MapCom.map).width() / $(MapCom.map).height();
+                window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "&r=" + r + "#showPicture|id=" + id);
+            });
+
             timebar = new Timebar();
+
+            $(timebar).bind(Timebar.YEAR_CHANGED, function() {
+                MapCom.setYear(timebar.getYear());
+            });
+
+            $(MapCom).bind("mapReady", function() {
+                timebar.initialize();
+                timebar.loadPictures();
+            });
+
+            $(MapCom).bind("mapMoveEnd", function() {
+                timebar.setBounds(MapCom.getMapBounds());
+                timebar.loadPicturesTimeSafe();
+            });
+
         });
     </script>
     
@@ -105,17 +126,7 @@
         </div>
         <span class="title">Timerou preview</span>
     </div>
-    <div id="timebar" class="timebar">
-        <a href="javascript:;" class="backButton"></a>
-        <div class="picturesContainer"></div>
-        <div class="barBegin"></div>
-        <div class="bar">
-            <div class="pointer"></div>
-        </div>
-        <div class="barEnd"></div>
-        <a href="javascript:;" class="forwardButton"></a>
-        <div class="barLoading"><img src="<%= UriHelper.Images %>ajaxLoading.gif" alt="loading..." /></div>
-    </div>
+    <% Html.RenderPartial("TimebarMarkup"); %>
     <div class="actions">
         <div style="float:right;">
             <a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a>
