@@ -20,20 +20,44 @@
     
     <link href="../../Content/Css/Timebar.css" rel="stylesheet" type="text/css" />
     
+    <style type="text/css">
+        #navigation a:link, #navigation a:visited, #navigation a:hover
+        {
+            height: 50px;
+            width: 50px;
+            padding: 2px;
+            border: solid 1px #CCCCCC;
+            display: block;
+            float: left;
+            margin-right: 3px;
+        }
+        
+        #navigation a img
+        {
+            height: 50px;
+            width: 50px;
+            border: 0px;
+        }
+        
+        #navigation 
+        {
+            margin-bottom: 5px;
+        }
+    </style>
+    
     <div class="span-24 last">
         <div id="path"></div>
         <% Html.RenderPartial("TimebarMarkup"); %>
-        <div style="float: right;">
-            <a href="#show" id="previousButton">previous</a>
-            <a href="#show" id="nextButton">next</a>
-        </div>
-        <div id="title"></div>
     </div>
+    <div id="navigation" class="span-24"></div>
+    <div style="clear: both;"></div>
+    <div id="title"></div>
     <div class="span-16">
         <div id="mediaArea">
             <div id="mediaContainer"></div>
         </div>
     </div>
+    
     <div class="span-8 last">
         <div id="minimapArea">
             <div id="map" style='width: <%= ViewData["MapWidth"] %>px; height: <%= ViewData["MapHeight"] %>px; margin-left: auto;'></div>

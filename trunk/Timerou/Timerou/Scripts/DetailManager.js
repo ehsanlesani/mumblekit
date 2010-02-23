@@ -7,18 +7,19 @@ function DetailManager(bounds, year) {
     this.map = null;
     this.bounds = Utils.stringToBounds(bounds);
     this.year = year;
-    this.pageSize = 30;
+    this.pageSize = 15;
     this.page = 1;
     this.medias = null;
-    this.initialize();
-    this.navigationInitialized = false;
     this.marker = null;
+    this.totalMedias = 0;
+
+    this.initialize();
 }
 
 DetailManager.prototype = {
     initialize: function() {
-        this._initializeMinimap();
         this._initializeTimebar();
+        this._initializeMinimap();
         this._initializeNavigation();
     },
 
@@ -39,11 +40,15 @@ DetailManager.prototype = {
                 return;
             }
 
-            if (self.medias == null) {
-                self.medias = [];
-            }
-
+            self.medias = [];
+            self.totalMedias = response.totalCount;
             self.medias = self.medias.concat(response.medias);
+
+            $("#navigation").empty();
+            for (var i = 0; i < self.medias.length; i++) {
+                var media = self.medias[i];
+                $("#navigation").append("<a href='#show|id=" + media.id + "'><img src='" + Url.Pictures + media.pictureData.avatarPath + "'/></a>");
+            }
 
             if (!Utils.isNullOrUndef(callback)) {
                 callback();
@@ -109,6 +114,8 @@ DetailManager.prototype = {
     },
 
     _initializeMinimap: function() {
+        var self = this;
+
         var mapbounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(this.bounds.swlat, this.bounds.swlng),
             new google.maps.LatLng(this.bounds.nelat, this.bounds.nelng));
@@ -118,15 +125,38 @@ DetailManager.prototype = {
             center: mapbounds.getCenter(),
             zoom: 5,
             scrollwheel: false,
-            draggable: false,
+            draggable: true,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
             scaleControl: false,
-            navigationControl: false,
+            navigationControl: true,
             disableDoubleClickZoom: true
         });
 
         this.map.fitBounds(mapbounds);
+
+        bermudaTriangle = new google.maps.Polygon({
+            paths: [
+                mapbounds.getSouthWest(),
+                mapbounds.getNorthEast()
+            ],
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35
+        });
+
+        bermudaTriangle.setMap(this.map);
+
+        //initialization
+        google.maps.event.addListener(this.map, "bounds_changed", function() {
+            google.maps.event.clearListeners(self.map, "bounds_changed");
+            //adjust zoom level after use of fitBounds
+            self.map.setZoom(self.map.getZoom() + 1);
+
+            self._onMapReady();
+        });
     },
 
     _initializeTimebar: function() {
@@ -135,17 +165,19 @@ DetailManager.prototype = {
 
         $(this.timebar).bind(Timebar.YEAR_CHANGED, function() {
             self.setYear(self.timebar.getYear());
-        });
+            self.loadMedias(function() {
+                if (self.medias.length > 0) {
+                    window.open("#show|id=" + self.medias[0].id, "_self");
+                }
+            });
 
-        //initialization
-        google.maps.event.addListener(this.map, "bounds_changed", function() {
-            google.maps.event.clearListeners(self.map, "bounds_changed");
-            self.timebar.initialize(year);
-            self.timebar.setBounds(Utils.googleBoundsToBounds(self.map.getBounds()));
-            self.timebar.loadMedias();
-            //adjust zoom level after use of fitBounds
-            self.map.setZoom(self.map.getZoom() + 1);
         });
+    },
+
+    _onMapReady: function() {
+        this.timebar.initialize(this.year);
+        this.timebar.setBounds(Utils.googleBoundsToBounds(this.map.getBounds()));
+        this.timebar.loadMedias();
     },
 
     _initializeNavigation: function() {
