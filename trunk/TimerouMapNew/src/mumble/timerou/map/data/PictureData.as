@@ -21,8 +21,8 @@ package mumble.timerou.map.data
 		//Creates a new instance of PictureData using startingData service data		 
 		public function PictureData(startingData:*)
 		{
-			this.avatarPath = startingData.avatarPath;
-			this.optimizedPath = startingData.optimizedPath;
+			this.avatarPath = startingData.pictureData.avatarPath;
+			this.optimizedPath = startingData.pictureData.optimizedPath;
 			this.title = startingData.title;
 			this.id = startingData.id;
 			this.latLng = new LatLng(startingData.lat, startingData.lng);	

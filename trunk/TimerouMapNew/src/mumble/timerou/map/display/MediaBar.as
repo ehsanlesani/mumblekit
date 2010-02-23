@@ -13,11 +13,13 @@ package mumble.timerou.map.display
 	
 	import mumble.timerou.map.data.PictureData;
 	import mumble.timerou.map.data.PictureDataLoader;
+	import mumble.timerou.map.data.PictureEvent;
 	import mumble.timerou.map.data.RemotePicture;
 	
 	public class MediaBar extends MovieClip
 	{
 		public static const LOADING_PICTURES:String = "loadingPictures";
+		public static const PICTURE_CLICK:String = "pictureClick";
 		
 		private const HEIGHT:int = 60;
 		private const MARGIN:int = 5;
@@ -195,13 +197,10 @@ package mumble.timerou.map.display
 			remotePicture.borderColor = PICTURE_BORDER_COLOR;
 			remotePicture.borderOverColor = PICTURE_BORDER_OVER_COLOR;
 			remotePicture.roundCornerSize = ROUND_SIZE;
-			/*remotePicture.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-				if(preview.visible) { preview.hide(); }
-				var sprite:Sprite = createOldPictureSprite(pictureData);
-				sprite.x = 100;
-				sprite.y = 100;
-				addChild(sprite);
-			});*/
+			remotePicture.buttonMode = true;
+			remotePicture.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+				dispatchEvent(new PictureEvent(PICTURE_CLICK, pictureData));
+			});
 			
 			remotePicture.addEventListener(MouseEvent.ROLL_OVER, function(e:MouseEvent):void {
 				movePreview(pictureData);
