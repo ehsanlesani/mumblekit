@@ -12,6 +12,7 @@ function DetailManager(bounds, year) {
     this.medias = null;
     this.initialize();
     this.navigationInitialized = false;
+    this.marker = null;
 }
 
 DetailManager.prototype = {
@@ -72,6 +73,8 @@ DetailManager.prototype = {
     },
 
     displayMedia: function(id) {
+        var self = this;
+
         this.getMediaById(id, function(media) {
             if (media == null) {
                 Utils.showSiteError("Media is null");
@@ -88,6 +91,19 @@ DetailManager.prototype = {
                 $("#title").html(media.title);
                 $("#address").html(media.address);
                 $("#body").html(media.body);
+
+                if (self.marker != null) {
+                    self.marker.setMap(null);
+                }
+
+                var position = new google.maps.LatLng(media.lat, media.lng);
+
+                self.marker = new google.maps.Marker({
+                    position: position,
+                    map: self.map
+                });
+
+                self.map.panTo(position);
             }
         });
     },
