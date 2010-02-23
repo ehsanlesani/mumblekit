@@ -187,11 +187,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TimerouContainer.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="App_Data\Timerou.mdf">
-    </Content>
-    <Content Include="App_Data\Timerou_log.ldf">
-      <DependentUpon>Timerou.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\Css\Timebar.css" />
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\search.png" />
@@ -462,6 +457,9 @@
     <Content Include="Views\Shared\TimebarMarkup.ascx" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App_Data\ddl.sql" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pictures\" />
