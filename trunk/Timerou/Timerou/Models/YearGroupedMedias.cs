@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Mumble.Timerou.Models
 {
-    public class YearGroupedPictures
+    public class YearGroupedMedias
     {
         public int Year { get; set; }
-        public IEnumerable<Picture> Pictures { get; set; }
+        public IEnumerable<Media> Medias { get; set; }
     }
 }

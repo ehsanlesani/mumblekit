@@ -16,7 +16,7 @@
     background-repeat: repeat-x;
 }
 
-#timebar .picturesContainer 
+#timebar .mediasContainer 
 {
     position: absolute;
     overflow: hidden;
@@ -121,7 +121,7 @@
     display: none;
 }
 
-#timebar .picturesContainer .picture 
+#timebar .mediasContainer .picture 
 {
     height: 40px;
     width: 40px;

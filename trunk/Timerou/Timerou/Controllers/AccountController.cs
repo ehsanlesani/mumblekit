@@ -269,7 +269,7 @@ namespace Mumble.Timerou.Controllers
         {
             try
             {
-                LoadPicturesResponse response = new LoadPicturesResponse(false, "");
+                LoadMediasResponse response = new LoadMediasResponse(false, "");
 
                 return this.CamelCaseJson(response);
             }
@@ -312,7 +312,7 @@ namespace Mumble.Timerou.Controllers
                 ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
                 Picture picture = controlPanel.CreateTempPicture(file.InputStream);
 
-                response = AddPictureResponse.FromPicture(picture);
+                response = AddMediaResponse.FromPicture(picture);
             }
             catch (AuthException)
             {

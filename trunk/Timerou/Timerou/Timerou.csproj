@@ -75,7 +75,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\MainController.cs" />
-    <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\MediaLoaderController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -90,11 +90,13 @@
     <Compile Include="Models\ControllerExtension.cs" />
     <Compile Include="Models\Exceptions\PropertyNotFoundException.cs" />
     <Compile Include="Models\LatLng.cs" />
-    <Compile Include="Models\Managers\MapManager.cs" />
+    <Compile Include="Models\Managers\MediaLoader.cs" />
     <Compile Include="Models\MapBounds.cs" />
     <Compile Include="Models\MapObject.cs" />
-    <Compile Include="Models\Responses\YearGroupedPictureData.cs" />
-    <Compile Include="Models\Responses\YearGroupedPicturesResponse.cs" />
+    <Compile Include="Models\Responses\PictureData.cs" />
+    <Compile Include="Models\Responses\VideoData.cs" />
+    <Compile Include="Models\Responses\YearGroupedMediasData.cs" />
+    <Compile Include="Models\Responses\YearGroupedMediasResponse.cs" />
     <Compile Include="Models\ViewData\BaseModel.cs" />
     <Compile Include="Models\ViewData\LoginModel.cs" />
     <Compile Include="Models\Exceptions\AuthException.cs" />
@@ -108,10 +110,9 @@
     <Compile Include="Models\Managers\ControlPanel.cs" />
     <Compile Include="Models\ViewData\UploadModel.cs" />
     <Compile Include="Models\Picture.cs" />
-    <Compile Include="Models\Responses\AddPictureResponse.cs" />
-    <Compile Include="Models\Responses\CreateAlbumResponse.cs" />
-    <Compile Include="Models\Responses\LoadPicturesResponse.cs" />
-    <Compile Include="Models\Responses\PictureData.cs" />
+    <Compile Include="Models\Responses\AddMediaResponse.cs" />
+    <Compile Include="Models\Responses\LoadMediasResponse.cs" />
+    <Compile Include="Models\Responses\MediaData.cs" />
     <Compile Include="Models\Responses\SimpleResponse.cs" />
     <Compile Include="Models\TimerouContainer.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -119,7 +120,7 @@
       <DependentUpon>TimerouContainer.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\YearGroupedPictures.cs" />
+    <Compile Include="Models\YearGroupedMedias.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -203,7 +204,7 @@
     <Content Include="Content\Timebar\step.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
-    <Content Include="Scripts\Actions\ShowPictureAction.js" />
+    <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\JSMapCom.js" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
