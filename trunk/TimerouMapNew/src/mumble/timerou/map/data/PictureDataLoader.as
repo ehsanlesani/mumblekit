@@ -35,8 +35,8 @@ package mumble.timerou.map.data
 			
 			if (result != null && !result.error) {
 				//load as known objects
-				for(var i:int = 0; i < result.pictures.length; i++) {
-					this.pictures.push(new PictureData(result.pictures[i]));
+				for(var i:int = 0; i < result.medias.length; i++) {
+					this.pictures.push(new PictureData(result.medias[i]));
 				}
 			}
 		}		
@@ -53,10 +53,10 @@ package mumble.timerou.map.data
 				var request:URLRequest = new URLRequest(Main.LOAD_PICTURE_SERVICE_URL);
 				request.method = URLRequestMethod.POST;
 				var variables:URLVariables = new URLVariables();			
-				variables.lat1 = bounds.getNorthWest().lat();
-				variables.lng1 = bounds.getNorthWest().lng(); 
-				variables.lat2 = bounds.getSouthEast().lat();
-				variables.lng2 = bounds.getSouthEast().lng();
+				variables.swlat = bounds.getSouthWest().lat();
+				variables.swlng = bounds.getSouthWest().lng(); 
+				variables.nelat = bounds.getNorthEast().lat();
+				variables.nelng = bounds.getNorthEast().lng();
 				variables.year = this.year;
 				if(this.page != 0) {
 					variables.page = this.page;

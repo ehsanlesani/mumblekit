@@ -11,6 +11,7 @@
 	import flash.events.Event;
 	import flash.external.ExternalInterface;
 	
+	import mumble.timerou.map.data.PictureEvent;
 	import mumble.timerou.map.display.MediaBar;
 	import mumble.timerou.map.display.TimerouMap;
 	
@@ -25,7 +26,7 @@
 	{
 		public static var BASEURL:String = "/";
 		public static var BASEPICTURESURL:String = BASEURL + "Pictures/";
-		public static var LOAD_PICTURE_SERVICE_URL:String = BASEURL + "Map.aspx/LoadPictures";
+		public static var LOAD_PICTURE_SERVICE_URL:String = BASEURL + "MediaLoader.aspx/LoadMedias";
 		public static var MAPKEY:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxQb16FdzuBr0nZgkL4aiWmiDXxN7xS6cnax6FiU5Req07YU9Mfy4LamTg";		
 		
 		private var map:TimerouMap = null;
@@ -54,7 +55,7 @@
 			if(map != null) {
 				var bounds:LatLngBounds = map.latLngBounds;
 				
-				return { lat1: bounds.getNorthWest().lat(), lng1: bounds.getNorthWest().lng(), lat2: bounds.getSouthEast().lat(), lng2: bounds.getSouthEast().lng() };
+				return { swlat: bounds.getSouthWest().lat(), swlng: bounds.getSouthWest().lng(), nelat: bounds.getNorthEast().lat(), nelng: bounds.getNorthEast().lng() };
 			}
 			
 			return null;
@@ -108,11 +109,17 @@
 			addChild(mediaBar);
 
 			map.addEventListener(TimerouMap.TIMEROUMAP_READY, mapReady);
-			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);		
+			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
+			
+			mediaBar.addEventListener(MediaBar.PICTURE_CLICK, pictureClick);		
 		}
 		
 		private function mapMoveEnd(e:Event):void {
 			ExternalInterface.call("MapCom.onMapMoveEnd");
+		}
+		
+		private function pictureClick(e:PictureEvent):void {
+			ExternalInterface.call("MapCom.onPictureClick", e.pictureData.id);
 		}
 		
 		private function mapReady(e:Event):void {
