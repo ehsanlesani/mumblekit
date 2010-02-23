@@ -27,10 +27,10 @@ namespace Mumble.Timerou.Models
         /// <returns></returns>
         public static MapBounds CreateFromPoint(LatLng center, double size)
         {
-            LatLng southWest = new LatLng(center.Lat - size / 2.0, center.Lng - size / 2.0);
-            LatLng northEast = new LatLng(center.Lat + size / 2.0, center.Lng + size / 2.0);
+            LatLng topLeft = new LatLng(center.Lat + size / 2.0, center.Lng - size / 2.0);
+            LatLng bottomRight = new LatLng(center.Lat - size / 2.0, center.Lng + size / 2.0);
 
-            return new MapBounds(southWest, northEast);
+            return new MapBounds(topLeft, bottomRight);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Mumble.Timerou.Models
         {
             get
             {
-                return (NorthEast.Lat - SouthWest.Lat);
+                return (SouthWest.Lat - NorthEast.Lat);
             }
         }
 

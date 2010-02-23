@@ -125,9 +125,9 @@ Uploader.prototype = {
                 } else {
                     self.pictureUploaded = true;
                     $("#uploadStatus").html(PICTURE_UPLOADED);
-                    $("#uploadButton").find("img").attr("src", Url.Pictures + response.picture.avatarPath);
+                    $("#uploadButton").find("img").attr("src", Url.Pictures + response.media.pictureData.avatarPath);
 
-                    self.setInput("tempPictureId", response.picture.id);
+                    self.setInput("tempPictureId", response.media.id);
                 }
             }
         });

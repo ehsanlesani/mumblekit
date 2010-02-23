@@ -9,37 +9,37 @@ namespace Mumble.Timerou.Models.Managers
     /// <summary>
     /// Provide methods to manage map interface
     /// </summary>
-    public class MapManager
+    public class MediaLoader
     {
         private TimerouContainer _container = null;
 
-        public MapManager(TimerouContainer container)
+        public MediaLoader(TimerouContainer container)
         {
             _container = container;
         }
 
         /// <summary>
-        /// Load pictures in specified bounds starting from offset. If no year is specified, gets pictures of all year
+        /// Load media in specified bounds starting from offset. If no year is specified, gets pictures of all year
         /// </summary>
         /// <param name="bounds"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public IEnumerable<Picture> LoadPictures(MapBounds bounds, int? year, int? page, int? pageSize, out int totalCount)
+        public IEnumerable<Media> LoadMedia(MapBounds bounds, int? year, int? page, int? pageSize, out int totalCount)
         {
-            int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
+            int limit = Int32.Parse(ConfigurationManager.AppSettings["MediaLimit"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            IQueryable<Picture> pictures = (from p in _container.Media.Include("User").OfType<Picture>()
-                                            where (year.HasValue && p.Year == year)
-                                            && p.IsTemp == false
-                                            && p.Lat >= bounds.SouthWest.Lat
-                                            && p.Lat <= bounds.NorthEast.Lat
-                                            && ((crossMeridian && (p.Lng >= bounds.SouthWest.Lng || p.Lng <= bounds.NorthEast.Lng))
-                                               || (!crossMeridian && (p.Lng >= bounds.SouthWest.Lng && p.Lng <= bounds.NorthEast.Lng)))
-                                            orderby p.Year, p.Views, p.Created descending
-                                            select p);
+            IQueryable<Media> media = (from m in _container.Media.Include("User")
+                                            where (year.HasValue && m.Year == year)
+                                            && m.IsTemp == false
+                                            && m.Lat >= bounds.SouthWest.Lat
+                                            && m.Lat <= bounds.NorthEast.Lat
+                                            && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
+                                               || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
+                                            orderby m.Year, m.Views, m.Created descending
+                                            select m);
 
-            totalCount = pictures.Count();
+            totalCount = media.Count();
 
             if (page.HasValue)
             {
@@ -49,46 +49,46 @@ namespace Mumble.Timerou.Models.Managers
                 }
 
                 int offset = (page.Value - 1) * pageSize.Value;
-                pictures = pictures.Skip(offset).Take(pageSize.Value);
+                media = media.Skip(offset).Take(pageSize.Value);
             }
             else
             {
-                pictures = pictures.Take(limit);
+                media = media.Take(limit);
             }
 
-            return pictures;
+            return media;
         }
 
         /// <summary>
-        /// Loaded pictures located inside specified bounds in specified year period, grouped by year
+        /// Loaded media located inside specified bounds in specified year period, grouped by year
         /// </summary>
         /// <param name="bounds"></param>
         /// <param name="startYear"></param>
         /// <param name="stopYear"></param>
         /// <returns></returns>
-        public IEnumerable<YearGroupedPictures> LoadOnePicturePerYear(MapBounds bounds, int startYear, int stopYear)
+        public IEnumerable<YearGroupedMedias> LoadOneMediaPerYear(MapBounds bounds, int startYear, int stopYear)
         {
-            int picturesPerYear = Int32.Parse(ConfigurationManager.AppSettings["PicturesPerYear"]);
+            int mediaPerYear = Int32.Parse(ConfigurationManager.AppSettings["MediaPerYear"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            var yearGroupedPicturesList = (from p in _container.Media.Include("User").OfType<Picture>()
-                                           where startYear <= p.Year
-                                           && stopYear >= p.Year
-                                           && p.IsTemp == false
-                                           && p.Lat >= bounds.SouthWest.Lat
-                                           && p.Lat <= bounds.NorthEast.Lat
-                                           && ((crossMeridian && (p.Lng >= bounds.SouthWest.Lng || p.Lng <= bounds.NorthEast.Lng))
-                                              || (!crossMeridian && (p.Lng >= bounds.SouthWest.Lng && p.Lng <= bounds.NorthEast.Lng)))
-                                           orderby p.Year, p.Views, p.Created descending
-                                           group p by p.Year
+            var yearGroupedMediaList = (from m in _container.Media.Include("User")
+                                           where startYear <= m.Year
+                                           && m.IsTemp == false
+                                           && stopYear >= m.Year
+                                           && m.Lat >= bounds.SouthWest.Lat
+                                           && m.Lat <= bounds.NorthEast.Lat
+                                           && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
+                                              || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
+                                           orderby m.Year, m.Views, m.Created descending
+                                           group m by m.Year
                                                into yearGroup
-                                               select new YearGroupedPictures()
+                                               select new YearGroupedMedias()
                                                {
                                                    Year = yearGroup.Key,
-                                                   Pictures = yearGroup.Take(picturesPerYear)
+                                                   Medias = yearGroup.Take(mediaPerYear)
                                                }).ToList(); //this is needed because include is not supported in sub queries and another query is required in pictures to get paths.
 
-            return yearGroupedPicturesList;
+            return yearGroupedMediaList;
         }
 
         /// <summary>

@@ -7,16 +7,92 @@ function DetailManager(bounds, year) {
     this.map = null;
     this.bounds = Utils.stringToBounds(bounds);
     this.year = year;
-
+    this.pageSize = 30;
+    this.page = 1;
+    this.medias = null;
     this.initialize();
+    this.navigationInitialized = false;
 }
 
 DetailManager.prototype = {
     initialize: function() {
-        this.initializeMinimap();
+        this._initializeMinimap();
+        this._initializeTimebar();
+        this._initializeNavigation();
     },
 
-    initializeMinimap: function() {
+    loadMedias: function(callback) {
+        var self = this;
+
+        $.post(Url.LoadMedias, {
+            swlat: this.bounds.swlat,
+            swlng: this.bounds.swlng,
+            nelat: this.bounds.nelat,
+            nelng: this.bounds.nelng,
+            year: this.year,
+            page: this.page,
+            pageSize: this.pageSize
+        }, function(response) {
+            if (response.error) {
+                Utils.showSiteError(response.message);
+                return;
+            }
+
+            if (self.medias == null) {
+                self.medias = [];
+            }
+
+            self.medias = self.medias.concat(response.medias);
+
+            if (!Utils.isNullOrUndef(callback)) {
+                callback();
+            }
+
+        }, "json");
+    },
+
+    getMediaById: function(id, callback) {
+        var self = this;
+        if (this.medias == null) {
+            this.loadMedias(function() {
+                self.getMediaById(id, callback);
+            });
+            return;
+        } else {
+            for (var m in this.medias) {
+                var media = this.medias[m];
+                if (media.id == id) {
+                    callback(media);
+                    return;
+                }
+            }
+        }
+
+        callback(null);
+    },
+
+    displayMedia: function(id) {
+        this.getMediaById(id, function(media) {
+            if (media == null) {
+                Utils.showSiteError("Media is null");
+                return;
+            }
+
+            if (media.type == "Picture") {
+                $("#mediaContainer")
+                    .empty()
+                    .append($("<img />")
+                        .attr("src", Url.Pictures + media.pictureData.optimizedPath)
+                    );
+
+                $("#title").html(media.title);
+                $("#address").html(media.address);
+                $("#body").html(media.body);
+            }
+        });
+    },
+
+    _initializeMinimap: function() {
         var mapbounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(this.bounds.swlat, this.bounds.swlng),
             new google.maps.LatLng(this.bounds.nelat, this.bounds.nelng));
@@ -35,21 +111,31 @@ DetailManager.prototype = {
         });
 
         this.map.fitBounds(mapbounds);
+    },
 
-        /*var bermudaTriangle = new google.maps.Polygon({
-        paths: [
-        mapbounds.getSouthWest(),
-        mapbounds.getNorthEast()
-        ],
-        strokeColor: "#FF0000",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#FF0000",
-        fillOpacity: 0.35
+    _initializeTimebar: function() {
+        var self = this;
+        this.timebar = new Timebar();
+
+        $(this.timebar).bind(Timebar.YEAR_CHANGED, function() {
+            self.setYear(self.timebar.getYear());
         });
 
-        bermudaTriangle.setMap(this.map);*/
+        //initialization
+        google.maps.event.addListener(this.map, "bounds_changed", function() {
+            google.maps.event.clearListeners(self.map, "bounds_changed");
+            self.timebar.initialize(year);
+            self.timebar.setBounds(Utils.googleBoundsToBounds(self.map.getBounds()));
+            self.timebar.loadMedias();
+            //adjust zoom level after use of fitBounds
+            self.map.setZoom(self.map.getZoom() + 1);
+        });
+    },
 
+    _initializeNavigation: function() {
+        var navigation = new AjaxNavigation();
+        navigation.addAction("show", new ShowMediaAction(this));
+        navigation.start();
     },
 
     setYear: function(year) {

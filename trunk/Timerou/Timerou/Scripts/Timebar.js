@@ -41,7 +41,7 @@ Timebar.prototype = {
     },
 
     setYear: function(year, forceReload) {
-        if(Utils.isNullOrUndef(forceReload)) { forceReload = false; }
+        if (Utils.isNullOrUndef(forceReload)) { forceReload = false; }
         if (this.year == year && !forceReload) { return; }
 
         this.year = year;
@@ -73,7 +73,7 @@ Timebar.prototype = {
         $(newStepsContainer).animate({ left: "0px" }, this.travelDuration, "swing", function() { self._enableMoveButtons(); });
         $(lastStepsContainer).animate({ left: this.barWidth + "px" }, this.travelDuration, "swing", function() { $(lastStepsContainer).remove(); });
         this.setYear(this.year);
-        this.loadPictures();
+        this.loadMedias();
     },
 
     goForward: function() {
@@ -93,27 +93,27 @@ Timebar.prototype = {
         $(newStepsContainer).animate({ left: "0px" }, this.travelDuration, "swing", function() { self._enableMoveButtons(); });
         $(lastStepsContainer).animate({ left: this.barWidth * -1 + "px" }, this.travelDuration, "swing", function() { $(lastStepsContainer).remove(); });
         this.setYear(this.year);
-        this.loadPictures();
+        this.loadMedias();
     },
 
     setBounds: function(bounds) {
         this.bounds = bounds;
     },
 
-    loadPictures: function() {
+    loadMedias: function() {
         if (Utils.isNullOrUndef(this.bounds)) {
-            alert("loadPictures require mapBounds");
+            alert("loadMedias require mapBounds");
             return;
         }
 
         var bounds = this.bounds;
 
         var self = this;
-        //clear all existent pictures
-        this._clearPictures();
+        //clear all existent Media
+        this._clearMedias();
 
         $("#timebar .barLoading").show();
-        $.post(Url.LoadOnePicturePerYear, {
+        $.post(Url.LoadOneMediaPerYear, {
             swlat: bounds.swlat,
             swlng: bounds.swlng,
             nelat: bounds.nelat,
@@ -123,22 +123,22 @@ Timebar.prototype = {
         }, function(response) {
             $("#timebar .barLoading").hide();
             if (response.error) {
-                alert(response.message);
+                Utils.showSiteError(response.message);
                 return;
             }
 
-            self._renderPictures(response.groupedPictures);
+            self._renderMedias(response.groupedMedias);
         }, "json");
     },
 
-    loadPicturesTimeSafe: function() {
+    loadMediasTimeSafe: function() {
         var self = this;
 
         if (self.mapMoveTimer != null) {
             window.clearTimeout(self.mapMoveTimer);
         }
 
-        self.mapMoveTimer = window.setTimeout(function() { self.loadPictures(); }, 1000);
+        self.mapMoveTimer = window.setTimeout(function() { self.loadMedias(); }, 1000);
     },
 
     goToYear: function(year) {
@@ -165,7 +165,7 @@ Timebar.prototype = {
             this.currentStepsContainer = newStepsContainer;
             $(newStepsContainer).animate({ left: "0px" }, this.travelDuration, "swing", function() { self._enableMoveButtons(); });
             $(lastStepsContainer).animate({ left: left * -1 + "px" }, this.travelDuration, "swing", function() { $(lastStepsContainer).remove(); });
-            this.loadPicturesTimeSafe();
+            this.loadMediasTimeSafe();
         }
         this.setYear(year);
     },
@@ -188,11 +188,11 @@ Timebar.prototype = {
 
         $(window).resize(function() {
             self._resetStepsContainer();
-            self._clearPictures();
+            self._clearMedias();
             self._setupInterface(self.currentStepsContainer);
             self._drawSteps(self.currentStepsContainer);
             self._drawYears(self.currentStepsContainer);
-            self.loadPicturesTimeSafe();
+            self.loadMediasTimeSafe();
             self.goToYear(self.year);
         });
     },
@@ -265,29 +265,35 @@ Timebar.prototype = {
         return 0;
     },
 
-    _clearPictures: function() {
-        $("#timebar .picturesContainer .picture").slideUp(250, function() { $(this).remove(); });
+    _clearMedias: function() {
+        $("#timebar .mediasContainer .picture").slideUp(250, function() { $(this).remove(); });
     },
 
-    _renderPictures: function(groupedPictures) {
-        for (var i = 0; i < groupedPictures.length; i++) {
-            var group = groupedPictures[i];
-            //group.pictures is an array for a multi picture per year support
-            var picture = this._renderPicture(group.pictures[0]);
-            $("#timebar .picturesContainer").append(picture);
-            //adjust position            
-            $(picture).css("left", (this._getYearPosition(group.year) - $(picture).outerWidth() / 2) + "px").slideDown();
+    _renderMedias: function(groupedMedias) {
+        for (var i = 0; i < groupedMedias.length; i++) {
+            var group = groupedMedias[i];
+            //group.medias is an array for a multi picture per year support
+            var media = this._renderMedia(group.medias[0]);
+            $("#timebar .mediasContainer").append(media);
+            //adjust position
+            $(media).css("left", (this._getYearPosition(group.year) - $(media).outerWidth() / 2) + "px").slideDown();
         }
     },
 
-    _renderPicture: function(pictureData) {
+    _renderMedia: function(mediaData) {
         var self = this;
-        return $("<img />")
-            .attr("src", Url.Pictures + pictureData.avatarPath)
+        if (mediaData.type == "Picture") {
+            return $("<img />")
+            .attr("src", Url.Pictures + mediaData.pictureData.avatarPath)
             .addClass("picture")
             .hide()
             .click(function() {
-                self.setYear(pictureData.year);
+                self.setYear(mediaData.year);
             });
+        }
+        else {
+            alert("Video renderer not implemented");
+            return $("<p>not implemented</p>");
+        }
     }
 };

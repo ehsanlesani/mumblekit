@@ -2,7 +2,7 @@
 
 <div id="timebar" class="timebar">
     <a href="javascript:;" class="backButton"></a>
-    <div class="picturesContainer"></div>
+    <div class="mediasContainer"></div>
     <div class="barBegin"></div>
     <div class="bar">
         <div class="pointer"></div>

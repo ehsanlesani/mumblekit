@@ -8,7 +8,8 @@ Url.AccountRegister = BASEURL + "Account.aspx/Register/";
 Url.AccountUpload = BASEURL + "Account.aspx/AddPicture";
 Url.AccountCulture = BASEURL + "Account.aspx/ChangeCulture";
 
-Url.LoadOnePicturePerYear = BASEURL + "Map.aspx/LoadOnePicturePerYear";
+Url.LoadOneMediaPerYear = BASEURL + "MediaLoader.aspx/LoadOneMediaPerYear";
+Url.LoadMedias = BASEURL + "MediaLoader.aspx/LoadMedias"
 
 Url.Location = "Location.aspx/"
 

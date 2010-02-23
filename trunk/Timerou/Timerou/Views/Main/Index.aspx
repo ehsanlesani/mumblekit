@@ -48,7 +48,7 @@
             $(MapCom).bind("pictureClick", function(e, id) {
                 var bounds = Utils.boundsToString(MapCom.getMapBounds());
                 var r = $(MapCom.map).width() / $(MapCom.map).height();
-                window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "&r=" + r + "#showPicture|id=" + id);
+                window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "&r=" + r + "#show|id=" + id);
             });
 
             timebar = new Timebar();
@@ -59,12 +59,12 @@
 
             $(MapCom).bind("mapReady", function() {
                 timebar.initialize();
-                timebar.loadPictures();
+                timebar.loadMedias();
             });
 
             $(MapCom).bind("mapMoveEnd", function() {
                 timebar.setBounds(MapCom.getMapBounds());
-                timebar.loadPicturesTimeSafe();
+                timebar.loadMediasTimeSafe();
             });
 
         });

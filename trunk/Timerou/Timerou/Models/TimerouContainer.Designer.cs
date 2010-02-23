@@ -16,7 +16,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_TaggedObjectTag", "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.Media), "Tag", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Tag))]
 
 // Original file name:
-// Generation date: 23/02/2010 10:58:55
+// Generation date: 23/02/2010 19:59:11
 namespace Mumble.Timerou.Models
 {
     
@@ -1209,6 +1209,29 @@ namespace Mumble.Timerou.Models
         partial void OnBodyChanging(string value);
         partial void OnBodyChanged();
         /// <summary>
+        /// There are no comments for Property IsTemp in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Nullable<bool> IsTemp
+        {
+            get
+            {
+                return this._IsTemp;
+            }
+            set
+            {
+                this.OnIsTempChanging(value);
+                this.ReportPropertyChanging("IsTemp");
+                this._IsTemp = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("IsTemp");
+                this.OnIsTempChanged();
+            }
+        }
+        private global::System.Nullable<bool> _IsTemp;
+        partial void OnIsTempChanging(global::System.Nullable<bool> value);
+        partial void OnIsTempChanged();
+        /// <summary>
         /// There are no comments for Comments in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_Comments_MapObjects", "Comment")]
@@ -1365,29 +1388,6 @@ namespace Mumble.Timerou.Models
         private global::System.Nullable<int> _Width;
         partial void OnWidthChanging(global::System.Nullable<int> value);
         partial void OnWidthChanged();
-        /// <summary>
-        /// There are no comments for Property IsTemp in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Nullable<bool> IsTemp
-        {
-            get
-            {
-                return this._IsTemp;
-            }
-            set
-            {
-                this.OnIsTempChanging(value);
-                this.ReportPropertyChanging("IsTemp");
-                this._IsTemp = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("IsTemp");
-                this.OnIsTempChanged();
-            }
-        }
-        private global::System.Nullable<bool> _IsTemp;
-        partial void OnIsTempChanging(global::System.Nullable<bool> value);
-        partial void OnIsTempChanged();
     }
     /// <summary>
     /// There are no comments for TimerouModel.Video in the schema.
