@@ -9,11 +9,13 @@
           <EntitySet Name="Comments" EntityType="TimerouModel.Store.Comments" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Groups" EntityType="TimerouModel.Store.Groups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GroupUser" EntityType="TimerouModel.Store.GroupUser" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MapObjects" EntityType="TimerouModel.Store.MapObjects" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Media" EntityType="TimerouModel.Store.Media" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Pictures" EntityType="TimerouModel.Store.Pictures" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Tags" EntityType="TimerouModel.Store.Tags" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="TimerouModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Videos" EntityType="TimerouModel.Store.Videos" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Comments_MapObjects" Association="TimerouModel.Store.FK_Comments_MapObjects">
-            <End Role="MapObjects" EntitySet="MapObjects" />
+            <End Role="Media" EntitySet="Media" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
           <AssociationSet Name="FK_Comments_Users" Association="TimerouModel.Store.FK_Comments_Users">
@@ -30,11 +32,19 @@
           </AssociationSet>
           <AssociationSet Name="FK_MapObjects_Users" Association="TimerouModel.Store.FK_MapObjects_Users">
             <End Role="Users" EntitySet="Users" />
-            <End Role="MapObjects" EntitySet="MapObjects" />
+            <End Role="Media" EntitySet="Media" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Picture_Picture" Association="TimerouModel.Store.FK_Picture_Picture">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="Pictures" EntitySet="Pictures" />
           </AssociationSet>
           <AssociationSet Name="FK_TaggedObjectTag" Association="TimerouModel.Store.FK_TaggedObjectTag">
-            <End Role="MapObjects" EntitySet="MapObjects" />
+            <End Role="Media" EntitySet="Media" />
             <End Role="Tags" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Videos_Media" Association="TimerouModel.Store.FK_Videos_Media">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="Videos" EntitySet="Videos" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Comments">
@@ -62,7 +72,7 @@
           <Property Name="Groups_Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Users_Id" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <EntityType Name="MapObjects">
+        <EntityType Name="Media">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -81,11 +91,16 @@
           <Property Name="Province" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="Body" Type="text" />
+          <Property Name="User_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pictures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Height" Type="int" />
           <Property Name="Width" Type="int" />
           <Property Name="IsTemp" Type="bit" />
-          <Property Name="User_Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Discriminator" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -109,11 +124,18 @@
           <Property Name="Lng" Type="float" />
           <Property Name="Culture" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="Videos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" />
+        </EntityType>
         <Association Name="FK_Comments_MapObjects">
-          <End Role="MapObjects" Type="TimerouModel.Store.MapObjects" Multiplicity="1" />
+          <End Role="Media" Type="TimerouModel.Store.Media" Multiplicity="1" />
           <End Role="Comments" Type="TimerouModel.Store.Comments" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MapObjects">
+            <Principal Role="Media">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Comments">
@@ -159,25 +181,49 @@
         </Association>
         <Association Name="FK_MapObjects_Users">
           <End Role="Users" Type="TimerouModel.Store.Users" Multiplicity="1" />
-          <End Role="MapObjects" Type="TimerouModel.Store.MapObjects" Multiplicity="*" />
+          <End Role="Media" Type="TimerouModel.Store.Media" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="MapObjects">
+            <Dependent Role="Media">
               <PropertyRef Name="User_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Picture_Picture">
+          <End Role="Media" Type="TimerouModel.Store.Media" Multiplicity="1" />
+          <End Role="Pictures" Type="TimerouModel.Store.Pictures" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pictures">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TaggedObjectTag">
-          <End Role="MapObjects" Type="TimerouModel.Store.MapObjects" Multiplicity="1" />
+          <End Role="Media" Type="TimerouModel.Store.Media" Multiplicity="1" />
           <End Role="Tags" Type="TimerouModel.Store.Tags" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="MapObjects">
+            <Principal Role="Media">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Tags">
               <PropertyRef Name="MapObject_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Videos_Media">
+          <End Role="Media" Type="TimerouModel.Store.Media" Multiplicity="1" />
+          <End Role="Videos" Type="TimerouModel.Store.Videos" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Media">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Videos">
+              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -188,30 +234,27 @@
         <EntityContainer Name="TimerouContainer">
           <EntitySet Name="Comments" EntityType="TimerouModel.Comment" />
           <EntitySet Name="Groups" EntityType="TimerouModel.Group" />
-          <EntitySet Name="MapObjects" EntityType="TimerouModel.MapObject" />
           <EntitySet Name="Tags" EntityType="TimerouModel.Tag" />
           <EntitySet Name="Users" EntityType="TimerouModel.User" />
-          <AssociationSet Name="FK_Comments_MapObjects" Association="TimerouModel.FK_Comments_MapObjects">
-            <End Role="MapObjects" EntitySet="MapObjects" />
-            <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
           <AssociationSet Name="FK_Comments_Users" Association="TimerouModel.FK_Comments_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MapObjects_Users" Association="TimerouModel.FK_MapObjects_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="MapObjects" EntitySet="MapObjects" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaggedObjectTag" Association="TimerouModel.FK_TaggedObjectTag">
-            <End Role="MapObjects" EntitySet="MapObjects" />
-            <End Role="Tags" EntitySet="Tags" />
           </AssociationSet>
           <AssociationSet Name="GroupUser" Association="TimerouModel.GroupUser">
             <End Role="Groups" EntitySet="Groups" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Media" EntityType="TimerouModel.Media" />
+          <AssociationSet Name="FK_Comments_MapObjects" Association="TimerouModel.FK_Comments_MapObjects">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="Comment" EntitySet="Comments" /></AssociationSet>
+          <AssociationSet Name="FK_MapObjects_Users" Association="TimerouModel.FK_MapObjects_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Media" EntitySet="Media" /></AssociationSet>
+          <AssociationSet Name="FK_TaggedObjectTag" Association="TimerouModel.FK_TaggedObjectTag">
+            <End Role="Media" EntitySet="Media" />
+            <End Role="Tag" EntitySet="Tags" /></AssociationSet>
+          </EntityContainer>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Id" />
@@ -219,9 +262,8 @@
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="Created" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="MapObject" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="Comments" ToRole="MapObjects" />
           <NavigationProperty Name="User" Relationship="TimerouModel.FK_Comments_Users" FromRole="Comments" ToRole="Users" />
-        </EntityType>
+          <NavigationProperty Name="Media" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="Comment" ToRole="Media" /></EntityType>
         <EntityType Name="Group">
           <Key>
             <PropertyRef Name="Id" />
@@ -230,36 +272,13 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Users" Relationship="TimerouModel.GroupUser" FromRole="Groups" ToRole="Users" />
         </EntityType>
-        <EntityType Name="MapObject" Abstract="true">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Views" Type="Int32" Nullable="false" />
-          <Property Name="Created" Type="DateTime" Nullable="false" />
-          <Property Name="Lat" Type="Double" Nullable="false" />
-          <Property Name="Lng" Type="Double" Nullable="false" />
-          <Property Name="Country" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="PostalCode" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="City" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Region" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Province" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Title" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Body" Type="String" Nullable="true" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Comments" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="MapObjects" ToRole="Comments" />
-          <NavigationProperty Name="User" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="MapObjects" ToRole="Users" />
-          <NavigationProperty Name="Tags" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="MapObjects" ToRole="Tags" />
-          <Property Name="CountryCode" Type="String" Nullable="true" />
-          <Property Name="Year" Type="Int32" Nullable="false" /></EntityType>
         <EntityType Name="Tag">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="MapObject" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="Tags" ToRole="MapObjects" />
-        </EntityType>
+          <NavigationProperty Name="Media" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="Tag" ToRole="Media" /></EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -274,34 +293,56 @@
           <Property Name="Lng" Type="Double" />
           <Property Name="Culture" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Comments" Relationship="TimerouModel.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
-          <NavigationProperty Name="MapObjects" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="Users" ToRole="MapObjects" />
           <NavigationProperty Name="Groups" Relationship="TimerouModel.GroupUser" FromRole="Users" ToRole="Groups" />
-        </EntityType>
-        <Association Name="FK_Comments_MapObjects">
-          <End Role="MapObjects" Type="TimerouModel.MapObject" Multiplicity="1" />
-          <End Role="Comments" Type="TimerouModel.Comment" Multiplicity="*" />
-        </Association>
+          <NavigationProperty Name="Media" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="User" ToRole="Media" /></EntityType>
         <Association Name="FK_Comments_Users">
           <End Role="Users" Type="TimerouModel.User" Multiplicity="1" />
           <End Role="Comments" Type="TimerouModel.Comment" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_MapObjects_Users">
-          <End Role="Users" Type="TimerouModel.User" Multiplicity="1" />
-          <End Role="MapObjects" Type="TimerouModel.MapObject" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_TaggedObjectTag">
-          <End Role="MapObjects" Type="TimerouModel.MapObject" Multiplicity="1" />
-          <End Role="Tags" Type="TimerouModel.Tag" Multiplicity="*" />
         </Association>
         <Association Name="GroupUser">
           <End Role="Groups" Type="TimerouModel.Group" Multiplicity="*" />
           <End Role="Users" Type="TimerouModel.User" Multiplicity="*" />
         </Association>
-        <EntityType Name="Picture" BaseType="TimerouModel.MapObject" >
+        <EntityType Name="Media">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Views" Type="Int32" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" />
+          <Property Name="Lat" Type="Double" Nullable="false" />
+          <Property Name="Lng" Type="Double" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Country" Type="String" Nullable="true" />
+          <Property Name="CountryCode" Type="String" Nullable="true" />
+          <Property Name="PostalCode" Type="String" Nullable="true" />
+          <Property Name="City" Type="String" Nullable="true" />
+          <Property Name="Region" Type="String" Nullable="true" />
+          <Property Name="Address" Type="String" Nullable="true" />
+          <Property Name="Province" Type="String" Nullable="true" />
+          <Property Name="Title" Type="String" Nullable="true" />
+          <Property Name="Body" Type="String" Nullable="true" />
+          <NavigationProperty Name="Comments" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="Media" ToRole="Comment" />
+          <NavigationProperty Name="User" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="Media" ToRole="User" />
+          <NavigationProperty Name="Tags" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="Media" ToRole="Tag" />
+          </EntityType>
+        <EntityType Name="Picture" BaseType="TimerouModel.Media">
           <Property Name="Height" Type="Int32" Nullable="true" />
           <Property Name="Width" Type="Int32" Nullable="true" />
-          <Property Name="IsTemp" Type="Boolean" Nullable="true" /></EntityType>
-        <EntityType Name="HistoricEvent" BaseType="TimerouModel.MapObject" /></Schema>
+          <Property Name="IsTemp" Type="Boolean" Nullable="true" />
+          </EntityType>
+        <EntityType Name="Video" BaseType="TimerouModel.Media">
+          <Property Name="Url" Type="String" Nullable="true" />
+          </EntityType>
+        <Association Name="FK_Comments_MapObjects">
+          <End Type="TimerouModel.Media" Role="Media" Multiplicity="1" />
+          <End Type="TimerouModel.Comment" Role="Comment" Multiplicity="*" /></Association>
+        <Association Name="FK_MapObjects_Users">
+          <End Type="TimerouModel.User" Role="User" Multiplicity="1" />
+          <End Type="TimerouModel.Media" Role="Media" Multiplicity="*" /></Association>
+        <Association Name="FK_TaggedObjectTag">
+          <End Type="TimerouModel.Media" Role="Media" Multiplicity="1" />
+          <End Type="TimerouModel.Tag" Role="Tag" Multiplicity="*" /></Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -324,37 +365,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MapObjects">
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.MapObject)">
-              <MappingFragment StoreEntitySet="MapObjects">
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Views" ColumnName="Views" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="Lat" ColumnName="Lat" />
-                <ScalarProperty Name="Lng" ColumnName="Lng" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Region" ColumnName="Region" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Province" ColumnName="Province" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Body" ColumnName="Body" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Picture)">
-              <MappingFragment StoreEntitySet="MapObjects">
-                <ScalarProperty Name="IsTemp" ColumnName="IsTemp" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <Condition ColumnName="Discriminator" Value="1" /></MappingFragment></EntityTypeMapping>
-            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.HistoricEvent)">
-              <MappingFragment StoreEntitySet="MapObjects" >
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <Condition ColumnName="Discriminator" Value="2" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Tag)">
               <MappingFragment StoreEntitySet="Tags">
@@ -378,35 +388,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="FK_Comments_MapObjects" TypeName="TimerouModel.FK_Comments_MapObjects" StoreEntitySet="Comments">
-            <EndProperty Name="MapObjects">
-              <ScalarProperty Name="Id" ColumnName="MapObject_Id" />
-            </EndProperty>
-            <EndProperty Name="Comments">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="FK_Comments_Users" TypeName="TimerouModel.FK_Comments_Users" StoreEntitySet="Comments">
             <EndProperty Name="Users">
               <ScalarProperty Name="Id" ColumnName="User_Id" />
             </EndProperty>
             <EndProperty Name="Comments">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_MapObjects_Users" TypeName="TimerouModel.FK_MapObjects_Users" StoreEntitySet="MapObjects">
-            <EndProperty Name="Users">
-              <ScalarProperty Name="Id" ColumnName="User_Id" />
-            </EndProperty>
-            <EndProperty Name="MapObjects">
-              <ScalarProperty Name="Id" ColumnName="Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="FK_TaggedObjectTag" TypeName="TimerouModel.FK_TaggedObjectTag" StoreEntitySet="Tags">
-            <EndProperty Name="MapObjects">
-              <ScalarProperty Name="Id" ColumnName="MapObject_Id" />
-            </EndProperty>
-            <EndProperty Name="Tags">
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
           </AssociationSetMapping>
@@ -418,7 +404,50 @@
               <ScalarProperty Name="Id" ColumnName="Users_Id" />
             </EndProperty>
           </AssociationSetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="Media">
+            <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Media)">
+              <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Lng" ColumnName="Lng" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Views" ColumnName="Views" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping><EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Video)">
+              <MappingFragment StoreEntitySet="Videos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                </MappingFragment></EntityTypeMapping><EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Picture)">
+              <MappingFragment StoreEntitySet="Pictures">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IsTemp" ColumnName="IsTemp" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_Comments_MapObjects" TypeName="TimerouModel.FK_Comments_MapObjects" StoreEntitySet="Comments">
+            <EndProperty Name="Comment">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Media">
+              <ScalarProperty Name="Id" ColumnName="MapObject_Id" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_MapObjects_Users" TypeName="TimerouModel.FK_MapObjects_Users" StoreEntitySet="Media">
+            <EndProperty Name="Media">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="User_Id" /></EndProperty></AssociationSetMapping>
+          <AssociationSetMapping Name="FK_TaggedObjectTag" TypeName="TimerouModel.FK_TaggedObjectTag" StoreEntitySet="Tags">
+            <EndProperty Name="Tag">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Media">
+              <ScalarProperty Name="Id" ColumnName="MapObject_Id" /></EndProperty></AssociationSetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -439,34 +468,40 @@
       <Diagram Name="TimerouContainer">
         <EntityTypeShape EntityType="TimerouModel.Comment" Width="1.5" PointX="9.375" PointY="3.5" Height="1.9802864583333335" IsExpanded="true" />
         <EntityTypeShape EntityType="TimerouModel.Group" Width="1.5" PointX="0.75" PointY="4.125" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="TimerouModel.MapObject" Width="1.5" PointX="6.125" PointY="3.25" Height="4.0956022135416656" IsExpanded="true" />
         <EntityTypeShape EntityType="TimerouModel.Tag" Width="1.5" PointX="9.375" PointY="5.75" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="TimerouModel.User" Width="1.5" PointX="3" PointY="3.25" Height="3.3263964843749996" IsExpanded="true" />
-        <AssociationConnector Association="TimerouModel.FK_Comments_MapObjects" ManuallyRouted="false">
-          <ConnectorPoint PointX="7.625" PointY="4.4901432291666667" />
-          <ConnectorPoint PointX="9.375" PointY="4.4901432291666667" /></AssociationConnector>
         <AssociationConnector Association="TimerouModel.FK_Comments_Users" ManuallyRouted="false">
           <ConnectorPoint PointX="3.75" PointY="3.25" />
           <ConnectorPoint PointX="3.75" PointY="2.875" />
-          <ConnectorPoint PointX="10.125" PointY="2.875" />
-          <ConnectorPoint PointX="10.125" PointY="3.5" /></AssociationConnector>
-        <AssociationConnector Association="TimerouModel.FK_MapObjects_Users" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5" PointY="4.9131982421875" />
-          <ConnectorPoint PointX="6.125" PointY="4.9131982421875" /></AssociationConnector>
-        <AssociationConnector Association="TimerouModel.FK_TaggedObjectTag" ManuallyRouted="false">
-          <ConnectorPoint PointX="7.625" PointY="6.5478011067708328" />
-          <ConnectorPoint PointX="9.375" PointY="6.5478011067708328" /></AssociationConnector>
+          <ConnectorPoint PointX="9" PointY="2.875" />
+          <ConnectorPoint PointX="9" PointY="4.4901432291666659" />
+          <ConnectorPoint PointX="9.375" PointY="4.4901432291666659" /></AssociationConnector>
         <AssociationConnector Association="TimerouModel.GroupUser" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="4.922841796875" />
           <ConnectorPoint PointX="3" PointY="4.922841796875" /></AssociationConnector>
-        <EntityTypeShape EntityType="TimerouModel.Picture" Width="1.5" PointX="5.125" PointY="8.25" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="TimerouModel.HistoricEvent" Width="1.5" PointX="7.25" PointY="8.25" Height="1.018779296875" />
-        <InheritanceConnector EntityType="TimerouModel.Picture" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.375" PointY="7.3456022135416656" />
-          <ConnectorPoint PointX="6.375" PointY="8.25" /></InheritanceConnector>
-        <InheritanceConnector EntityType="TimerouModel.HistoricEvent" ManuallyRouted="false">
-          <ConnectorPoint PointX="7.4375" PointY="7.3456022135416656" />
-          <ConnectorPoint PointX="7.4375" PointY="8.25" />
+        <EntityTypeShape EntityType="TimerouModel.Media" Width="1.5" PointX="5.875" PointY="3.125" Height="4.480205078125" />
+        <EntityTypeShape EntityType="TimerouModel.Picture" Width="1.5" PointX="5.75" PointY="8.5" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="TimerouModel.Video" Width="1.5" PointX="3.625" PointY="8.5" Height="1.2110807291666657" />
+        <AssociationConnector Association="TimerouModel.FK_Comments_MapObjects" >
+          <ConnectorPoint PointX="7.375" PointY="3.9325716145833329" />
+          <ConnectorPoint PointX="8.9166666666666661" PointY="3.9325716145833325" />
+          <ConnectorPoint PointX="9.0833333333333339" PointY="3.9325716145833329" />
+          <ConnectorPoint PointX="9.375" PointY="3.9325716145833329" /></AssociationConnector>
+        <AssociationConnector Association="TimerouModel.FK_MapObjects_Users" >
+          <ConnectorPoint PointX="4.5" PointY="4.9131982421875" />
+          <ConnectorPoint PointX="5.875" PointY="4.9131982421875" />
+          </AssociationConnector>
+        <AssociationConnector Association="TimerouModel.FK_TaggedObjectTag" >
+          <ConnectorPoint PointX="7.375" PointY="6.547841796875" />
+          <ConnectorPoint PointX="9.375" PointY="6.547841796875" />
+          </AssociationConnector>
+        <InheritanceConnector EntityType="TimerouModel.Video">
+          <ConnectorPoint PointX="5.875" PointY="7.12205078125" />
+          <ConnectorPoint PointX="4.84375" PointY="7.12205078125" />
+          <ConnectorPoint PointX="4.84375" PointY="8.5" /></InheritanceConnector>
+        <InheritanceConnector EntityType="TimerouModel.Picture">
+          <ConnectorPoint PointX="6.5625" PointY="7.605205078125" />
+          <ConnectorPoint PointX="6.5625" PointY="8.5" />
           </InheritanceConnector></Diagram></edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

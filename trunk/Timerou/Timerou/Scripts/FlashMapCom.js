@@ -44,3 +44,7 @@ MapCom.onMapReady = function() {
 MapCom.onMapMoveEnd = function() {
     $(MapCom).trigger("mapMoveEnd");
 }
+
+MapCom.onPictureClick = function(id) {
+    $(MapCom).trigger("pictureClick", id);
+}

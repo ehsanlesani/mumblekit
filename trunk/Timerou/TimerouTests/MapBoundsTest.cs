@@ -77,8 +77,8 @@ namespace TimerouTests
             TestContext.WriteLine("CrossMeridian: {0}", extend.CrossMeridian);
             TestContext.WriteLine("Height: {0}", extend.Height);
             TestContext.WriteLine("Width: {0}", extend.Width);
-            TestContext.WriteLine("TopLeft: {0}", extend.TopLeft);
-            TestContext.WriteLine("BottomRight: {0}", extend.BottomRight);
+            TestContext.WriteLine("TopLeft: {0}", extend.SouthWest);
+            TestContext.WriteLine("BottomRight: {0}", extend.NorthEast);
             TestContext.WriteLine("Center: {0}", extend.Center);
         }
     }

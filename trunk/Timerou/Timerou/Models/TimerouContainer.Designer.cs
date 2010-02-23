@@ -9,14 +9,14 @@
 //------------------------------------------------------------------------------
 
 [assembly: global::System.Data.Objects.DataClasses.EdmSchemaAttribute()]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_Comments_MapObjects", "MapObjects", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.MapObject), "Comments", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Comment))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_Comments_Users", "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.User), "Comments", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Comment))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_MapObjects_Users", "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.User), "MapObjects", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.MapObject))]
-[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_TaggedObjectTag", "MapObjects", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.MapObject), "Tags", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Tag))]
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "GroupUser", "Groups", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Group), "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.User))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_Comments_MapObjects", "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.Media), "Comment", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Comment))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_MapObjects_Users", "User", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.User), "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Media))]
+[assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_TaggedObjectTag", "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.Media), "Tag", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Tag))]
 
 // Original file name:
-// Generation date: 30/01/2010 21:55:22
+// Generation date: 23/02/2010 10:58:55
 namespace Mumble.Timerou.Models
 {
     
@@ -81,21 +81,6 @@ namespace Mumble.Timerou.Models
         }
         private global::System.Data.Objects.ObjectQuery<Group> _Groups;
         /// <summary>
-        /// There are no comments for MapObjects in the schema.
-        /// </summary>
-        public global::System.Data.Objects.ObjectQuery<MapObject> MapObjects
-        {
-            get
-            {
-                if ((this._MapObjects == null))
-                {
-                    this._MapObjects = base.CreateQuery<MapObject>("[MapObjects]");
-                }
-                return this._MapObjects;
-            }
-        }
-        private global::System.Data.Objects.ObjectQuery<MapObject> _MapObjects;
-        /// <summary>
         /// There are no comments for Tags in the schema.
         /// </summary>
         public global::System.Data.Objects.ObjectQuery<Tag> Tags
@@ -126,6 +111,21 @@ namespace Mumble.Timerou.Models
         }
         private global::System.Data.Objects.ObjectQuery<User> _Users;
         /// <summary>
+        /// There are no comments for Media in the schema.
+        /// </summary>
+        public global::System.Data.Objects.ObjectQuery<Media> Media
+        {
+            get
+            {
+                if ((this._Media == null))
+                {
+                    this._Media = base.CreateQuery<Media>("[Media]");
+                }
+                return this._Media;
+            }
+        }
+        private global::System.Data.Objects.ObjectQuery<Media> _Media;
+        /// <summary>
         /// There are no comments for Comments in the schema.
         /// </summary>
         public void AddToComments(Comment comment)
@@ -140,13 +140,6 @@ namespace Mumble.Timerou.Models
             base.AddObject("Groups", group);
         }
         /// <summary>
-        /// There are no comments for MapObjects in the schema.
-        /// </summary>
-        public void AddToMapObjects(MapObject mapObject)
-        {
-            base.AddObject("MapObjects", mapObject);
-        }
-        /// <summary>
         /// There are no comments for Tags in the schema.
         /// </summary>
         public void AddToTags(Tag tag)
@@ -159,6 +152,13 @@ namespace Mumble.Timerou.Models
         public void AddToUsers(User user)
         {
             base.AddObject("Users", user);
+        }
+        /// <summary>
+        /// There are no comments for Media in the schema.
+        /// </summary>
+        public void AddToMedia(Media media)
+        {
+            base.AddObject("Media", media);
         }
     }
     /// <summary>
@@ -256,43 +256,6 @@ namespace Mumble.Timerou.Models
         partial void OnCreatedChanging(global::System.DateTime value);
         partial void OnCreatedChanged();
         /// <summary>
-        /// There are no comments for MapObject in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_Comments_MapObjects", "MapObjects")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public MapObject MapObject
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<MapObject>("TimerouModel.FK_Comments_MapObjects", "MapObjects").Value;
-            }
-            set
-            {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<MapObject>("TimerouModel.FK_Comments_MapObjects", "MapObjects").Value = value;
-            }
-        }
-        /// <summary>
-        /// There are no comments for MapObject in the schema.
-        /// </summary>
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<MapObject> MapObjectReference
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<MapObject>("TimerouModel.FK_Comments_MapObjects", "MapObjects");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<MapObject>("TimerouModel.FK_Comments_MapObjects", "MapObjects", value);
-                }
-            }
-        }
-        /// <summary>
         /// There are no comments for User in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_Comments_Users", "Users")]
@@ -326,6 +289,43 @@ namespace Mumble.Timerou.Models
                 if ((value != null))
                 {
                     ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<User>("TimerouModel.FK_Comments_Users", "Users", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Media in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_Comments_MapObjects", "Media")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public Media Media
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Media>("TimerouModel.FK_Comments_MapObjects", "Media").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Media>("TimerouModel.FK_Comments_MapObjects", "Media").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for Media in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<Media> MediaReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Media>("TimerouModel.FK_Comments_MapObjects", "Media");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Media>("TimerouModel.FK_Comments_MapObjects", "Media", value);
                 }
             }
         }
@@ -422,444 +422,6 @@ namespace Mumble.Timerou.Models
         }
     }
     /// <summary>
-    /// There are no comments for TimerouModel.MapObject in the schema.
-    /// </summary>
-    /// <KeyProperties>
-    /// Id
-    /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="TimerouModel", Name="MapObject")]
-    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
-    [global::System.Serializable()]
-    [global::System.Runtime.Serialization.KnownTypeAttribute(typeof(global::Mumble.Timerou.Models.Picture))]
-    [global::System.Runtime.Serialization.KnownTypeAttribute(typeof(global::Mumble.Timerou.Models.HistoricEvent))]
-    public abstract partial class MapObject : global::System.Data.Objects.DataClasses.EntityObject
-    {
-        /// <summary>
-        /// There are no comments for Property Id in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Guid Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                this.OnIdChanging(value);
-                this.ReportPropertyChanging("Id");
-                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Id");
-                this.OnIdChanged();
-            }
-        }
-        private global::System.Guid _Id;
-        partial void OnIdChanging(global::System.Guid value);
-        partial void OnIdChanged();
-        /// <summary>
-        /// There are no comments for Property Views in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public int Views
-        {
-            get
-            {
-                return this._Views;
-            }
-            set
-            {
-                this.OnViewsChanging(value);
-                this.ReportPropertyChanging("Views");
-                this._Views = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Views");
-                this.OnViewsChanged();
-            }
-        }
-        private int _Views;
-        partial void OnViewsChanging(int value);
-        partial void OnViewsChanged();
-        /// <summary>
-        /// There are no comments for Property Created in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.DateTime Created
-        {
-            get
-            {
-                return this._Created;
-            }
-            set
-            {
-                this.OnCreatedChanging(value);
-                this.ReportPropertyChanging("Created");
-                this._Created = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Created");
-                this.OnCreatedChanged();
-            }
-        }
-        private global::System.DateTime _Created;
-        partial void OnCreatedChanging(global::System.DateTime value);
-        partial void OnCreatedChanged();
-        /// <summary>
-        /// There are no comments for Property Lat in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public double Lat
-        {
-            get
-            {
-                return this._Lat;
-            }
-            set
-            {
-                this.OnLatChanging(value);
-                this.ReportPropertyChanging("Lat");
-                this._Lat = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Lat");
-                this.OnLatChanged();
-            }
-        }
-        private double _Lat;
-        partial void OnLatChanging(double value);
-        partial void OnLatChanged();
-        /// <summary>
-        /// There are no comments for Property Lng in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public double Lng
-        {
-            get
-            {
-                return this._Lng;
-            }
-            set
-            {
-                this.OnLngChanging(value);
-                this.ReportPropertyChanging("Lng");
-                this._Lng = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Lng");
-                this.OnLngChanged();
-            }
-        }
-        private double _Lng;
-        partial void OnLngChanging(double value);
-        partial void OnLngChanged();
-        /// <summary>
-        /// There are no comments for Property Country in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Country
-        {
-            get
-            {
-                return this._Country;
-            }
-            set
-            {
-                this.OnCountryChanging(value);
-                this.ReportPropertyChanging("Country");
-                this._Country = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Country");
-                this.OnCountryChanged();
-            }
-        }
-        private string _Country;
-        partial void OnCountryChanging(string value);
-        partial void OnCountryChanged();
-        /// <summary>
-        /// There are no comments for Property PostalCode in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string PostalCode
-        {
-            get
-            {
-                return this._PostalCode;
-            }
-            set
-            {
-                this.OnPostalCodeChanging(value);
-                this.ReportPropertyChanging("PostalCode");
-                this._PostalCode = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("PostalCode");
-                this.OnPostalCodeChanged();
-            }
-        }
-        private string _PostalCode;
-        partial void OnPostalCodeChanging(string value);
-        partial void OnPostalCodeChanged();
-        /// <summary>
-        /// There are no comments for Property City in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string City
-        {
-            get
-            {
-                return this._City;
-            }
-            set
-            {
-                this.OnCityChanging(value);
-                this.ReportPropertyChanging("City");
-                this._City = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("City");
-                this.OnCityChanged();
-            }
-        }
-        private string _City;
-        partial void OnCityChanging(string value);
-        partial void OnCityChanged();
-        /// <summary>
-        /// There are no comments for Property Region in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Region
-        {
-            get
-            {
-                return this._Region;
-            }
-            set
-            {
-                this.OnRegionChanging(value);
-                this.ReportPropertyChanging("Region");
-                this._Region = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Region");
-                this.OnRegionChanged();
-            }
-        }
-        private string _Region;
-        partial void OnRegionChanging(string value);
-        partial void OnRegionChanged();
-        /// <summary>
-        /// There are no comments for Property Address in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Address
-        {
-            get
-            {
-                return this._Address;
-            }
-            set
-            {
-                this.OnAddressChanging(value);
-                this.ReportPropertyChanging("Address");
-                this._Address = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Address");
-                this.OnAddressChanged();
-            }
-        }
-        private string _Address;
-        partial void OnAddressChanging(string value);
-        partial void OnAddressChanged();
-        /// <summary>
-        /// There are no comments for Property Province in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Province
-        {
-            get
-            {
-                return this._Province;
-            }
-            set
-            {
-                this.OnProvinceChanging(value);
-                this.ReportPropertyChanging("Province");
-                this._Province = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Province");
-                this.OnProvinceChanged();
-            }
-        }
-        private string _Province;
-        partial void OnProvinceChanging(string value);
-        partial void OnProvinceChanged();
-        /// <summary>
-        /// There are no comments for Property Title in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Title
-        {
-            get
-            {
-                return this._Title;
-            }
-            set
-            {
-                this.OnTitleChanging(value);
-                this.ReportPropertyChanging("Title");
-                this._Title = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Title");
-                this.OnTitleChanged();
-            }
-        }
-        private string _Title;
-        partial void OnTitleChanging(string value);
-        partial void OnTitleChanged();
-        /// <summary>
-        /// There are no comments for Property Body in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string Body
-        {
-            get
-            {
-                return this._Body;
-            }
-            set
-            {
-                this.OnBodyChanging(value);
-                this.ReportPropertyChanging("Body");
-                this._Body = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("Body");
-                this.OnBodyChanged();
-            }
-        }
-        private string _Body;
-        partial void OnBodyChanging(string value);
-        partial void OnBodyChanged();
-        /// <summary>
-        /// There are no comments for Property CountryCode in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string CountryCode
-        {
-            get
-            {
-                return this._CountryCode;
-            }
-            set
-            {
-                this.OnCountryCodeChanging(value);
-                this.ReportPropertyChanging("CountryCode");
-                this._CountryCode = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("CountryCode");
-                this.OnCountryCodeChanged();
-            }
-        }
-        private string _CountryCode;
-        partial void OnCountryCodeChanging(string value);
-        partial void OnCountryCodeChanged();
-        /// <summary>
-        /// There are no comments for Property Year in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public int Year
-        {
-            get
-            {
-                return this._Year;
-            }
-            set
-            {
-                this.OnYearChanging(value);
-                this.ReportPropertyChanging("Year");
-                this._Year = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
-                this.ReportPropertyChanged("Year");
-                this.OnYearChanged();
-            }
-        }
-        private int _Year;
-        partial void OnYearChanging(int value);
-        partial void OnYearChanged();
-        /// <summary>
-        /// There are no comments for Comments in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_Comments_MapObjects", "Comments")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<Comment> Comments
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Comment>("TimerouModel.FK_Comments_MapObjects", "Comments");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Comment>("TimerouModel.FK_Comments_MapObjects", "Comments", value);
-                }
-            }
-        }
-        /// <summary>
-        /// There are no comments for User in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_MapObjects_Users", "Users")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public User User
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "Users").Value;
-            }
-            set
-            {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "Users").Value = value;
-            }
-        }
-        /// <summary>
-        /// There are no comments for User in the schema.
-        /// </summary>
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<User> UserReference
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "Users");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "Users", value);
-                }
-            }
-        }
-        /// <summary>
-        /// There are no comments for Tags in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_TaggedObjectTag", "Tags")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<Tag> Tags
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Tag>("TimerouModel.FK_TaggedObjectTag", "Tags");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Tag>("TimerouModel.FK_TaggedObjectTag", "Tags", value);
-                }
-            }
-        }
-    }
-    /// <summary>
     /// There are no comments for TimerouModel.Tag in the schema.
     /// </summary>
     /// <KeyProperties>
@@ -929,39 +491,39 @@ namespace Mumble.Timerou.Models
         partial void OnNameChanging(string value);
         partial void OnNameChanged();
         /// <summary>
-        /// There are no comments for MapObject in the schema.
+        /// There are no comments for Media in the schema.
         /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_TaggedObjectTag", "MapObjects")]
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_TaggedObjectTag", "Media")]
         [global::System.Xml.Serialization.XmlIgnoreAttribute()]
         [global::System.Xml.Serialization.SoapIgnoreAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public MapObject MapObject
+        public Media Media
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<MapObject>("TimerouModel.FK_TaggedObjectTag", "MapObjects").Value;
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Media>("TimerouModel.FK_TaggedObjectTag", "Media").Value;
             }
             set
             {
-                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<MapObject>("TimerouModel.FK_TaggedObjectTag", "MapObjects").Value = value;
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Media>("TimerouModel.FK_TaggedObjectTag", "Media").Value = value;
             }
         }
         /// <summary>
-        /// There are no comments for MapObject in the schema.
+        /// There are no comments for Media in the schema.
         /// </summary>
         [global::System.ComponentModel.BrowsableAttribute(false)]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityReference<MapObject> MapObjectReference
+        public global::System.Data.Objects.DataClasses.EntityReference<Media> MediaReference
         {
             get
             {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<MapObject>("TimerouModel.FK_TaggedObjectTag", "MapObjects");
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<Media>("TimerouModel.FK_TaggedObjectTag", "Media");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<MapObject>("TimerouModel.FK_TaggedObjectTag", "MapObjects", value);
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<Media>("TimerouModel.FK_TaggedObjectTag", "Media", value);
                 }
             }
         }
@@ -1226,27 +788,6 @@ namespace Mumble.Timerou.Models
             }
         }
         /// <summary>
-        /// There are no comments for MapObjects in the schema.
-        /// </summary>
-        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_MapObjects_Users", "MapObjects")]
-        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
-        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
-        [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public global::System.Data.Objects.DataClasses.EntityCollection<MapObject> MapObjects
-        {
-            get
-            {
-                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<MapObject>("TimerouModel.FK_MapObjects_Users", "MapObjects");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<MapObject>("TimerouModel.FK_MapObjects_Users", "MapObjects", value);
-                }
-            }
-        }
-        /// <summary>
         /// There are no comments for Groups in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "GroupUser", "Groups")]
@@ -1267,6 +808,485 @@ namespace Mumble.Timerou.Models
                 }
             }
         }
+        /// <summary>
+        /// There are no comments for Media in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_MapObjects_Users", "Media")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Media> Media
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Media>("TimerouModel.FK_MapObjects_Users", "Media");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Media>("TimerouModel.FK_MapObjects_Users", "Media", value);
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for TimerouModel.Media in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="TimerouModel", Name="Media")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    [global::System.Runtime.Serialization.KnownTypeAttribute(typeof(global::Mumble.Timerou.Models.Picture))]
+    [global::System.Runtime.Serialization.KnownTypeAttribute(typeof(global::Mumble.Timerou.Models.Video))]
+    public partial class Media : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new Media object.
+        /// </summary>
+        /// <param name="id">Initial value of Id.</param>
+        /// <param name="views">Initial value of Views.</param>
+        /// <param name="created">Initial value of Created.</param>
+        /// <param name="lat">Initial value of Lat.</param>
+        /// <param name="lng">Initial value of Lng.</param>
+        /// <param name="year">Initial value of Year.</param>
+        public static Media CreateMedia(global::System.Guid id, int views, global::System.DateTime created, double lat, double lng, int year)
+        {
+            Media media = new Media();
+            media.Id = id;
+            media.Views = views;
+            media.Created = created;
+            media.Lat = lat;
+            media.Lng = lng;
+            media.Year = year;
+            return media;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this.ReportPropertyChanging("Id");
+                this._Id = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Id");
+                this.OnIdChanged();
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property Views in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public int Views
+        {
+            get
+            {
+                return this._Views;
+            }
+            set
+            {
+                this.OnViewsChanging(value);
+                this.ReportPropertyChanging("Views");
+                this._Views = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Views");
+                this.OnViewsChanged();
+            }
+        }
+        private int _Views;
+        partial void OnViewsChanging(int value);
+        partial void OnViewsChanged();
+        /// <summary>
+        /// There are no comments for Property Created in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.DateTime Created
+        {
+            get
+            {
+                return this._Created;
+            }
+            set
+            {
+                this.OnCreatedChanging(value);
+                this.ReportPropertyChanging("Created");
+                this._Created = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Created");
+                this.OnCreatedChanged();
+            }
+        }
+        private global::System.DateTime _Created;
+        partial void OnCreatedChanging(global::System.DateTime value);
+        partial void OnCreatedChanged();
+        /// <summary>
+        /// There are no comments for Property Lat in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public double Lat
+        {
+            get
+            {
+                return this._Lat;
+            }
+            set
+            {
+                this.OnLatChanging(value);
+                this.ReportPropertyChanging("Lat");
+                this._Lat = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Lat");
+                this.OnLatChanged();
+            }
+        }
+        private double _Lat;
+        partial void OnLatChanging(double value);
+        partial void OnLatChanged();
+        /// <summary>
+        /// There are no comments for Property Lng in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public double Lng
+        {
+            get
+            {
+                return this._Lng;
+            }
+            set
+            {
+                this.OnLngChanging(value);
+                this.ReportPropertyChanging("Lng");
+                this._Lng = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Lng");
+                this.OnLngChanged();
+            }
+        }
+        private double _Lng;
+        partial void OnLngChanging(double value);
+        partial void OnLngChanged();
+        /// <summary>
+        /// There are no comments for Property Year in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public int Year
+        {
+            get
+            {
+                return this._Year;
+            }
+            set
+            {
+                this.OnYearChanging(value);
+                this.ReportPropertyChanging("Year");
+                this._Year = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("Year");
+                this.OnYearChanged();
+            }
+        }
+        private int _Year;
+        partial void OnYearChanging(int value);
+        partial void OnYearChanged();
+        /// <summary>
+        /// There are no comments for Property Country in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Country
+        {
+            get
+            {
+                return this._Country;
+            }
+            set
+            {
+                this.OnCountryChanging(value);
+                this.ReportPropertyChanging("Country");
+                this._Country = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Country");
+                this.OnCountryChanged();
+            }
+        }
+        private string _Country;
+        partial void OnCountryChanging(string value);
+        partial void OnCountryChanged();
+        /// <summary>
+        /// There are no comments for Property CountryCode in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string CountryCode
+        {
+            get
+            {
+                return this._CountryCode;
+            }
+            set
+            {
+                this.OnCountryCodeChanging(value);
+                this.ReportPropertyChanging("CountryCode");
+                this._CountryCode = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("CountryCode");
+                this.OnCountryCodeChanged();
+            }
+        }
+        private string _CountryCode;
+        partial void OnCountryCodeChanging(string value);
+        partial void OnCountryCodeChanged();
+        /// <summary>
+        /// There are no comments for Property PostalCode in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string PostalCode
+        {
+            get
+            {
+                return this._PostalCode;
+            }
+            set
+            {
+                this.OnPostalCodeChanging(value);
+                this.ReportPropertyChanging("PostalCode");
+                this._PostalCode = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("PostalCode");
+                this.OnPostalCodeChanged();
+            }
+        }
+        private string _PostalCode;
+        partial void OnPostalCodeChanging(string value);
+        partial void OnPostalCodeChanged();
+        /// <summary>
+        /// There are no comments for Property City in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string City
+        {
+            get
+            {
+                return this._City;
+            }
+            set
+            {
+                this.OnCityChanging(value);
+                this.ReportPropertyChanging("City");
+                this._City = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("City");
+                this.OnCityChanged();
+            }
+        }
+        private string _City;
+        partial void OnCityChanging(string value);
+        partial void OnCityChanged();
+        /// <summary>
+        /// There are no comments for Property Region in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Region
+        {
+            get
+            {
+                return this._Region;
+            }
+            set
+            {
+                this.OnRegionChanging(value);
+                this.ReportPropertyChanging("Region");
+                this._Region = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Region");
+                this.OnRegionChanged();
+            }
+        }
+        private string _Region;
+        partial void OnRegionChanging(string value);
+        partial void OnRegionChanged();
+        /// <summary>
+        /// There are no comments for Property Address in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Address
+        {
+            get
+            {
+                return this._Address;
+            }
+            set
+            {
+                this.OnAddressChanging(value);
+                this.ReportPropertyChanging("Address");
+                this._Address = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Address");
+                this.OnAddressChanged();
+            }
+        }
+        private string _Address;
+        partial void OnAddressChanging(string value);
+        partial void OnAddressChanged();
+        /// <summary>
+        /// There are no comments for Property Province in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Province
+        {
+            get
+            {
+                return this._Province;
+            }
+            set
+            {
+                this.OnProvinceChanging(value);
+                this.ReportPropertyChanging("Province");
+                this._Province = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Province");
+                this.OnProvinceChanged();
+            }
+        }
+        private string _Province;
+        partial void OnProvinceChanging(string value);
+        partial void OnProvinceChanged();
+        /// <summary>
+        /// There are no comments for Property Title in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Title
+        {
+            get
+            {
+                return this._Title;
+            }
+            set
+            {
+                this.OnTitleChanging(value);
+                this.ReportPropertyChanging("Title");
+                this._Title = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Title");
+                this.OnTitleChanged();
+            }
+        }
+        private string _Title;
+        partial void OnTitleChanging(string value);
+        partial void OnTitleChanged();
+        /// <summary>
+        /// There are no comments for Property Body in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Body
+        {
+            get
+            {
+                return this._Body;
+            }
+            set
+            {
+                this.OnBodyChanging(value);
+                this.ReportPropertyChanging("Body");
+                this._Body = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Body");
+                this.OnBodyChanged();
+            }
+        }
+        private string _Body;
+        partial void OnBodyChanging(string value);
+        partial void OnBodyChanged();
+        /// <summary>
+        /// There are no comments for Comments in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_Comments_MapObjects", "Comment")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Comment> Comments
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Comment>("TimerouModel.FK_Comments_MapObjects", "Comment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Comment>("TimerouModel.FK_Comments_MapObjects", "Comment", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for User in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_MapObjects_Users", "User")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public User User
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "User").Value;
+            }
+            set
+            {
+                ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// There are no comments for User in the schema.
+        /// </summary>
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedReference<User>("TimerouModel.FK_MapObjects_Users", "User", value);
+                }
+            }
+        }
+        /// <summary>
+        /// There are no comments for Tags in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmRelationshipNavigationPropertyAttribute("TimerouModel", "FK_TaggedObjectTag", "Tag")]
+        [global::System.Xml.Serialization.XmlIgnoreAttribute()]
+        [global::System.Xml.Serialization.SoapIgnoreAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Data.Objects.DataClasses.EntityCollection<Tag> Tags
+        {
+            get
+            {
+                return ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.GetRelatedCollection<Tag>("TimerouModel.FK_TaggedObjectTag", "Tag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((global::System.Data.Objects.DataClasses.IEntityWithRelationships)(this)).RelationshipManager.InitializeRelatedCollection<Tag>("TimerouModel.FK_TaggedObjectTag", "Tag", value);
+                }
+            }
+        }
     }
     /// <summary>
     /// There are no comments for TimerouModel.Picture in the schema.
@@ -1277,7 +1297,7 @@ namespace Mumble.Timerou.Models
     [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="TimerouModel", Name="Picture")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class Picture : MapObject
+    public partial class Picture : Media
     {
         /// <summary>
         /// Create a new Picture object.
@@ -1370,18 +1390,18 @@ namespace Mumble.Timerou.Models
         partial void OnIsTempChanged();
     }
     /// <summary>
-    /// There are no comments for TimerouModel.HistoricEvent in the schema.
+    /// There are no comments for TimerouModel.Video in the schema.
     /// </summary>
     /// <KeyProperties>
     /// Id
     /// </KeyProperties>
-    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="TimerouModel", Name="HistoricEvent")]
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="TimerouModel", Name="Video")]
     [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
     [global::System.Serializable()]
-    public partial class HistoricEvent : MapObject
+    public partial class Video : Media
     {
         /// <summary>
-        /// Create a new HistoricEvent object.
+        /// Create a new Video object.
         /// </summary>
         /// <param name="id">Initial value of Id.</param>
         /// <param name="views">Initial value of Views.</param>
@@ -1389,16 +1409,39 @@ namespace Mumble.Timerou.Models
         /// <param name="lat">Initial value of Lat.</param>
         /// <param name="lng">Initial value of Lng.</param>
         /// <param name="year">Initial value of Year.</param>
-        public static HistoricEvent CreateHistoricEvent(global::System.Guid id, int views, global::System.DateTime created, double lat, double lng, int year)
+        public static Video CreateVideo(global::System.Guid id, int views, global::System.DateTime created, double lat, double lng, int year)
         {
-            HistoricEvent historicEvent = new HistoricEvent();
-            historicEvent.Id = id;
-            historicEvent.Views = views;
-            historicEvent.Created = created;
-            historicEvent.Lat = lat;
-            historicEvent.Lng = lng;
-            historicEvent.Year = year;
-            return historicEvent;
+            Video video = new Video();
+            video.Id = id;
+            video.Views = views;
+            video.Created = created;
+            video.Lat = lat;
+            video.Lng = lng;
+            video.Year = year;
+            return video;
         }
+        /// <summary>
+        /// There are no comments for Property Url in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Url
+        {
+            get
+            {
+                return this._Url;
+            }
+            set
+            {
+                this.OnUrlChanging(value);
+                this.ReportPropertyChanging("Url");
+                this._Url = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Url");
+                this.OnUrlChanged();
+            }
+        }
+        private string _Url;
+        partial void OnUrlChanging(string value);
+        partial void OnUrlChanged();
     }
 }

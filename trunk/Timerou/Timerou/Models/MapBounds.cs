@@ -9,14 +9,14 @@ namespace Mumble.Timerou.Models
     {
         public MapBounds()
         {
-            TopLeft = new LatLng();
-            BottomRight = new LatLng();
+            SouthWest = new LatLng();
+            NorthEast = new LatLng();
         }
 
-        public MapBounds(LatLng topLeft, LatLng bottomRight)
+        public MapBounds(LatLng southWest, LatLng northEast)
         {
-            TopLeft = topLeft;
-            BottomRight = bottomRight;
+            SouthWest = southWest;
+            NorthEast = northEast;
         }
 
         /// <summary>
@@ -27,10 +27,10 @@ namespace Mumble.Timerou.Models
         /// <returns></returns>
         public static MapBounds CreateFromPoint(LatLng center, double size)
         {
-            LatLng topLeft = new LatLng(center.Lat + size / 2.0, center.Lng - size / 2.0);
-            LatLng bottomRight = new LatLng(center.Lat - size / 2.0, center.Lng + size / 2.0);
+            LatLng southWest = new LatLng(center.Lat - size / 2.0, center.Lng - size / 2.0);
+            LatLng northEast = new LatLng(center.Lat + size / 2.0, center.Lng + size / 2.0);
 
-            return new MapBounds(topLeft, bottomRight);
+            return new MapBounds(southWest, northEast);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Mumble.Timerou.Models
         {
             get
             {
-                return (TopLeft.Lat - BottomRight.Lat);
+                return (NorthEast.Lat - SouthWest.Lat);
             }
         }
 
@@ -54,12 +54,12 @@ namespace Mumble.Timerou.Models
                 double width = 0d;
                 if (CrossMeridian)
                 {
-                    width = 180 - TopLeft.Lng;
-                    width += 180 - Math.Abs(BottomRight.Lng);
+                    width = 180 - SouthWest.Lng;
+                    width += 180 - Math.Abs(NorthEast.Lng);
                 }
                 else
                 {
-                    width = BottomRight.Lng - TopLeft.Lng;
+                    width = NorthEast.Lng - SouthWest.Lng;
                 }
 
                 return width;
@@ -74,10 +74,10 @@ namespace Mumble.Timerou.Models
             get
             {
                 double halfHeight = Height / 2d;
-                double centerLat = TopLeft.Lat + halfHeight;
+                double centerLat = SouthWest.Lat + halfHeight;
 
                 double halfWidth = Width / 2;
-                double centerLng = TopLeft.Lng + halfWidth;
+                double centerLng = SouthWest.Lng + halfWidth;
 
                 if (centerLng > 180) //Cross Meridian
                 {
@@ -96,11 +96,11 @@ namespace Mumble.Timerou.Models
         {
             get
             {
-                return TopLeft.Lng > BottomRight.Lng;
+                return SouthWest.Lng > NorthEast.Lng;
             }
         }
 
-        public LatLng TopLeft { get; set; }
-        public LatLng BottomRight { get; set; }
+        public LatLng SouthWest { get; set; }
+        public LatLng NorthEast { get; set; }
     }
 }

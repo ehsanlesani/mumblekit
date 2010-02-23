@@ -29,13 +29,13 @@ namespace Mumble.Timerou.Models.Managers
             int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            IQueryable<Picture> pictures = (from p in _container.MapObjects.Include("User").OfType<Picture>()
+            IQueryable<Picture> pictures = (from p in _container.Media.Include("User").OfType<Picture>()
                                             where (year.HasValue && p.Year == year)
                                             && p.IsTemp == false
-                                            && p.Lat <= bounds.TopLeft.Lat
-                                            && p.Lat >= bounds.BottomRight.Lat
-                                            && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
-                                               || (!crossMeridian && (p.Lng >= bounds.TopLeft.Lng && p.Lng <= bounds.BottomRight.Lng)))
+                                            && p.Lat >= bounds.SouthWest.Lat
+                                            && p.Lat <= bounds.NorthEast.Lat
+                                            && ((crossMeridian && (p.Lng >= bounds.SouthWest.Lng || p.Lng <= bounds.NorthEast.Lng))
+                                               || (!crossMeridian && (p.Lng >= bounds.SouthWest.Lng && p.Lng <= bounds.NorthEast.Lng)))
                                             orderby p.Year, p.Views, p.Created descending
                                             select p);
 
@@ -71,14 +71,14 @@ namespace Mumble.Timerou.Models.Managers
             int picturesPerYear = Int32.Parse(ConfigurationManager.AppSettings["PicturesPerYear"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            var yearGroupedPicturesList = (from p in _container.MapObjects.Include("User").OfType<Picture>()
+            var yearGroupedPicturesList = (from p in _container.Media.Include("User").OfType<Picture>()
                                            where startYear <= p.Year
                                            && stopYear >= p.Year
                                            && p.IsTemp == false
-                                           && p.Lat <= bounds.TopLeft.Lat
-                                           && p.Lat >= bounds.BottomRight.Lat
-                                           && ((crossMeridian && (p.Lng >= bounds.TopLeft.Lng || p.Lng <= bounds.BottomRight.Lng))
-                                              || (!crossMeridian && (p.Lng >= bounds.TopLeft.Lng && p.Lng <= bounds.BottomRight.Lng)))
+                                           && p.Lat >= bounds.SouthWest.Lat
+                                           && p.Lat <= bounds.NorthEast.Lat
+                                           && ((crossMeridian && (p.Lng >= bounds.SouthWest.Lng || p.Lng <= bounds.NorthEast.Lng))
+                                              || (!crossMeridian && (p.Lng >= bounds.SouthWest.Lng && p.Lng <= bounds.NorthEast.Lng)))
                                            orderby p.Year, p.Views, p.Created descending
                                            group p by p.Year
                                                into yearGroup
@@ -104,12 +104,12 @@ namespace Mumble.Timerou.Models.Managers
             int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
             var crossMeridian = searchBounds.CrossMeridian;
 
-            var pictures = (from p in _container.MapObjects.OfType<Picture>()
-                            where p.Lat <= searchBounds.TopLeft.Lat
-                            && p.Lat >= searchBounds.BottomRight.Lat
+            var pictures = (from p in _container.Media.OfType<Picture>()
+                            where p.Lat >= searchBounds.SouthWest.Lat
+                            && p.Lat <= searchBounds.NorthEast.Lat
                             && p.IsTemp == false
-                            && ((crossMeridian && (p.Lng >= searchBounds.TopLeft.Lng || p.Lng <= searchBounds.BottomRight.Lng))
-                               || (!crossMeridian && (p.Lng >= searchBounds.TopLeft.Lng && p.Lng <= searchBounds.BottomRight.Lng)))
+                            && ((crossMeridian && (p.Lng >= searchBounds.SouthWest.Lng || p.Lng <= searchBounds.NorthEast.Lng))
+                               || (!crossMeridian && (p.Lng >= searchBounds.SouthWest.Lng && p.Lng <= searchBounds.NorthEast.Lng)))
                             orderby p.Year, p.Views, p.Created descending
                             select p).Take(limit);
 

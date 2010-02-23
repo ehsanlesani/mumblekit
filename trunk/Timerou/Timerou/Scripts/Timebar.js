@@ -1,12 +1,10 @@
 ﻿/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
 /// <reference path="Url.js" />
-/// <reference path="MapCom.js" />
 /// <reference path="Utils.js" />
 
-function Timebar(mapCom) {
+function Timebar() {
     var self = this;
 
-    this.mapCom = mapCom;
     this.yearsPositions = [];
     this.lastYear = new Date().getFullYear();
     this.firstYear = 0;
@@ -17,32 +15,45 @@ function Timebar(mapCom) {
     this.stepMargin = this.minStepDistance / 2;
     this.currentStepsContainer = null;
     this.barWidth = 0;
-    this.travelDuration = 5000;
+    this.travelDuration = 1000;
     this.movementEnabled = true;
     this.mapMoveTimer = null;
-
-    $(MapCom).bind("mapReady", function() {
-        self.initialize();
-        self.loadPictures();
-    });
+    this.bounds = null;
 }
 
+Timebar.YEAR_CHANGED = "yearChanged";
+
 Timebar.prototype = {
-    initialize: function() {
-        this._setupInterface();
+    initialize: function(year) {
+        if (!Utils.isNullOrUndef(year)) { this.year = year; }
+
+        this._setupInterface(true);
         this._resetStepsContainer();
         this._drawSteps(this.currentStepsContainer);
         this._drawYears(this.currentStepsContainer);
-        this.setYear(new Date().getFullYear());
+        this.setYear(this.year, true);
 
         this._setupEvents();
     },
 
-    setYear: function(year) {
+    getYear: function() {
+        return this.year;
+    },
+
+    setYear: function(year, forceReload) {
+        if(Utils.isNullOrUndef(forceReload)) { forceReload = false; }
+        if (this.year == year && !forceReload) { return; }
+
         this.year = year;
-        var x = this._getYearPosition(year) - $("#timebar .bar .pointer").width() / 2;
-        MapCom.setYear(year);
-        $("#timebar .bar .pointer").animate({ "left": x + "px" });
+        $(this).trigger(Timebar.YEAR_CHANGED);
+
+        if (year >= this.firstYear && year <= this.lastYear) {
+            $("#timebar .bar .pointer:hidden").fadeIn(250);
+            var x = this._getYearPosition(year) - $("#timebar .bar .pointer").width() / 2;
+            $("#timebar .bar .pointer").animate({ "left": x + "px" });
+        } else {
+            $("#timebar .bar .pointer:visible").fadeOut(250);
+        }
     },
 
     goBack: function() {
@@ -61,7 +72,8 @@ Timebar.prototype = {
         this.currentStepsContainer = newStepsContainer;
         $(newStepsContainer).animate({ left: "0px" }, this.travelDuration, "swing", function() { self._enableMoveButtons(); });
         $(lastStepsContainer).animate({ left: this.barWidth + "px" }, this.travelDuration, "swing", function() { $(lastStepsContainer).remove(); });
-        this.setYear(this.lastYear);
+        this.setYear(this.year);
+        this.loadPictures();
     },
 
     goForward: function() {
@@ -80,11 +92,21 @@ Timebar.prototype = {
         this.currentStepsContainer = newStepsContainer;
         $(newStepsContainer).animate({ left: "0px" }, this.travelDuration, "swing", function() { self._enableMoveButtons(); });
         $(lastStepsContainer).animate({ left: this.barWidth * -1 + "px" }, this.travelDuration, "swing", function() { $(lastStepsContainer).remove(); });
-        this.setYear(this.lastYear);
+        this.setYear(this.year);
+        this.loadPictures();
+    },
+
+    setBounds: function(bounds) {
+        this.bounds = bounds;
     },
 
     loadPictures: function() {
-        var bounds = MapCom.getMapBounds();
+        if (Utils.isNullOrUndef(this.bounds)) {
+            alert("loadPictures require mapBounds");
+            return;
+        }
+
+        var bounds = this.bounds;
 
         var self = this;
         //clear all existent pictures
@@ -92,10 +114,10 @@ Timebar.prototype = {
 
         $("#timebar .barLoading").show();
         $.post(Url.LoadOnePicturePerYear, {
-            lat1: bounds.lat1,
-            lng1: bounds.lng1,
-            lat2: bounds.lat2,
-            lng2: bounds.lng2,
+            swlat: bounds.swlat,
+            swlng: bounds.swlng,
+            nelat: bounds.nelat,
+            nelng: bounds.nelng,
             startYear: this.firstYear,
             stopYear: this.lastYear
         }, function(response) {
@@ -164,10 +186,6 @@ Timebar.prototype = {
         $("#timebar .backButton").click(function() { self.goBack(); });
         $("#timebar .forwardButton").click(function() { self.goForward(); });
 
-        $(MapCom).bind("mapMoveEnd", function() {
-            self.loadPicturesTimeSafe();
-        });
-
         $(window).resize(function() {
             self._resetStepsContainer();
             self._clearPictures();
@@ -187,7 +205,7 @@ Timebar.prototype = {
         $("#timebar .bar").append(this.currentStepsContainer);
     },
 
-    _setupInterface: function() {
+    _setupInterface: function(initialize) {
         this.yearPositions = [];
 
         //get bar width
@@ -197,6 +215,11 @@ Timebar.prototype = {
         this.numberOfSteps--;
         this.stepMargin = this.stepDistance / 2;
 
+        if (!Utils.isNullOrUndef(initialize) && initialize) {
+            var max = new Date().getFullYear();
+            var mod = (max - this.year) % this.numberOfSteps;
+            this.lastYear = this.year + mod;
+        }
         this.firstYear = this.lastYear - this.numberOfSteps + 1;
 
         for (var i = 0; i < this.numberOfSteps; i++) {
