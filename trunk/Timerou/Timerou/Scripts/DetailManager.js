@@ -59,29 +59,37 @@ DetailManager.prototype = {
             }
 
             //add navigation buttons
+            var previousButton = $("<a />")
+                .attr("href", "javascript:;")
+                .addClass("previous");
+
             if (self.page > 1) {
-                $("#navigation")
-                    .append($("<a />")
-                        .attr("href", "javascript:;")
-                        .addClass("previous")
-                        .click(function() {
-                            self.page--;
-                            self.loadMedias();
-                        })
-                );
+                previousButton.css("opacity", 1);
+                previousButton.click(function() {
+                    self.page--;
+                    self.loadMedias();
+                });
+            } else {
+                previousButton.css("opacity", 0.5);
             }
 
+            $("#navigation").append(previousButton);
+
+            var nextButton = $("<a />")
+                .attr("href", "javascript:;")
+                .addClass("next");
+
             if (self.totalMedias > self.page * self.pageSize) {
-                $("#navigation")
-                    .append($("<a />")
-                        .attr("href", "javascript:;")
-                        .addClass("next")
-                        .click(function() {
-                            self.page++;
-                            self.loadMedias();
-                        })
-                );
+                nextButton.css("opacity", 1);
+                nextButton.click(function() {
+                    self.page++;
+                    self.loadMedias();
+                });
+            } else {
+                nextButton.css("opacity", 0.5);
             }
+
+            $("#navigation").append(nextButton);            
 
             if (!Utils.isNullOrUndef(callback)) {
                 callback();
@@ -213,7 +221,7 @@ DetailManager.prototype = {
         google.maps.event.addListener(this.map, "bounds_changed", function() {
             google.maps.event.clearListeners(self.map, "bounds_changed");
             //adjust zoom level after use of fitBounds
-            self.map.setZoom(self.map.getZoom() + 1);
+            //self.map.setZoom(self.map.getZoom() + 1);
 
             self._onMapReady();
         });
