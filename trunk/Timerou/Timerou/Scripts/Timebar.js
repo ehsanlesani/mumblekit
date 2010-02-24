@@ -189,7 +189,7 @@ Timebar.prototype = {
         $("#timebar .backButton").click(function() { self.goBack(); });
         $("#timebar .forwardButton").click(function() { self.goForward(); });
 
-        $(window).resize(function() {
+        /*$(window).resize(function() {
             self._resetStepsContainer();
             self._clearMedias();
             self._setupInterface(self.currentStepsContainer);
@@ -197,7 +197,7 @@ Timebar.prototype = {
             self._drawYears(self.currentStepsContainer);
             self.loadMediasTimeSafe();
             self.goToYear(self.year);
-        });
+        });*/
     },
 
     _resetStepsContainer: function() {

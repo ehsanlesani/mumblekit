@@ -18,7 +18,7 @@ namespace Mumble.Timerou.Models
         /// <returns></returns>
         public static ActionResult CamelCaseJson(this Controller controller, object data)
         {
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+            string json = JsonConvert.SerializeObject(data, Formatting.None, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
             return new ContentResult() { Content = json, ContentType = "application/json" };
         }
 
