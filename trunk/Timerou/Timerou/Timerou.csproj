@@ -88,11 +88,13 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\ControllerExtension.cs" />
+    <Compile Include="Models\Exceptions\MediaNotFoundException.cs" />
     <Compile Include="Models\Exceptions\PropertyNotFoundException.cs" />
     <Compile Include="Models\LatLng.cs" />
     <Compile Include="Models\Managers\MediaLoader.cs" />
     <Compile Include="Models\MapBounds.cs" />
     <Compile Include="Models\MapObject.cs" />
+    <Compile Include="Models\Responses\LoadMediaResponse.cs" />
     <Compile Include="Models\Responses\PictureData.cs" />
     <Compile Include="Models\Responses\VideoData.cs" />
     <Compile Include="Models\Responses\YearGroupedMediasData.cs" />
@@ -187,9 +189,12 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TimerouContainer.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Content\Css\Details.css" />
     <Content Include="Content\Css\Timebar.css" />
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\search.png" />
+    <Content Include="Content\Images\nextPage.png" />
+    <Content Include="Content\Images\previousPage.png" />
     <Content Include="Content\Timebar\back.png" />
     <Content Include="Content\Timebar\bar.png" />
     <Content Include="Content\Timebar\begin.png" />

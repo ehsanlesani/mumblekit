@@ -78,6 +78,9 @@ Timebar.prototype = {
 
     goForward: function() {
         if (!this.movementEnabled) { return; }
+        if (this.lastYear == new Date().getFullYear()) {
+            return;
+        }
 
         var self = this;
         self._disableMoveButtons();
