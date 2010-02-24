@@ -16,7 +16,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_TaggedObjectTag", "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.Media), "Tag", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Tag))]
 
 // Original file name:
-// Generation date: 23/02/2010 19:59:11
+// Generation date: 24/02/2010 22:16:02
 namespace Mumble.Timerou.Models
 {
     
@@ -111,20 +111,20 @@ namespace Mumble.Timerou.Models
         }
         private global::System.Data.Objects.ObjectQuery<User> _Users;
         /// <summary>
-        /// There are no comments for Media in the schema.
+        /// There are no comments for Medias in the schema.
         /// </summary>
-        public global::System.Data.Objects.ObjectQuery<Media> Media
+        public global::System.Data.Objects.ObjectQuery<Media> Medias
         {
             get
             {
-                if ((this._Media == null))
+                if ((this._Medias == null))
                 {
-                    this._Media = base.CreateQuery<Media>("[Media]");
+                    this._Medias = base.CreateQuery<Media>("[Medias]");
                 }
-                return this._Media;
+                return this._Medias;
             }
         }
-        private global::System.Data.Objects.ObjectQuery<Media> _Media;
+        private global::System.Data.Objects.ObjectQuery<Media> _Medias;
         /// <summary>
         /// There are no comments for Comments in the schema.
         /// </summary>
@@ -154,11 +154,11 @@ namespace Mumble.Timerou.Models
             base.AddObject("Users", user);
         }
         /// <summary>
-        /// There are no comments for Media in the schema.
+        /// There are no comments for Medias in the schema.
         /// </summary>
-        public void AddToMedia(Media media)
+        public void AddToMedias(Media media)
         {
-            base.AddObject("Media", media);
+            base.AddObject("Medias", media);
         }
     }
     /// <summary>

@@ -8,6 +8,7 @@ using Mumble.Timerou.Models.Auth;
 using Mumble.Timerou.Models.Managers;
 using Mumble.Timerou.Models;
 using Mumble.Timerou.Models.Responses;
+using Mumble.Timerou.Models.Exceptions;
 
 namespace Mumble.Timerou.Controllers
 {
@@ -20,11 +21,11 @@ namespace Mumble.Timerou.Controllers
         {
             try
             {
-                MediaLoader mapManager = new MediaLoader(Container);
+                MediaLoader mediaLoader = new MediaLoader(Container);
 
                 int totalCount = 0;
                 MapBounds mapBounds = new MapBounds(new LatLng(swlat.Value, swlng.Value), new LatLng(nelat.Value, nelng.Value));
-                IEnumerable<Media> media = mapManager.LoadMedia(mapBounds, year, page, pageSize, out totalCount);
+                IEnumerable<Media> media = mediaLoader.LoadMedias(mapBounds, year, page, pageSize, out totalCount);
                 LoadMediasResponse response = LoadMediasResponse.FromList(media);
                 response.TotalCount = totalCount;
 
@@ -45,11 +46,35 @@ namespace Mumble.Timerou.Controllers
             try
             {
                 MapBounds mapBounds = new MapBounds(new LatLng(swlat.Value, swlng.Value), new LatLng(nelat.Value, nelng.Value));
-                MediaLoader mapManager = new MediaLoader(Container);
-                IEnumerable<YearGroupedMedias> groupedMedia = mapManager.LoadOneMediaPerYear(mapBounds, startYear.Value, stopYear.Value);
+                MediaLoader mediaLoader = new MediaLoader(Container);
+                IEnumerable<YearGroupedMedias> groupedMedia = mediaLoader.LoadOneMediaPerYear(mapBounds, startYear.Value, stopYear.Value);
                 YearGroupedMediasResponse response = YearGroupedMediasResponse.FromList(groupedMedia);
 
                 return this.CamelCaseJson(response);
+            }
+            catch (Exception ex)
+            {
+                return this.CamelCaseJson(new SimpleResponse(true, ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Load single media by id
+        /// </summary>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult LoadMedia(Guid id)
+        {
+            try
+            {
+                MediaLoader mediaLoader = new MediaLoader(Container);
+                Media media = mediaLoader.LoadMedia(id);
+                LoadMediaResponse response = LoadMediaResponse.FromMedia(media);
+
+                return this.CamelCaseJson(response);
+            }
+            catch (MediaNotFoundException ex)
+            {
+                return this.CamelCaseJson(new SimpleResponse(true, String.Format("Media with id {0} not found", ex.MediaId)));
             }
             catch (Exception ex)
             {

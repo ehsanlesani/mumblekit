@@ -17,17 +17,7 @@ namespace Mumble.Timerou.Controllers
         {
             ViewData["Bounds"] = bounds;
             ViewData["Year"] = year.HasValue ? year.Value : DateTime.Now.Year;
-            double mapWidth = Double.Parse(ConfigurationManager.AppSettings["MiniMapWidth"]);
-            ViewData["MapWidth"] = mapWidth;
-            if (r.HasValue)
-            {
-                ViewData["MapHeight"] = mapWidth / r;
-            }
-            else
-            {
-                ViewData["MapHeight"] = mapWidth;
-            }
-
+            
             return View();
         }
 

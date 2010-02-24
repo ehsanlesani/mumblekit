@@ -10,6 +10,7 @@ Url.AccountCulture = BASEURL + "Account.aspx/ChangeCulture";
 
 Url.LoadOneMediaPerYear = BASEURL + "MediaLoader.aspx/LoadOneMediaPerYear";
 Url.LoadMedias = BASEURL + "MediaLoader.aspx/LoadMedias"
+Url.LoadMedia = BASEURL + "MediaLoader.aspx/LoadMedia"
 
 Url.Location = "Location.aspx/"
 

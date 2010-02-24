@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Configuration;
+using Mumble.Timerou.Models.Exceptions;
 
 namespace Mumble.Timerou.Models.Managers
 {
@@ -24,12 +25,12 @@ namespace Mumble.Timerou.Models.Managers
         /// <param name="bounds"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public IEnumerable<Media> LoadMedia(MapBounds bounds, int? year, int? page, int? pageSize, out int totalCount)
+        public IEnumerable<Media> LoadMedias(MapBounds bounds, int? year, int? page, int? pageSize, out int totalCount)
         {
             int limit = Int32.Parse(ConfigurationManager.AppSettings["MediaLimit"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            IQueryable<Media> media = (from m in _container.Media.Include("User")
+            IQueryable<Media> media = (from m in _container.Medias.Include("User")
                                             where (year.HasValue && m.Year == year)
                                             && m.IsTemp == false
                                             && m.Lat >= bounds.SouthWest.Lat
@@ -71,7 +72,7 @@ namespace Mumble.Timerou.Models.Managers
             int mediaPerYear = Int32.Parse(ConfigurationManager.AppSettings["MediaPerYear"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            var yearGroupedMediaList = (from m in _container.Media.Include("User")
+            var yearGroupedMediaList = (from m in _container.Medias.Include("User")
                                            where startYear <= m.Year
                                            && m.IsTemp == false
                                            && stopYear >= m.Year
@@ -104,7 +105,7 @@ namespace Mumble.Timerou.Models.Managers
             int limit = Int32.Parse(ConfigurationManager.AppSettings["PicturesLimit"]);
             var crossMeridian = searchBounds.CrossMeridian;
 
-            var pictures = (from p in _container.Media.OfType<Picture>()
+            var pictures = (from p in _container.Medias.OfType<Picture>()
                             where p.Lat >= searchBounds.SouthWest.Lat
                             && p.Lat <= searchBounds.NorthEast.Lat
                             && p.IsTemp == false
@@ -114,6 +115,22 @@ namespace Mumble.Timerou.Models.Managers
                             select p).Take(limit);
 
             return pictures;
+        }
+
+        /// <summary>
+        /// Load single media by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Media LoadMedia(Guid id)
+        {
+            Media media = _container.Medias.Where(m => m.Id == id).FirstOrDefault();
+            if (media == null)
+            {
+                throw new MediaNotFoundException(id);
+            }
+
+            return media;
         }
     }
 }

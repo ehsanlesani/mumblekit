@@ -244,15 +244,15 @@
             <End Role="Groups" EntitySet="Groups" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="Media" EntityType="TimerouModel.Media" />
+          <EntitySet Name="Medias" EntityType="TimerouModel.Media" />
           <AssociationSet Name="FK_Comments_MapObjects" Association="TimerouModel.FK_Comments_MapObjects">
-            <End Role="Media" EntitySet="Media" />
+            <End Role="Media" EntitySet="Medias" />
             <End Role="Comment" EntitySet="Comments" /></AssociationSet>
           <AssociationSet Name="FK_MapObjects_Users" Association="TimerouModel.FK_MapObjects_Users">
             <End Role="User" EntitySet="Users" />
-            <End Role="Media" EntitySet="Media" /></AssociationSet>
+            <End Role="Media" EntitySet="Medias" /></AssociationSet>
           <AssociationSet Name="FK_TaggedObjectTag" Association="TimerouModel.FK_TaggedObjectTag">
-            <End Role="Media" EntitySet="Media" />
+            <End Role="Media" EntitySet="Medias" />
             <End Role="Tag" EntitySet="Tags" /></AssociationSet>
           </EntityContainer>
         <EntityType Name="Comment">
@@ -403,7 +403,7 @@
               <ScalarProperty Name="Id" ColumnName="Users_Id" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Media">
+          <EntitySetMapping Name="Medias">
             <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Media)">
               <MappingFragment StoreEntitySet="Media">
                 <ScalarProperty Name="IsTemp" ColumnName="IsTemp" />

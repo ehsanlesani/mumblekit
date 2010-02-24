@@ -15,43 +15,19 @@
 
         $(document).ready(function() {
             var detailManager = new DetailManager(bounds, year);
+            detailManager.loadMedias();
         });
     </script>
     
     <link href="../../Content/Css/Timebar.css" rel="stylesheet" type="text/css" />
-    
-    <style type="text/css">
-        #navigation a:link, #navigation a:visited, #navigation a:hover
-        {
-            height: 50px;
-            width: 50px;
-            padding: 2px;
-            border: solid 1px #CCCCCC;
-            display: block;
-            float: left;
-            margin-right: 3px;
-        }
-        
-        #navigation a img
-        {
-            height: 50px;
-            width: 50px;
-            border: 0px;
-        }
-        
-        #navigation 
-        {
-            margin-bottom: 5px;
-        }
-    </style>
+    <link href="../../Content/Css/Details.css" rel="stylesheet" type="text/css" />
     
     <div class="span-24 last">
         <div id="path"></div>
         <% Html.RenderPartial("TimebarMarkup"); %>
     </div>
-    <div id="navigation" class="span-24"></div>
     <div style="clear: both;"></div>
-    <div id="title"></div>
+    <div id="title" class="title"></div>
     <div class="span-16">
         <div id="mediaArea">
             <div id="mediaContainer"></div>
@@ -60,12 +36,49 @@
     
     <div class="span-8 last">
         <div id="minimapArea">
-            <div id="map" style='width: <%= ViewData["MapWidth"] %>px; height: <%= ViewData["MapHeight"] %>px; margin-left: auto;'></div>
+            <div id="map" style='width: 300px; height: 250px; margin-left: auto;'></div>
         </div>
-        <div id="locationRelatedContainer"></div>
-        <div id="userRelatedContainer"></div>
+        <div id="navigation" style="width: 300px; margin-left: auto;"></div>
     </div>    
-    <div id="body" class="span-24 last"></div>
+    <div class="span-24 last">
+        <div id="body" class="body"></div>
+    </div>
+    
+    <hr />
+    
+    <div id="comments" class="span-24 last">
+        <h2>Comments</h2>
+    
+        <div class="box comment">
+            <div class="text">
+                Il fatto che stia scritto sulla licenza d'uso evidenzia a maggior ragione il nocciolo del problema: tutti noi facciamo un gran parlare di libertà della rete, salvo poi cascare come le classiche pere dagli alberi ogni qual volta si presentano i fatti a sbatterci sul muso che è solo una libertà condizionata.
+                È la facilità disarmante con cui i provider fanno pulizia di qualunque contenuto che deve far riflettere. Se nell'era dell'informazione cancellare le persone è ad un clic di distanza, il dito su quel mouse è più potente di quello che teneva il manganello 80 anni fa.
+            </div>
+            <div class="author"> 10 feb 2010 | Bruno Fortunato </div>
+        </div>
+        
+        <div class="box comment">
+            <div class="text">
+                Il fatto che stia scritto sulla licenza d'uso evidenzia a maggior ragione il nocciolo del problema: tutti noi facciamo un gran parlare di libertà della rete, salvo poi cascare come le classiche pere dagli alberi ogni qual volta si presentano i fatti a sbatterci sul muso che è solo una libertà condizionata.
+                È la facilità disarmante con cui i provider fanno pulizia di qualunque contenuto che deve far riflettere. Se nell'era dell'informazione cancellare le persone è ad un clic di distanza, il dito su quel mouse è più potente di quello che teneva il manganello 80 anni fa.
+            </div>
+            <div class="author"> 10 feb 2010 | Bruno Fortunato </div>
+        </div>
+    </div>
+    <div id="newComment" class="span-24 last">
+        <form method="post" action="#">
+            <fieldset>
+                <legend>Post a comment</legend>
+                <div id="resultDiv"></div>
+                <p>
+                    <textarea id="comment"></textarea>
+                </p>
+                <p>
+                    <input type="button" value="Post" />
+                </p>
+            </fieldset>
+        </form>
+    </div>
     
 
 </asp:Content>

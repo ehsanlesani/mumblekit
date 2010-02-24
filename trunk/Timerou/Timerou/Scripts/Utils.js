@@ -22,8 +22,21 @@ Utils.showInfo = function(message) {
     actionBox.center();
 };
 
-Utils.boundsToString = function(bounds) {
-    return bounds.swlat + "," + bounds.swlng + "," + bounds.nelat + "," + bounds.nelng;
+Utils.boundsToString = function(bounds, precision) {
+    var swlat = bounds.swlat;
+    var swlng = bounds.swlng;
+    var nelat = bounds.nelat;
+    var nelng = bounds.nelng;
+    
+    if(!Utils.isNullOrUndef(precision)) {
+        var multiplier = Math.pow(10, precision);
+        swlat = Math.round(swlat * multiplier) / multiplier;
+        swlng = Math.round(swlng * multiplier) / multiplier;
+        nelat = Math.round(nelat * multiplier) / multiplier;
+        nelng = Math.round(nelng * multiplier) / multiplier;
+    }
+    
+    return swlat + "," + swlng + "," + nelat + "," + nelng;
 };
 
 Utils.stringToBounds = function(string) {

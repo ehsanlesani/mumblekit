@@ -7,18 +7,18 @@ function DetailManager(bounds, year) {
     this.map = null;
     this.bounds = Utils.stringToBounds(bounds);
     this.year = year;
-    this.pageSize = 15;
+    this.pageSize = 13;
     this.page = 1;
     this.medias = null;
     this.marker = null;
     this.totalMedias = 0;
+    this.displayedMedias = {};  //medias loader for browser back and forward button
 
     this.initialize();
 }
 
 DetailManager.prototype = {
     initialize: function() {
-        this._initializeTimebar();
         this._initializeMinimap();
         this._initializeNavigation();
     },
@@ -47,7 +47,40 @@ DetailManager.prototype = {
             $("#navigation").empty();
             for (var i = 0; i < self.medias.length; i++) {
                 var media = self.medias[i];
-                $("#navigation").append("<a href='#show|id=" + media.id + "'><img src='" + Url.Pictures + media.pictureData.avatarPath + "'/></a>");
+                $("#navigation")
+                    .append($("<a />")
+                        .attr("href", "#show|id=" + media.id + "")
+                        .addClass("media")
+                        .attr("id", media.id)
+                        .append($("<img />")
+                            .attr("src", Url.Pictures + media.pictureData.avatarPath)
+                        )
+                    );
+            }
+
+            //add navigation buttons
+            if (self.page > 1) {
+                $("#navigation")
+                    .append($("<a />")
+                        .attr("href", "javascript:;")
+                        .addClass("previous")
+                        .click(function() {
+                            self.page--;
+                            self.loadMedias();
+                        })
+                );
+            }
+
+            if (self.totalMedias > self.page * self.pageSize) {
+                $("#navigation")
+                    .append($("<a />")
+                        .attr("href", "javascript:;")
+                        .addClass("next")
+                        .click(function() {
+                            self.page++;
+                            self.loadMedias();
+                        })
+                );
             }
 
             if (!Utils.isNullOrUndef(callback)) {
@@ -57,14 +90,30 @@ DetailManager.prototype = {
         }, "json");
     },
 
+    loadMedia: function(id, callback) {
+        var self = this;
+
+        $.post(Url.LoadMedia, { id: id },
+            function(response) {
+                if (response.error) {
+                    Utils.showSiteError(response.message);
+                    return;
+                }
+                callback(response.media);
+            }, "json");
+    },
+
     getMediaById: function(id, callback) {
         var self = this;
-        if (this.medias == null) {
-            this.loadMedias(function() {
-                self.getMediaById(id, callback);
-            });
+
+        //search into cache
+        if (!Utils.isNullOrUndef(this.displayedMedias[id])) {
+            callback(this.displayedMedias[id]);
             return;
-        } else {
+        }
+
+        //next search in current loaded page
+        if (this.medias != null) {
             for (var m in this.medias) {
                 var media = this.medias[m];
                 if (media.id == id) {
@@ -74,7 +123,8 @@ DetailManager.prototype = {
             }
         }
 
-        callback(null);
+        //and finally try to load single media from server
+        this.loadMedia(id, callback);
     },
 
     displayMedia: function(id) {
@@ -86,6 +136,8 @@ DetailManager.prototype = {
                 return;
             }
 
+            self.displayedMedias[media.id] = media;
+
             if (media.type == "Picture") {
                 $("#mediaContainer")
                     .empty()
@@ -96,6 +148,8 @@ DetailManager.prototype = {
                 $("#title").html(media.title);
                 $("#address").html(media.address);
                 $("#body").html(media.body);
+                $(".media").removeClass("activeMedia");
+                $("#" + media.id).addClass("activeMedia");
 
                 if (self.marker != null) {
                     self.marker.setMap(null);
@@ -111,6 +165,10 @@ DetailManager.prototype = {
                 self.map.panTo(position);
             }
         });
+    },
+
+    setYear: function(year) {
+        this.year = year;
     },
 
     _initializeMinimap: function() {
@@ -135,19 +193,21 @@ DetailManager.prototype = {
 
         this.map.fitBounds(mapbounds);
 
-        bermudaTriangle = new google.maps.Polygon({
+        boundsQuad = new google.maps.Polygon({
             paths: [
                 mapbounds.getSouthWest(),
-                mapbounds.getNorthEast()
+                new google.maps.LatLng(mapbounds.getSouthWest().lat(), mapbounds.getNorthEast().lng()),
+                mapbounds.getNorthEast(),
+                new google.maps.LatLng(mapbounds.getNorthEast().lat(), mapbounds.getSouthWest().lng())
             ],
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.8,
+            strokeColor: "#8CC6FF",
+            strokeOpacity: 0.6,
             strokeWeight: 2,
-            fillColor: "#FF0000",
-            fillOpacity: 0.35
+            fillColor: "#8CC6FF",
+            fillOpacity: 0.2
         });
 
-        bermudaTriangle.setMap(this.map);
+        boundsQuad.setMap(this.map);
 
         //initialization
         google.maps.event.addListener(this.map, "bounds_changed", function() {
@@ -163,30 +223,28 @@ DetailManager.prototype = {
         var self = this;
         this.timebar = new Timebar();
 
+        this.timebar.initialize(this.year);
+        this.timebar.setBounds(this.bounds);
+        this.timebar.loadMedias();
+
         $(this.timebar).bind(Timebar.YEAR_CHANGED, function() {
             self.setYear(self.timebar.getYear());
+            self.page = 1;
             self.loadMedias(function() {
                 if (self.medias.length > 0) {
                     window.open("#show|id=" + self.medias[0].id, "_self");
                 }
             });
-
         });
     },
 
     _onMapReady: function() {
-        this.timebar.initialize(this.year);
-        this.timebar.setBounds(Utils.googleBoundsToBounds(this.map.getBounds()));
-        this.timebar.loadMedias();
+        this._initializeTimebar();
     },
 
     _initializeNavigation: function() {
         var navigation = new AjaxNavigation();
         navigation.addAction("show", new ShowMediaAction(this));
         navigation.start();
-    },
-
-    setYear: function(year) {
-        this.year = year;
     }
 }
