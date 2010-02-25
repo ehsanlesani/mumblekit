@@ -190,11 +190,13 @@
       <LastGenOutput>TimerouContainer.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="Content\Css\Details.css" />
+    <Content Include="Content\Css\MainPage.css" />
     <Content Include="Content\Css\Timebar.css" />
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\nextPage.png" />
     <Content Include="Content\Images\previousPage.png" />
+    <Content Include="Content\Images\whiteSpace.png" />
     <Content Include="Content\Timebar\back.png" />
     <Content Include="Content\Timebar\bar.png" />
     <Content Include="Content\Timebar\begin.png" />
@@ -210,6 +212,7 @@
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\DetailManager.js" />
     <Content Include="Scripts\FlashMapCom.js" />
+    <Content Include="Scripts\MediaNavigator.js" />
     <Content Include="Scripts\Timebar.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />

@@ -129,7 +129,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Url" Type="nvarchar(max)" />
+          <Property Name="YouTubeId" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <Association Name="FK_Comments_MapObjects">
           <End Role="Media" Type="TimerouModel.Store.Media" Multiplicity="1" />
@@ -330,8 +330,7 @@
           <Property Name="Width" Type="Int32" Nullable="true" />
           </EntityType>
         <EntityType Name="Video" BaseType="TimerouModel.Media">
-          <Property Name="Url" Type="String" Nullable="true" />
-          </EntityType>
+          <Property Name="YouTubeId" Type="String" Nullable="true" /></EntityType>
         <Association Name="FK_Comments_MapObjects">
           <End Type="TimerouModel.Media" Role="Media" Multiplicity="1" />
           <End Type="TimerouModel.Comment" Role="Comment" Multiplicity="*" /></Association>
@@ -423,8 +422,8 @@
                 <ScalarProperty Name="Views" ColumnName="Views" />
                 <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping><EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Video)">
               <MappingFragment StoreEntitySet="Videos">
+                <ScalarProperty Name="YouTubeId" ColumnName="YouTubeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
                 </MappingFragment></EntityTypeMapping><EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Picture)">
               <MappingFragment StoreEntitySet="Pictures">
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -493,9 +492,9 @@
           <ConnectorPoint PointX="7.375" PointY="5.922841796875" />
           <ConnectorPoint PointX="9.375" PointY="5.922841796875" />
           </AssociationConnector>
-        <InheritanceConnector EntityType="TimerouModel.Video">
-          <ConnectorPoint PointX="5.875" PointY="7.12205078125" />
-          <ConnectorPoint PointX="4.84375" PointY="7.12205078125" />
+        <InheritanceConnector EntityType="TimerouModel.Video" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.875" PointY="7.2182014973958326" />
+          <ConnectorPoint PointX="4.84375" PointY="7.2182014973958326" />
           <ConnectorPoint PointX="4.84375" PointY="8.5" /></InheritanceConnector>
         <InheritanceConnector EntityType="TimerouModel.Picture" ManuallyRouted="false">
           <ConnectorPoint PointX="6.5625" PointY="7.7975065104166656" />

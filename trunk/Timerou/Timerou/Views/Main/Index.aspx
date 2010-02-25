@@ -18,13 +18,13 @@
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>FlashMapCom.js" type="text/javascript"></script>   
     <script src="<%= UriHelper.Scripts %>Timebar.js" type="text/javascript"></script>
+    <script src="../../Scripts/MediaNavigator.js" type="text/javascript"></script>
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="../../Content/Css/Timebar.css" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
         var year = new Date().getFullYear();
-        var timebar = null;
 
         $(document).ready(function() {
 
@@ -45,78 +45,43 @@
                 }
             });
 
-            $(MapCom).bind("pictureClick", function(e, id) {
-                var bounds = Utils.boundsToString(MapCom.getMapBounds(), 2);
-                window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "#show|id=" + id);
-            });
-
-            timebar = new Timebar();
-
-            $(timebar).bind(Timebar.YEAR_CHANGED, function() {
-                MapCom.setYear(timebar.getYear());
-            });
+            var timebar = new Timebar();
+            var mediaNavigator = new MediaNavigator();
 
             $(MapCom).bind("mapReady", function() {
-                timebar.initialize();
+                timebar.initialize(year);
                 timebar.loadMediasTimeSafe();
+
+                mediaNavigator.initialize(year);
+                mediaNavigator.loadMediasTimeSafe();
             });
 
             $(MapCom).bind("mapMoveEnd", function() {
                 timebar.setBounds(MapCom.getMapBounds());
                 timebar.loadMediasTimeSafe();
+
+                mediaNavigator.setBounds(MapCom.getMapBounds());
+                mediaNavigator.loadMediasTimeSafe();
             });
 
+            $(mediaNavigator).bind(MediaNavigator.MEDIA_CLICK, function(e, mediaData) {
+                var bounds = Utils.boundsToString(MapCom.getMapBounds(), 2);
+                window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "#show|id=" + mediaData.id);
+            });
+
+            $(mediaNavigator).bind(MediaNavigator.MEDIA_HOVER, function(e, mediaData) {
+                MapCom.showPreview(mediaData);
+            });
+
+            $(mediaNavigator).bind(MediaNavigator.MEDIAS_LOADED, function(e, medias) {
+                MapCom.showMediaLocations(medias);
+            });
+
+            $("#mapMediasContainer").hover(function() { }, function() { MapCom.hidePreview(); });
         });
     </script>
-    
-    <style type="text/css">
-        html, body 
-        {
-            margin: 0px;
-            border: 0px;
-            height: 100%;
-            font-family: Verdana;
-        }
-        
-        .header 
-        {
-            height: 30px;
-            border-bottom: solid 2px #333333; 
-            padding: 5px;   
-        }
-        
-        .actions 
-        {
-            height: 25px;
-            border-bottom: solid 2px #333333; 
-            padding: 5px;
-        }
-        
-        .timebar 
-        {
-            height: 100px;
-            border-bottom: solid 2px #333333; 
-            padding: 5px;
-            text-align: center;
-            overflow:hidden;
-        }
-        
-        .title
-        {
-            font-size: 20px;
-        }
 
-        .mapContainer 
-        {
-            position:absolute;
-            top: 240px;
-            bottom: 0px;
-            left: 0px;
-            right: 0px;
-        }
-        
-            
-    </style>
+    <link href="../../Content/Css/MainPage.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="header">
@@ -136,5 +101,6 @@
     <div class="mapContainer">
         <% Html.RenderPartial("MapObject"); %>
     </div>
+    <div id="mapMediasContainer"></div>
 </body>
 </html>

@@ -23,10 +23,6 @@ MapCom.changeType = function(mapType) {
     MapCom.map.changeType(mapType);
 };
 
-MapCom.setYear = function(year) {
-    MapCom.map.setYear(year);
-};
-
 MapCom.searchLocation = function(key) {
     MapCom.map.searchLocation(key);
 };
@@ -34,6 +30,18 @@ MapCom.searchLocation = function(key) {
 MapCom.getMapBounds = function() {
     var bounds = MapCom.map.getMapBounds();
     return bounds;
+};
+
+MapCom.showPreview = function(mediaData) {
+    MapCom.map.showPreview(mediaData);
+};
+
+MapCom.hidePreview = function() {
+    MapCom.map.hidePreview();
+};
+
+MapCom.showMediaLocations = function(medias) {
+    MapCom.map.showMediaLocations(medias);
 };
 
 //events in flash map
