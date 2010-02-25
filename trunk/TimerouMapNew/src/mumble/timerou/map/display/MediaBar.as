@@ -11,8 +11,8 @@ package mumble.timerou.map.display
 	import flash.geom.Point;
 	import flash.utils.Timer;
 	
-	import mumble.timerou.map.data.PictureData;
-	import mumble.timerou.map.data.PictureDataLoader;
+	import mumble.timerou.map.data.MediaData;
+	import mumble.timerou.map.data.MediaDataLoader;
 	import mumble.timerou.map.data.PictureEvent;
 	import mumble.timerou.map.data.RemotePicture;
 	
@@ -21,7 +21,7 @@ package mumble.timerou.map.display
 		public static const LOADING_PICTURES:String = "loadingPictures";
 		public static const PICTURE_CLICK:String = "pictureClick";
 		
-		private const HEIGHT:int = 60;
+		private const WIDTH:Number = 0.35;
 		private const MARGIN:int = 5;
 		private const PICTURE_WIDTH:int = 50; 
 		private const PICTURE_HEIGHT:int = 50;
@@ -32,11 +32,6 @@ package mumble.timerou.map.display
 		private const BACKGROUND_ALPHA:Number = 1;
 		private const ROUND_SIZE:int = 0;
 		private const TEXT_COLOR:uint = 0xEEEEEE;
-		private const MOVE_BUTTONS_WIDTH:int = 10;
-		
-		private const DOCK_PICTURE_SIZE:int = 50;
-		private const DOCK_PADDING:int = 5;
-		private const DOCK_CORNER:int = 3;
 		
 		private var displayNumber:int = 0;
 		private var yDistance:int = 0;
@@ -46,35 +41,26 @@ package mumble.timerou.map.display
 		private var boundsTween:Tween = null;
 		private var preview:Preview = null;
 		private var correctMargin:Number = 0;				
-		private var nextButton:ForwardArrow = null;
-		private var previousButton:BackwardArrow = null;
 		private var mapMoveTimer:Timer = null;
-		private var pictureDataLoader:PictureDataLoader = null;
+		private var mediaDataLoader:MediaDataLoader = null;
 		private var year:int = 0;
+		private var computedWidth:Number = 100;
+		private var rows:int = 10;
+		private var cols:int = 10;
 
 		public var map:TimerouMap = null;
 		
 		public function MediaBar() {
 			mapMoveTimer = new Timer(1000, 1);
 			mapMoveTimer.addEventListener(TimerEvent.TIMER_COMPLETE, mapMoveTimerComplete);
-			pictureDataLoader = new PictureDataLoader();
-			pictureDataLoader.addEventListener(Event.COMPLETE, load);
+			mediaDataLoader = new MediaDataLoader();
+			mediaDataLoader.addEventListener(Event.COMPLETE, load);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
 		private function init(e:Event):void {
-			//var self:MovieClip = this;
 			preview = new Preview();
-			/*preview.addEventListener(Preview.MOVE_COMPLETE, function(e:Event):void {
-				var bounds:Rectangle = preview.getBounds(self);
-				
-				if(bounds.y <= HEIGHT) {
-					boundsTween = new Tween(background, "alpha", Strong.easeOut, background.alpha, 0.3, 0.25, true);
-				} else {
-					restoreBackgroundAlpha();
-				}
-			}); */
 			addChild(preview);
 			
 			drawBackground();
@@ -105,33 +91,18 @@ package mumble.timerou.map.display
 			
 			background.graphics.clear();
 			background.graphics.beginFill(BACKGROUND_COLOR, BACKGROUND_ALPHA),
-			background.graphics.drawRect(0, 0, stage.stageWidth, HEIGHT);
+			background.graphics.drawRect(stage.stageWidth - this.computedWidth, 0, this.computedWidth, stage.stageHeight);
 			background.graphics.lineStyle(1, BORDER_COLOR);
-			background.graphics.moveTo(0, HEIGHT);
-			background.graphics.lineTo(stage.stageWidth, HEIGHT);
-			background.y = stage.stageHeight - HEIGHT;
 		}
 		
 		private function setupInterface():void {
-			var workWidth:Number = stage.stageWidth - MOVE_BUTTONS_WIDTH * 2 - MARGIN * 2;			
-			displayNumber = workWidth / (PICTURE_WIDTH + MARGIN);
-			//calculate correct margin
-			var size:int = PICTURE_WIDTH * displayNumber + MARGIN * 2;
-			var delta:int = workWidth - size;
-			correctMargin = delta / (displayNumber - 1); 
+			correctMargin = MARGIN;			
+			this.computedWidth = stage.stageWidth * WIDTH;
 		}
 
 		private function drawMoveButtons():void {
-			if(nextButton == null) {
-				nextButton = new ForwardArrow();
-				nextButton.width = MOVE_BUTTONS_WIDTH;
-				nextButton.height /= 2;
-				previousButton = new BackwardArrow();
-				previousButton.width = MOVE_BUTTONS_WIDTH;
-				previousButton.height /= 2;
-				background.addChild(previousButton);
-				background.addChild(nextButton);
-				
+			/*if(nextButton == null) {
+								
 				nextButton.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
 					if(pictureDataLoader != null) {
 						pictureDataLoader.loadNext();
@@ -143,43 +114,11 @@ package mumble.timerou.map.display
 						pictureDataLoader.loadPrevious();
 					}
 				});
-			}				
-			
-			nextButton.x = stage.stageWidth - nextButton.width - MARGIN;		
-			previousButton.x = MARGIN;
-			nextButton.y = HEIGHT / 3;
-			previousButton.y = HEIGHT / 3;
+			}		*/		
+
 		}
 		
-		/*private function createOldPictureSprite(pictureData:PictureData):Sprite {
-			var sprite:Sprite = new Sprite();
-			var remotePicture:RemotePicture = new RemotePicture(Main.BASEPICTURESURL + pictureData.avatarPath, DOCK_PICTURE_SIZE, DOCK_PICTURE_SIZE);
-			remotePicture.borderColor = PICTURE_BORDER_COLOR;
-			remotePicture.borderOverColor = PICTURE_BORDER_OVER_COLOR;
-			remotePicture.x = DOCK_PADDING;
-			remotePicture.y = DOCK_PADDING;
-			sprite.addChild(remotePicture);
-			var txt:TextField = new TextField();
-			var format:TextFormat = new TextFormat();
-			format.align = TextFormatAlign.LEFT;
-			format.font = "verdana";
-			format.size = 12;
-			format.color = TEXT_COLOR;
-			txt.defaultTextFormat = format;
-			txt.autoSize = TextFieldAutoSize.LEFT;
-			txt.text = pictureData.year.toString();
-			txt.x = DOCK_PICTURE_SIZE + 5;
-			sprite.addChild(txt);
-			txt.y = DOCK_PICTURE_SIZE / 2 - txt.height / 2;
-			
-			//draw background under text
-			sprite.graphics.beginFill(BACKGROUND_COLOR);
-			sprite.graphics.lineStyle(1, BORDER_COLOR);
-			sprite.graphics.drawRect(0, 0, DOCK_PICTURE_SIZE + txt.width + DOCK_PADDING * 2, DOCK_PICTURE_SIZE + DOCK_PADDING * 2);
-			sprite.graphics.endFill();
-			return sprite;
-		}*/
-		
+
 		private function clearPictures():void {
 			if(loadedMediaSprites != null) {
 				for each(var obj:DisplayObject in loadedMediaSprites) {
@@ -190,20 +129,20 @@ package mumble.timerou.map.display
 			loadedMediaSprites = null;
 		}
 		
-		private function createPictureSprite(pictureData:PictureData):Sprite {
+		private function createPictureSprite(mediaData:MediaData):Sprite {
 			var self:MovieClip = this;
 			
-			var remotePicture:RemotePicture = new RemotePicture(Main.BASEPICTURESURL + pictureData.avatarPath, PICTURE_WIDTH, PICTURE_HEIGHT, false);
+			var remotePicture:RemotePicture = new RemotePicture(Main.BASEPICTURESURL + mediaData.pictureData.avatarPath, PICTURE_WIDTH, PICTURE_HEIGHT, false);
 			remotePicture.borderColor = PICTURE_BORDER_COLOR;
 			remotePicture.borderOverColor = PICTURE_BORDER_OVER_COLOR;
 			remotePicture.roundCornerSize = ROUND_SIZE;
 			remotePicture.buttonMode = true;
 			remotePicture.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-				dispatchEvent(new PictureEvent(PICTURE_CLICK, pictureData));
+				dispatchEvent(new PictureEvent(PICTURE_CLICK, mediaData));
 			});
 			
 			remotePicture.addEventListener(MouseEvent.ROLL_OVER, function(e:MouseEvent):void {
-				movePreview(pictureData);
+				movePreview(mediaData);
 			});
 			
 			/*remotePicture.addEventListener(MouseEvent.ROLL_OUT, function(e:MouseEvent):void {
@@ -212,7 +151,7 @@ package mumble.timerou.map.display
 			return remotePicture;
 		}
 		
-		private function movePreview(pictureData:PictureData):void {
+		private function movePreview(pictureData:MediaData):void {
 			var point:Point = map.getPicturePoint(pictureData);
 
 			if(!preview.visible) { 
@@ -243,8 +182,8 @@ package mumble.timerou.map.display
 			if(year != 0) { 
 				dispatchEvent(new Event(LOADING_PICTURES));
 				
-				pictureDataLoader.pageSize = displayNumber;
-				pictureDataLoader.load(map.latLngBounds, year);
+				mediaDataLoader.pageSize = displayNumber;
+				mediaDataLoader.load(map.latLngBounds, year);
 			}
 		}
 		
@@ -253,9 +192,9 @@ package mumble.timerou.map.display
 				preview.hide();
 			}
 			
-			previousButton.enabled = pictureDataLoader.hasMorePagesBefore;
-			nextButton.enabled = pictureDataLoader.hasMorePagesAfter;
-			var pictures:Array = pictureDataLoader.pictures;
+			//previousButton.enabled = mediaDataLoader.hasMorePagesBefore;
+			//nextButton.enabled = mediaDataLoader.hasMorePagesAfter;
+			var pictures:Array = mediaDataLoader.pictures;
 			
 			//clear
 			clearPictures();			
@@ -264,9 +203,9 @@ package mumble.timerou.map.display
 			loadedMediaSprites = new Array();
 			var counter:int = 0;
 			
-			for each(var pictureData:PictureData in pictures) {
+			for each(var pictureData:MediaData in pictures) {
 				var sprite:Sprite = createPictureSprite(pictureData);
-				sprite.x = MOVE_BUTTONS_WIDTH + MARGIN + MARGIN + (correctMargin * counter) + (counter * PICTURE_WIDTH);
+				//sprite.x = MOVE_BUTTONS_WIDTH + MARGIN + MARGIN + (correctMargin * counter) + (counter * PICTURE_WIDTH);
 				sprite.y = MARGIN;
 				background.addChild(sprite);
 				loadedMediaSprites.push(sprite);				
@@ -276,8 +215,8 @@ package mumble.timerou.map.display
 			}
 		}
 		
-		private function createIcon(pictureData:PictureData):void {
-			var icon:PictureIcon = map.showPictureLocation(pictureData);
+		private function createIcon(pictureData:MediaData):void {
+			var icon:MediaIcon = map.showMediaLocation(pictureData);
 			icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
 				movePreview(pictureData);
 			});
@@ -305,7 +244,7 @@ package mumble.timerou.map.display
 		
 		public function clearLocations():void {
 			if(map != null) {
-				map.clearPictureLocations();
+				map.clearMediaLocations();
 			}
 		}
 		

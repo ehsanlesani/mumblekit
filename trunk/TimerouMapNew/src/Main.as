@@ -9,10 +9,14 @@
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.external.ExternalInterface;
+	import flash.geom.Point;
+	import flash.text.TextField;
 	
-	import mumble.timerou.map.data.PictureEvent;
-	import mumble.timerou.map.display.MediaBar;
+	import mumble.timerou.map.data.MediaData;
+	import mumble.timerou.map.display.MediaIcon;
+	import mumble.timerou.map.display.Preview;
 	import mumble.timerou.map.display.TimerouMap;
 	
 	
@@ -30,9 +34,10 @@
 		public static var MAPKEY:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxQb16FdzuBr0nZgkL4aiWmiDXxN7xS6cnax6FiU5Req07YU9Mfy4LamTg";		
 		
 		private var map:TimerouMap = null;
-		private var mediaBar:MediaBar = null;
 		private var pictures:Array = new Array();
 		private var tween:Tween = null;
+		private var preview:Preview = null;
+		private var debug:TextField = new TextField();
 		
 		public function Main():void 
 		{
@@ -43,11 +48,13 @@
 		
 		public function ConfigureExternalInterface():void {
 			if(ExternalInterface.available) {
-				ExternalInterface.addCallback("setYear", setYear);	
 				ExternalInterface.addCallback("setBase", setBase);	
 				ExternalInterface.addCallback("changeType", changeType);
 				ExternalInterface.addCallback("searchLocation", searchLocation);	
 				ExternalInterface.addCallback("getMapBounds", getMapBounds);
+				ExternalInterface.addCallback("showPreview", showPreview);
+				ExternalInterface.addCallback("hidePreview", hidePreview);
+				ExternalInterface.addCallback("showMediaLocations", showMediaLocations);
 			}	
 		}
 		
@@ -80,51 +87,72 @@
 			}
 		}
 		
-		private function setYear(year:int):void {
-			var min:int = 1839;
-			var max:int = new Date().fullYear;
-			
-			var delta:int = max - min;
-			var yearDelta:int = year - min;
-			//100:delta=x:yearDelta
-			var oldStyle:int = 100 * yearDelta / delta;
-			map.oldStyle = 100 - oldStyle; //inverse
-			
-			mediaBar.changeYear(year);
-		}
-		
 		private function init(e:Event = null):void 
 		{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-		
+			removeEventListener(Event.ADDED_TO_STAGE, init);		
 			
-			this.map = new TimerouMap();			
-			this.mediaBar = new MediaBar();
-			this.mediaBar.map = map;
-
+			this.map = new TimerouMap();		
 			addChild(map);
-			addChild(mediaBar);
-
+			
+			this.preview = new Preview();
+			addChild(preview);
+			
 			map.addEventListener(TimerouMap.TIMEROUMAP_READY, mapReady);
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
 			
-			mediaBar.addEventListener(MediaBar.PICTURE_CLICK, pictureClick);		
+			addChild(debug);			
+			
+		}
+		
+		private function showPreview(mediaDataSource:*):void {
+			var mediaData:MediaData = new MediaData(mediaDataSource);
+			showPreviewUsingMediaData(mediaData);
+		}
+		
+		private function showPreviewUsingMediaData(mediaData:MediaData):void {
+			var point:Point = map.getPicturePoint(mediaData);
+
+			if(!preview.visible) { 
+				preview.show(point);
+			} else { 
+				preview.move(point);
+			}
+			
+			preview.loadPicture(mediaData);
+		}
+		
+		private function hidePreview():void {
+			preview.hide();
 		}
 		
 		private function mapMoveEnd(e:Event):void {
-			ExternalInterface.call("MapCom.onMapMoveEnd");
+			if(ExternalInterface.available) {
+				ExternalInterface.call("MapCom.onMapMoveEnd");
+			}
 		}
 		
-		private function pictureClick(e:PictureEvent):void {
-			ExternalInterface.call("MapCom.onPictureClick", e.pictureData.id);
+		private function showMediaLocations(medias:Array):void {
+			map.clearMediaLocations();
+			
+			for each(var mediasource:* in medias) {
+				var media:MediaData = new MediaData(mediasource);
+				if(media != null) {
+					showMediaLocation(media);
+				}
+			}
+		}
+		
+		private function showMediaLocation(media:MediaData):void {
+			var icon:MediaIcon = map.showMediaLocation(media);
+			icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+				showPreviewUsingMediaData(media);
+			});
 		}
 		
 		private function mapReady(e:Event):void {
-			setYear(new Date().getFullYear());
-			
 			if(!ExternalInterface.available) {
 				searchLocation("Italia");
 			} else {

@@ -4,9 +4,9 @@ package mumble.timerou.map.data
 	
 	public class PictureEvent extends Event
 	{
-		public var pictureData:PictureData = null;
+		public var pictureData:MediaData = null;
 		
-		public function PictureEvent(type:String, pictureData:PictureData)
+		public function PictureEvent(type:String, pictureData:MediaData)
 		{
 			super(type);
 			this.pictureData = pictureData;
