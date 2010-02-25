@@ -1,6 +1,6 @@
 ﻿USE [Timerou]
 GO
-/****** Object:  Table [dbo].[Groups]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[Groups]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[Groups](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -35,7 +35,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Media]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[Media]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -64,7 +64,7 @@ CREATE TABLE [dbo].[Media](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[GroupUser]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[GroupUser]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -79,21 +79,21 @@ CREATE TABLE [dbo].[GroupUser](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Videos]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[Videos]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Videos](
 	[Id] [uniqueidentifier] NOT NULL,
-	[Url] [nvarchar](max) NULL,
+	[YouTubeId] [nvarchar](20) NULL,
  CONSTRAINT [PK_Videos] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Comments]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[Comments]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -110,7 +110,7 @@ CREATE TABLE [dbo].[Comments](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tags]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[Tags]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -125,7 +125,7 @@ CREATE TABLE [dbo].[Tags](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Pictures]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  Table [dbo].[Pictures]    Script Date: 02/25/2010 23:17:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -140,49 +140,49 @@ CREATE TABLE [dbo].[Pictures](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  ForeignKey [FK_MapObjects_Users]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_MapObjects_Users]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[Media]  WITH CHECK ADD  CONSTRAINT [FK_MapObjects_Users] FOREIGN KEY([User_Id])
 REFERENCES [dbo].[Users] ([Id])
 GO
 ALTER TABLE [dbo].[Media] CHECK CONSTRAINT [FK_MapObjects_Users]
 GO
-/****** Object:  ForeignKey [FK_GroupUser_Group]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_GroupUser_Group]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[GroupUser]  WITH NOCHECK ADD  CONSTRAINT [FK_GroupUser_Group] FOREIGN KEY([Groups_Id])
 REFERENCES [dbo].[Groups] ([Id])
 GO
 ALTER TABLE [dbo].[GroupUser] CHECK CONSTRAINT [FK_GroupUser_Group]
 GO
-/****** Object:  ForeignKey [FK_GroupUser_User]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_GroupUser_User]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[GroupUser]  WITH NOCHECK ADD  CONSTRAINT [FK_GroupUser_User] FOREIGN KEY([Users_Id])
 REFERENCES [dbo].[Users] ([Id])
 GO
 ALTER TABLE [dbo].[GroupUser] CHECK CONSTRAINT [FK_GroupUser_User]
 GO
-/****** Object:  ForeignKey [FK_Videos_Media]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_Videos_Media]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[Videos]  WITH CHECK ADD  CONSTRAINT [FK_Videos_Media] FOREIGN KEY([Id])
 REFERENCES [dbo].[Media] ([Id])
 GO
 ALTER TABLE [dbo].[Videos] CHECK CONSTRAINT [FK_Videos_Media]
 GO
-/****** Object:  ForeignKey [FK_Comments_MapObjects]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_Comments_MapObjects]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_MapObjects] FOREIGN KEY([MapObject_Id])
 REFERENCES [dbo].[Media] ([Id])
 GO
 ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_MapObjects]
 GO
-/****** Object:  ForeignKey [FK_Comments_Users]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_Comments_Users]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_Comments_Users] FOREIGN KEY([User_Id])
 REFERENCES [dbo].[Users] ([Id])
 GO
 ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_Comments_Users]
 GO
-/****** Object:  ForeignKey [FK_TaggedObjectTag]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_TaggedObjectTag]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[Tags]  WITH NOCHECK ADD  CONSTRAINT [FK_TaggedObjectTag] FOREIGN KEY([MapObject_Id])
 REFERENCES [dbo].[Media] ([Id])
 GO
 ALTER TABLE [dbo].[Tags] CHECK CONSTRAINT [FK_TaggedObjectTag]
 GO
-/****** Object:  ForeignKey [FK_Picture_Picture]    Script Date: 02/24/2010 00:29:44 ******/
+/****** Object:  ForeignKey [FK_Picture_Picture]    Script Date: 02/25/2010 23:17:56 ******/
 ALTER TABLE [dbo].[Pictures]  WITH CHECK ADD  CONSTRAINT [FK_Picture_Picture] FOREIGN KEY([Id])
 REFERENCES [dbo].[Media] ([Id])
 GO

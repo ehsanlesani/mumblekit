@@ -287,12 +287,12 @@ Timebar.prototype = {
         var self = this;
         if (mediaData.type == "Picture") {
             return $("<img />")
-            .attr("src", Url.Pictures + mediaData.pictureData.avatarPath)
-            .addClass("picture")
-            .hide()
-            .click(function() {
-                self.setYear(mediaData.year);
-            });
+                .attr("src", Url.Pictures + mediaData.pictureData.avatarPath)
+                .addClass("picture")
+                .hide()
+                .click(function() {
+                    self.setYear(mediaData.year);
+                });
         }
         else {
             alert("Video renderer not implemented");
