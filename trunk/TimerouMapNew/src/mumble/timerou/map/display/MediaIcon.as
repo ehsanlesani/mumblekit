@@ -14,11 +14,11 @@
 	 * ...
 	 * @author bruno
 	 */
-	public class PictureIcon extends Sprite
+	public class MediaIcon extends Sprite
 	{
 		private var tween:Tween = null;
 		
-		public function PictureIcon() 
+		public function MediaIcon() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}

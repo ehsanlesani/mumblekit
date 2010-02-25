@@ -10,7 +10,7 @@ package mumble.timerou.map.display
 	import flash.geom.Point;
 	import flash.utils.setTimeout;
 	
-	import mumble.timerou.map.data.PictureData;
+	import mumble.timerou.map.data.MediaData;
 	import mumble.timerou.map.data.RemotePicture;
 
 	public class Preview extends MovieClip
@@ -25,14 +25,13 @@ package mumble.timerou.map.display
 		private const BORDER_THICKNESS:int = 3;
 		private const PADDING:int = 5;
 		private const MARKER_SIZE:int = 10;
-		private const MARGIN_BOTTOM:int = 60;
 		
 		private const MARKER_EDGE_TOP:int = 1;
 		private const MARKER_EDGE_LEFT:int = 2;
 		private const MARKER_EDGE_BOTTOM:int = 3;
 		private const MARKER_EDGE_RIGHT:int = 4;
 		
-		public var pictureData:PictureData = null;	
+		public var mediaData:MediaData = null;	
 		
 		private var remotePicture:RemotePicture = null;
 		private var tweenX:Tween = null;
@@ -96,8 +95,8 @@ package mumble.timerou.map.display
 				rectY = position.y - INITIAL_HEIGHT / 2;
 				if(rectY < 0) {
 					rectY = 0;
-				} else if(rectY + INITIAL_HEIGHT > stage.stageHeight - MARGIN_BOTTOM) {
-					rectY = stage.stageHeight - INITIAL_HEIGHT - MARGIN_BOTTOM;
+				} else if(rectY + INITIAL_HEIGHT > stage.stageHeight) {
+					rectY = stage.stageHeight - INITIAL_HEIGHT;
 				}
 				
 				if(markerEdge == MARKER_EDGE_LEFT) {
@@ -194,7 +193,7 @@ package mumble.timerou.map.display
 				remotePicture.unload();
 				removeChild(remotePicture);				
 			}
-			remotePicture = new RemotePicture(Main.BASEPICTURESURL + pictureData.optimizedPath, INITIAL_WIDTH - PADDING * 2, INITIAL_HEIGHT - PADDING * 2, true);
+			remotePicture = new RemotePicture(Main.BASEPICTURESURL + mediaData.pictureData.optimizedPath, INITIAL_WIDTH - PADDING * 2, INITIAL_HEIGHT - PADDING * 2, true);
 			remotePicture.x = rectX + PADDING;
 			remotePicture.y = rectY + PADDING;
 			remotePicture.showBorder = false;
@@ -204,8 +203,8 @@ package mumble.timerou.map.display
 			});
 		}
 		
-		public function loadPicture(pictureData:PictureData):void {
-			this.pictureData = pictureData;
+		public function loadPicture(pictureData:MediaData):void {
+			this.mediaData = pictureData;
 			drawPicture();
 		}
 

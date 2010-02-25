@@ -20,22 +20,21 @@
 	import flash.filters.ColorMatrixFilter;
 	import flash.geom.Point;
 	
-	import mumble.timerou.map.data.PictureData;
+	import mumble.timerou.map.data.MediaData;
 	/**
 	 * ...
 	 * @author bruno
 	 */
 	public class TimerouMap extends Sprite
-	{		
+	{				
 		public static const TIMEROUMAP_READY:String = "timerouMapReady";
 		public static const TIMEROUMAP_MOVESTART:String = "timerouMapMoveStart";
 		public static const TIMEROUMAP_MOVEEND:String = "timerouMapMoveEnd";
 		
-		private const MARGIN_BOTTOM:int = 60;
-		
 		private var map:Map = null;
 		private var filter:ColorMatrixFilter = new ColorMatrixFilter();
 		private var pictureMarkers:Array = new Array();
+		private var computedWidth:Number = 100;
 		
 		public var ready:Boolean = false;
 
@@ -88,7 +87,7 @@
 		}
 		
 		private function onMapReady(e:MapEvent):void {		
-			map.setSize(new Point(stage.stageWidth, stage.stageHeight - MARGIN_BOTTOM));
+			map.setSize(new Point(stage.stageWidth, stage.stageHeight));
 			map.setCenter(new LatLng(40.6686534, 16.6060872), 5);
 			map.setMapType(MapType.NORMAL_MAP_TYPE);
 			map.addControl(new ZoomControl()); 
@@ -98,7 +97,7 @@
 			ready = true;			
 			dispatchEvent(new Event(TIMEROUMAP_READY));
 			stage.addEventListener(Event.RESIZE, function(e:Event):void { 
-				map.setSize(new Point(stage.stageWidth, stage.stageHeight - MARGIN_BOTTOM)); 
+				map.setSize(new Point(stage.stageWidth, stage.stageHeight)); 
 			});
 		}		
 		
@@ -136,9 +135,9 @@
 			s2.filters = [ filter ];
 		}
 		
-		public function showPictureLocation(pictureData:PictureData):PictureIcon {
-			var latLng:LatLng = pictureData.latLng;
-			var icon:PictureIcon = new PictureIcon();			
+		public function showMediaLocation(mediaData:MediaData):MediaIcon {
+			var latLng:LatLng = mediaData.latLng;
+			var icon:MediaIcon = new MediaIcon();			
 			var options:MarkerOptions = new MarkerOptions();
 			options.icon = icon;
 			var marker:Marker = new Marker(latLng, options);
@@ -148,7 +147,7 @@
 			return icon;
 		}
 		
-		public function clearPictureLocations():void {
+		public function clearMediaLocations():void {
 			for each(var marker:Marker in pictureMarkers) {
 				map.removeOverlay(marker);
 			}
@@ -156,7 +155,7 @@
 			pictureMarkers = new Array();
 		}
 		
-		public function getPicturePoint(pictureData:PictureData):Point {
+		public function getPicturePoint(pictureData:MediaData):Point {
 			return map.fromLatLngToViewport(pictureData.latLng);
 		}
 		

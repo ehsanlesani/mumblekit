@@ -9,7 +9,7 @@ package mumble.timerou.map.data
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	
-	public class PictureDataLoader extends EventDispatcher {
+	public class MediaDataLoader extends EventDispatcher {
 		
 		public var pictures:Array = null;
 		public var totalCount:int  = 0;
@@ -22,7 +22,7 @@ package mumble.timerou.map.data
 		private var bounds:LatLngBounds = null;
 		private var year:int = 0;
 		
-		public function PictureDataLoader() { }
+		public function MediaDataLoader() { }
 		
 		private function setPicturesData(jsonData:String):void {
 			this.pictures = new Array();
@@ -36,7 +36,7 @@ package mumble.timerou.map.data
 			if (result != null && !result.error) {
 				//load as known objects
 				for(var i:int = 0; i < result.medias.length; i++) {
-					this.pictures.push(new PictureData(result.medias[i]));
+					this.pictures.push(new MediaData(result.medias[i]));
 				}
 			}
 		}		
