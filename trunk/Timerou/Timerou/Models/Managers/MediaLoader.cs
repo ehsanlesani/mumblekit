@@ -30,7 +30,7 @@ namespace Mumble.Timerou.Models.Managers
             int limit = Int32.Parse(ConfigurationManager.AppSettings["MediaLimit"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            IQueryable<Media> media = (from m in _container.Medias.Include("User")
+            IQueryable<Media> medias = (from m in _container.Medias.Include("User")
                                             where (year.HasValue && m.Year == year)
                                             && m.IsTemp == false
                                             && m.Lat >= bounds.SouthWest.Lat
@@ -40,7 +40,7 @@ namespace Mumble.Timerou.Models.Managers
                                             orderby m.Year, m.Views, m.Created descending
                                             select m);
 
-            totalCount = media.Count();
+            totalCount = medias.Count();
 
             if (page.HasValue)
             {
@@ -50,14 +50,63 @@ namespace Mumble.Timerou.Models.Managers
                 }
 
                 int offset = (page.Value - 1) * pageSize.Value;
-                media = media.Skip(offset).Take(pageSize.Value);
+                medias = medias.Skip(offset).Take(pageSize.Value);
             }
             else
             {
-                media = media.Take(limit);
+                medias = medias.Take(limit);
             }
 
-            return media;
+            return medias;
+        }
+
+        /// <summary>
+        /// Search and load user medias ordered by creation date
+        /// </summary>
+        /// <param name="bounds"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        public IEnumerable<Media> LoadUserMedias(User user, string keyword, int? year, int? page, int? pageSize, out int totalCount)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
+            int limit = Int32.Parse(ConfigurationManager.AppSettings["MediaLimit"]);
+
+            IQueryable<Media> medias = _container.Medias.Where(m => (m.User.Id == user.Id) && (!(bool)m.IsTemp));
+
+            if (!String.IsNullOrEmpty(keyword))
+            {
+                medias = medias.Where(m => m.Title.Contains(keyword));
+            }
+
+            if (year.HasValue)
+            {
+                medias = medias.Where(m => m.Year == year.Value);
+            }
+
+            totalCount = medias.Count();
+
+            medias = medias.OrderByDescending(m => m.Created);
+
+            if (page.HasValue)
+            {
+                if (!pageSize.HasValue)
+                {
+                    throw new ArgumentException("pageSize");
+                }
+
+                int offset = (page.Value - 1) * pageSize.Value;
+                medias = medias.Skip(offset).Take(pageSize.Value);
+            }
+            else
+            {
+                medias = medias.Take(limit);
+            }
+
+            return medias;
         }
 
         /// <summary>

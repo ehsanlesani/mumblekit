@@ -2,7 +2,7 @@
 /// <reference path="libs/google.maps-v3-vsdoc.js" />
 /// <reference path="Url.js" />
 
-function Uploader(lat, lng, zoom, year) {
+function ShareManager(lat, lng, zoom, year) {
     //initial values getted from main map
     this.lat = lat || 40.6686534; //initial lat
     this.lng = lng || 16.6060872; //initial lng
@@ -19,7 +19,7 @@ function Uploader(lat, lng, zoom, year) {
     this.locationSelected = false;
 }
 
-Uploader.prototype = {
+ShareManager.prototype = {
     initialize: function() {
         var self = this;
 

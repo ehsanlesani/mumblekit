@@ -16,7 +16,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_TaggedObjectTag", "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.Media), "Tag", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Tag))]
 
 // Original file name:
-// Generation date: 25/02/2010 19:10:57
+// Generation date: 26/02/2010 21:30:34
 namespace Mumble.Timerou.Models
 {
     
@@ -1231,6 +1231,29 @@ namespace Mumble.Timerou.Models
         private global::System.Nullable<bool> _IsTemp;
         partial void OnIsTempChanging(global::System.Nullable<bool> value);
         partial void OnIsTempChanged();
+        /// <summary>
+        /// There are no comments for Property FormattedAddress in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string FormattedAddress
+        {
+            get
+            {
+                return this._FormattedAddress;
+            }
+            set
+            {
+                this.OnFormattedAddressChanging(value);
+                this.ReportPropertyChanging("FormattedAddress");
+                this._FormattedAddress = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("FormattedAddress");
+                this.OnFormattedAddressChanged();
+            }
+        }
+        private string _FormattedAddress;
+        partial void OnFormattedAddressChanging(string value);
+        partial void OnFormattedAddressChanged();
         /// <summary>
         /// There are no comments for Comments in the schema.
         /// </summary>

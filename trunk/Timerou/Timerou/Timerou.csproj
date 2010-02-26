@@ -213,6 +213,7 @@
     <Content Include="Scripts\DetailManager.js" />
     <Content Include="Scripts\FlashMapCom.js" />
     <Content Include="Scripts\MediaNavigator.js" />
+    <Content Include="Scripts\MyMemoriesManager.js" />
     <Content Include="Scripts\Timebar.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />
@@ -456,8 +457,9 @@
     <Content Include="Scripts\tiny_mce\utils\form_utils.js" />
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
-    <Content Include="Scripts\Uploader.js" />
-    <Content Include="Views\Account\Upload.aspx" />
+    <Content Include="Scripts\ShareManager.js" />
+    <Content Include="Views\Account\MyMemories.aspx" />
+    <Content Include="Views\Account\Share.aspx" />
     <Content Include="Views\Error\Index.aspx" />
     <Content Include="Views\Location\Index.aspx" />
     <Content Include="Views\Main\MapObject.ascx" />
