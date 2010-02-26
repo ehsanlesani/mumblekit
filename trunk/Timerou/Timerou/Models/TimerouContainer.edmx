@@ -89,6 +89,7 @@
           <Property Name="Region" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Province" Type="nvarchar(max)" />
+          <Property Name="FormattedAddress" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="Body" Type="text" />
           <Property Name="IsTemp" Type="bit" />
@@ -324,7 +325,8 @@
           <NavigationProperty Name="Comments" Relationship="TimerouModel.FK_Comments_MapObjects" FromRole="Media" ToRole="Comment" />
           <NavigationProperty Name="User" Relationship="TimerouModel.FK_MapObjects_Users" FromRole="Media" ToRole="User" />
           <NavigationProperty Name="Tags" Relationship="TimerouModel.FK_TaggedObjectTag" FromRole="Media" ToRole="Tag" />
-          <Property Name="IsTemp" Type="Boolean" Nullable="true" /></EntityType>
+          <Property Name="IsTemp" Type="Boolean" Nullable="true" />
+          <Property Name="FormattedAddress" Type="String" Nullable="true" /></EntityType>
         <EntityType Name="Picture" BaseType="TimerouModel.Media">
           <Property Name="Height" Type="Int32" Nullable="true" />
           <Property Name="Width" Type="Int32" Nullable="true" />
@@ -405,6 +407,7 @@
           <EntitySetMapping Name="Medias">
             <EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Media)">
               <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="FormattedAddress" ColumnName="FormattedAddress" />
                 <ScalarProperty Name="IsTemp" ColumnName="IsTemp" />
                 <ScalarProperty Name="Body" ColumnName="Body" />
                 <ScalarProperty Name="Title" ColumnName="Title" />

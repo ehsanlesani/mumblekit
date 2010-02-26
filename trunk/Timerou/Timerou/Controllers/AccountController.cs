@@ -88,10 +88,10 @@ namespace Mumble.Timerou.Controllers
         }
 
         /// <summary>
-        /// Render upload form
+        /// Render share form
         /// </summary>
         /// <returns></returns>
-        public ActionResult Upload(Guid? id, float? lat, float? lng, int? zoom, int? year)
+        public ActionResult Share(Guid? id, float? lat, float? lng, int? zoom, int? year)
         {
             try
             {
@@ -113,8 +113,28 @@ namespace Mumble.Timerou.Controllers
             }
             catch (AuthException)
             {
-                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Upload", "Account") });
+                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Share", "Account") });
             }            
+        }
+
+        /// <summary>
+        /// Render logged user media manager
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MyMemories()
+        {
+            try
+            {
+                Authorize();
+
+
+
+                return View();
+            }
+            catch (AuthException)
+            {
+                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("MyMemories", "Account") });
+            } 
         }
 
         /// <summary>
@@ -196,6 +216,42 @@ namespace Mumble.Timerou.Controllers
         }
 
         #region Ajax
+
+        /// <summary>
+        /// Load current users media
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="year"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult LoadUserMedias(string keyword, int? year, int page, int pageSize)
+        {
+            SimpleResponse response = null;
+
+            try
+            {
+                Authorize();
+
+                int totalCount = 0;
+                MediaLoader loader = new MediaLoader(Container);
+                var medias = loader.LoadUserMedias(AccountManager.LoggedUser, keyword, year, page, pageSize, out totalCount);
+
+                response = LoadMediasResponse.FromList(medias, true);
+                ((LoadMediasResponse)response).TotalCount = totalCount;
+            }
+            catch (AuthException)
+            {
+                response = new SimpleResponse(true, UIHelper.Translate("err.unauthorized"));
+            }
+            catch (Exception ex)
+            {
+                response = new SimpleResponse(true, ex.Message);
+            }
+
+            return this.CamelCaseJson(response);
+        }
 
         /// <summary>
         /// Register new user and logon if ok. This is an ajax post

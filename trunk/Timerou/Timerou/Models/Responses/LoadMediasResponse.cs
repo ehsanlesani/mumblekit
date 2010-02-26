@@ -9,10 +9,15 @@ namespace Mumble.Timerou.Models.Responses
     {
         public static LoadMediasResponse FromList(IEnumerable<Media> medias)
         {
+            return FromList(medias, false);
+        }
+
+        public static LoadMediasResponse FromList(IEnumerable<Media> medias, bool light)
+        {
             LoadMediasResponse response = new LoadMediasResponse(false, "medias loaded");
             foreach (var media in medias)
             {
-                response.AddMedia(media);
+                response.AddMedia(media, light);
             }
 
             return response;
@@ -27,9 +32,9 @@ namespace Mumble.Timerou.Models.Responses
             Medias = new List<MediaData>();
         }
 
-        public void AddMedia(Media media)
+        public void AddMedia(Media media, bool light)
         {
-            Medias.Add(MediaData.FromMedia(media));
+            Medias.Add(MediaData.FromMedia(media, light));
         }
     }
 }

@@ -16,7 +16,7 @@
 
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="<%= UriHelper.Scripts %>jquery/ajaxupload.js" type="text/javascript"></script>
-    <script src='<%= UriHelper.Scripts %>Uploader.js' type="text/javascript" ></script>
+    <script src='<%= UriHelper.Scripts %>ShareManager.js' type="text/javascript" ></script>
     <script src='<%= UriHelper.Scripts %>tiny_mce/tiny_mce.js' type="text/javascript" ></script>
     
     <script type="text/javascript">
@@ -27,8 +27,8 @@
             var zoom = parseInt('<%= Model.Zoom %>');
             var year = parseInt('<%= Model.Year %>');
 
-            var uploader = new Uploader(lat, lng, zoom, year);
-            uploader.initialize();
+            var shareManager = new ShareManager(lat, lng, zoom, year);
+            shareManager.initialize();
         });
         
     </script>

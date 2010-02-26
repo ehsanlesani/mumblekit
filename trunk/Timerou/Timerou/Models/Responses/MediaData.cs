@@ -9,6 +9,11 @@ namespace Mumble.Timerou.Models.Responses
     {
         public static MediaData FromMedia(Media media)
         {
+            return FromMedia(media, false);
+        }
+
+        public static MediaData FromMedia(Media media, bool light)
+        {
             var data = new MediaData()
             {
                 Country = media.Country,
@@ -21,7 +26,7 @@ namespace Mumble.Timerou.Models.Responses
                 Lng = media.Lng,
                 Year = media.Year,
                 Type = media.GetType().Name,
-                Body = media.Body
+                Body = light ? null : media.Body
             };
 
             if (media is Picture)

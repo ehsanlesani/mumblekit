@@ -6,6 +6,8 @@ clt.en-US = English
 err.unauthorized = You haven't permissions to access this page
 err.badLogin = Can't login. Please check your email or password
 err.registrationProblem = Registration error
+err.formatNotAllowed = Format not allowed
+err.locationUnavailable = Location unavailable
 
 //*** MESSAGES ***
 
@@ -18,6 +20,29 @@ msg.invalidEmail = Please enter a valid email address
 msg.passRequired = Password is required
 msg.yourPassword = Your password
 msg.confirmPassword = Your password
+msg.min5char = Insert at least 5 characters
+msg.badPasswordConfirm = Password confirm mismatch
+msg.confirmPass = Confirm password
+
+//share
+msg.pictureUploaded = Picture uploaded
+msg.selectPeriod = Select period
+msg.selectPicture = Select picture
+msg.clickPictureToChange = Click picture to change
+msg.selectLocation = Select location
+msg.noLocationSelected = No location selected
+msg.pictureInfos = Picture informations
+msg.selectedLocation = Selected location
+msg.savePicture = Save picture
+msg.returnToMap = Return to map
+msg.checkInformations = Check informations
+msg.savePictureAndGoToUpload = Save picture and go upload
+msg.savePictureAndGoToPicture = Save picture and view
+msg.pictureSaved = Picture saved
+
+//my memories
+msg.sharedOn = Shared on
+msg.oneMoreTime = One more time
 
 //***TEXT***
 
@@ -29,27 +54,12 @@ txt.select = Select
 
 //globals
 txt.confirm = Confirm
+txt.login = Login
+txt.title = Title
+txt.body = Body
+txt.edit = Edit
+txt.delete = Delete
+txt.search = Search
+txt.uploading = Uploading
 
-txt.login = txt.login
-err.formatNotAllowed = err.formatNotAllowed
-msg.pictureUploaded = msg.pictureUploaded
-txt.uploading = txt.uploading
-err.locationUnavailable = err.locationUnavailable
-msg.selectPeriod = msg.selectPeriod
-msg.selectPicture = msg.selectPicture
-msg.clickPictureToChange = msg.clickPictureToChange
-msg.selectLocation = msg.selectLocation
-msg.noLocationSelected = msg.noLocationSelected
-msg.pictureInfos = msg.pictureInfos
-txt.title = txt.title
-txt.body = txt.body
-msg.selectedLocation = msg.selectedLocation
-msg.savePicture = msg.savePicture
-msg.returnToMap = msg.returnToMap
-msg.checkInformations = msg.checkInformations
-msg.min5char = msg.min5char
-msg.badPasswordConfirm = msg.badPasswordConfirm
-msg.confirmPass = msg.confirmPass
-msg.savePictureAndGoToUpload = msg.savePictureAndGoToUpload
-msg.savePictureAndGoToPicture = msg.savePictureAndGoToPicture
-msg.pictureSaved = msg.pictureSaved
+
