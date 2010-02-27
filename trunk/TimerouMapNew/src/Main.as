@@ -48,7 +48,8 @@
 		
 		public function ConfigureExternalInterface():void {
 			if(ExternalInterface.available) {
-				ExternalInterface.addCallback("setBase", setBase);	
+				ExternalInterface.addCallback("setBase", setBase);
+				ExternalInterface.addCallback("setYear", setYear);		
 				ExternalInterface.addCallback("changeType", changeType);
 				ExternalInterface.addCallback("searchLocation", searchLocation);	
 				ExternalInterface.addCallback("getMapBounds", getMapBounds);
@@ -66,6 +67,17 @@
 			}
 			
 			return null;
+		}
+		
+		private function setYear(year:int):void {
+			var min:int = 1839;
+			var max:int = new Date().fullYear;
+			
+			var delta:int = max - min;
+			var yearDelta:int = year - min;
+			//100:delta=x:yearDelta
+			var oldStyle:int = 100 * yearDelta / delta;
+			map.oldStyle = 100 - oldStyle; //inverse
 		}
 		
 		private function searchLocation(keyword:String):void {
