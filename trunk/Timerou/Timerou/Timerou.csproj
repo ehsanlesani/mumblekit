@@ -208,6 +208,7 @@
     <Content Include="Content\Timebar\step.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
+    <Content Include="Map\Main.swf" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\JSMapCom.js" />
@@ -474,7 +475,6 @@
     <None Include="App_Data\ddl.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Map\" />
     <Folder Include="Pictures\" />
     <Folder Include="Scripts\tiny_mce\plugins\autosave\images\" />
   </ItemGroup>
