@@ -188,5 +188,20 @@ namespace Mumble.Timerou.Models
             }
         }
 
+        public override void DeleteContents()
+        {
+            string basePath = HttpContext.Current.Server.MapPath(String.Format("/{0}/", ConfigurationManager.AppSettings["BasePicturesPath"]));
+            string[] files = {
+                                 String.Concat(basePath, OriginalPath),
+                                 String.Concat(basePath, OptimizedPath),
+                                 String.Concat(basePath, AvatarPath)
+                             };
+
+            foreach (var file in files)
+            {
+                if (File.Exists(file)) { File.Delete(file); }
+            }
+        }
+
     }
 }

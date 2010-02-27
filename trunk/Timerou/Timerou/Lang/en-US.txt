@@ -64,5 +64,4 @@ txt.when = When
 txt.where = Where
 txt.what = Wath
 txt.save = Save
-
-txt.welcome = txt.welcome
+txt.welcome = Welcome

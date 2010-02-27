@@ -16,7 +16,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_TaggedObjectTag", "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.Media), "Tag", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Tag))]
 
 // Original file name:
-// Generation date: 26/02/2010 21:30:34
+// Generation date: 27/02/2010 18:58:51
 namespace Mumble.Timerou.Models
 {
     
@@ -841,28 +841,8 @@ namespace Mumble.Timerou.Models
     [global::System.Serializable()]
     [global::System.Runtime.Serialization.KnownTypeAttribute(typeof(global::Mumble.Timerou.Models.Picture))]
     [global::System.Runtime.Serialization.KnownTypeAttribute(typeof(global::Mumble.Timerou.Models.Video))]
-    public partial class Media : global::System.Data.Objects.DataClasses.EntityObject
+    public abstract partial class Media : global::System.Data.Objects.DataClasses.EntityObject
     {
-        /// <summary>
-        /// Create a new Media object.
-        /// </summary>
-        /// <param name="id">Initial value of Id.</param>
-        /// <param name="views">Initial value of Views.</param>
-        /// <param name="created">Initial value of Created.</param>
-        /// <param name="lat">Initial value of Lat.</param>
-        /// <param name="lng">Initial value of Lng.</param>
-        /// <param name="year">Initial value of Year.</param>
-        public static Media CreateMedia(global::System.Guid id, int views, global::System.DateTime created, double lat, double lng, int year)
-        {
-            Media media = new Media();
-            media.Id = id;
-            media.Views = views;
-            media.Created = created;
-            media.Lat = lat;
-            media.Lng = lng;
-            media.Year = year;
-            return media;
-        }
         /// <summary>
         /// There are no comments for Property Id in the schema.
         /// </summary>
