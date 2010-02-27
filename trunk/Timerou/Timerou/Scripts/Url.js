@@ -10,13 +10,14 @@ Url.AccountCulture = BASEURL + "Account.aspx/ChangeCulture/";
 Url.AccountShare = BASEURL + "Account.aspx/Share/";
 
 Url.LoadOneMediaPerYear = BASEURL + "MediaLoader.aspx/LoadOneMediaPerYear/";
-Url.LoadUserMedias = BASEURL + "Account.aspx/LoadUserMedias/"
+Url.LoadUserMedias = BASEURL + "Account.aspx/LoadUserMedias/";
+Url.DeleteUserMedia = BASEURL + "Account.aspx/DeleteUserMedia";
 Url.LoadMedias = BASEURL + "MediaLoader.aspx/LoadMedias/"
 Url.LoadMedia = BASEURL + "MediaLoader.aspx/LoadMedia/"
 
-Url.Location = BASEURL + "Location.aspx/"
+Url.Location = BASEURL + "Location.aspx/";
 
 Url.Pictures = BASEURL + "Pictures/";
 Url.Images = BASEURL + "Content/Images/";
 
-var BASEURL;
+var BASEURL;  //for visualstudio intellisense

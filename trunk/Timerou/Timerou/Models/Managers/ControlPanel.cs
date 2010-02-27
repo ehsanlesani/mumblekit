@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Mumble.Timerou.Models.Helpers;
 using System.IO;
+using Mumble.Timerou.Models.Exceptions;
 
 namespace Mumble.Timerou.Models.Managers
 {
@@ -135,6 +136,25 @@ namespace Mumble.Timerou.Models.Managers
             }
 
             return picture;
+        }
+
+        /// <summary>
+        /// Delete user media by id
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeleteMedia(Guid id)
+        {
+            var media = (from m in _container.Medias
+                         where m.User.Id == _user.Id
+                         && m.Id == id
+                         select m).FirstOrDefault();
+
+            if(media == null) {
+                throw new MediaNotFoundException(id);
+            }
+
+            _container.DeleteObject(media);
+            _container.SaveChanges();
         }
     }
 }

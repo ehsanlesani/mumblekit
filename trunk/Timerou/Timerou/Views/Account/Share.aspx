@@ -36,41 +36,13 @@
     <div id="uploader">
     
         <div class="box">
-            <h3><%= UIHelper.T("msg.selectPeriod") %></h3>
+            <h3><%= UIHelper.T("txt.when") %></h3>
             <div class="yearSlider"></div>
             <h2 style="text-align:center;" id="yearLabel">2010</h2>
         </div>
         
         <div class="box">
-            <h3><%= UIHelper.T("msg.selectPicture") %></h3>
-            
-            <div class="errorbox hidden" id="uploadErrorBox">Error</div>
-            
-            <table style="width: 100%;">
-                <tr>
-                    <td style="padding: 3px; width: 100px;">
-                        <div id="uploadButton" style="cursor: pointer;">
-                            <% if (Model.Picture != null) { %> 
-                                <img src="<%= UriHelper.Pictures %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
-                            <% } else { %> 
-                                <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
-                            <% } %>
-                            
-                        </div>
-                    </td>
-                    <td style="padding: 3px;" >
-                        <table width="100%">
-                            <tr><td><%= UIHelper.T("msg.clickPictureToChange") %></td></tr>
-                            <tr><td><div class="hidden" id="uploadStatus">Status</div></td></tr>
-                            <tr><td><div class="hidden" id="uploadProgress"></div></td></tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="box">
-            <h3><%= UIHelper.T("msg.selectLocation") %></h3>
+            <h3><%= UIHelper.T("txt.where") %></h3>
         
             <div class="errorbox hidden" id="mapErrorBox">Error</div>
         
@@ -96,6 +68,34 @@
                     </td>
                 </tr>
             </table>        
+        </div>
+        
+        <div class="box">
+            <h3><%= UIHelper.T("txt.what") %></h3>
+            
+            <div class="errorbox hidden" id="uploadErrorBox">Error</div>
+            
+            <table style="width: 100%;">
+                <tr>
+                    <td style="padding: 3px; width: 100px;">
+                        <div id="uploadButton" style="cursor: pointer;">
+                            <% if (Model.Picture != null) { %> 
+                                <img src="<%= UriHelper.Pictures %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
+                            <% } else { %> 
+                                <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
+                            <% } %>
+                            
+                        </div>
+                    </td>
+                    <td style="padding: 3px;" >
+                        <table width="100%">
+                            <tr><td><%= UIHelper.T("msg.clickPictureToChange") %></td></tr>
+                            <tr><td><div class="hidden" id="uploadStatus">Status</div></td></tr>
+                            <tr><td><div class="hidden" id="uploadProgress"></div></td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
         
         <div class="box">        
