@@ -40,14 +40,9 @@
 </head>
 
 <body>
-    <pre>
-    <%=ViewData["debug"] %>
-    </pre>
-
     <div class="container">
         <div class="header span-24 last">
-            <h1>Timerou</h1>
-            <h3></h3>
+            <h1><%= Html.ActionLink("Timerou", "Index", "Main") %></h1>
             <hr />
         </div>
         <div class="content span-24 last">

@@ -44,6 +44,10 @@ MapCom.showMediaLocations = function(medias) {
     MapCom.map.showMediaLocations(medias);
 };
 
+MapCom.setYear = function(year) {
+    MapCom.map.setYear(year);
+};
+
 //events in flash map
 MapCom.onMapReady = function() {
     $(MapCom).trigger("mapReady");

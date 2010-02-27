@@ -53,7 +53,7 @@ namespace Mumble.Timerou.Controllers
 
             if (String.IsNullOrEmpty(redirectUrl))
             {
-                return RedirectToAction("Index", "Home", null);
+                return RedirectToAction("Index", "Main", null);
             }
             else
             {
@@ -127,9 +127,7 @@ namespace Mumble.Timerou.Controllers
             {
                 Authorize();
 
-
-
-                return View();
+                return View("MyMemories"); //view name is needed because MyMemories method is used by other methods
             }
             catch (AuthException)
             {
@@ -169,8 +167,7 @@ namespace Mumble.Timerou.Controllers
             string address, 
             string lat,
             string lng,
-            int year,
-            bool? goToNewPicture)
+            int year)
         {
             try
             {
@@ -198,19 +195,13 @@ namespace Mumble.Timerou.Controllers
                     dLng,
                     year);
 
-                if (goToNewPicture.HasValue && goToNewPicture.Value)
-                {
-                    return RedirectToAction("Show", "Pictures", new { id = picture.Id });
-                }
-                else
-                {
-                    ViewData["Message"] = UIHelper.Translate("msg.pictureSaved");
-                    return RedirectToAction("Upload", "Account", new { message = UIHelper.Translate("msg.pictureSaved") });
-                }
+                ViewData["Message"] = UIHelper.Translate("msg.mediaSaved");
+
+                return MyMemories();
             }
             catch (AuthException)
             {
-                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Upload", "Account") });
+                return RedirectToAction("Login", "Account", new { redirectUrl = Url.Action("Share", "Account") });
             }
             
         }

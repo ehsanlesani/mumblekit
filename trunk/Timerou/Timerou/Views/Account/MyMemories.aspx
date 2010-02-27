@@ -21,6 +21,7 @@
             height: 50px;
             width: 50px;
             border: solid 1px gray;
+            margin-right: 3px;
         }
         
         #userMediasContainer .avatar a:hover
@@ -29,6 +30,7 @@
             height: 50px;
             width: 50px;
             border: solid 1px red;
+            margin-right: 3px;
         }
         
         #userMediasContainer .avatar img 
@@ -54,10 +56,12 @@
             color: #E80005;
         }
         
-        #userMediasContainer
+        #userMediasContainer .media
         {
-            border-spacing: 3px;            
+            padding: 3px;
+            border-bottom: dotted 1px #737373;
         }
+
     </style>
     
     <h2>MyMemories</h2>
@@ -75,13 +79,13 @@
     
     <div class="box">
         <div id="userMediasContainer"></div>  
-        <div>
+        <div style="text-align: center;">
             <a href="javascript:;" id="backButton">back</a> | <a href="javascript:;" id="forwardButton">forward</a>
         </div>          
     </div>
 
 <div style="display: none;" id="templates">
-    <div id="mediaRowTemplate">
+    <div id="mediaRowTemplate" class="media">
         <table>
             <tr>
                 <td class="avatar">

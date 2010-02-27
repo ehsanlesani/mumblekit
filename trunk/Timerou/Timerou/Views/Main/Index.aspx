@@ -1,8 +1,6 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Language="C#" Inherits="Mumble.Timerou.Models.Auth.AuthPage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
@@ -48,6 +46,13 @@
             var timebar = new Timebar();
             var mediaNavigator = new MediaNavigator();
 
+            $(timebar).bind(Timebar.YEAR_CHANGED, function() {
+                MapCom.setYear(timebar.getYear());
+                
+                mediaNavigator.setYear(timebar.getYear());
+                mediaNavigator.loadMediasTimeSafe();
+            });
+
             $(MapCom).bind("mapReady", function() {
                 timebar.initialize(year);
                 timebar.loadMediasTimeSafe();
@@ -86,7 +91,15 @@
 <body>
     <div class="header">
         <div style="float:right;">
-            <%= Html.ActionLink("login", "Login", "Account") %> | <%= Html.ActionLink("register", "Register", "Account") %> | <%= Html.ActionLink("upload", "Upload", "Account") %>
+            <% if (!AccountManager.HasLoggedUser) { %>
+                <%= Html.ActionLink("login", "Login", "Account")%> | 
+                <%= Html.ActionLink("register", "Register", "Account") %> |
+            <% } else { %>
+                <%= UIHelper.T("txt.welcome") %> <%= AccountManager.LoggedUser.FirstName %> |
+                <%= Html.ActionLink("my memories", "MyMemories", "Account") %> |
+            <% } %>
+           
+            <%= Html.ActionLink("share", "Share", "Account") %>
         </div>
         <span class="title">Timerou preview</span>
     </div>
