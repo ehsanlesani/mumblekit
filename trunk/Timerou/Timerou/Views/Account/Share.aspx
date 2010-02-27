@@ -130,8 +130,7 @@
                     </p>
                 </fieldset>
                 
-                <input type="button" value='<%= UIHelper.T("msg.savePictureAndGoToUpload") %>' id="saveAndGoToUploadButton" />
-                <input type="button" value='<%= UIHelper.T("msg.savePictureAndGoToPicture") %>' id="saveAndGoToPictureButton" />
+                <input type="submit" value='<%= UIHelper.T("txt.save") %>' />
             <% } %>            
         </div>    
     </div>

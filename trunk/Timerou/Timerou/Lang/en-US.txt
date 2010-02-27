@@ -36,9 +36,7 @@ msg.selectedLocation = Selected location
 msg.savePicture = Save picture
 msg.returnToMap = Return to map
 msg.checkInformations = Check informations
-msg.savePictureAndGoToUpload = Save picture and go upload
-msg.savePictureAndGoToPicture = Save picture and view
-msg.pictureSaved = Picture saved
+msg.mediaSaved = Media saved
 
 //my memories
 msg.sharedOn = Shared on
@@ -61,5 +59,10 @@ txt.edit = Edit
 txt.delete = Delete
 txt.search = Search
 txt.uploading = Uploading
+txt.deleting = Deleting
+txt.when = When
+txt.where = Where
+txt.what = Wath
+txt.save = Save
 
-
+txt.welcome = txt.welcome

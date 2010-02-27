@@ -28,10 +28,6 @@ ShareManager.prototype = {
         this.initializeMaps();
         this.initializeTextareas();
 
-        //configure buttons
-        $("#saveAndGoToUploadButton").click(function() { self.setInput("goToNewPicture", false); $("#pictureForm").submit(); });
-        $("#saveAndGoToPictureButton").click(function() { self.setInput("goToNewPicture", true); $("#pictureForm").submit(); });
-
         $("#pictureForm").submit(function() {
             var allOk = true;
 
@@ -162,8 +158,10 @@ ShareManager.prototype = {
             loadedLat = new Number(loadedLat);
             loadedLng = new Number(loadedLng);
 
-            self.initializeMarker(new google.maps.LatLng(loadedLat, loadedLng));
-
+            var position = new google.maps.LatLng(loadedLat, loadedLng);
+            self.initializeMarker(position);
+            self.map.setCenter(position);
+            
             //set labels for user feedback
             $("#mapLocationLabel").html(self.getInput("address"));
             $("#mapLatLngLabel").html("Lat: " + loadedLat + ", Lng: " + loadedLng);

@@ -6,11 +6,12 @@ using System.Web.Mvc;
 using Mumble.Timerou.Models;
 using Mumble.Timerou.Models.Helpers;
 using System.IO;
+using Mumble.Timerou.Models.Auth;
 
 namespace Mumble.Timerou.Controllers
 {
     [HandleError]
-    public class MainController : Controller
+    public class MainController : AuthController
     {
         private TimerouContainer _container = new TimerouContainer();
 
