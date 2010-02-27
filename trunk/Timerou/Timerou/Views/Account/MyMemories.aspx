@@ -6,6 +6,7 @@
     
     <script type="text/javascript">
         var ONE_MORE_TIME = '<%= UIHelper.T("msg.oneMoreTime") %>';
+        var DELETING = '<%= UIHelper.T("txt.deleting") %>';
     
         $(document).ready(function() {
             var manager = new MyMemoriesManager();
@@ -73,26 +74,28 @@
     </div>
     
     <div class="box">
-        <table id="userMediasContainer"></table>  
+        <div id="userMediasContainer"></div>  
         <div>
             <a href="javascript:;" id="backButton">back</a> | <a href="javascript:;" id="forwardButton">forward</a>
         </div>          
     </div>
 
 <div style="display: none;" id="templates">
-    <table>
-        <tr id="mediaRowTemplate">
-            <td class="avatar">
-                <a href="javascript:;"><img src='<%= UriHelper.Images %>noPhoto.png' id="avatarImage" alt="missing" /></a>
-            </td>
-            <td>
-                <span class="year" id="mediaYear">2010</span> <span class="title" id="title">Matera citta' d'arte</span><br />
-                <span class="address" id="address">Via e. de martino, 75100 Matera, Italia</span><br />
-                <span><%= UIHelper.T("msg.sharedOn") %> 12/12/1222</span> 
-                [ <a href="javascript:;" id="editButton"><%= UIHelper.T("txt.edit") %></a> | <a href="javascript:;" id="deleteButton"><%= UIHelper.T("txt.delete") %></a> ]
-            </td>
-        </tr>
-    </table>
+    <div id="mediaRowTemplate">
+        <table>
+            <tr>
+                <td class="avatar">
+                    <a href="javascript:;"><img src='<%= UriHelper.Images %>noPhoto.png' id="avatarImage" alt="missing" /></a>
+                </td>
+                <td>
+                    <span class="year" id="mediaYear">2010</span> <span class="title" id="title">Matera citta' d'arte</span><br />
+                    <span class="address" id="address">Via e. de martino, 75100 Matera, Italia</span><br />
+                    <span><%= UIHelper.T("msg.sharedOn") %> <span id="created">12/12/1222</span></span> 
+                    [ <a href="javascript:;" id="editButton"><%= UIHelper.T("txt.edit") %></a> | <a href="javascript:;" id="deleteButton"><%= UIHelper.T("txt.delete") %></a> ]
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 </asp:Content>

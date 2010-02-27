@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Mumble.Timerou.Models.Helpers;
 
 namespace Mumble.Timerou.Models.Responses
 {
@@ -26,6 +27,7 @@ namespace Mumble.Timerou.Models.Responses
                 Lng = media.Lng,
                 Year = media.Year,
                 Type = media.GetType().Name,
+                Created = media.Created.ToString(UIHelper.DateFormat),
                 Body = light ? null : media.Body
             };
 
@@ -41,7 +43,6 @@ namespace Mumble.Timerou.Models.Responses
             return data;
         }
 
-
         public PictureData PictureData { get; set; }
         public VideoData VideoData { get; set; }
 
@@ -56,5 +57,6 @@ namespace Mumble.Timerou.Models.Responses
         public int Year { get; set; }
         public string Type { get; set; }
         public string Body { get; set; }
+        public string Created { get; set; }
     }
 }

@@ -5,13 +5,24 @@
 function MyMemoriesManager() {
     this.page = 1;
     this.pageSize = 20;
+    this.canGoBack = false;
+    this.canGoForward = false;
+    this.totalCount = 0;
 }
 
 MyMemoriesManager.prototype = {
     initialize: function() {
         var self = this;
         $("#searchForm").submit(function() { self.loadMedias(); return false; });
-
+        $("#backButton").click(function() {
+            if (self.canGoBack) { self.page--; self.loadMedias(); }
+            else { alert("disabled"); }
+        });
+        $("#forwardButton").click(function() {
+            if (self.canGoForward) { self.page++; self.loadMedias(); }
+            else { alert("disabled"); }
+        });
+        this._updatePageButtons();
         this.loadMedias();
     },
 
@@ -44,11 +55,31 @@ MyMemoriesManager.prototype = {
                     alert("Video renderer not implemented");
                 }
             }
+            
+            self.totalCount = response.totalCount;
+            self._updatePageButtons();
 
         }, "json");
     },
 
+    deleteMedia: function(id) {
+        var self = this;
+        $("#loading").fadeIn(250);
+        $.post(Url.DeleteUserMedia, { id: id }, function(response) {
+            $("#loading").fadeOut(250);
+
+            if (response.error) {
+                Utils.showSiteError(response.message);
+                return;
+            }
+
+            //remove media from dom
+            $("#media_" + id).slideUp(250, function() { $(this).remove(); });
+        }, "json");
+    },
+
     _renderPicture: function(media) {
+        var self = this;
         var picture = $("#mediaRowTemplate")
             .clone()
             .attr("id", "media_" + media.id)
@@ -68,6 +99,10 @@ MyMemoriesManager.prototype = {
                 .removeAttr("id")
                 .html(media.year)
                 .end()
+            .find("#created")
+                .removeAttr("id")
+                .html(media.created)
+                .end()
             .find("#editButton")
                 .removeAttr("id")
                 .click(function() {
@@ -83,15 +118,28 @@ MyMemoriesManager.prototype = {
                             .data("waitForConfirm", true)
                             .html(ONE_MORE_TIME);
 
-                        window.setTimeout(function() { $("#deleteButton" + media.id).data("waitForConfirm", null).html(oldText); }, 2000)
+                        window.setTimeout(function() { $("#deleteButton" + media.id).data("waitForConfirm", null).html(oldText); }, 1000)
                     } else {
-                        alert("delete");
+                        $("#deleteButton" + media.id).html(DELETING);
+                        self.deleteMedia(media.id);
                     }
-
-
                 })
                 .end();
 
         return picture;
+    },
+
+    _updatePageButtons: function() {
+        if (this.page > 1) {
+            this.canGoBack = true;
+        } else {
+            this.canGoBack = false;
+        }
+
+        if (this.totalCount > this.page * this.pageSize) {
+            this.canGoForward = true;
+        } else {
+            this.canGoForward = false;
+        }
     }
 };

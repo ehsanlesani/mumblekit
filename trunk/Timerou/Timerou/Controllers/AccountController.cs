@@ -337,6 +337,37 @@ namespace Mumble.Timerou.Controllers
         }
 
         /// <summary>
+        /// Delete logged user media by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult DeleteUserMedia(Guid id)
+        {
+            SimpleResponse response = null;
+
+            try
+            {
+                Authorize();
+
+                ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
+                //controlPanel.DeleteMedia(id);
+
+                response = new SimpleResponse(false, "Media deleted");
+            }
+            catch (AuthException)
+            {
+                response = new SimpleResponse(true, UIHelper.Translate("err.unauthorized"));
+            }
+            catch (Exception ex)
+            {
+                response = new SimpleResponse(true, ex.Message);
+            }
+
+            return this.CamelCaseJson(response);
+        }
+
+        /// <summary>
         /// Add a temp picture to current user. This action result is not a json because this method is called by ajax uploader from an iframe
         /// </summary>
         /// <param name="albumId"></param>
