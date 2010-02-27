@@ -139,11 +139,12 @@ namespace Mumble.Timerou.Models.Managers
         }
 
         /// <summary>
-        /// Delete user media by id
+        /// Delete user media from db and files from hard disk
         /// </summary>
         /// <param name="id"></param>
         public void DeleteMedia(Guid id)
         {
+            //delete from db
             var media = (from m in _container.Medias
                          where m.User.Id == _user.Id
                          && m.Id == id
@@ -153,6 +154,9 @@ namespace Mumble.Timerou.Models.Managers
                 throw new MediaNotFoundException(id);
             }
 
+            //delete al media-related contents
+            media.DeleteContents();
+            //and delete media from db
             _container.DeleteObject(media);
             _container.SaveChanges();
         }

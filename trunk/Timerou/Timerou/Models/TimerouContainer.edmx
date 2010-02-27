@@ -304,7 +304,7 @@
           <End Role="Groups" Type="TimerouModel.Group" Multiplicity="*" />
           <End Role="Users" Type="TimerouModel.User" Multiplicity="*" />
         </Association>
-        <EntityType Name="Media">
+        <EntityType Name="Media" Abstract="true">
           <Key>
             <PropertyRef Name="Id" /></Key>
           <Property Name="Id" Type="Guid" Nullable="false" />

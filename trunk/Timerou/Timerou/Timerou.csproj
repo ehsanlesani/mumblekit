@@ -94,11 +94,13 @@
     <Compile Include="Models\Managers\MediaLoader.cs" />
     <Compile Include="Models\MapBounds.cs" />
     <Compile Include="Models\MapObject.cs" />
+    <Compile Include="Models\Media.cs" />
     <Compile Include="Models\Responses\LoadMediaResponse.cs" />
     <Compile Include="Models\Responses\PictureData.cs" />
     <Compile Include="Models\Responses\VideoData.cs" />
     <Compile Include="Models\Responses\YearGroupedMediasData.cs" />
     <Compile Include="Models\Responses\YearGroupedMediasResponse.cs" />
+    <Compile Include="Models\Video.cs" />
     <Compile Include="Models\ViewData\BaseModel.cs" />
     <Compile Include="Models\ViewData\LoginModel.cs" />
     <Compile Include="Models\Exceptions\AuthException.cs" />
@@ -206,6 +208,7 @@
     <Content Include="Content\Timebar\step.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
+    <Content Include="Map\Main.swf" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\JSMapCom.js" />
