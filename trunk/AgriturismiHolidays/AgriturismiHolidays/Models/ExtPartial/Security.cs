@@ -23,13 +23,13 @@ namespace Mumble.Web.StarterKit.Models
 
         private Security()
         {
-            Context = new UsersContainer();
+            Context = new StarterKitContainer();
         }
 
         /// <summary>
         /// Gets the users model
         /// </summary>
-        public UsersContainer Context { get; private set; }
+        public StarterKitContainer Context { get; private set; }
 
         public bool Login(string email, string password)
         {

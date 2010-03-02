@@ -18,6 +18,7 @@ using Mumble.Web.StarterKit.Models.Helpers;
 using Mumble.Web.StarterKit.Models.ViewModels;
 using Mumble.Web.StarterKit.Models.Auth;
 using Mumble.Web.StarterKit.Models.Common;
+using Mumble.Web.StarterKit.Models.Site;
 
 
 namespace Mumble.Web.StarterKit.Controllers.Site
@@ -48,7 +49,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             try
             {
-                AccountManager accountManager = new AccountManager(UsersContainer);
+                AccountManager accountManager = new AccountManager(StarterKitContainer);
                 accountManager.Login(email, password);
             }
             catch (LoginException)
@@ -95,7 +96,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
         public ActionResult Logout() 
         {
-            return RedirectToAction("LandingAction", "Home", new { error = UIHelper.Translate("err.badLogin") });
+            AccountManager.Logout();
+            return RedirectToAction("Index", "Home", null);
         }
 
         /// <summary>
@@ -120,8 +122,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             try
             {
-                UsersContainer container = new UsersContainer();
-                AccountManager accountManager = new AccountManager(container);
+                AccountManager accountManager = new AccountManager(StarterKitContainer);
                 accountManager.Register(firstName, lastName, email, password);
             }
             catch (ExistingEmailException ex)
@@ -149,10 +150,64 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
         public ActionResult PersonalPage() 
         {
+            BasicPageData(null);
+
+            return View();
+        }
+
+        private void BasicPageData(string error) 
+        {
             Populate();
             LoginModel loginModel = new LoginModel();
             loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
             ViewData["Login"] = loginModel;
+            ViewData["Error"] = "Errore: "+ error;
+            ViewData["JsonValue"] = "";
+        }
+        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult RegisterAccommodation(string name, 
+                                                    string description, 
+                                                    string email, 
+                                                    string tel, 
+                                                    string street, 
+                                                    string streetnr, 
+                                                    string cap,
+                                                    string whereweare,
+                                                    string fax,
+                                                    int? stars,
+                                                    string jpegAttachments) 
+        {
+            try
+            {
+                StarterKitContainer container = new StarterKitContainer();
+                Accommodation a = (from u in container.Users where u.Id == AccountManager.LoggedUser.Id select u.Accommodations).FirstOrDefault<Accommodation>();
+
+                if (a == null)
+                {
+                    a = new Accommodation();
+                    container.AddToAccommodations(a);
+                }
+
+                a.Name = name;
+                a.Description = description;
+                a.Email = email;
+                a.Tel = tel;
+                a.Street = street;
+                a.StreetNr = streetnr;
+                a.Cap = cap;
+                a.WhereWeAre = whereweare;
+                a.Fax = fax;
+                a.Quality = stars;
+
+                Attachments attach = new Attachments();
+                attach.Convert(jpegAttachments, a, container);                                
+                container.SaveChanges();
+            }
+            catch (Exception ex) 
+            {
+                BasicPageData(ex.Message);
+            }
 
             return View();
         }

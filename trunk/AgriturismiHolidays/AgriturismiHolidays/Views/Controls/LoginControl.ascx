@@ -1,23 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Import Namespace="Mumble.Web.StarterKit.Models.ViewModels" %>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#loginForm").validate({
-            rules: {
-                email: { required: true, email: true },
-                password: "required"
-            },
-            messages: {
-                email: '<%= UIHelper.T("msg.invalidEmail") %>',
-                password: '<%= UIHelper.T("msg.passRequired") %>'
-            }
-        });
-    });
-</script>
-
-
-
 <% 
     AccountManager manager = ViewData["AccountManager"] as AccountManager;
     LoginModel login = ViewData["Login"] as LoginModel;
@@ -41,14 +24,29 @@
             <td><input type="image" src="<%=ResolveUrl("~/Content/Images/arrow-right.png") %>" title="entra" /></td>
         </tr>
         </table> 
-<% 
-    }
+        
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#loginForm").validate({
+                    rules: {
+                        email: { required: true, email: true },
+                        password: "required"
+                    },
+                    messages: {
+                        email: '<%= UIHelper.T("msg.invalidEmail") %>',
+                        password: '<%= UIHelper.T("msg.passRequired") %>'
+                    }
+                });
+            });
+    </script>
+    <% 
+        }
     }
     else 
     { 
         %>
-        <span><%=Html.ActionLink("logout", "Logout", "Account", new { @class="logout" })%></span>
-        <span><%=Html.ActionLink("area privata", "PersonalPage", "Account", new { @class = "logout" })%></span>
+        <span><%=Html.ActionLink("logout", "Logout", "Account", null, new { @class="logout" })%></span>
+        <span><%=Html.ActionLink("area privata", "PersonalPage", "Account", null, new { @class = "logout" })%></span>
         <%
     }
         

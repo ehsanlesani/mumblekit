@@ -21,7 +21,7 @@ namespace Mumble.Web.StarterKit.Models
         /// Create new instance of AccountManager with specified context
         /// </summary>
         /// <param name="container"></param>
-        public AccountManager(UsersContainer container)
+        public AccountManager(StarterKitContainer container)
         {
             Container = container;
         }
@@ -29,7 +29,7 @@ namespace Mumble.Web.StarterKit.Models
         /// <summary>
         /// Gets the users model
         /// </summary>
-        public UsersContainer Container { get; set; }
+        public StarterKitContainer Container { get; set; }
 
         /// <summary>
         /// Log user into site and store id into session
