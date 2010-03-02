@@ -54,22 +54,11 @@
                             string hrefPath = "Structure.aspx/Show/" + a.Id;
                             string imgPath = "/Public/" + img.Path + "_lil.jpg";
 
-                            if (File.Exists(imgPath))
-                            {
                             %>
                                 <a href="<%=hrefPath%>" title="<%=a.Name%>">                                
                                     <img src="<%=imgPath%>" alt="<%=a.Name%>" />
                                 </a>
                             <%
-                            }
-                            else 
-                            {
-                            %>
-                                 <a href="<%=hrefPath%>" title="<%=a.Name%>">                                
-                                    <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" />
-                                 </a>
-                            <%
-                            }
                         }
                         else 
                         {

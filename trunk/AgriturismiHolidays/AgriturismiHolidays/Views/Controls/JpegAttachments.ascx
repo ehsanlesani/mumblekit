@@ -7,8 +7,10 @@
         </div>
     </td>
     <td class="control">
-    
+        <script src="<%=ResolveUrl("~/Content/JS/jquery/jquery.json.js") %>"></script>
         <script type="text/javascript">
+        
+        
             var attachments = [];
             var attachmentCounter = 0;
 
@@ -20,14 +22,18 @@
                 this.Delete = false;
             }
 
+            
             $(document).ready(function() {
+                
                 jQuery.fn.appendIf = function(condition, el) {
                     if (condition)
                         return jQuery(this).append(el);
                     return jQuery(this);
                 };
 
-                $("form")
+                //$("form#registerAccommodationFrm").attr("enctype", "multipart/form-data");
+
+                $("form#registerAccommodationFrm")
                     .attr("enctype", "multipart/form-data")
                     .submit(function() {
                         $("#attachmentsJson").val($.toJSON(attachments));
