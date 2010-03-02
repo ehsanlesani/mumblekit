@@ -17,7 +17,7 @@ namespace Mumble.Web.StarterKit.Models.Auth
         /// <summary>
         /// Gets or sets container
         /// </summary>
-        public UsersContainer UsersContainer { get; set; }
+        public StarterKitContainer StarterKitContainer { get; set; }
 
         /// <summary>
         /// Gets or sets account manager
@@ -26,8 +26,8 @@ namespace Mumble.Web.StarterKit.Models.Auth
 
         public AuthController()
         {
-            UsersContainer = new UsersContainer();
-            AccountManager = new AccountManager(UsersContainer);
+            StarterKitContainer = new StarterKitContainer();
+            AccountManager = new AccountManager(StarterKitContainer);
             
             //send account manager to AuthPage
             ViewData["AccountManager"] = AccountManager;

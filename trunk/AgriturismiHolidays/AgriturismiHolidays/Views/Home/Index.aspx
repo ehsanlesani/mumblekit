@@ -92,7 +92,7 @@
     function ChangeRegion(id) { 
         var regionList = new Array ("abruzzo", "basilicata", "calabria", "campania", "emilia", "friuli", "lazio", "liguria", "lombardia"
         ,"marche", "molise", "piemonte", "puglia", "sardegna", "sicilia", "toscana", "trentino", "umbria", "valledaosta", "veneto");
-        //alert(id);
+        
         var itemId = jQuery.inArray(id, regionList);
         $("#RegionItems option").eq(itemId).attr("selected", "selected");
     }

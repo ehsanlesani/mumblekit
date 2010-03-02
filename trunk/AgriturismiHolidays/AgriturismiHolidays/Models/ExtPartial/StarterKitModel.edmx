@@ -10,6 +10,8 @@
           <EntitySet Name="AccommodationTypes" EntityType="StarterKitModel.Store.AccommodationTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="AccomodationService" EntityType="StarterKitModel.Store.AccomodationService" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Attachments" EntityType="StarterKitModel.Store.Attachments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Groups" EntityType="StarterKitModel.Store.Groups" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GroupUser" EntityType="StarterKitModel.Store.GroupUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Municipalities" EntityType="StarterKitModel.Store.Municipalities" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Newsletter" EntityType="StarterKitModel.Store.Newsletter" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="StarterKitModel.Store.Pages" store:Type="Tables" Schema="dbo" />
@@ -46,6 +48,14 @@
             <End Role="Accommodations" EntitySet="Accommodations" />
             <End Role="Attachments" EntitySet="Attachments" />
           </AssociationSet>
+          <AssociationSet Name="FK_GroupUser_Group" Association="StarterKitModel.Store.FK_GroupUser_Group">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="GroupUser" EntitySet="GroupUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupUser_User" Association="StarterKitModel.Store.FK_GroupUser_User">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="GroupUser" EntitySet="GroupUser" />
+          </AssociationSet>
           <AssociationSet Name="FK_Municipalities_Provinces" Association="StarterKitModel.Store.FK_Municipalities_Provinces">
             <End Role="Provinces" EntitySet="Provinces" />
             <End Role="Municipalities" EntitySet="Municipalities" />
@@ -73,6 +83,10 @@
           <AssociationSet Name="FK_SectionPage" Association="StarterKitModel.Store.FK_SectionPage">
             <End Role="Sections" EntitySet="Sections" />
             <End Role="Pages" EntitySet="Pages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Accommodations" Association="StarterKitModel.Store.FK_Users_Accommodations">
+            <End Role="Accommodations" EntitySet="Accommodations" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Accommodations">
@@ -120,6 +134,21 @@
           <Property Name="Description" Type="varchar" MaxLength="50" />
           <Property Name="Path" Type="varchar" MaxLength="255" />
           <Property Name="Accommodations_Id" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Groups">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="GroupUser">
+          <Key>
+            <PropertyRef Name="Groups_Id" />
+            <PropertyRef Name="Users_Id" />
+          </Key>
+          <Property Name="Groups_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Users_Id" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Municipalities">
           <Key>
@@ -234,6 +263,7 @@
           <Property Name="City" Type="nvarchar(max)" />
           <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Accommodation_Id" Type="uniqueidentifier" />
         </EntityType>
         <Association Name="FK_AccommodationRooms_Accommodations">
           <End Role="Accommodations" Type="StarterKitModel.Store.Accommodations" Multiplicity="0..1" />
@@ -304,6 +334,30 @@
             </Principal>
             <Dependent Role="Attachments">
               <PropertyRef Name="Accommodations_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupUser_Group">
+          <End Role="Groups" Type="StarterKitModel.Store.Groups" Multiplicity="1" />
+          <End Role="GroupUser" Type="StarterKitModel.Store.GroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Groups">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupUser">
+              <PropertyRef Name="Groups_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupUser_User">
+          <End Role="Users" Type="StarterKitModel.Store.Users" Multiplicity="1" />
+          <End Role="GroupUser" Type="StarterKitModel.Store.GroupUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupUser">
+              <PropertyRef Name="Users_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -391,6 +445,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Accommodations">
+          <End Role="Accommodations" Type="StarterKitModel.Store.Accommodations" Multiplicity="0..1" />
+          <End Role="Users" Type="StarterKitModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accommodations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Accommodation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -455,7 +521,15 @@
           <EntitySet Name="Newsletter" EntityType="StarterKitModel.Newsletter" />
           <AssociationSet Name="FK_Pages_AccommodationTypes" Association="StarterKitModel.FK_Pages_AccommodationTypes">
             <End Role="AccommodationType" EntitySet="AccommodationTypes" />
-            <End Role="Page" EntitySet="Pages" /></AssociationSet></EntityContainer>
+            <End Role="Page" EntitySet="Pages" /></AssociationSet>
+          <EntitySet Name="Groups" EntityType="StarterKitModel.Group" />
+          <EntitySet Name="Users" EntityType="StarterKitModel.User" />
+          <AssociationSet Name="FK_Users_Accommodations" Association="StarterKitModel.FK_Users_Accommodations">
+            <End Role="Accommodation" EntitySet="Accommodations" />
+            <End Role="Users" EntitySet="Users" /></AssociationSet>
+          <AssociationSet Name="GroupUser" Association="StarterKitModel.GroupUser">
+            <End Role="Groups" EntitySet="Groups" />
+            <End Role="Users" EntitySet="Users" /></AssociationSet></EntityContainer>
         <EntityType Name="Accommodation">
           <Key>
             <PropertyRef Name="Id" />
@@ -477,7 +551,8 @@
           <Property Name="Tel" Type="String" Nullable="true" />
           <Property Name="Fax" Type="String" Nullable="true" />
           <Property Name="StreetNr" Type="String" Nullable="true" />
-          <NavigationProperty Name="Services" Relationship="StarterKitModel.AccomodationService" FromRole="Accommodation" ToRole="Services" /></EntityType>
+          <NavigationProperty Name="Services" Relationship="StarterKitModel.AccomodationService" FromRole="Accommodation" ToRole="Services" />
+          <NavigationProperty Name="Users" Relationship="StarterKitModel.FK_Users_Accommodations" FromRole="Accommodation" ToRole="Users" /></EntityType>
         <EntityType Name="AccommodationType">
           <Key>
             <PropertyRef Name="Id" />
@@ -647,7 +722,31 @@
           <Property Name="email" Type="String" Nullable="true" /></EntityType>
         <Association Name="FK_Pages_AccommodationTypes">
           <End Type="StarterKitModel.AccommodationType" Role="AccommodationType" Multiplicity="0..1" />
-          <End Type="StarterKitModel.Page" Role="Page" Multiplicity="*" /></Association></Schema>
+          <End Type="StarterKitModel.Page" Role="Page" Multiplicity="*" /></Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="StarterKitModel.GroupUser" FromRole="Groups" ToRole="Users" /></EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" /></Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="true" />
+          <Property Name="LastName" Type="String" Nullable="true" />
+          <Property Name="Address" Type="String" Nullable="true" />
+          <Property Name="City" Type="String" Nullable="true" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" />
+          <NavigationProperty Name="Accommodations" Relationship="StarterKitModel.FK_Users_Accommodations" FromRole="Users" ToRole="Accommodation" />
+          <NavigationProperty Name="Groups" Relationship="StarterKitModel.GroupUser" FromRole="Users" ToRole="Groups" /></EntityType>
+        <Association Name="FK_Users_Accommodations">
+          <End Type="StarterKitModel.Accommodation" Role="Accommodation" Multiplicity="0..1" />
+          <End Type="StarterKitModel.User" Role="Users" Multiplicity="*" /></Association>
+        <Association Name="GroupUser">
+          <End Type="StarterKitModel.Group" Role="Groups" Multiplicity="*" />
+          <End Type="StarterKitModel.User" Role="Users" Multiplicity="*" /></Association></Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -886,7 +985,33 @@
               <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
             <EndProperty Name="AccommodationType">
               <ScalarProperty Name="Id" ColumnName="AccommodationType_Id" /></EndProperty>
-            <Condition ColumnName="AccommodationType_Id" IsNull="false" /></AssociationSetMapping></EntityContainerMapping>
+            <Condition ColumnName="AccommodationType_Id" IsNull="false" /></AssociationSetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.Group)">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.User)">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_Users_Accommodations" TypeName="StarterKitModel.FK_Users_Accommodations" StoreEntitySet="Users">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="Id" /></EndProperty>
+            <EndProperty Name="Accommodation">
+              <ScalarProperty Name="Id" ColumnName="Accommodation_Id" /></EndProperty>
+            <Condition ColumnName="Accommodation_Id" IsNull="false" /></AssociationSetMapping>
+          <AssociationSetMapping Name="GroupUser" TypeName="StarterKitModel.GroupUser" StoreEntitySet="GroupUser">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="Id" ColumnName="Users_Id" /></EndProperty>
+            <EndProperty Name="Groups">
+              <ScalarProperty Name="Id" ColumnName="Groups_Id" /></EndProperty></AssociationSetMapping></EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -904,7 +1029,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="StarterKitModel" ZoomLevel="85">
+      <Diagram Name="StarterKitModel" ZoomLevel="64">
         <EntityTypeShape EntityType="StarterKitModel.Accommodation" Width="1.75" PointX="7.5" PointY="3.125" Height="3.5186979166666665" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.AccommodationType" Width="2" PointX="3.125" PointY="6.375" Height="1.9802864583333331" IsExpanded="true" />
         <EntityTypeShape EntityType="StarterKitModel.Attachment" Width="1.5" PointX="9.75" PointY="0.75" Height="2.172587890625" IsExpanded="true" />
@@ -922,8 +1047,8 @@
           <ConnectorPoint PointX="9.75" PointY="4.8362939453125" />
           </AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_Accommodations_AccommodationTypes" ManuallyRouted="false">
-          <ConnectorPoint PointX="5.125" PointY="6.9901025390625" />
-          <ConnectorPoint PointX="7.5" PointY="6.9901025390625" />
+          <ConnectorPoint PointX="5.125" PointY="7.0862532552083328" />
+          <ConnectorPoint PointX="7.5" PointY="7.0862532552083328" />
           </AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_Accommodations_Municipalities" ManuallyRouted="false">
           <ConnectorPoint PointX="6.75" PointY="4.7112939453125" />
@@ -947,15 +1072,17 @@
           <ConnectorPoint PointX="12.34375" PointY="5.8552864583333335" />
           </AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_RoomPriceList_PriceListSeasons" ManuallyRouted="false">
-          <ConnectorPoint PointX="11.25" PointY="9.9901432291666659" />
+          <ConnectorPoint PointX="11.25" PointY="10.653636067708334" />
           <ConnectorPoint PointX="12.9218775" PointY="9.9901432291666659" />
-          <ConnectorPoint PointX="12.9218775" PointY="5.8552864583333335" /></AssociationConnector>
+          <ConnectorPoint PointX="12.9218775" PointY="5.8552864583333335" />
+          </AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_Provinces_Region" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="4.797841796875" />
           <ConnectorPoint PointX="3" PointY="4.797841796875" /></AssociationConnector>
         <AssociationConnector Association="StarterKitModel.FK_RoomPriceList_Rooms" ManuallyRouted="false">
           <ConnectorPoint PointX="11.25" PointY="4.8651432291666667" />
-          <ConnectorPoint PointX="12" PointY="4.8651432291666667" /></AssociationConnector>
+          <ConnectorPoint PointX="12" PointY="4.8651432291666667" />
+          </AssociationConnector>
         <EntityTypeShape EntityType="StarterKitModel.Service" Width="1.5" PointX="13.5" PointY="7.75" Height="1.7879850260416674" />
         <AssociationConnector Association="StarterKitModel.AccomodationService" >
           <ConnectorPoint PointX="9.25" PointY="6.2737939453125" />
@@ -964,11 +1091,22 @@
           <ConnectorPoint PointX="12.838544166666667" PointY="6.2737939453124989" />
           <ConnectorPoint PointX="13.005210833333335" PointY="6.2737939453125" />
           <ConnectorPoint PointX="14.28125" PointY="6.2737939453125" />
-          <ConnectorPoint PointX="14.28125" PointY="7.75" /></AssociationConnector>
+          <ConnectorPoint PointX="14.28125" PointY="7.75" />
+          </AssociationConnector>
         <EntityTypeShape EntityType="StarterKitModel.Newsletter" Width="1.5" PointX="1.625" PointY="9" Height="1.4033821614583331" />
         <AssociationConnector Association="StarterKitModel.FK_Pages_AccommodationTypes" >
           <ConnectorPoint PointX="4.125" PointY="8.3552864583333335" />
           <ConnectorPoint PointX="4.125" PointY="11.025940755208334" />
-          <ConnectorPoint PointX="7.5" PointY="11.025940755208334" /></AssociationConnector></Diagram></edmx:Diagrams>
+          <ConnectorPoint PointX="7.5" PointY="11.025940755208334" /></AssociationConnector>
+        <EntityTypeShape EntityType="StarterKitModel.Group" Width="1.5" PointX="15" PointY="0.875" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="StarterKitModel.User" Width="1.5" PointX="12.5" PointY="0.75" Height="2.7494921874999996" />
+        <AssociationConnector Association="StarterKitModel.FK_Users_Accommodations" >
+          <ConnectorPoint PointX="9.25" PointY="3.31224609375" />
+          <ConnectorPoint PointX="12.5" PointY="3.31224609375" />
+          </AssociationConnector>
+        <AssociationConnector Association="StarterKitModel.GroupUser" >
+          <ConnectorPoint PointX="15" PointY="1.6728417968749998" />
+          <ConnectorPoint PointX="14" PointY="1.6728417968749998" />
+          </AssociationConnector></Diagram></edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

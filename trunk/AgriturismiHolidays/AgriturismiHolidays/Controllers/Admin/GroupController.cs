@@ -14,7 +14,7 @@ namespace Mumble.Web.StarterKit.Controllers.Admin
     {
         protected override System.Data.Objects.ObjectContext ObjectContext
         {
-            get { return new UsersContainer(); }
+            get { return new StarterKitContainer(); }
         }
     }
 }
