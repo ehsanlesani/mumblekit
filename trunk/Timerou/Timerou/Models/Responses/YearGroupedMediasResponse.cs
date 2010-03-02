@@ -7,13 +7,13 @@ namespace Mumble.Timerou.Models.Responses
 {
     public class YearGroupedMediasResponse : SimpleResponse
     {
-        public static YearGroupedMediasResponse FromList(IEnumerable<YearGroupedMedias> groupedMedias)
+        public static YearGroupedMediasResponse FromList(IEnumerable<YearGroupedMedias> groupedMedias, bool light)
         {
             YearGroupedMediasResponse response = new YearGroupedMediasResponse(false, "medias loaded");
 
             foreach (var gp in groupedMedias)
             {
-                response.AddGroupedPictures(gp);
+                response.AddGroupedPictures(gp, light);
             }
 
             return response;
@@ -27,9 +27,9 @@ namespace Mumble.Timerou.Models.Responses
 
         public List<YearGroupedMediasData> GroupedMedias { get; set; }
 
-        public void AddGroupedPictures(YearGroupedMedias pictures)
+        public void AddGroupedPictures(YearGroupedMedias pictures, bool light)
         {
-            GroupedMedias.Add(YearGroupedMediasData.FromGroup(pictures));
+            GroupedMedias.Add(YearGroupedMediasData.FromGroup(pictures, light));
         }
     }
 }

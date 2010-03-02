@@ -15,8 +15,8 @@ Account.prototype = {
                     $(resultDiv).removeClass("errorbox");
                     $(resultDiv).addClass("successbox");
 
-                    setTimeout(function () {
-                        location.href = Url.Home;
+                    setTimeout(function() {
+                        location.href = BASEURL;
                     }, 1000);
                 }
 
