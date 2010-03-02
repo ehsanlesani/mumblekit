@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="BodyContent" runat="server">
 
     <%
-    Html.BeginForm("RegisterAccommodation", "Account", FormMethod.Post);
+        Html.BeginForm("RegisterAccommodation", "Account", FormMethod.Post, new { id = "registerAccommodationFrm" });
     %>
     <table cellpadding="0" cellspacing="0">
     <tr>

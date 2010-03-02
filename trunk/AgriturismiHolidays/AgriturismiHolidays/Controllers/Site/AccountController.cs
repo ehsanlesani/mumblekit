@@ -178,6 +178,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                                                     int? stars,
                                                     string jpegAttachments) 
         {
+            string errorMsg = "";
+
             try
             {
                 StarterKitContainer container = new StarterKitContainer();
@@ -189,6 +191,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                     container.AddToAccommodations(a);
                 }
 
+
+                //Aggiungere tipo di Accommodation Controller + View
                 a.Name = name;
                 a.Description = description;
                 a.Email = email;
@@ -201,15 +205,19 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 a.Quality = stars;
 
                 Attachments attach = new Attachments();
-                attach.Convert(jpegAttachments, a, container);                                
+                attach.Convert(jpegAttachments, a, container);
                 container.SaveChanges();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                BasicPageData(ex.Message);
+                errorMsg = ex.Message;
+            }
+            finally 
+            {
+                BasicPageData(errorMsg);
             }
 
-            return View();
+            return RedirectToAction("PersonalPage");
         }
     }
 }
