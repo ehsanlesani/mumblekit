@@ -366,6 +366,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Css\jquery\white\Thumbs.db" />
+    <None Include="Miscellaneous\Agriturismi.bak" />
     <None Include="Miscellaneous\out.sql" />
     <None Include="Models\ExtPartial\StarterKitContainer.edmx.sql" />
     <EntityDeploy Include="Models\ExtPartial\StarterKitModel.edmx">
