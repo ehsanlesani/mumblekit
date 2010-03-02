@@ -41,14 +41,14 @@ namespace Mumble.Timerou.Controllers
         /// Load one media per year in specified years range
         /// </summary>
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult LoadOneMediaPerYear(double? swlat, double? swlng, double? nelat, double? nelng, int? startYear, int? stopYear)
+        public ActionResult LoadOneMediaPerYear(double? swlat, double? swlng, double? nelat, double? nelng, int slots, int lastYear)
         {
             try
             {
                 MapBounds mapBounds = new MapBounds(new LatLng(swlat.Value, swlng.Value), new LatLng(nelat.Value, nelng.Value));
                 MediaLoader mediaLoader = new MediaLoader(Container);
-                IEnumerable<YearGroupedMedias> groupedMedia = mediaLoader.LoadOneMediaPerYear(mapBounds, startYear.Value, stopYear.Value);
-                YearGroupedMediasResponse response = YearGroupedMediasResponse.FromList(groupedMedia);
+                IEnumerable<YearGroupedMedias> groupedMedia = mediaLoader.LoadOneMediaPerYear(mapBounds, slots, lastYear);
+                YearGroupedMediasResponse response = YearGroupedMediasResponse.FromList(groupedMedia, true);
 
                 return this.CamelCaseJson(response);
             }

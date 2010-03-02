@@ -69,10 +69,7 @@
     <div class="filters box">
         <form action="#" id="searchForm">
             <input type="text" id="keyword" />
-            <select id="year">
-                <option>(All)</option>
-                <option>2010</option>
-            </select>
+            <input type="text" id="year" />
             <input type="submit" value="<%= UIHelper.T("txt.search") %>" /> <img src="<%= UriHelper.Images %>ajaxLoading.gif" alt="loading" id="loading" class="hidden" />
         </form>
     </div>

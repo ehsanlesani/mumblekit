@@ -10,7 +10,7 @@ namespace Mumble.Timerou.Models.Responses
     /// </summary>
     public class YearGroupedMediasData
     {
-        public static YearGroupedMediasData FromGroup(YearGroupedMedias groupedMedias)
+        public static YearGroupedMediasData FromGroup(YearGroupedMedias groupedMedias, bool light)
         {
             var response = new YearGroupedMediasData()
             {
@@ -19,7 +19,7 @@ namespace Mumble.Timerou.Models.Responses
 
             foreach (var media in groupedMedias.Medias)
             {
-                response.AddMedia(media);
+                response.AddMedia(media, light);
             }
 
             return response;
@@ -33,9 +33,9 @@ namespace Mumble.Timerou.Models.Responses
         public int Year { get; set; }
         public List<MediaData> Medias { get; set; }
 
-        public void AddMedia(Media media)
+        public void AddMedia(Media media, bool light)
         {
-            Medias.Add(MediaData.FromMedia(media));
+            Medias.Add(MediaData.FromMedia(media, light));
         }
     }
 }

@@ -153,7 +153,7 @@ namespace Mumble.Timerou.Controllers
         /// <param name="lng"></param>
         /// <returns></returns>
         [ValidateInput(false)]
-        public ActionResult SavePicture(
+        public ActionResult SaveMedia(
             Guid? pictureId, //editing picture id. if null is a new picture
             Guid? tempPictureId, 
             string title,
@@ -342,7 +342,7 @@ namespace Mumble.Timerou.Controllers
                 Authorize();
 
                 ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
-                //controlPanel.DeleteMedia(id);
+                controlPanel.DeleteMedia(id);
 
                 response = new SimpleResponse(false, "Media deleted");
             }

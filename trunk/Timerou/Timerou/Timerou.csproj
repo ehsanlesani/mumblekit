@@ -211,6 +211,7 @@
     <Content Include="Map\Main.swf" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
+    <Content Include="Scripts\Copy of Timebar.js" />
     <Content Include="Scripts\JSMapCom.js" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\DetailManager.js" />

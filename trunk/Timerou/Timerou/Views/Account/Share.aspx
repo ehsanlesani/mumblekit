@@ -75,27 +75,35 @@
             
             <div class="errorbox hidden" id="uploadErrorBox">Error</div>
             
-            <table style="width: 100%;">
-                <tr>
-                    <td style="padding: 3px; width: 100px;">
-                        <div id="uploadButton" style="cursor: pointer;">
-                            <% if (Model.Picture != null) { %> 
-                                <img src="<%= UriHelper.Pictures %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
-                            <% } else { %> 
-                                <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
-                            <% } %>
-                            
-                        </div>
-                    </td>
-                    <td style="padding: 3px;" >
-                        <table width="100%">
-                            <tr><td><%= UIHelper.T("msg.clickPictureToChange") %></td></tr>
-                            <tr><td><div class="hidden" id="uploadStatus">Status</div></td></tr>
-                            <tr><td><div class="hidden" id="uploadProgress"></div></td></tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+            <div id="typesTabs">
+            
+                <div>
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="padding: 3px; width: 100px;">
+                                <div id="uploadButton" style="cursor: pointer;">
+                                    <% if (Model.Picture != null) { %> 
+                                        <img src="<%= UriHelper.Pictures %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
+                                    <% } else { %> 
+                                        <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
+                                    <% } %>
+                                    
+                                </div>
+                            </td>
+                            <td style="padding: 3px;" >
+                                <table width="100%">
+                                    <tr><td><%= UIHelper.T("msg.clickPictureToChange") %></td></tr>
+                                    <tr><td><div class="hidden" id="uploadStatus">Status</div></td></tr>
+                                    <tr><td><div class="hidden" id="uploadProgress"></div></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            
+            </div>
+            
+            
         </div>
         
         <div class="box">        
@@ -103,7 +111,7 @@
             
             <div class="errorbox hidden" id="infoErrorBox">Error</div>
             
-            <% using (Html.BeginForm("SavePicture", "Account", FormMethod.Post, new { id = "pictureForm" })) { %>
+            <% using (Html.BeginForm("SaveMedia", "Account", FormMethod.Post, new { id = "pictureForm" })) { %>
                 <%= Html.Hidden("pictureId", Model.Val(x => x.Id)) %>
                 <%= Html.Hidden("tempPictureId") %>
                 <%= Html.Hidden("year", Model.Val(x => x.Year))%>

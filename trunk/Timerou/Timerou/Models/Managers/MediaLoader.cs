@@ -110,21 +110,20 @@ namespace Mumble.Timerou.Models.Managers
         }
 
         /// <summary>
-        /// Loaded media located inside specified bounds in specified year period, grouped by year
+        /// Loaded media located inside specified bounds from last year going back until slots are full, grouped by year
         /// </summary>
         /// <param name="bounds"></param>
         /// <param name="startYear"></param>
         /// <param name="stopYear"></param>
         /// <returns></returns>
-        public IEnumerable<YearGroupedMedias> LoadOneMediaPerYear(MapBounds bounds, int startYear, int stopYear)
+        public IEnumerable<YearGroupedMedias> LoadOneMediaPerYear(MapBounds bounds, int slots, int lastYear)
         {
             int mediaPerYear = Int32.Parse(ConfigurationManager.AppSettings["MediaPerYear"]);
             var crossMeridian = bounds.CrossMeridian;
 
             var yearGroupedMediaList = (from m in _container.Medias.Include("User")
-                                           where startYear <= m.Year
+                                           where m.Year <= lastYear
                                            && m.IsTemp == false
-                                           && stopYear >= m.Year
                                            && m.Lat >= bounds.SouthWest.Lat
                                            && m.Lat <= bounds.NorthEast.Lat
                                            && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
@@ -136,7 +135,7 @@ namespace Mumble.Timerou.Models.Managers
                                                {
                                                    Year = yearGroup.Key,
                                                    Medias = yearGroup.Take(mediaPerYear)
-                                               }).ToList(); //this is needed because include is not supported in sub queries and another query is required in pictures to get paths.
+                                               }).Take(slots).ToList(); //toList is needed because include is not supported in sub queries and another query is required in pictures to get paths.
 
             return yearGroupedMediaList;
         }
