@@ -42,12 +42,40 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         private string Fax { get; set; }
         private Guid? SelectedMunicipality { get; set; }
         private int? Stars {get; set; }
-        private Guid? RegionId { get; set; }
 
         public AccountController() 
         {
             JsonValue = "";
-            Error = "";
+            Error = "";            
+        }
+
+        private void InitializeProperties() 
+        {
+            var accommodation = (from u in StarterKitContainer.Users where u.Id == AccountManager.LoggedUser.Id select u.Accommodations).FirstOrDefault();
+
+            if (accommodation != null)
+            {
+                if (!accommodation.MunicipalitiesReference.IsLoaded)
+                    accommodation.MunicipalitiesReference.Load();
+
+                if (!accommodation.AccommodationTypeReference.IsLoaded)
+                    accommodation.AccommodationTypeReference.Load();
+
+                Name = accommodation.Name;
+                Description = accommodation.Description;
+                EMail = accommodation.Email;
+                Tel = accommodation.Tel;
+                Street = accommodation.Street;
+                StreetNr = accommodation.StreetNr;
+                Cap = accommodation.Cap;
+                WhereWeAre = accommodation.WhereWeAre;
+                Fax = accommodation.Fax;
+                Stars = accommodation.Quality;
+                SelectedMunicipality = accommodation.Municipalities.Id;
+                SelectedAccommodationType = accommodation.AccommodationType.Id;
+                Attachments att = new Attachments();
+                JsonValue = att.Convert(accommodation);
+            }
         }
 
         public ActionResult Register()
@@ -167,7 +195,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
         public ActionResult PersonalPage() 
         {
-            BasicPageData();
+            if (!AccountManager.HasLoggedUser)
+                return RedirectToAction("Index", "Home");
+
+            InitializeProperties();
+            BasicPageData();            
 
             return View("PersonalPage");
         }
@@ -197,10 +229,32 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             ViewData["Cap"] = Cap;
             ViewData["WhereWeAre"] = WhereWeAre;
             ViewData["Fax"] = Fax;
-            ViewData["Stars"] = Stars.GetValueOrDefault();
-            ViewData["SelectedMunicipality"] = SelectedMunicipality;
+            ViewData["Stars"] = Stars.GetValueOrDefault();            
             ViewData["AccommodationType"] = Common.GetAccommodationTypes(SelectedAccommodationType);
-            ViewData["selectionCity"] = Common.GetRegionsSelectList(RegionId);
+
+            InitializeLocalityHierarchy();
+        }
+
+        private void InitializeLocalityHierarchy() 
+        {
+            if (SelectedMunicipality != null)
+            {
+                var tmpObj = (from m in StarterKitContainer.Municipalities 
+                                join p in StarterKitContainer.Provinces
+                                    on m.Provinces equals p
+                                join r in StarterKitContainer.Regions 
+                                    on p.Region equals r
+                              where m.Id == SelectedMunicipality 
+                              select new 
+                                { 
+                                    Province = m.Provinces, 
+                                    Region = m.Provinces.Region 
+                                }).FirstOrDefault();
+
+                ViewData["selectionCity"] = Common.GetRegionsSelectList(tmpObj.Region.Id);
+                ViewData["selectionProvince"] = Common.GetProvincesSelectList(tmpObj.Province.Id, tmpObj.Region.Id);
+                ViewData["selectionMunicipality"] = Common.GetMunicipalitiesSelectList(SelectedMunicipality, tmpObj.Province.Id);
+            }
         }
         
         [AcceptVerbs(HttpVerbs.Post)]
@@ -214,7 +268,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                                                     string cap,
                                                     string whereweare,
                                                     string fax,
-                                                    Guid? municipality,
+                                                    Guid? selectionMunicipality,
                                                     int? stars,
                                                     string jpegAttachments) 
         {
@@ -233,7 +287,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 WhereWeAre = whereweare;
                 Fax = fax;
                 Stars = stars;
-                SelectedMunicipality = municipality;
+                SelectedMunicipality = selectionMunicipality;
                 JsonValue = jpegAttachments;
                                                
                 var tmpObj = (from u in StarterKitContainer.Users where u.Id == AccountManager.LoggedUser.Id select new { User = u, Acco = u.Accommodations }).FirstOrDefault();
@@ -245,7 +299,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                     String.IsNullOrEmpty(name) || 
                     String.IsNullOrEmpty(description) ||
                     String.IsNullOrEmpty(email) ||
-                    String.IsNullOrEmpty(tel))
+                    String.IsNullOrEmpty(tel) ||
+                    !selectionMunicipality.HasValue)
                     throw new Exception("compilare tutti i campi obbligatori ");
 
                 if (stars.HasValue)
@@ -256,13 +311,13 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 {
                     a = new Accommodation();
                     StarterKitContainer.AddToAccommodations(a);
+                    a.Id = Guid.NewGuid(); 
                 }
 
                 EntityKey accTypeKey = new EntityKey("StarterKitContainer.AccommodationTypes", "Id", accommodationType);
                 EntityKey userKey = new EntityKey("StarterKitContainer.Users", "Id", this.AccountManager.LoggedUser.Id);
-                EntityKey municipalityKey = new EntityKey("StarterKitContainer.Municipalities", "Id", municipality);
-
-                a.Id = Guid.NewGuid();                
+                EntityKey municipalityKey = new EntityKey("StarterKitContainer.Municipalities", "Id", selectionMunicipality);
+                                               
                 a.Name = name;
                 a.Description = description;
                 a.Email = email;
