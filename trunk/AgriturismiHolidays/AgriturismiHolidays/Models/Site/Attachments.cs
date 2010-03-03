@@ -75,7 +75,7 @@ namespace Mumble.Web.StarterKit.Models.Site
             }
         }
 
-        public string Convert(object value, Accommodation entity)
+        public string Convert(Accommodation entity)
         {
             AttachmentInfo[] infos = new AttachmentInfo[0];
 

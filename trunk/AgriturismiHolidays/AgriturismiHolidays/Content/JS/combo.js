@@ -26,37 +26,28 @@ HierarchicalSelection.prototype = {
 			$.ajax({
 				type:"GET",
 
-				url: rootUrl,
+				url: rootUrl +"/"+ id,
 				
-				data: urlParam +"="+ id,
+				//data: urlParam +"="+ id,
 				
 				dataType:"json",
 						
-				success:function(data){
+				success:function(data){											
+					mySelf.clearChild(childSelect);
+				
+					var appended = false;
+					$.each(data, function(index, obj){	
+						if (obj.Id != undefined) {								
+							$(childSelect)
+							.append($("<option></option>")
+							.attr("value",obj.Id).text(obj.Value));
+							
+							appended = true;										
+						}						
+					});
 					
-					var len = data.length - 1;
-					if(data[len].error.isOnError) {
-						mySelf.clearChild(childSelect);
-						//TODO: Dom Alert
-						alert("error:"+ data[len].error.message);
-					} else {
-						
-						mySelf.clearChild(childSelect);
-					
-						var appended = false;
-						$.each(data, function(index, obj){	
-							if (obj.id != undefined) {								
-								$(childSelect)
-								.append($("<option></option>")
-								.attr("value",obj.id).text(obj.value));
-								
-								appended = true;										
-							}
-						});
-						
-						if(appended)
-							funcEvent();
-					}					
+					if(appended)
+						funcEvent();
 				},
 				
 				error:function(msg, textStatus, errorThrown){

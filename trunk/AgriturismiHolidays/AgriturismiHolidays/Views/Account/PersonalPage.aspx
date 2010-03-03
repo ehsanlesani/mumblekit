@@ -27,14 +27,36 @@
                 <%=Html.DropDownList("selectionCity")%>
             </div>
             <div>
-                <select id="selectionProvince" name="selectionProvince">
-                    <option value="">- provincia -</option>
-                </select>
+                <%
+                    if (ViewData["selectionMunicipality"] == null)
+                    {                        
+                %>
+                    <select id="selectionProvince" name="selectionProvince">
+                        <option value=""> - provincia - </option>
+                    </select>
+                <%
+                    }
+                    else 
+                    {
+                        Response.Write(Html.DropDownList("selectionProvince"));
+                    }   
+                %>
             </div>
             <div>
-                <select id="selectionMunicipality" name="selectionMunicipality">
-                    <option value="">- comune -</option>
-                </select>
+                <%
+                    if (ViewData["selectionMunicipality"] == null)
+                    {
+                %>
+                    <select id="selectionMunicipality" name="selectionMunicipality">
+                        <option value=""> - comune - </option>
+                    </select>
+                <%
+                    }
+                    else
+                    {
+                        Response.Write(Html.DropDownList("selectionMunicipality"));
+                    }
+                %>    
             </div>
         </td>
     </tr>
@@ -93,8 +115,8 @@
 
     $(document).ready(function() {
         var selection = new HierarchicalSelection();
-        selection.registerSelect("selectionCity", "selectionProvince", "id", "/SelectValues/Provinces", function() { selection.clearChild("select[name='selectionMunicipality']"); });
-        selection.registerSelect("selectionProvince", "selectionMunicipality", "id", "/SelectValues/Municipalities", function() { });
+        selection.registerSelect("selectionCity", "selectionProvince", "id", "/SelectValues.aspx/Provinces", function() { selection.clearChild("select[name='selectionMunicipality']"); });
+        selection.registerSelect("selectionProvince", "selectionMunicipality", "id", "/SelectValues.aspx/Municipalities", function() { });
     });
     
 </script>
