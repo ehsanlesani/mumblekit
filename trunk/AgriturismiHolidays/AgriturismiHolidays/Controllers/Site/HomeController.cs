@@ -38,7 +38,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             try
             {
                 Populate();
-                ViewData["RegionItems"] = Common.GetRegionsSelectList();
+                ViewData["RegionItems"] = Common.GetRegionsSelectList(null);
                 ViewData["Category"] = Common.GetAccommodationTypeList();
                 ViewData["Showcase"] = GetOnShowCaseAccomodations();                
                 loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");

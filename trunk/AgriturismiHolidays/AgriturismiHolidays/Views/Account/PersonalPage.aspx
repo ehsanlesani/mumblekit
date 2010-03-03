@@ -17,44 +17,62 @@
         </td>
     </tr>
     <tr>
-        <td>Tipologia</td>
+        <td class="alignment valignTop">*Tipologia</td>
         <td><%=Html.DropDownList("AccommodationType")%></td>
     </tr>
     <tr>
-        <td class="alignment">*Nome Alloggio</td>
-        <td><input type="textbox" name="name" /></td>
+        <td class="alignment valignTop">*Località</td>    
+        <td>
+            <div>
+                <%=Html.DropDownList("selectionCity")%>
+            </div>
+            <div>
+                <select id="selectionProvince" name="selectionProvince">
+                    <option value="">- provincia -</option>
+                </select>
+            </div>
+            <div>
+                <select id="selectionMunicipality" name="selectionMunicipality">
+                    <option value="">- comune -</option>
+                </select>
+            </div>
+        </td>
     </tr>
     <tr>
-        <td class="alignment">*Descrizione</td>
-        <td><textarea name="description"></textarea></td>
+        <td class="alignment valignTop">*Nome Alloggio</td>
+        <td><input type="textbox" name="name" value="<%=ViewData["Name"]%>" /></td>
+    </tr>
+    <tr>
+        <td class="alignment valignTop">*Descrizione</td>
+        <td><textarea name="description"><%=ViewData["Description"]%></textarea></td>
     </tr>
         <tr>
-        <td class="alignment">*Email</td>
-        <td><input type="textbox" name="email" /></td>
+        <td class="alignment valignTop">*Email</td>
+        <td><input type="textbox" name="email" value="<%=ViewData["EMail"]%>" /></td>
     </tr>
     <tr>
-        <td class="alignment">*Tel</td>
-        <td><input type="textbox" name="tel" /></td>
+        <td class="alignment valignTop">*Tel</td>
+        <td><input type="textbox" name="tel" value="<%=ViewData["Tel"]%>" /></td>
     </tr>
     <tr>
-        <td class="alignment">Via</td>
-        <td><input type="textbox" name="street" /> Nr <input type="textbox" name="streetnr" size="4" /></td>
+        <td class="alignment valignTop">Via</td>
+        <td><input type="textbox" name="street" value="<%=ViewData["Street"]%>" /> Nr <input type="textbox" name="streetnr" size="4" value="<%=ViewData["StreetNr"]%>" /></td>
     </tr>
     <tr>
-        <td class="alignment">Cap</td>
-        <td><input type="textbox" name="cap" /></td>
+        <td class="alignment valignTop">Cap</td>
+        <td><input type="textbox" name="cap" value="<%=ViewData["Cap"]%>" /></td>
     </tr>
     <tr>
-        <td class="alignment">Dove Siamo</td>
-        <td><textarea name="whereweare"></textarea></td>
+        <td class="alignment valignTop">Dove Siamo</td>
+        <td><textarea name="whereweare"><%=ViewData["WhereWeAre"]%></textarea></td>
     </tr>
     <tr>
-        <td class="alignment">Fax</td>
-        <td><input type="textbox" name="fax" /></td>
+        <td class="alignment valignTop">Fax</td>
+        <td><input type="textbox" name="fax" value="<%=ViewData["Fax"]%>" /></td>
     </tr>
     <tr>
-        <td class="alignment">Stelle</td>
-        <td><input type="textbox" name="stars" /></td>
+        <td class="alignment valignTop">Stelle</td>
+        <td><input type="textbox" name="stars" value="<%=ViewData["Stars"]%>" /></td>
     </tr>    
     
     <% Html.RenderPartial("~/Views/Controls/JpegAttachments.ascx"); %>
@@ -70,6 +88,16 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
+<script src="<%=ResolveUrl("~/Content/JS/combo.js")%>" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        var selection = new HierarchicalSelection();
+        selection.registerSelect("selectionCity", "selectionProvince", "id", "/SelectValues/Provinces", function() { selection.clearChild("select[name='selectionMunicipality']"); });
+        selection.registerSelect("selectionProvince", "selectionMunicipality", "id", "/SelectValues/Municipalities", function() { });
+    });
+    
+</script>
 <style type="text/css">
     textarea {
         height:100px;
@@ -81,6 +109,11 @@
     
     h3 {
         color:#603836;
+    }
+    
+    td.valignTop 
+    {
+        vertical-align:top;    
     }
 </style>
 </asp:Content>

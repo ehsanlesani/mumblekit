@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Mumble.Web.StarterKit.Models.ExtPartial;
 using System.Web.Mvc;
+using Mumble.Web.StarterKit.Models.Common;
 
 namespace Mumble.Web.StarterKit.Models.Site
 {
@@ -15,6 +16,11 @@ namespace Mumble.Web.StarterKit.Models.Site
             var atypes = (from a in context.AccommodationTypes orderby a.Name select a);
 
             IList<SelectListItem> items = new List<SelectListItem>();
+
+            SelectListItem empty = new SelectListItem();
+            empty.Text = "- tipologia -";
+            items.Add(empty);
+
             foreach (AccommodationType a in atypes)
             {
                 SelectListItem s = new SelectListItem();
@@ -26,19 +32,61 @@ namespace Mumble.Web.StarterKit.Models.Site
             return items;
         }
 
-        public static IEnumerable<SelectListItem> GetRegionsSelectList()
+        public static IEnumerable<SelectListItem> GetAccommodationTypes(Guid? selectedId)
         {
             StarterKitContainer context = new StarterKitContainer();
-            var regions = (from r in context.Regions orderby r.Description select r);
+            var atypes = (from a in context.AccommodationTypes orderby a.Name select a);
+
             IList<SelectListItem> items = new List<SelectListItem>();
-            foreach (Region r in regions)
+
+            
+            SelectListItem empty = new SelectListItem();
+            empty.Text = "- tipologia -";
+            if (!selectedId.HasValue)
+                empty.Selected = true;
+
+            items.Add(empty);
+
+            foreach (AccommodationType a in atypes)
             {
                 SelectListItem s = new SelectListItem();
-                s.Text = r.Description;
-                s.Value = r.Id.ToString();
+                s.Text = a.Name;
+                s.Value = a.Id.ToString();
+
+                if (selectedId.HasValue)
+                    if (a.Id == selectedId)
+                        s.Selected = true;
+
                 items.Add(s);
             }
 
+            return items;
+        }
+
+        public static IEnumerable<SelectListItem> GetRegionsSelectList(Guid? id)
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            var regions = LocalityHelper.GetRegions();
+            IList<SelectListItem> items = new List<SelectListItem>();
+
+            SelectListItem empty = new SelectListItem();
+            empty.Text = "- regione -";
+            if (!id.HasValue)
+                empty.Selected = true;
+
+            items.Add(empty);
+
+            foreach (JsonSelection r in regions)
+            {
+                SelectListItem s = new SelectListItem();
+                s.Text = r.Value;
+                s.Value = r.Id.ToString();
+                if (r.Id == id)
+                    s.Selected = true;
+                
+                items.Add(s);
+            }
+                        
             return items;
         }
     }
