@@ -28,6 +28,28 @@ namespace Mumble.Web.StarterKit.Controllers.Site
     [HandleError]
     public class AccountController : AuthController
     {
+        private string Error { get; set; }
+        private string JsonValue { get; set; }
+        private string Name { get; set; }
+        private Guid? SelectedAccommodationType { get; set; }
+        private string Description { get; set; }
+        private string EMail { get; set; }
+        private string Tel { get; set; }
+        private string Street { get; set; }
+        private string StreetNr { get; set; }
+        private string Cap { get; set; }
+        private string WhereWeAre { get; set; }
+        private string Fax { get; set; }
+        private Guid? SelectedMunicipality { get; set; }
+        private int? Stars {get; set; }
+        private Guid? RegionId { get; set; }
+
+        public AccountController() 
+        {
+            JsonValue = "";
+            Error = "";
+        }
+
         public ActionResult Register()
         {
             LoginModel loginModel = new LoginModel();
@@ -55,7 +77,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             }
             catch (LoginException)
             {
-                return RedirectToAction("LandingAction", "Home", new { error = UIHelper.Translate("err.badLogin") });
+                return RedirectToAction("Index", "Home", new { error = UIHelper.Translate("err.badLogin") });
                 /*
                 return View(new LoginModel()
                 {
@@ -143,33 +165,47 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             return this.CamelCaseJson(new SimpleResponse(false, UIHelper.Translate("msg.registered")));
         }
 
-        protected void Populate()
+        public ActionResult PersonalPage() 
+        {
+            BasicPageData();
+
+            return View("PersonalPage");
+        }
+
+        private void BasicPageData() 
         {
             ViewData["MenuTabs"] = MenuTab.GetMenuItems();
             ViewData["Footer"] = MenuTab.GetGlobalPages();
-        }
-
-        public ActionResult PersonalPage() 
-        {
-            BasicPageData(null);
-
-            return View();
-        }
-
-        private void BasicPageData(string error) 
-        {
-            Populate();
             LoginModel loginModel = new LoginModel();
             loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
             ViewData["Login"] = loginModel;
-            ViewData["Error"] = "Errore: "+ error;
-            ViewData["AccommodationType"] = Common.GetAccommodationTypeList();
-            ViewData["JsonValue"] = "";
+            
+            BindPropertiesToViewData();
+        }
+
+        private void BindPropertiesToViewData() 
+        {            
+            ViewData["Error"] = Error;
+            ViewData["JsonValue"] = JsonValue;
+            ViewData["Name"] = Name;
+            ViewData["SelectedAccommodationType"] = SelectedAccommodationType;
+            ViewData["Description"] = Description;
+            ViewData["EMail"] = EMail;
+            ViewData["Tel"] = Tel;
+            ViewData["Street"] = Street;
+            ViewData["StreetNr"] = StreetNr;
+            ViewData["Cap"] = Cap;
+            ViewData["WhereWeAre"] = WhereWeAre;
+            ViewData["Fax"] = Fax;
+            ViewData["Stars"] = Stars.GetValueOrDefault();
+            ViewData["SelectedMunicipality"] = SelectedMunicipality;
+            ViewData["AccommodationType"] = Common.GetAccommodationTypes(SelectedAccommodationType);
+            ViewData["selectionCity"] = Common.GetRegionsSelectList(RegionId);
         }
         
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult RegisterAccommodation(string name, 
-                                                    int accommodationType,   
+                                                    Guid? accommodationType,   
                                                     string description, 
                                                     string email, 
                                                     string tel, 
@@ -178,33 +214,55 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                                                     string cap,
                                                     string whereweare,
                                                     string fax,
+                                                    Guid? municipality,
                                                     int? stars,
                                                     string jpegAttachments) 
         {
-            string errorMsg = "";
+            Attachments attach = new Attachments();
 
             try
             {
-                StarterKitContainer container = new StarterKitContainer();
-                Accommodation a = (from u in container.Users where u.Id == AccountManager.LoggedUser.Id select u.Accommodations).FirstOrDefault<Accommodation>();
+                Name = name;
+                SelectedAccommodationType = accommodationType;
+                Description = description;
+                EMail = email;
+                Tel = tel;
+                Street = street;
+                StreetNr = streetnr;
+                Cap = cap;
+                WhereWeAre = whereweare;
+                Fax = fax;
+                Stars = stars;
+                SelectedMunicipality = municipality;
+                JsonValue = jpegAttachments;
+                                               
+                var tmpObj = (from u in StarterKitContainer.Users where u.Id == AccountManager.LoggedUser.Id select new { User = u, Acco = u.Accommodations }).FirstOrDefault();
+                var a = tmpObj.Acco;
+                var usr = tmpObj.User;
+
+
+                if (accommodationType == null || 
+                    String.IsNullOrEmpty(name) || 
+                    String.IsNullOrEmpty(description) ||
+                    String.IsNullOrEmpty(email) ||
+                    String.IsNullOrEmpty(tel))
+                    throw new Exception("compilare tutti i campi obbligatori ");
+
+                if (stars.HasValue)
+                    if (stars.Value < 0 || stars.Value > 5)
+                        throw new Exception("Il numero di stelle deve essere compreso tra 0 e 5");
 
                 if (a == null)
                 {
                     a = new Accommodation();
-                    container.AddToAccommodations(a);
+                    StarterKitContainer.AddToAccommodations(a);
                 }
-                /*
-                object obj = null;
-                container.TryGetObjectByKey(new EntityKey("StarterKitContainer.AccommodationType", "Id", accommodationType), out obj);
 
-                AccommodationType aType = obj as AccommodationType;
-                if (aType == null)
-                    throw new Exception("Specificare il tipo di alloggio");
-                
-                a.AccommodationType = aType;
-                */
-                EntityKey ek = new EntityKey("StarterKitContainer.AccommodationType", "Id", accommodationType);
-                a.AccommodationTypeReference.EntityKey = ek;
+                EntityKey accTypeKey = new EntityKey("StarterKitContainer.AccommodationTypes", "Id", accommodationType);
+                EntityKey userKey = new EntityKey("StarterKitContainer.Users", "Id", this.AccountManager.LoggedUser.Id);
+                EntityKey municipalityKey = new EntityKey("StarterKitContainer.Municipalities", "Id", municipality);
+
+                a.Id = Guid.NewGuid();                
                 a.Name = name;
                 a.Description = description;
                 a.Email = email;
@@ -215,21 +273,24 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 a.WhereWeAre = whereweare;
                 a.Fax = fax;
                 a.Quality = stars;
+                a.AccommodationTypeReference.EntityKey = accTypeKey;
+                a.MunicipalitiesReference.EntityKey = municipalityKey;
+                a.Users.Add(usr);
 
-                Attachments attach = new Attachments();
-                attach.Convert(jpegAttachments, a, container);
-                container.SaveChanges();
+                attach.Convert(jpegAttachments, a, StarterKitContainer);
+                StarterKitContainer.SaveChanges();
+            }
+            catch (FormatException ex)
+            {
+                Error = ex.Message;
             }
             catch (Exception ex)
-            {
-                errorMsg = ex.Message;
+            {                
+                Error = ex.Message;
             }
-            finally 
-            {
-                BasicPageData(errorMsg);
-            }
+            
 
-            return RedirectToAction("PersonalPage");
+            return PersonalPage();
         }
     }
 }

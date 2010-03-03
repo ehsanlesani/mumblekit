@@ -84,6 +84,7 @@
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Site\AccountController.cs" />
     <Compile Include="Controllers\Site\HomeController.cs" />
+    <Compile Include="Controllers\Site\SelectValuesController.cs" />
     <Compile Include="Controllers\Site\StructureController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -97,6 +98,8 @@
     <Compile Include="Models\Auth\AuthPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Common\JsonSelection.cs" />
+    <Compile Include="Models\Common\LocalityHelper.cs" />
     <Compile Include="Models\ControllerExtension.cs" />
     <Compile Include="Models\Exceptions\AuthException.cs" />
     <Compile Include="Models\Exceptions\ExistingEmailException.cs" />
@@ -375,6 +378,7 @@
       <LastGenOutput>StarterKitModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Models\ExtPartial\UsersContainer.edmx.sql" />
+    <Content Include="Content\JS\combo.js" />
     <Content Include="Content\Css\jquery\white\ajax-loader_b.gif" />
     <Content Include="Content\Css\jquery\white\ajax-loader_w.gif" />
     <Content Include="Content\Css\jquery\white\bg_load.gif" />
