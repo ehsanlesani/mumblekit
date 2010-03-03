@@ -10,6 +10,7 @@ using Mumble.Web.StarterKit.Models.Common;
 using Mumble.Web.StarterKit.Models.ExtPartial;
 using Mumble.Web.StarterKit.Models.ViewModels;
 using Mumble.Web.StarterKit.Models.Auth;
+using Mumble.Web.StarterKit.Models.Site;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
@@ -37,8 +38,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             try
             {
                 Populate();
-                ViewData["RegionItems"] = GetRegionsSelectList();
-                ViewData["Category"] = GetAccommodationTypeList();
+                ViewData["RegionItems"] = Common.GetRegionsSelectList();
+                ViewData["Category"] = Common.GetAccommodationTypeList();
                 ViewData["Showcase"] = GetOnShowCaseAccomodations();                
                 loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
 
@@ -106,37 +107,6 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             return showcased;
         }
 
-        private IEnumerable<SelectListItem> GetAccommodationTypeList() 
-        {
-            StarterKitContainer context = new StarterKitContainer();
-            var atypes = (from a in context.AccommodationTypes orderby a.Name select a);
 
-            IList<SelectListItem> items = new List<SelectListItem>();
-            foreach (AccommodationType a in atypes)
-            {
-                SelectListItem s = new SelectListItem();
-                s.Text = a.Name;
-                s.Value = a.Name.Replace(" ", "_");
-                items.Add(s);
-            }
-
-            return items;
-        }
-
-        private IEnumerable<SelectListItem> GetRegionsSelectList() 
-        {
-            StarterKitContainer context = new StarterKitContainer();
-            var regions = (from r in context.Regions orderby r.Description select r);
-            IList<SelectListItem> items = new List<SelectListItem>();
-            foreach (Region r in regions) 
-            {
-                SelectListItem s = new SelectListItem();
-                s.Text = r.Description;
-                s.Value = r.Id.ToString();
-                items.Add(s);
-            }
-
-            return items;
-        }
     }
 }
