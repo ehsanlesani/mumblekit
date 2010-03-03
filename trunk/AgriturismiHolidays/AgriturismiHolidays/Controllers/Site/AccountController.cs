@@ -19,6 +19,7 @@ using Mumble.Web.StarterKit.Models.ViewModels;
 using Mumble.Web.StarterKit.Models.Auth;
 using Mumble.Web.StarterKit.Models.Common;
 using Mumble.Web.StarterKit.Models.Site;
+using System.Data;
 
 
 namespace Mumble.Web.StarterKit.Controllers.Site
@@ -162,11 +163,13 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
             ViewData["Login"] = loginModel;
             ViewData["Error"] = "Errore: "+ error;
+            ViewData["AccommodationType"] = Common.GetAccommodationTypeList();
             ViewData["JsonValue"] = "";
         }
         
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult RegisterAccommodation(string name, 
+                                                    int accommodationType,   
                                                     string description, 
                                                     string email, 
                                                     string tel, 
@@ -190,9 +193,18 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                     a = new Accommodation();
                     container.AddToAccommodations(a);
                 }
+                /*
+                object obj = null;
+                container.TryGetObjectByKey(new EntityKey("StarterKitContainer.AccommodationType", "Id", accommodationType), out obj);
 
-
-                //Aggiungere tipo di Accommodation Controller + View
+                AccommodationType aType = obj as AccommodationType;
+                if (aType == null)
+                    throw new Exception("Specificare il tipo di alloggio");
+                
+                a.AccommodationType = aType;
+                */
+                EntityKey ek = new EntityKey("StarterKitContainer.AccommodationType", "Id", accommodationType);
+                a.AccommodationTypeReference.EntityKey = ek;
                 a.Name = name;
                 a.Description = description;
                 a.Email = email;

@@ -190,6 +190,7 @@
     </Compile>
     <Compile Include="Models\ExtPartial\User.cs" />
     <Compile Include="Models\Site\Attachments.cs" />
+    <Compile Include="Models\Site\Common.cs" />
     <Compile Include="Models\ViewModels\BaseModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\CustomViewModel.cs" />

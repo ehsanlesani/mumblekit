@@ -17,7 +17,11 @@
         </td>
     </tr>
     <tr>
-        <td class="alignment">*Nome</td>
+        <td>Tipologia</td>
+        <td><%=Html.DropDownList("AccommodationType")%></td>
+    </tr>
+    <tr>
+        <td class="alignment">*Nome Alloggio</td>
         <td><input type="textbox" name="name" /></td>
     </tr>
     <tr>
