@@ -46,11 +46,12 @@
             {
                 %>
                 <div id="col-dx" class="span-17 last">
-                <div id="section-info">
-                    <img src="../../Content/Images/arrow-bottom-right.png" alt="sezione:" class="section-arrow" />
-                    <span class="section-title">Errore:</span>
-                    <span class="section-name"><%=Model.ErrorMessage%></span> 
-                </div>
+                    <div id="section-info">
+                        <img src="../../Content/Images/arrow-bottom-right.png" alt="sezione:" class="section-arrow" />
+                        <span class="section-title">Errore:</span>
+                        <span class="section-name"><%=Model.ErrorMessage%></span> 
+                    </div>
+                    <div class="paging"></div>
                 </div>
                 <%
             }

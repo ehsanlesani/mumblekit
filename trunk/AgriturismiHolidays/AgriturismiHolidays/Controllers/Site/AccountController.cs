@@ -258,19 +258,19 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         }
         
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult RegisterAccommodation(string name, 
-                                                    Guid? accommodationType,   
-                                                    string description, 
-                                                    string email, 
-                                                    string tel, 
-                                                    string street, 
-                                                    string streetnr, 
+        public ActionResult RegisterAccommodation(string name,
+                                                    Guid? accommodationType,
+                                                    string description,
+                                                    string email,
+                                                    string tel,
+                                                    string street,
+                                                    string streetnr,
                                                     string cap,
                                                     string whereweare,
                                                     string fax,
                                                     Guid? selectionMunicipality,
                                                     int? stars,
-                                                    string jpegAttachments) 
+                                                    string jpegAttachments)
         {
             Attachments attach = new Attachments();
 
