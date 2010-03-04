@@ -40,7 +40,16 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 Populate();
                 ViewData["RegionItems"] = Common.GetRegionsSelectList(null);
                 ViewData["Category"] = Common.GetAccommodationTypeList();
-                ViewData["Showcase"] = GetOnShowCaseAccomodations();                
+                ViewData["Showcase"] = GetOnShowCaseAccomodations();
+
+                StarterKitContainer context = new StarterKitContainer();
+                Page page = (from p in context.Pages
+                             where p.Sections.Description.Trim().Equals("front") &&
+                                 (p.Visible.HasValue && p.Visible.Value)
+                             select p).FirstOrDefault();
+                                
+                ViewData["StaticPage"] = (page!=null) ? page.Body : null;
+
                 loginModel.RedirectUrl = Url.Action("PersonalPage", "Account");
 
                 if (!String.IsNullOrEmpty(error) && error.Length > 0)

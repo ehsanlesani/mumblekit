@@ -31,7 +31,7 @@ html, body
 {    
 	background-color:White;
 	margin-top:20px;
-	margin-bottom:20px;		
+	margin-bottom:67px;		
 }
 
 div.container
@@ -141,7 +141,7 @@ div#footer p
 
 div#footer
 {
-	position:relative;
+	position:fixed;
 	font-size: 12px;
 	color: White;
 	background-color: #4f2925;
@@ -152,7 +152,9 @@ div#footer
        sticky-footer.css */
 	padding-top: 10px;
     height: 64px;
-    margin-top: -78px;
+    bottom:0px;
+    width:100%;
+    /*margin-top: -78px;*/
 }
 
 #main

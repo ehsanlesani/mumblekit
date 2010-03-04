@@ -27,7 +27,10 @@
 	    <param name="menu" value="false">
 	    <param name="loop" value="false">
 	    <embed src="<%=ResolveUrl("~/Content/swf/italy.swf") %>" quality="high" bgcolor="#ffffff" width="400" height="400" name="<%=ResolveUrl("~/Content/swf/italy.swf") %>" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
-    </object>
+    </object>    
+    </div>
+    <div>
+        <%=ViewData["StaticPage"]%>
     </div>
 </div>
 <div id="rightside" class="column span-12 last">
@@ -92,7 +95,7 @@
     /// <reference path="../../Content/JS/jquery/jquery-1.3.2-vsdoc2.js" />
 
     function ChangeRegion(id) { 
-        var regionList = new Array ("abruzzo", "basilicata", "calabria", "campania", "emilia", "friuli", "lazio", "liguria", "lombardia"
+        var regionList = new Array ("","abruzzo", "basilicata", "calabria", "campania", "emilia", "friuli", "lazio", "liguria", "lombardia"
         ,"marche", "molise", "piemonte", "puglia", "sardegna", "sicilia", "toscana", "trentino", "umbria", "valledaosta", "veneto");
         
         var itemId = jQuery.inArray(id, regionList);

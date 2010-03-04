@@ -51,8 +51,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             {
                 Populate();
 
-                if (String.IsNullOrEmpty(category) || !regionItems.HasValue)
-                    throw new Exception("categoria o nome regione non selezionati");
+                if (String.IsNullOrEmpty(category))
+                    throw new Exception("categoria non selezionata");
 
                 string cat = "";
 
@@ -62,7 +62,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                         cat = category.Replace("_", " ");
                 }
                 else
-                    throw new Exception("category name is not valid");
+                    throw new Exception("nome categoria non valida");
 
                 var res = (from a in _context.Accommodations
                            where (!regionItems.HasValue || a.Municipalities.Provinces.Region.Id == regionItems)

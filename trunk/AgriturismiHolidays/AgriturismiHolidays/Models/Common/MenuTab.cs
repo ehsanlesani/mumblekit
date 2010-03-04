@@ -46,8 +46,8 @@ namespace Mumble.Web.StarterKit.Models.Common
         {
             StarterKitContainer context = new StarterKitContainer();
             var items = (from p in context.Pages where 
-                             p.Sections.Description == "global" && 
-                             p.Visible.Value &&
+                             p.Sections.Description == "global" &&
+                             (p.Visible.HasValue && p.Visible.Value) &&
                              (((p.ValidFrom.HasValue && DateTime.Now >= p.ValidFrom)
                               && (p.ValidTo.HasValue && DateTime.Now <= p.ValidTo)) ||
                                (p.ValidFrom.HasValue && DateTime.Now >= p.ValidFrom))
