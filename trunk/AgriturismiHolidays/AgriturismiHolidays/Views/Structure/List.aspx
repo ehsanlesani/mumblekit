@@ -6,7 +6,12 @@
 
     <div id="col-sx" class="span-7">
         <% Html.RenderPartial("NewsletterPartial"); %>
-        <% Html.RenderPartial("SideStaticContent", Model.StaticPages); %>
+        <% 
+            if (!Model.ErrorThrown)
+            {
+                if (Model.StaticPages != null)
+                    Html.RenderPartial("SideStaticContent", Model.StaticPages); 
+        %>
     </div>
     <div id="col-dx" class="span-17 last">
         <div id="section-info">
@@ -15,20 +20,42 @@
             <span class="section-name"><%=Model.SectionName%></span> 
         </div>
         
-        <% Html.RenderPartial("ListPartial", Model.Accommodations); %>
+        <%             
+            if (Model.Accommodations != null)
+            {
+                Html.RenderPartial("ListPartial", Model.Accommodations);
+        %>
         
         <div class="paging">
         <%        
-           for(int i=0; i<=Model.Pages; i++)
-           {
-               string className = (Model.ActualPage != i) ? "page" : "actualPage";                              
-               var actionLnk = Html.ActionLink((i+1).ToString(), "List", new { category = Model.SectionName.Replace(" ", "_"), toSkip = i }, new { @class = className });
-               Response.Write(actionLnk);
-           }            
+            for (int i = 0; i <= Model.Pages; i++)
+            {
+                string className = (Model.ActualPage != i) ? "page" : "actualPage";
+                var actionLnk = Html.ActionLink((i + 1).ToString(), "List", new { category = Model.SectionName.Replace(" ", "_"), toSkip = i }, new { @class = className });
+                Response.Write(actionLnk);
+            }                       
         %>
         </div>
-    </div>
-    
+        <% 
+            }
+                %>
+      </div>
+      <%
+            }
+            else 
+            {
+                %>
+                <div id="col-dx" class="span-17 last">
+                <div id="section-info">
+                    <img src="../../Content/Images/arrow-bottom-right.png" alt="sezione:" class="section-arrow" />
+                    <span class="section-title">Errore:</span>
+                    <span class="section-name"><%=Model.ErrorMessage%></span> 
+                </div>
+                </div>
+                <%
+            }
+                            
+        %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">

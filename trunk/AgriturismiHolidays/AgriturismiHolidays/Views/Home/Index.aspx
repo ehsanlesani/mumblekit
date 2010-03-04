@@ -47,23 +47,36 @@
                         if (!a.Attachments.IsLoaded)
                             a.Attachments.Load();
 
+                        if (!a.MunicipalitiesReference.IsLoaded)
+                            a.MunicipalitiesReference.Load();
+
+                        string hrefPath = "Structure.aspx/Show/" + a.Id;
+                        
                         Attachment img = null;
                         if (a.Attachments.Count > 0)
                         {
                             img = a.Attachments.ElementAt<Attachment>(0);
-                            string hrefPath = "Structure.aspx/Show/" + a.Id;
+                            
                             string imgPath = "/Public/" + img.Path + "_lil.jpg";
 
                             %>
+                            <div class="floated-left">
                                 <a href="<%=hrefPath%>" title="<%=a.Name%>">                                
-                                    <img src="<%=imgPath%>" alt="<%=a.Name%>" />
+                                    <img src="<%=imgPath%>" alt="<%=a.Name%>" />                                
+                                    <div style="text-align:center; color:Black;"><b><%=a.Municipalities.Name%></b><br /><i><%=a.Name%></i></div>
                                 </a>
+                            </div>
                             <%
                         }
                         else 
                         {
                         %>
-                            <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" />
+                        <div class="floated-left">
+                            <a href="<%=hrefPath%>" title="<%=a.Name%>">
+                                <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" />
+                                <div style="text-align:center; color:Black;"><b><%=a.Municipalities.Name%></b><br /><i><%=a.Name%></i></div>
+                            </a>    
+                        </div>
                         <%
                         }
                     }
