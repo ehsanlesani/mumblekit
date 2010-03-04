@@ -48,7 +48,7 @@
             });
 
             function loadAttachments() {
-                $("#attachmentsContainer").empty();            
+                $("#attachmentsContainerPublic").empty();            
                 attachmentCounter = 0;
                 $(attachments).each(function(i, attachment) {
                     createAttachment(attachment);
@@ -147,6 +147,6 @@
         
         <input type="hidden" id="attachmentsJson" name="jpegAttachments" value="<%= Server.HtmlEncode(ViewData["JsonValue"].ToString()) %>" />
     
-        <div id="attachmentsContainer"></div>
+        <div id="attachmentsContainerPublic"></div>
     </td>
 </tr>

@@ -437,3 +437,9 @@ table.room-prices td
     padding:5px;
     border-style:inset;
 }
+
+.floated-left
+{
+    float:left;
+    margin:5px;    
+}

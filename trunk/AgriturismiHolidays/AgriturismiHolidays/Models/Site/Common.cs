@@ -19,6 +19,7 @@ namespace Mumble.Web.StarterKit.Models.Site
 
             SelectListItem empty = new SelectListItem();
             empty.Text = " - tipologia - ";
+            empty.Value = "";
             items.Add(empty);
 
             foreach (AccommodationType a in atypes)
@@ -42,6 +43,7 @@ namespace Mumble.Web.StarterKit.Models.Site
             
             SelectListItem empty = new SelectListItem();
             empty.Text = " - tipologia - ";
+            empty.Value = "";
             if (!selectedId.HasValue)
                 empty.Selected = true;
 
@@ -71,6 +73,7 @@ namespace Mumble.Web.StarterKit.Models.Site
 
             SelectListItem empty = new SelectListItem();
             empty.Text = " - regione - ";
+            empty.Value = "";
             if (!id.HasValue)
                 empty.Selected = true;
 
@@ -98,6 +101,7 @@ namespace Mumble.Web.StarterKit.Models.Site
 
             SelectListItem empty = new SelectListItem();
             empty.Text = " - provincia - ";
+            empty.Value = "";
             if (!id.HasValue)
                 empty.Selected = true;
 
@@ -125,6 +129,7 @@ namespace Mumble.Web.StarterKit.Models.Site
 
             SelectListItem empty = new SelectListItem();
             empty.Text = " - comune - ";
+            empty.Value = "";
             if (!id.HasValue)
                 empty.Selected = true;
 

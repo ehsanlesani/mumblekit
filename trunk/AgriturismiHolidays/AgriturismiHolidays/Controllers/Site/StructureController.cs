@@ -50,6 +50,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             try
             {
                 Populate();
+
+                if (String.IsNullOrEmpty(category) || !regionItems.HasValue)
+                    throw new Exception("categoria o nome regione non selezionati");
+
                 string cat = "";
 
                 if (category != null)
