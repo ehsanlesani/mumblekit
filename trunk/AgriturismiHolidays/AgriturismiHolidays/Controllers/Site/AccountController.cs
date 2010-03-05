@@ -239,21 +239,27 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         {
             if (SelectedMunicipality != null)
             {
-                var tmpObj = (from m in StarterKitContainer.Municipalities 
-                                join p in StarterKitContainer.Provinces
-                                    on m.Provinces equals p
-                                join r in StarterKitContainer.Regions 
-                                    on p.Region equals r
-                              where m.Id == SelectedMunicipality 
-                              select new 
-                                { 
-                                    Province = m.Provinces, 
-                                    Region = m.Provinces.Region 
+                var tmpObj = (from m in StarterKitContainer.Municipalities
+                              join p in StarterKitContainer.Provinces
+                                  on m.Provinces equals p
+                              join r in StarterKitContainer.Regions
+                                  on p.Region equals r
+                              where m.Id == SelectedMunicipality
+                              select new
+                                {
+                                    Province = m.Provinces,
+                                    Region = m.Provinces.Region
                                 }).FirstOrDefault();
 
                 ViewData["selectionCity"] = Common.GetRegionsSelectList(tmpObj.Region.Id);
                 ViewData["selectionProvince"] = Common.GetProvincesSelectList(tmpObj.Province.Id, tmpObj.Region.Id);
                 ViewData["selectionMunicipality"] = Common.GetMunicipalitiesSelectList(SelectedMunicipality, tmpObj.Province.Id);
+            }
+            else 
+            {
+                ViewData["selectionCity"] = Common.GetRegionsSelectList(null);
+                ViewData["selectionMunicipality"] = null;
+                ViewData["selectionProvince"] = null;
             }
         }
         

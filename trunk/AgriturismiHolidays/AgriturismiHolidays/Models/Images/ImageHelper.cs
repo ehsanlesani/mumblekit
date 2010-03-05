@@ -18,13 +18,14 @@ namespace Mumble.Web.StarterKit.Models.Images
         public static Image CreateOptimized(Image original, int maxWidth, int maxHeight)
         {
             double div = 1;
-            if (original.Width > original.Height)
+
+            if ((original.Width > maxWidth) &&
+                (original.Height > maxHeight))
             {
-                div = (double)maxWidth / (double)original.Width;
-            }
-            else
-            {
-                div = (double)maxHeight / (double)original.Height;
+                if (original.Width > original.Height)
+                    div = (double)maxWidth / (double)original.Width;
+                else
+                    div = (double)maxHeight / (double)original.Height;             
             }
 
             int width = (int)(original.Width * div);

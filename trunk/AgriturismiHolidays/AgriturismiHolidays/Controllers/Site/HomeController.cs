@@ -82,6 +82,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             }
             catch (Exception)
             {
+                throw; 
             }
 
             ViewData["Login"] = loginModel;
@@ -96,13 +97,14 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         /// <returns></returns>
         private Page GetPage(string id)
         {
+            // && (DateTime.Today >= p.ValidFrom  &&
+            // DateTime.Today <= p.ValidTo)
+
             StarterKitContainer context = new StarterKitContainer();
             string pageName = id.Replace("_", " ");
             var page = (from p in context.Pages 
                             where 
-                            p.Description.Equals(pageName) && 
-                            (DateTime.Today >= p.ValidFrom  &&
-                            DateTime.Today <= p.ValidTo)
+                            p.Description.Equals(pageName) && (p.Visible.HasValue && p.Visible.Value)
                         orderby p.Priority ascending select p).FirstOrDefault<Page>();
 
             return page;
