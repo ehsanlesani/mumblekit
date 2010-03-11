@@ -65,5 +65,6 @@ namespace Mumble.Timerou.Models.Helpers
                 return HttpContext.Current.Request.ApplicationPath + ConfigurationManager.AppSettings["BasePicturesPath"] + "/";
             }
         }
+
     }
 }

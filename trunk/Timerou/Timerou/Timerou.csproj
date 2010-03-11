@@ -100,6 +100,7 @@
     <Compile Include="Models\Responses\VideoData.cs" />
     <Compile Include="Models\Responses\YearGroupedMediasData.cs" />
     <Compile Include="Models\Responses\YearGroupedMediasResponse.cs" />
+    <Compile Include="Models\SearchDirection.cs" />
     <Compile Include="Models\Video.cs" />
     <Compile Include="Models\ViewData\BaseModel.cs" />
     <Compile Include="Models\ViewData\LoginModel.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Models\Helpers\UriHelper.cs" />
     <Compile Include="Models\Managers\AccountManager.cs" />
     <Compile Include="Models\Managers\ControlPanel.cs" />
-    <Compile Include="Models\ViewData\UploadModel.cs" />
+    <Compile Include="Models\ViewData\ShareModel.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Responses\AddMediaResponse.cs" />
     <Compile Include="Models\Responses\LoadMediasResponse.cs" />
@@ -211,7 +212,6 @@
     <Content Include="Map\Main.swf" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
-    <Content Include="Scripts\Copy of Timebar.js" />
     <Content Include="Scripts\JSMapCom.js" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\DetailManager.js" />
@@ -462,6 +462,7 @@
     <Content Include="Scripts\tiny_mce\utils\mctabs.js" />
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\ShareManager.js" />
+    <Content Include="Scripts\Youtube.js" />
     <Content Include="Views\Account\MyMemories.aspx" />
     <Content Include="Views\Account\Share.aspx" />
     <Content Include="Views\Error\Index.aspx" />

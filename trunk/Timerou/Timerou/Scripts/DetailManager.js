@@ -6,6 +6,7 @@
 function DetailManager(bounds, year) {
     this.map = null;
     this.bounds = Utils.stringToBounds(bounds);
+    this.mapBounds = new google.maps.LatLngBounds();
     this.year = year;
     this.pageSize = 13;
     this.page = 1;
@@ -89,7 +90,7 @@ DetailManager.prototype = {
                 nextButton.css("opacity", 0.5);
             }
 
-            $("#navigation").append(nextButton);            
+            $("#navigation").append(nextButton);
 
             if (!Utils.isNullOrUndef(callback)) {
                 callback();
@@ -182,13 +183,13 @@ DetailManager.prototype = {
     _initializeMinimap: function() {
         var self = this;
 
-        var mapbounds = new google.maps.LatLngBounds(
+        this.mapbounds = new google.maps.LatLngBounds(
             new google.maps.LatLng(this.bounds.swlat, this.bounds.swlng),
             new google.maps.LatLng(this.bounds.nelat, this.bounds.nelng));
 
         //initialize map
         this.map = new google.maps.Map(document.getElementById("map"), {
-            center: mapbounds.getCenter(),
+            center: this.mapbounds.getCenter(),
             zoom: 5,
             scrollwheel: false,
             draggable: true,
@@ -199,29 +200,30 @@ DetailManager.prototype = {
             disableDoubleClickZoom: true
         });
 
-        this.map.fitBounds(mapbounds);
-
-        boundsQuad = new google.maps.Polygon({
-            paths: [
-                mapbounds.getSouthWest(),
-                new google.maps.LatLng(mapbounds.getSouthWest().lat(), mapbounds.getNorthEast().lng()),
-                mapbounds.getNorthEast(),
-                new google.maps.LatLng(mapbounds.getNorthEast().lat(), mapbounds.getSouthWest().lng())
+        this.map.fitBounds(this.mapbounds);
+        window.setTimeout(function() {
+            var boundsQuad = new google.maps.Polygon({
+                paths: [
+                self.mapbounds.getSouthWest(),
+                new google.maps.LatLng(self.mapbounds.getSouthWest().lat(), self.mapbounds.getNorthEast().lng()),
+                self.mapbounds.getNorthEast(),
+                new google.maps.LatLng(self.mapbounds.getNorthEast().lat(), self.mapbounds.getSouthWest().lng())
             ],
-            strokeColor: "#8CC6FF",
-            strokeOpacity: 0.6,
-            strokeWeight: 2,
-            fillColor: "#8CC6FF",
-            fillOpacity: 0.2
-        });
+                strokeColor: "#8CC6FF",
+                strokeOpacity: 0.6,
+                strokeWeight: 2,
+                fillColor: "#8CC6FF",
+                fillOpacity: 0.2
+            });
 
-        boundsQuad.setMap(this.map);
+            boundsQuad.setMap(self.map);
+        }, 1000);
 
         //initialization
         google.maps.event.addListener(this.map, "bounds_changed", function() {
             google.maps.event.clearListeners(self.map, "bounds_changed");
             //adjust zoom level after use of fitBounds
-            //self.map.setZoom(self.map.getZoom() + 1);
+            self.map.setZoom(self.map.getZoom() + 1);
 
             self._onMapReady();
         });

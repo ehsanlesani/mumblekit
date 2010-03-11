@@ -106,7 +106,7 @@ MyMemoriesManager.prototype = {
             .find("#editButton")
                 .removeAttr("id")
                 .click(function() {
-                    window.open(Url.AccountShare + media.id);
+                    window.open(Url.AccountShare + media.id, "_self");
                 })
                 .end()
             .find("#deleteButton")

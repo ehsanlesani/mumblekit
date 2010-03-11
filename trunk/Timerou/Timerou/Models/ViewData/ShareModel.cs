@@ -6,9 +6,9 @@ using Mumble.Timerou.Models.ViewData;
 
 namespace Mumble.Timerou.Models.Pages
 {
-    public class UploadModel : BaseModel<Picture>
+    public class ShareModel : BaseModel<Media>
     {
-        public UploadModel()
+        public ShareModel()
         {
             Lat = 40.6686534f;
             Lng = 16.6060872f;
@@ -20,11 +20,14 @@ namespace Mumble.Timerou.Models.Pages
         public double Lng { get; set; }
         public int Zoom { get; set; }
         public int Year { get; set; }
-        public Picture Picture { get; set; }
+        public Media Media { get; set; }
 
-        protected override Picture GetValueObject()
+        public Picture Picture { get { return Media as Picture; } }
+        public Video Video { get { return Media as Video; } }
+
+        protected override Media GetValueObject()
         {
-            return Picture;
+            return Media;
         }
     }
 }

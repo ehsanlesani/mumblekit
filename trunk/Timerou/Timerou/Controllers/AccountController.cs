@@ -97,11 +97,11 @@ namespace Mumble.Timerou.Controllers
             {
                 Authorize();
 
-                UploadModel model = new UploadModel();
+                ShareModel model = new ShareModel();
 
                 if (id.HasValue)
                 {
-                    model.Picture = Container.Medias.OfType<Picture>().Where(p => p.Id == id).First();
+                    model.Media = Container.Medias.OfType<Picture>().Where(p => p.Id == id).First();
                 }
 
                 if (lat.HasValue) { model.Lat = lat.Value; }
@@ -154,7 +154,7 @@ namespace Mumble.Timerou.Controllers
         /// <returns></returns>
         [ValidateInput(false)]
         public ActionResult SaveMedia(
-            Guid? pictureId, //editing picture id. if null is a new picture
+            Guid? mediaId, //editing picture id. if null is a new picture
             Guid? tempPictureId, 
             string title,
             string body,
@@ -180,7 +180,7 @@ namespace Mumble.Timerou.Controllers
 
                 ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
                 Picture picture = controlPanel.SavePicture(
-                    pictureId, 
+                    mediaId, 
                     tempPictureId, 
                     title, 
                     body, 

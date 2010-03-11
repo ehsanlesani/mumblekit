@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="Mumble.Timerou.Models.Auth.AuthPage<Mumble.Timerou.Models.Pages.UploadModel>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="Mumble.Timerou.Models.Auth.AuthPage<Mumble.Timerou.Models.Pages.ShareModel>" %>
 
 <asp:Content ID="UploadContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -76,8 +76,12 @@
             <div class="errorbox hidden" id="uploadErrorBox">Error</div>
             
             <div id="typesTabs">
+                <ul>
+                    <li><a href="#picture-tab"><span><%= UIHelper.T("txt.picture") %></span></a></li>
+                    <li><a href="#video-tab"><span><%= UIHelper.T("txt.video") %></span></a></li>
+                </ul>
             
-                <div>
+                <div id="picture-tab">
                     <table style="width: 100%;">
                         <tr>
                             <td style="padding: 3px; width: 100px;">
@@ -100,6 +104,30 @@
                         </tr>
                     </table>
                 </div>
+                
+                <div id="video-tab">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="padding: 3px; width: 100px;">
+                                <div id="videoContainer" style="cursor: pointer;">
+                                    <% if (Model.Video != null) { %> 
+                                        <img src="<%= UriHelper.YoutubeVideosShapshots %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
+                                    <% } else { %> 
+                                        <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
+                                    <% } %>
+                                    
+                                </div>
+                            </td>
+                            <td style="padding: 3px;" >
+                                <table width="100%">
+                                    <tr><td><%= UIHelper.T("msg.insertYoutubeLink") %></td></tr>
+                                    <tr><td></td><input type="text" id="videoUrl" value="http://www.youtube.com/watch?v={0}/" /></tr>
+                                    <tr><td><input type="button" id="loadVideo" /></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             
             </div>
             
@@ -112,7 +140,7 @@
             <div class="errorbox hidden" id="infoErrorBox">Error</div>
             
             <% using (Html.BeginForm("SaveMedia", "Account", FormMethod.Post, new { id = "pictureForm" })) { %>
-                <%= Html.Hidden("pictureId", Model.Val(x => x.Id)) %>
+                <%= Html.Hidden("mediaId", Model.Val(x => x.Id)) %>
                 <%= Html.Hidden("tempPictureId") %>
                 <%= Html.Hidden("year", Model.Val(x => x.Year))%>
                 <%= Html.Hidden("country", Model.Val(x => x.Country)) %>
@@ -124,7 +152,6 @@
                 <%= Html.Hidden("address", Model.Val(x => x.Address)) %>
                 <%= Html.Hidden("lat", Model.Val(x => x.Lat)) %>
                 <%= Html.Hidden("lng", Model.Val(x => x.Lng)) %>
-                <input type="hidden" name="goToNewPicture" value="true" />
                 
                 <fieldset>
                     <p>

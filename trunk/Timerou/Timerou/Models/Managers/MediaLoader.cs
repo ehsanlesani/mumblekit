@@ -112,18 +112,13 @@ namespace Mumble.Timerou.Models.Managers
         /// <summary>
         /// Loaded media located inside specified bounds from last year going back until slots are full, grouped by year
         /// </summary>
-        /// <param name="bounds"></param>
-        /// <param name="startYear"></param>
-        /// <param name="stopYear"></param>
-        /// <returns></returns>
-        public IEnumerable<YearGroupedMedias> LoadOneMediaPerYear(MapBounds bounds, int slots, int lastYear)
+        public List<YearGroupedMedias> LoadOneMediaPerYear(MapBounds bounds, int mediasToLoad, int referenceYear, SearchDirection direction, out int minYearDistance)
         {
             int mediaPerYear = Int32.Parse(ConfigurationManager.AppSettings["MediaPerYear"]);
             var crossMeridian = bounds.CrossMeridian;
 
-            var yearGroupedMediaList = (from m in _container.Medias.Include("User")
-                                           where m.Year <= lastYear
-                                           && m.IsTemp == false
+            var yearGroupedMedias = (from m in _container.Medias.Include("User")
+                                           where m.IsTemp == false
                                            && m.Lat >= bounds.SouthWest.Lat
                                            && m.Lat <= bounds.NorthEast.Lat
                                            && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
@@ -135,16 +130,98 @@ namespace Mumble.Timerou.Models.Managers
                                                {
                                                    Year = yearGroup.Key,
                                                    Medias = yearGroup.Take(mediaPerYear)
-                                               }).Take(slots).ToList(); //toList is needed because include is not supported in sub queries and another query is required in pictures to get paths.
+                                               }).Take(mediasToLoad); //toList is needed because include is not supported in sub queries and another query is required in pictures to get paths.
 
-            return yearGroupedMediaList;
+            switch (direction)
+            {
+                case SearchDirection.Back:
+                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year <= referenceYear);
+                    break;
+                case SearchDirection.Forward:
+                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year >= referenceYear);
+                    break;
+            }
+
+            int totalCount = yearGroupedMedias.Count();
+            minYearDistance = DateTime.Now.Year; //represents minimum year step
+
+            //check viewables media
+            if (totalCount > 0)
+            {
+                //find min year distance between medias
+
+                var lastMediaGroup = yearGroupedMedias.First();
+                foreach (var mediaGroup in yearGroupedMedias)
+                {
+                    if (mediaGroup.Year == lastMediaGroup.Year) { continue; } //skip first element
+                    minYearDistance = Math.Min(minYearDistance, Math.Abs(lastMediaGroup.Year - mediaGroup.Year));
+                    lastMediaGroup = mediaGroup;
+                }
+
+                /* calculate minimun viewable year for medias, controlling minimum year distance and number of view slots in timebar
+                 * es: medias[] = { 2010, 2008, 2005, 1920 }, slots = 5, minYearDistance = 2010 - 2008 = 2, minYearThatCanBe = 2010 - (5 * 2) = 2000
+                 * 1920 is invisible on the bar because is too far and is not possible display distance effect in timebar */
+
+                if (direction == SearchDirection.Back)
+                {
+                    int minYearThatCanBe = referenceYear - (minYearDistance * mediasToLoad);
+                    //filter medias
+                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year >= minYearThatCanBe);
+                }
+                else if (direction == SearchDirection.Forward)
+                {
+                    int maxYearThatCanBe = referenceYear + (minYearDistance * mediasToLoad);
+                    //filter medias
+                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year <= maxYearThatCanBe);
+                }
+            }
+
+            return yearGroupedMedias.ToList();
+        }
+
+        /// <summary>
+        /// Return number of medias before specified year
+        /// </summary>
+        public int CountMediasBeforeYear(MapBounds bounds, int year)
+        {
+            int limit = Int32.Parse(ConfigurationManager.AppSettings["MediaLimit"]);
+            var crossMeridian = bounds.CrossMeridian;
+
+            var count = (from m in _container.Medias
+                                        where (m.Year < year)
+                                        && m.IsTemp == false
+                                        && m.Lat >= bounds.SouthWest.Lat
+                                        && m.Lat <= bounds.NorthEast.Lat
+                                        && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
+                                           || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
+                                        select m).Count();
+
+            return count;
+        }
+
+        /// <summary>
+        /// Return number of medias after specified year
+        /// </summary>
+        public int CountMediasAfterYear(MapBounds bounds, int year)
+        {
+            int limit = Int32.Parse(ConfigurationManager.AppSettings["MediaLimit"]);
+            var crossMeridian = bounds.CrossMeridian;
+
+            var count = (from m in _container.Medias
+                         where (m.Year > year)
+                         && m.IsTemp == false
+                         && m.Lat >= bounds.SouthWest.Lat
+                         && m.Lat <= bounds.NorthEast.Lat
+                         && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
+                            || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
+                         select m).Count();
+
+            return count;
         }
 
         /// <summary>
         /// Load related pictures. A related picture is a picture near origin
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
         public IEnumerable<Picture> LoadRelatedPictures(MapBounds mapViewBounds, Picture picture)
         {
             double size = mapViewBounds.Width / 7.0;
