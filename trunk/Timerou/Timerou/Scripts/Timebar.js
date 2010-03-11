@@ -6,29 +6,34 @@ function Timebar() {
     var self = this;
 
     this.yearsPositions = [];
-    this.lastYear = new Date().getFullYear();
-    this.firstYear = 0;
+    this.referenceYear = new Date().getFullYear();
+    this.direction = Timebar.DIRECTION_BACK;
     this.mediaWidth = 75;
-    this.slotWidth = 75;
-    this.year = new Date().getFullYear();
-    this.numberOfSteps = 1;
-    this.stepMargin = this.mediaWidth / 2;
+    this.year = null;
+    this.mediasToLoad = 1; //the number of medias that can be loaded
     this.currentStepsContainer = null;
     this.barWidth = 0;
     this.travelDuration = 1000;
     this.movementEnabled = true;
     this.mapMoveTimer = null;
     this.bounds = null;
-    this.loadedMedias = [];
-    this.renderMedias = [];
+    this.loadedMedias = []; //the loaded medias
+
+    //response
+    this.minYear = 0;
+    this.maxYear = 0;
+    this.hasMediasBefore = false;
+    this.hasMediasAfter = false;
 }
 
 Timebar.YEAR_CHANGED = "yearChanged";
+Timebar.DIRECTION_BACK = "Back";
+Timebar.DIRECTION_FORWARD = "Forward";
 
 Timebar.prototype = {
     initialize: function(year) {
         if (!Utils.isNullOrUndef(year)) { this.year = year; }
-        this._calculateMaxNumberOfSteps();
+        this._calculateMediasToLoad();
         this._setupEvents();
     },
 
@@ -36,28 +41,34 @@ Timebar.prototype = {
         return this.year;
     },
 
-    setYear: function(year, forceReload) {
+    setYear: function(year, forceReload, trigger) {
         if (Utils.isNullOrUndef(forceReload)) { forceReload = false; }
+        if (Utils.isNullOrUndef(trigger)) { trigger = true; }
         if (this.year == year && !forceReload) { return; }
 
         this.year = year;
-        $(this).trigger(Timebar.YEAR_CHANGED);
-
-        if (year >= this.firstYear && year <= this.lastYear) {
-            $("#timebar .bar .pointer:hidden").fadeIn(250);
-            var x = this._getYearPosition(year) - $("#timebar .bar .pointer").width() / 2;
-            $("#timebar .bar .pointer").animate({ "left": x + "px" });
-        } else {
-            $("#timebar .bar .pointer:visible").fadeOut(250);
-        }
+        if (trigger) { $(this).trigger(Timebar.YEAR_CHANGED); }
+        this._movePointerToCurrentYear();
     },
 
     goBack: function() {
-
+        if (this.hasMediasBefore) {
+            this.hasMediasBefore = false; //prevent rapid clicks
+            this._resetStepsContainer();
+            this.referenceYear = this.minYear;
+            this.direction = Timebar.DIRECTION_BACK;
+            this.loadMedias();
+        }
     },
 
     goForward: function() {
-
+        if (this.hasMediasAfter) {
+            this.hasMediasAfter = false; //prevent rapid clicks
+            this._resetStepsContainer();
+            this.referenceYear = this.maxYear;
+            this.direction = Timebar.DIRECTION_FORWARD;
+            this.loadMedias();
+        }
     },
 
     setBounds: function(bounds) {
@@ -71,7 +82,6 @@ Timebar.prototype = {
         }
 
         this.loadedMedias = [];
-        this.renderMedias = [];
 
         var bounds = this.bounds;
 
@@ -85,8 +95,9 @@ Timebar.prototype = {
             swlng: bounds.swlng,
             nelat: bounds.nelat,
             nelng: bounds.nelng,
-            slots: this.numberOfSteps,
-            lastYear: this.lastYear
+            mediasToLoad: this.mediasToLoad,
+            referenceYear: this.referenceYear,
+            direction: this.direction
         }, function(response) {
             $("#timebar .barLoading").hide();
             if (response.error) {
@@ -94,6 +105,10 @@ Timebar.prototype = {
                 return;
             }
 
+            self.minYear = response.minYear;
+            self.maxYear = response.maxYear;
+            self.hasMediasBefore = response.hasMediasBefore;
+            self.hasMediasAfter = response.hasMediasAfter;
             self.loadedMedias = response.groupedMedias;
             self._setupInterface();
             self._renderMedias();
@@ -108,6 +123,17 @@ Timebar.prototype = {
         }
 
         self.mapMoveTimer = window.setTimeout(function() { self.loadMedias(); }, 1000);
+    },
+
+    _movePointerToCurrentYear: function() {
+        var yearPosition = this._findYearPositionObject(this.year);
+        if (yearPosition != null) {
+            $("#timebar .bar .pointer:hidden").fadeIn(250);
+            var x = yearPosition.x - $("#timebar .bar .pointer").width() / 2;
+            $("#timebar .bar .pointer").animate({ "left": x + "px" });
+        } else {
+            $("#timebar .bar .pointer:visible").fadeOut(250);
+        }
     },
 
     _disableMoveButtons: function() {
@@ -145,48 +171,37 @@ Timebar.prototype = {
         $("#timebar .bar").append(this.currentStepsContainer);
     },
 
-    _calculateMaxNumberOfSteps: function() {
+    _calculateMediasToLoad: function() {
         //get bar width
         this.barWidth = $("#timebar .bar").width();
-        this.numberOfSteps = parseInt(this.barWidth / this.mediaWidth);
+        this.mediasToLoad = parseInt(this.barWidth / this.mediaWidth);
     },
 
     _setupInterface: function() {
-        this.yearPositions = [];
-        this._calculateMaxNumberOfSteps();
+        this.yearsPositions = [];
+        this._calculateMediasToLoad(); //to get bar width
 
-        //find minimum years distance
-        var minYearsDistance = 999999999;
-        for (var i = 0; i < this.loadedMedias.length - 1; i++) {
-            var currentYearsDistance = this.loadedMedias[i + 1].year - this.loadedMedias[i].year;
-            minYearsDistance = Math.min(minYearsDistance, currentYearsDistance);
-        }
-        var minYearThatCanBe = this.lastYear - (minYearsDistance * this.numberOfSteps);
-        //find first allowed year
-        this.firstYear = 99999999;
-        this.lastYear = 0;
-        for (var i = 0; i < this.loadedMedias.length; i++) {
-            if (this.loadedMedias[i].year >= minYearThatCanBe) {
-                this.renderMedias.push(this.loadedMedias[i]);
-                this.firstYear = Math.min(this.firstYear, this.loadedMedias[i].year);
-                this.lastYear = Math.max(this.lastYear, this.loadedMedias[i].year);
+        if (this.loadedMedias.length == 1) {
+            this.yearsPositions.push({ year: this.minYear, x: this.barWidth / 2 });
+        } else {
+            //calculate positions
+            var workWidth = this.barWidth - this.mediaWidth;
+            var yearsDelta = this.maxYear - this.minYear;
+            for (var i = 0; i < this.loadedMedias.length; i++) {
+                var delta = yearsDelta - (this.maxYear - this.loadedMedias[i].year);
+                var x = workWidth * delta / yearsDelta + this.mediaWidth / 2;
+                this.yearsPositions.push({ year: this.minYear + delta, x: x });
             }
         }
-        //calculate positions
-        var workWidth = this.barWidth - this.mediaWidth;
-        var yearsDelta = this.lastYear - this.firstYear;
-        for (var i = 0; i < this.renderMedias.length; i++) {
-            var delta = yearsDelta - (this.lastYear - this.renderMedias[i].year);
-            var x = workWidth * delta / yearsDelta + this.mediaWidth / 2;
-            this.yearsPositions.push({ year: this.firstYear + delta, x: x });
-        }
+
+        this._movePointerToCurrentYear();
     },
 
     _drawSteps: function(stepsContainer) {
         var self = this;
 
-        for (var i = 0; i < this.renderMedias.length; i++) {
-            var renderMedia = this.renderMedias[i];
+        for (var i = 0; i < this.loadedMedias.length; i++) {
+            var renderMedia = this.loadedMedias[i];
             var yearPosition = this._getYearPosition(renderMedia.year);
 
             var step = $("<div />")
@@ -200,8 +215,8 @@ Timebar.prototype = {
     },
 
     _drawYears: function(stepsContainer) {
-        for (var i = 0; i < this.renderMedias.length; i++) {
-            var renderMedia = this.renderMedias[i];
+        for (var i = 0; i < this.loadedMedias.length; i++) {
+            var renderMedia = this.loadedMedias[i];
             var yearPosition = this._getYearPosition(renderMedia.year);
 
             var step = $("<div />").addClass("stepYear").html(renderMedia.year);
@@ -212,13 +227,19 @@ Timebar.prototype = {
         }
     },
 
-    _getYearPosition: function(year) {
+    _findYearPositionObject: function(year) {
         for (var i = 0; i < this.yearsPositions.length; i++) {
             var yearPosition = this.yearsPositions[i];
-            if (yearPosition.year == year) { return yearPosition.x; }
+            if (yearPosition.year == year) { return yearPosition; }
         }
 
-        return 0;
+        return null;
+    },
+
+    _getYearPosition: function(year) {
+        var obj = this._findYearPositionObject(year);
+        if (obj != null) { return obj.x; }
+        else { return 0; }
     },
 
     _clearMedias: function() {
@@ -226,18 +247,38 @@ Timebar.prototype = {
     },
 
     _renderMedias: function() {
-        for (var i = 0; i < this.renderMedias.length; i++) {
-            var group = this.renderMedias[i];
+        for (var i = 0; i < this.loadedMedias.length; i++) {
+            var group = this.loadedMedias[i];
             //group.medias is an array for a multi picture per year support
             var media = this._renderMedia(group.medias[0]);
             $("#timebar .mediasContainer").append(media);
             //adjust position
-            $(media).css("left", (this._getYearPosition(group.year) - $(media).outerWidth() / 2) + "px").slideDown();
+            var x = (this._getYearPosition(group.year) - $(media).outerWidth() / 2);
+            if (this.direction == Timebar.DIRECTION_BACK) {
+                $(media).css("left", (this.mediaWidth * -1) + "px").show();
+            } else {
+                $(media).css("left", (this.mediaWidth + this.barWidth) + "px").show();
+            }
+            //animate to position
+            $(media).animate({ left: x + "px" }, this.travelDuration, "swing");
         }
 
         this._resetStepsContainer();
         this._drawSteps(this.currentStepsContainer);
         this._drawYears(this.currentStepsContainer);
+
+        //check move buttons
+        if (this.hasMediasBefore) {
+            $("#timebar .backButton:hidden").fadeIn(250);
+        } else {
+            $("#timebar .backButton:visible").fadeOut(250);
+        }
+
+        if (this.hasMediasAfter) {
+            $("#timebar .forwardButton:hidden").fadeIn(250);
+        } else {
+            $("#timebar .forwardButton:visible").fadeOut(250);
+        }
     },
 
     _renderMedia: function(mediaData) {

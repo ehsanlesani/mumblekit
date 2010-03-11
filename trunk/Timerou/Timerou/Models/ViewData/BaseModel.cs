@@ -13,6 +13,16 @@ namespace Mumble.Timerou.Models.ViewData
     /// </summary>
     public abstract class BaseModel<T>
     {
+        private Dictionary<Type, object> _extraValueObjects = new Dictionary<Type, object>();
+
+        /// <summary>
+        /// Add an extra value object for usage with Val of other types
+        /// </summary>
+        protected virtual void AddExtraValueObject(Type type, object entity)
+        {
+            _extraValueObjects.Add(type, entity);
+        }
+
         /// <summary>
         /// Gets value object to use in html pages
         /// </summary>
@@ -82,6 +92,26 @@ namespace Mumble.Timerou.Models.ViewData
             }
 
             return String.Empty;
+        }
+
+        /// <summary>
+        /// Gets null reference save value from an extra value object using expression (for refactoring and code assist)
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public string Val<C>(Func<C, object> fn)
+        {
+            C valueObject = (C)_extraValueObjects[typeof(C)];
+            if (valueObject != null)
+            {
+                object value = fn(valueObject);
+                if (value != null)
+                {
+                    return value.ToString();
+                }
+            }
+
+            return string.Empty;
         }
     }
 }

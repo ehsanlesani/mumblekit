@@ -16,10 +16,10 @@
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>FlashMapCom.js" type="text/javascript"></script>   
     <script src="<%= UriHelper.Scripts %>Timebar.js" type="text/javascript"></script>
-    <script src="../../Scripts/MediaNavigator.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>MediaNavigator.js" type="text/javascript"></script>
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
-    <link href="../../Content/Css/Timebar.css" rel="stylesheet" type="text/css" />
+    <link href="<%= UriHelper.Css %>Timebar.css" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
         var year = new Date().getFullYear();
@@ -70,7 +70,7 @@
             });
 
             $(mediaNavigator).bind(MediaNavigator.MEDIA_CLICK, function(e, mediaData) {
-                var bounds = Utils.boundsToString(MapCom.getMapBounds(), 2);
+                var bounds = Utils.boundsToString(MapCom.getMapBounds());
                 window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "#show|id=" + mediaData.id);
             });
 

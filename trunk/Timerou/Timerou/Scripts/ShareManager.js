@@ -1,6 +1,7 @@
 ﻿/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
 /// <reference path="libs/google.maps-v3-vsdoc.js" />
 /// <reference path="Url.js" />
+/// <reference path="Youtube.js" />
 
 function ShareManager(lat, lng, zoom, year) {
     //initial values getted from main map
@@ -21,6 +22,8 @@ function ShareManager(lat, lng, zoom, year) {
 
 ShareManager.prototype = {
     initialize: function() {
+        var youtube = new Youtube();
+        youtube.loadByUrl("http://www.youtube.com/watch?v=YZD1hPJG-B8&feature=related");
         var self = this;
 
         this.initializeSliders();
@@ -161,7 +164,7 @@ ShareManager.prototype = {
             var position = new google.maps.LatLng(loadedLat, loadedLng);
             self.initializeMarker(position);
             self.map.setCenter(position);
-            
+
             //set labels for user feedback
             $("#mapLocationLabel").html(self.getInput("address"));
             $("#mapLatLngLabel").html("Lat: " + loadedLat + ", Lng: " + loadedLng);
