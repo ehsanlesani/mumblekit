@@ -156,6 +156,8 @@ namespace Mumble.Timerou.Controllers
         public ActionResult SaveMedia(
             Guid? mediaId, //editing picture id. if null is a new picture
             Guid? tempPictureId, 
+            string mediaType,
+            string youtubeVideoId,
             string title,
             string body,
             string country, 
@@ -179,21 +181,49 @@ namespace Mumble.Timerou.Controllers
                 double dLng = double.Parse(lng, culture.NumberFormat);
 
                 ControlPanel controlPanel = new ControlPanel(AccountManager.LoggedUser, Container);
-                Picture picture = controlPanel.SavePicture(
-                    mediaId, 
-                    tempPictureId, 
-                    title, 
-                    body, 
-                    country, 
-                    countryCode, 
-                    region, 
-                    postalCode, 
-                    city, 
-                    province, 
-                    address, 
-                    dLat, 
-                    dLng,
-                    year);
+                
+                switch (mediaType)
+                {
+                    case "Picture":
+                        Picture picture = controlPanel.SavePicture(
+                            mediaId,
+                            tempPictureId,
+                            title,
+                            body,
+                            country,
+                            countryCode,
+                            region,
+                            postalCode,
+                            city,
+                            province,
+                            address,
+                            dLat,
+                            dLng,
+                            year
+                            );
+                        break;
+                    case "Video":
+                        Video video = controlPanel.SaveVideo(
+                                mediaId,
+                                youtubeVideoId,
+                                title,
+                                body,
+                                country,
+                                countryCode,
+                                region,
+                                postalCode,
+                                city,
+                                province,
+                                address,
+                                dLat,
+                                dLng,
+                                year
+                            );
+                        break;
+                }
+
+                
+                
 
                 ViewData["Message"] = UIHelper.Translate("msg.mediaSaved");
 

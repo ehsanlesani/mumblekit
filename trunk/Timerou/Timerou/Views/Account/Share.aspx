@@ -18,7 +18,8 @@
     <script src="<%= UriHelper.Scripts %>jquery/ajaxupload.js" type="text/javascript"></script>
     <script src='<%= UriHelper.Scripts %>ShareManager.js' type="text/javascript" ></script>
     <script src='<%= UriHelper.Scripts %>tiny_mce/tiny_mce.js' type="text/javascript" ></script>
-    
+
+    <script src="../../Scripts/Youtube.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function() {
@@ -29,6 +30,12 @@
 
             var shareManager = new ShareManager(lat, lng, zoom, year);
             shareManager.initialize();
+
+            $("#typesTabs").tabs({
+                select: function(event, ui) {
+                    shareManager.setMediaType($(ui.tab).attr("mediaType"));
+                }
+            });
         });
         
     </script>
@@ -77,8 +84,8 @@
             
             <div id="typesTabs">
                 <ul>
-                    <li><a href="#picture-tab"><span><%= UIHelper.T("txt.picture") %></span></a></li>
-                    <li><a href="#video-tab"><span><%= UIHelper.T("txt.video") %></span></a></li>
+                    <li><a href="#picture-tab" mediaType="Picture"><span><%= UIHelper.T("txt.picture") %></span></a></li>
+                    <li><a href="#video-tab" mediaType="Video"><span><%= UIHelper.T("txt.video") %></span></a></li>
                 </ul>
             
                 <div id="picture-tab">
@@ -87,7 +94,7 @@
                             <td style="padding: 3px; width: 100px;">
                                 <div id="uploadButton" style="cursor: pointer;">
                                     <% if (Model.Picture != null) { %> 
-                                        <img src="<%= UriHelper.Pictures %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
+                                        <img src="<%= UriHelper.Pictures %><%= Model.Val<Picture>(x => x.AvatarPath) %>" alt="nophoto" />
                                     <% } else { %> 
                                         <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
                                     <% } %>
@@ -109,20 +116,15 @@
                     <table style="width: 100%;">
                         <tr>
                             <td style="padding: 3px; width: 100px;">
-                                <div id="videoContainer" style="cursor: pointer;">
-                                    <% if (Model.Video != null) { %> 
-                                        <img src="<%= UriHelper.YoutubeVideosShapshots %><%= Model.Val(x => x.AvatarPath) %>" alt="nophoto" />
-                                    <% } else { %> 
-                                        <img src="<%= UriHelper.Images %>nophoto.png" alt="nophoto" />
-                                    <% } %>
-                                    
+                                <div id="videoContainer">
+                                    <img src="<%= UriHelper.Images %>novideo.png" alt="nophoto" />
                                 </div>
                             </td>
                             <td style="padding: 3px;" >
                                 <table width="100%">
                                     <tr><td><%= UIHelper.T("msg.insertYoutubeLink") %></td></tr>
-                                    <tr><td></td><input type="text" id="videoUrl" value="http://www.youtube.com/watch?v={0}/" /></tr>
-                                    <tr><td><input type="button" id="loadVideo" /></td></tr>
+                                    <tr><td><input type="text" id="videoUrl" style="width: 300px;" /></td></tr>
+                                    <tr><td><input type="button" id="loadVideo" value='<%= UIHelper.T("txt.load") %>' /></td></tr>
                                 </table>
                             </td>
                         </tr>
@@ -140,28 +142,30 @@
             <div class="errorbox hidden" id="infoErrorBox">Error</div>
             
             <% using (Html.BeginForm("SaveMedia", "Account", FormMethod.Post, new { id = "pictureForm" })) { %>
-                <%= Html.Hidden("mediaId", Model.Val(x => x.Id)) %>
+                <%= Html.Hidden("mediaId", Model.Val<Media>(x => x.Id)) %>
                 <%= Html.Hidden("tempPictureId") %>
-                <%= Html.Hidden("year", Model.Val(x => x.Year))%>
-                <%= Html.Hidden("country", Model.Val(x => x.Country)) %>
-                <%= Html.Hidden("countryCode", Model.Val(x => x.CountryCode)) %>
-                <%= Html.Hidden("region", Model.Val(x => x.Region)) %>
-                <%= Html.Hidden("postalCode", Model.Val(x => x.PostalCode)) %>
-                <%= Html.Hidden("city", Model.Val(x => x.City)) %>
-                <%= Html.Hidden("province", Model.Val(x => x.Province)) %>
-                <%= Html.Hidden("address", Model.Val(x => x.Address)) %>
-                <%= Html.Hidden("lat", Model.Val(x => x.Lat)) %>
-                <%= Html.Hidden("lng", Model.Val(x => x.Lng)) %>
+                <%= Html.Hidden("year", Model.Val<Media>(x => x.Year))%>
+                <%= Html.Hidden("country", Model.Val<Media>(x => x.Country))%>
+                <%= Html.Hidden("countryCode", Model.Val<Media>(x => x.CountryCode))%>
+                <%= Html.Hidden("region", Model.Val<Media>(x => x.Region))%>
+                <%= Html.Hidden("postalCode", Model.Val<Media>(x => x.PostalCode))%>
+                <%= Html.Hidden("city", Model.Val<Media>(x => x.City))%>
+                <%= Html.Hidden("province", Model.Val<Media>(x => x.Province))%>
+                <%= Html.Hidden("address", Model.Val<Media>(x => x.Address))%>
+                <%= Html.Hidden("lat", Model.Val<Media>(x => x.Lat))%>
+                <%= Html.Hidden("lng", Model.Val<Media>(x => x.Lng))%>
+                <%= Html.Hidden("youtubeVideoId", Model.Val<Video>(v => v.YouTubeId)) %>
+                <input type="hidden" name="mediaType" value="<%= Model.MediaType %>" />
                 
                 <fieldset>
                     <p>
                         <label><%= UIHelper.T("txt.title")%></label>
-                        <%= Html.TextBox("title", Model.Val(x => x.Title), new { id="pictureTitle", style="width: 100%;" })%>
+                        <%= Html.TextBox("title", Model.Val<Media>(x => x.Title), new { id = "pictureTitle", style = "width: 100%;" })%>
                     </p>
                     
                     <p>
                         <label><%= UIHelper.T("txt.body")%></label>
-                        <textarea style="width: 100%" class="bodyEditor" id="pictureBody" name="body"><%= Model.Val(x => x.Body) %></textarea>
+                        <textarea style="width: 100%" class="bodyEditor" id="pictureBody" name="body"><%= Model.Val<Media>(x => x.Body)%></textarea>
                     </p>
                 </fieldset>
                 

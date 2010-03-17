@@ -14,7 +14,7 @@ function ShareManager(lat, lng, zoom, year) {
     this.errorTimers = {};
     this.progressValue = 10; //progress bar variable for bar animation
     this.progressTimer = null;
-
+    this.mediaType = null;
     //check variables
     this.pictureUploaded = false;
     this.locationSelected = false;
@@ -22,19 +22,17 @@ function ShareManager(lat, lng, zoom, year) {
 
 ShareManager.prototype = {
     initialize: function() {
-        var youtube = new Youtube();
-        youtube.loadByUrl("http://www.youtube.com/watch?v=YZD1hPJG-B8&feature=related");
         var self = this;
 
         this.initializeSliders();
-        this.initializeUpload();
+        this.initializeMedia();
         this.initializeMaps();
         this.initializeTextareas();
 
         $("#pictureForm").submit(function() {
             var allOk = true;
 
-            if (!self.pictureUploaded) {
+            if (self.getInput("mediaType") == "Picture" && !self.pictureUploaded) {
                 allOk = false;
                 self.showErrorBox("upload", SELECT_PICTURE);
             }
@@ -77,12 +75,22 @@ ShareManager.prototype = {
         self.setInput("year", self.year);
     },
 
-    initializeUpload: function() {
+    initializeMedia: function() {
         var self = this;
 
         //if there is a picture id into hidden input, is sure that a image exists
-        if (self.getInput("pictureId").length > 0) { self.pictureUploaded = true; }
+        if (self.getInput("mediaId").length > 0) {
+            if (self.getInput("mediaType") == "Picture") {
+                self.pictureUploaded = true;
+            }
+        }
 
+        this.initializePictureSelection();
+        this.initializeVideoSelection();
+
+    },
+
+    initializePictureSelection: function() {
         $("#uploadProgress").progressbar({ value: 10 });
 
         new AjaxUpload('uploadButton', {
@@ -128,6 +136,24 @@ ShareManager.prototype = {
 
                     self.setInput("tempPictureId", response.media.id);
                 }
+            }
+        });
+    },
+
+    initializeVideoSelection: function() {
+        var self = this;
+
+        $("#loadVideo").click(function() {
+            var youtube = new Youtube();
+            var url = $("#videoUrl").val();
+            if (Utils.isNullOrEmpty(url)) {
+                $("#videoUrl").focus();
+            }
+            else {
+                youtube.loadByUrl(url);
+                $("#videoContainer").empty().append(youtube.renderPreview());
+
+                self.setInput("youtubeVideoId", youtube.getId());
             }
         });
     },
@@ -361,5 +387,9 @@ ShareManager.prototype = {
         }
 
         $("#" + area + "ErrorBox:visible").hide("blind", 250)
+    },
+
+    setMediaType: function(mediaType) {
+        this.setInput("mediaType", mediaType);
     }
 };

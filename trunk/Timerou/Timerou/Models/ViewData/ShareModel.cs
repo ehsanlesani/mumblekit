@@ -6,7 +6,7 @@ using Mumble.Timerou.Models.ViewData;
 
 namespace Mumble.Timerou.Models.Pages
 {
-    public class ShareModel : BaseModel<Media>
+    public class ShareModel : BaseModel
     {
         public ShareModel()
         {
@@ -20,14 +20,14 @@ namespace Mumble.Timerou.Models.Pages
         public double Lng { get; set; }
         public int Zoom { get; set; }
         public int Year { get; set; }
-        public Media Media { get; set; }
+        public string MediaType { get; set; }
 
+        [ModelValue]
+        public Media Media { get; set; }
+        [ModelValue]
         public Picture Picture { get { return Media as Picture; } }
+        [ModelValue]
         public Video Video { get { return Media as Video; } }
 
-        protected override Media GetValueObject()
-        {
-            return Media;
-        }
     }
 }

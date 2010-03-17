@@ -47,22 +47,54 @@ namespace Mumble.Timerou.Models.Managers
         }
 
         /// <summary>
+        /// Save or update video using specified information
+        /// </summary>
+        public Video SaveVideo(Guid? videoId, string youtubeVideoId, string title, string body, string country, string countryCode, string region, string postalCode, string city, string province, string address, double lat, double lng, int year)
+        {
+            Video video = null;
+
+            //check if is a new video or an existent one
+            if (videoId.HasValue)
+            {
+                video = _container.Medias.OfType<Video>().Where(p => p.Id == videoId).FirstOrDefault();
+                if (video == null)
+                {
+                    throw new ArgumentException("videoId");
+                }
+            }
+            else
+            {
+                video = new Video()
+                {
+                    Id = Guid.NewGuid(),
+                    Created = DateTime.Now,
+                    IsTemp = false
+                };
+            }
+
+            video.Title = title;
+            video.Body = body;
+            video.Lat = lat;
+            video.Lng = lng;
+            video.Country = country;
+            video.CountryCode = countryCode;
+            video.Region = region;
+            video.Province = province;
+            video.City = city;
+            video.PostalCode = postalCode;
+            video.Address = address;
+            video.IsTemp = false;
+            video.User = _user;
+            video.Year = year;
+
+            _container.SaveChanges();
+
+            return video;
+        }
+
+        /// <summary>
         /// Save or update picture using specified information. All user temp pictures are removed
         /// </summary>
-        /// <param name="pictureId"></param>
-        /// <param name="tempPictureId"></param>
-        /// <param name="title"></param>
-        /// <param name="body"></param>
-        /// <param name="country"></param>
-        /// <param name="countryCode"></param>
-        /// <param name="region"></param>
-        /// <param name="postalCode"></param>
-        /// <param name="city"></param>
-        /// <param name="province"></param>
-        /// <param name="address"></param>
-        /// <param name="lat"></param>
-        /// <param name="lng"></param>
-        /// <returns></returns>
         public Picture SavePicture(Guid? pictureId, Guid? tempPictureId, string title, string body, string country, string countryCode, string region, string postalCode, string city, string province, string address, double lat, double lng, int year)
         {
             Picture picture = null;
@@ -159,6 +191,6 @@ namespace Mumble.Timerou.Models.Managers
             //and delete media from db
             _container.DeleteObject(media);
             _container.SaveChanges();
-        }
+        }        
     }
 }
