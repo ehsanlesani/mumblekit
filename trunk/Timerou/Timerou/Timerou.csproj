@@ -90,6 +90,7 @@
     <Compile Include="Models\ControllerExtension.cs" />
     <Compile Include="Models\Exceptions\MediaNotFoundException.cs" />
     <Compile Include="Models\Exceptions\PropertyNotFoundException.cs" />
+    <Compile Include="Models\Exceptions\ValueObjectNotFoundException.cs" />
     <Compile Include="Models\LatLng.cs" />
     <Compile Include="Models\Managers\MediaLoader.cs" />
     <Compile Include="Models\MapBounds.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Models\Helpers\UriHelper.cs" />
     <Compile Include="Models\Managers\AccountManager.cs" />
     <Compile Include="Models\Managers\ControlPanel.cs" />
+    <Compile Include="Models\ViewData\ModelValueAttribute.cs" />
     <Compile Include="Models\ViewData\ShareModel.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Models\Responses\AddMediaResponse.cs" />
@@ -196,6 +198,7 @@
     <Content Include="Content\Css\MainPage.css" />
     <Content Include="Content\Css\Timebar.css" />
     <Content Include="Content\Images\nophoto.png" />
+    <Content Include="Content\Images\novideo.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\nextPage.png" />
     <Content Include="Content\Images\previousPage.png" />
@@ -207,6 +210,7 @@
     <Content Include="Content\Timebar\forward.png" />
     <Content Include="Content\Timebar\pointer.png" />
     <Content Include="Content\Timebar\step.png" />
+    <Content Include="Content\Images\videoIcon.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Map\Main.swf" />
