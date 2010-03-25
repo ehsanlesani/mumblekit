@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -40,6 +42,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         private string Fax { get; set; }
         private Guid? SelectedMunicipality { get; set; }
         private int? Stars {get; set; }
+        private List<Room> RoomList { get; set; }
 
         public AccountController() 
         {
@@ -73,6 +76,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 SelectedAccommodationType = accommodation.AccommodationType.Id;
                 Attachments att = new Attachments();
                 JsonValue = att.Convert(accommodation);
+                
+                var room = (from r in StarterKitContainer.Rooms.Include("RoomPriceList.PriceListSeasons")
+                            where r.Accommodations.Id.Equals(accommodation.Id)                                
+                                select r).ToList<Room>();
+                RoomList = room;
             }
         }
 
@@ -227,7 +235,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             ViewData["Cap"] = Cap;
             ViewData["WhereWeAre"] = WhereWeAre;
             ViewData["Fax"] = Fax;
-            ViewData["Stars"] = Stars.GetValueOrDefault();            
+            ViewData["Stars"] = Stars.GetValueOrDefault();
+            ViewData["RoomList"] = RoomList;
 
             // Initialized statically
             ViewData["AccommodationType"] = Common.GetAccommodationTypes(SelectedAccommodationType);
@@ -355,22 +364,20 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             }
             catch (Exception ex)
             {    
-                #if(DEBUG)
-                    throw;
-                #else
-                    Error = "Errore generico";
-                #endif
+                Error = "Errore generico";
             }
             
 
             return PersonalPage();
         }
 
-        private void GenerateRoomList(Accommodation a, FormCollection frm, int max) 
+        private void GenerateRoomList(Accommodation parent, FormCollection frm, int max) 
         {
             for (int i = 0; i < max; i++) 
             {
-                EntityKey accommodationKey = new EntityKey("StarterKitContainer.Accommodations", "Id", a.Id);
+                EntityKey accommodationKey = new EntityKey("StarterKitContainer.Accommodations", "Id", parent.Id);
+
+                //var storedRoom = (from el in StarterKitContainer.Rooms where el.Id == )
 
                 Room r = new Room();
                 r.Name = frm["roomName_" + i];                
@@ -378,7 +385,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 r.Id = Guid.NewGuid();
                 r.AccommodationsReference.EntityKey = accommodationKey;
 
-                StarterKitContainer.AddToRooms(r);
+                parent.Rooms.Add(r);
+                //StarterKitContainer.AddToRooms(r);
                 //StarterKitContainer.SaveChanges();                
 
                 var roomType = frm["NewRoomType_" + i];
@@ -409,7 +417,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                     roomPrice.PriceListSeasonsReference.EntityKey = seasonKey;
                     roomPrice.Price = res;
 
-                    StarterKitContainer.AddToRoomPriceList(roomPrice);
+                    r.RoomPriceList.Add(roomPrice);
+                    //StarterKitContainer.AddToRoomPriceList(roomPrice);
                     //StarterKitContainer.SaveChanges();                    
                 }                
             }            
