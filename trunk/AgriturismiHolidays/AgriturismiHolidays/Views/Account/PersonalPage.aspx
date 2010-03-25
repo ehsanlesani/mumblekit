@@ -109,6 +109,57 @@
         <td>&nbsp;</td>
         <td>
             <div id="roomContainer">
+            <%
+                IEnumerable<PriceListSeason> seasons = ViewData["Seasons"] as IEnumerable<PriceListSeason>;
+                List<Room> roomList = ViewData["RoomList"] as List<Room>;
+                
+                foreach(Room room in roomList) 
+                {
+                    %>
+                    <table id="Table1" style="border:1px dotted #4F2925;">
+                    <input type="hidden" name="roomId" value="<%=room.Id%>" />
+                    <tr>
+                        <td colspan="2"><input type="image" name="removeRoomBtn" alt="rimuovi stanza" src="../../Content/Images/delete.png" class="addOneMore" /></td>
+                    </tr>
+                    <tr>
+                        <td>tipologia:</td>
+                        <td><%=Html.DropDownList("NewRoomType")%></td>
+                    </tr>
+                    <tr>    
+                        <td>nome:</td>
+                        <td><input type="text" name="roomName" value="<%=room.Name%>" /></td>
+                    </tr>
+                    <tr>    
+                        <td>posti:</td>
+                        <td><input type="text" name="roomPersons" value="<%=room.Persons%>" /></td>                    
+                    </tr>
+                    <tr>
+                        <td valign="top"><b>Tariffe</b></td>
+                        <td>
+                            <table>
+                            <% 
+                                if(seasons!=null) 
+                                {                                    
+                                    foreach(PriceListSeason s in seasons) 
+                                    { 
+                            %>
+                                    <tr>
+                                        <td><%=s.Description%>:</td>
+                                        <%                             
+                                            var seasonPrice = (from p in room.RoomPriceList where p.PriceListSeasons.Id.Equals(s.Id) select p.Price).FirstOrDefault();                                
+                                        %>
+                                        <td><input type="text" name="<%=s.Id.ToString()%>" value="<%=seasonPrice%>" />&nbsp;&euro;</td>
+                                    </tr>                            
+                            <%      }                         
+                                }
+                            %>
+                            </table>
+                        </td>
+                    </tr>
+                    </table>     
+                <%       
+                    }
+                %>
             </div>
         </td>
     </tr>
@@ -117,12 +168,12 @@
     </tr>    
     </table>
     <%
-        Html.EndForm();  
-        
+        Html.EndForm();
     %>
-    
-    <div style="display:none" id="templates">
+            
+    <div style="display:none" id="templates">        
         <table id="templateTbl" style="border:1px dotted #4F2925;">
+        <input type="hidden" name="roomId" />
         <tr>
             <td colspan="2"><input type="image" name="removeRoomBtn" alt="rimuovi stanza" src="../../Content/Images/delete.png" class="addOneMore" /></td>
         </tr>
@@ -143,11 +194,10 @@
             <td>
                 <table>
                 <% 
-                    IEnumerable<PriceListSeason> seasons = ViewData["Seasons"] as IEnumerable<PriceListSeason>; 
-                    
-                    if(seasons!=null) {
-                        
-                        foreach(PriceListSeason s in seasons) { 
+                    if(seasons!=null) 
+                    {                        
+                        foreach(PriceListSeason s in seasons) 
+                        { 
                 %>
                         <tr>
                             <td><%=s.Description%>:</td>
