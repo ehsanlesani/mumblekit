@@ -230,7 +230,12 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             ViewData["WhereWeAre"] = WhereWeAre;
             ViewData["Fax"] = Fax;
             ViewData["Stars"] = Stars.GetValueOrDefault();            
+
+            // Initialized statically
             ViewData["AccommodationType"] = Common.GetAccommodationTypes(SelectedAccommodationType);
+            //ViewData["Rooms"] = Common.GetAccommodationTypes(SelectedAccommodationType);
+            ViewData["NewRoomType"] = Common.GetRoomTypes();
+            ViewData["Seasons"] = Common.GetSeasons();
 
             InitializeLocalityHierarchy();
         }
@@ -276,7 +281,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                                                     string fax,
                                                     Guid? selectionMunicipality,
                                                     int? stars,
-                                                    string jpegAttachments)
+                                                    int? roomCounter,
+                                                    string jpegAttachments, 
+                                                    FormCollection form)
         {
             Attachments attach = new Attachments();
 
@@ -323,7 +330,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 EntityKey accTypeKey = new EntityKey("StarterKitContainer.AccommodationTypes", "Id", accommodationType);
                 EntityKey userKey = new EntityKey("StarterKitContainer.Users", "Id", this.AccountManager.LoggedUser.Id);
                 EntityKey municipalityKey = new EntityKey("StarterKitContainer.Municipalities", "Id", selectionMunicipality);
-                                               
+                
                 a.Name = name;
                 a.Description = description;
                 a.Email = email;
@@ -337,6 +344,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 a.AccommodationTypeReference.EntityKey = accTypeKey;
                 a.MunicipalitiesReference.EntityKey = municipalityKey;
                 a.Users.Add(usr);
+
+                if (roomCounter.GetValueOrDefault() > 0)
+                    GenerateRoomList(a, form, roomCounter.Value);
 
                 attach.Convert(jpegAttachments, a, StarterKitContainer);
                 StarterKitContainer.SaveChanges();
@@ -352,6 +362,23 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             
 
             return PersonalPage();
+        }
+
+        private void GenerateRoomList(Accommodation a, FormCollection frm, int max) 
+        {
+            for (int i = 0; i < max; i++) 
+            {                
+                Room r = new Room();
+                r.Name = frm["roomName_" + i];
+                r.Persons = Int32.Parse(frm["roomPersons_" + i]);
+                r.Id = Guid.NewGuid();
+
+                RoomPriceList price = new RoomPriceList();
+                var roomType = frm["NewRoomType_" + i];
+                EntityKey roomTypeKey = new EntityKey("StarterKitContainer.PriceListEntries", "Id", Int32.Parse(roomType));
+
+                a.Rooms.Add(r);
+            }            
         }
     }
 }

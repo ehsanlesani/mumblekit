@@ -443,5 +443,13 @@ table.room-prices td
 .floated-left
 {
     float:left;
-    margin:5px;    
+    margin:5px;   
+    width:100px;
+}
+
+.addOneMore 
+{
+    margin-left:4px;
+    position:relative;
+    top:5px;    
 }

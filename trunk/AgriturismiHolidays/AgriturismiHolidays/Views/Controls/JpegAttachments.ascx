@@ -3,7 +3,7 @@
     <td class="label">
         <div style="position: relative;">
             <span>immagine</span>
-            <a href="javascript:;" onclick="addAttachment()" class="topRight"><img src="<%= ResolveUrl("~/Content/Images/addAttachment.png") %>" alt="+" border="0" /></a>
+            <a href="javascript:;" onclick="addAttachment()" class="topRight"><img class="addOneMore" src="<%= ResolveUrl("~/Content/Images/add.png") %>" alt="+" border="0" /></a>
         </div>
     </td>
     <td class="control">
