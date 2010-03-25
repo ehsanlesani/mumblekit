@@ -21,10 +21,8 @@ using Mumble.Web.StarterKit.Models.Common;
 using Mumble.Web.StarterKit.Models.Site;
 using System.Data;
 
-
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
-
     [HandleError]
     public class AccountController : AuthController
     {
@@ -356,8 +354,12 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 Error = ex.Message;
             }
             catch (Exception ex)
-            {                
-                Error = ex.Message;
+            {    
+                #if(DEBUG)
+                    throw;
+                #else
+                    Error = "Errore generico";
+                #endif
             }
             
 
@@ -367,17 +369,49 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         private void GenerateRoomList(Accommodation a, FormCollection frm, int max) 
         {
             for (int i = 0; i < max; i++) 
-            {                
+            {
+                EntityKey accommodationKey = new EntityKey("StarterKitContainer.Accommodations", "Id", a.Id);
+
                 Room r = new Room();
-                r.Name = frm["roomName_" + i];
+                r.Name = frm["roomName_" + i];                
                 r.Persons = Int32.Parse(frm["roomPersons_" + i]);
                 r.Id = Guid.NewGuid();
+                r.AccommodationsReference.EntityKey = accommodationKey;
 
-                RoomPriceList price = new RoomPriceList();
+                StarterKitContainer.AddToRooms(r);
+                //StarterKitContainer.SaveChanges();                
+
                 var roomType = frm["NewRoomType_" + i];
-                EntityKey roomTypeKey = new EntityKey("StarterKitContainer.PriceListEntries", "Id", Int32.Parse(roomType));
+                Guid gID = new Guid(roomType);
+                EntityKey entryKey = new EntityKey("StarterKitContainer.PriceListEntries", "Id", gID);
+                EntityKey roomKey = new EntityKey("StarterKitContainer.Rooms", "Id", r.Id);                
 
-                a.Rooms.Add(r);
+                var seasonList = (from s in StarterKitContainer.PriceListSeasons select s.Id);
+
+                foreach (Guid id in seasonList) 
+                {
+                    // prepare data to store
+                    string domSeasonId = id + "_" + i;
+                    string myPrice = frm[domSeasonId];
+
+                    decimal res = 0;                    
+                    if (!decimal.TryParse(myPrice, NumberStyles.Currency, CultureInfo.InvariantCulture, out res))
+                        throw new FormatException("prezzo camere non valido");
+
+                    EntityKey seasonKey = new EntityKey("StarterKitContainer.PriceListSeasons", "Id", id);
+                    
+                    // Create Obj and store
+                    RoomPriceList roomPrice = new RoomPriceList();
+
+                    roomPrice.Id = Guid.NewGuid();
+                    roomPrice.RoomsReference.EntityKey = roomKey;
+                    roomPrice.PriceListEntriesReference.EntityKey = entryKey;
+                    roomPrice.PriceListSeasonsReference.EntityKey = seasonKey;
+                    roomPrice.Price = res;
+
+                    StarterKitContainer.AddToRoomPriceList(roomPrice);
+                    //StarterKitContainer.SaveChanges();                    
+                }                
             }            
         }
     }
