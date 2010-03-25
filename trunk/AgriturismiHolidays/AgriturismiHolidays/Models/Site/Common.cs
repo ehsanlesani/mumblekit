@@ -33,6 +33,38 @@ namespace Mumble.Web.StarterKit.Models.Site
             return items;
         }
 
+        public static IEnumerable<PriceListSeason> GetSeasons() 
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            var seasons = (from a in context.PriceListSeasons orderby a.Description select a);
+
+            return seasons;
+        }
+
+        public static IEnumerable<SelectListItem> GetRoomTypes() 
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            var atypes = (from a in context.PriceListEntries orderby a.Description select a);
+
+            IList<SelectListItem> items = new List<SelectListItem>();
+
+            SelectListItem empty = new SelectListItem();
+            empty.Text = " - tipologia - ";
+            empty.Value = "";
+            items.Add(empty);
+
+            foreach (PriceListEntry a in atypes)
+            {
+                SelectListItem s = new SelectListItem();
+                s.Text = a.Description;
+                s.Value = a.Id.ToString();
+
+                items.Add(s);
+            }
+
+            return items;
+        }
+
         public static IEnumerable<SelectListItem> GetAccommodationTypes(Guid? selectedId)
         {
             StarterKitContainer context = new StarterKitContainer();
