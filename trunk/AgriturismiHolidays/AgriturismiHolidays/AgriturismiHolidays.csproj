@@ -207,6 +207,7 @@
     <Compile Include="Views\Shared\Menu\MenuNode.cs" />
     <Compile Include="Views\Shared\Menu\Node.cs" />
     <Compile Include="Views\Shared\Menu\TreeView.cs" />
+    <Compile Include="Views\Utilities\Helpers\DomControlHelper.cs" />
     <Compile Include="Views\Utilities\Helpers\MenuHelper.cs" />
     <Compile Include="Views\Utilities\HtmlStuff.cs" />
   </ItemGroup>

@@ -77,7 +77,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 Attachments att = new Attachments();
                 JsonValue = att.Convert(accommodation);
                 
-                var room = (from r in StarterKitContainer.Rooms.Include("RoomPriceList.PriceListSeasons")
+                var room = (from r in StarterKitContainer.Rooms.Include("RoomPriceList.PriceListSeasons").Include("RoomPriceList.PriceListEntries")
                             where r.Accommodations.Id.Equals(accommodation.Id)                                
                                 select r).ToList<Room>();
                 RoomList = room;

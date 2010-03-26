@@ -25,6 +25,8 @@ html, body
 	font-family: tahoma, verdana, arial;
 	font-size: 12px;
 	color:#603836;	
+	margin:0;
+	padding:0;
 }
 
 #body 
@@ -141,7 +143,6 @@ div#footer p
 
 div#footer
 {
-	position:fixed;
 	font-size: 12px;
 	color: White;
 	background-color: #4f2925;
@@ -154,12 +155,13 @@ div#footer
     height: 64px;
     bottom:0px;
     width:100%;
+    position:relative;
     /*margin-top: -78px;*/
 }
 
 #main
 {
-    padding-bottom: 78px;
+    /*padding-bottom: 78px;*/
 }
 
 div#footer .title, div#footer .title  a:link, div#footer .title  a:visited

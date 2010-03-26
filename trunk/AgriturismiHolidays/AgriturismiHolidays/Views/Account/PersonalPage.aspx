@@ -115,6 +115,7 @@
                 
                 foreach(Room room in roomList) 
                 {
+                    var roomType = (from t in room.RoomPriceList select t.PriceListEntries).FirstOrDefault();
                     %>
                     <table id="Table1" style="border:1px dotted #4F2925;">
                     <input type="hidden" name="roomId" value="<%=room.Id%>" />
@@ -146,7 +147,7 @@
                                     <tr>
                                         <td><%=s.Description%>:</td>
                                         <%                             
-                                            var seasonPrice = (from p in room.RoomPriceList where p.PriceListSeasons.Id.Equals(s.Id) select p.Price).FirstOrDefault();                                
+                                            var seasonPrice = (from p in room.RoomPriceList where p.PriceListSeasons.Id.Equals(s.Id) select p.Price.GetValueOrDefault().ToString("#.##")).FirstOrDefault();                                
                                         %>
                                         <td><input type="text" name="<%=s.Id.ToString()%>" value="<%=seasonPrice%>" />&nbsp;&euro;</td>
                                     </tr>                            
