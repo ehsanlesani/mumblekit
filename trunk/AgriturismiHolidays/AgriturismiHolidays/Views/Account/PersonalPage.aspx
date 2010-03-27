@@ -124,7 +124,33 @@
                     </tr>
                     <tr>
                         <td>tipologia:</td>
-                        <td><%=Html.DropDownList("NewRoomType")%></td>
+                        <td>
+                        <%
+                            List<SelectListItem> itemList = ViewData["NewRoomType"] as List<SelectListItem>;
+                            if (itemList != null) 
+                            {
+                                Response.Write("<select name=\"NewRoomType\">");
+                                
+                                Guid? selected = null;
+                                RoomPriceList r = room.RoomPriceList.FirstOrDefault();
+                                if(r!=null)
+                                    selected = r.PriceListEntries.Id;
+                                
+                                foreach (SelectListItem item in itemList) 
+                                {
+                                    item.Selected = false;
+                                    
+                                    if (selected != null)
+                                        if (item.Value.Equals(selected.ToString()))
+                                            item.Selected = true;
+                                        
+                                    Response.Write(item.ToString());
+                                }
+
+                                Response.Write("<\\select>");
+                            }
+                        %>
+                        </td>
                     </tr>
                     <tr>    
                         <td>nome:</td>
@@ -151,7 +177,8 @@
                                         %>
                                         <td><input type="text" name="<%=s.Id.ToString()%>" value="<%=seasonPrice%>" />&nbsp;&euro;</td>
                                     </tr>                            
-                            <%      }                         
+                            <%      
+                                    }                         
                                 }
                             %>
                             </table>
