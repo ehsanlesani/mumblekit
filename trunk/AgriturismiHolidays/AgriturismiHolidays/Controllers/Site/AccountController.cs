@@ -243,6 +243,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             //ViewData["Rooms"] = Common.GetAccommodationTypes(SelectedAccommodationType);
             ViewData["NewRoomType"] = Common.GetRoomTypes();
             ViewData["Seasons"] = Common.GetSeasons();
+            ViewData["Services"] = Common.GetServices();
 
             InitializeLocalityHierarchy();
         }
@@ -309,7 +310,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 Stars = stars;
                 SelectedMunicipality = selectionMunicipality;
                 JsonValue = jpegAttachments;
-                                               
+
+                DeleteRooms(form["roomTrash"]);
+  
                 var tmpObj = (from u in StarterKitContainer.Users where u.Id == AccountManager.LoggedUser.Id select new { User = u, Acco = u.Accommodations }).FirstOrDefault();
                 var a = tmpObj.Acco;
                 var usr = tmpObj.User;
@@ -374,20 +377,25 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         private void GenerateRoomList(Accommodation parent, FormCollection frm, int max) 
         {
             for (int i = 0; i < max; i++) 
-            {
+            {                
+                Room r = null;
+                Room storedRoom = null;
+                if (frm["roomId_" + i].Length > 0) 
+                { 
+                    Guid gId = new Guid(frm["roomID_"+ i]);
+                    storedRoom = (from room in StarterKitContainer.Rooms where room.Id.Equals(gId) select room).FirstOrDefault();
+                }
+
+                if (storedRoom != null)
+                    r = storedRoom;
+                else 
+                    r.Id = Guid.NewGuid();
+
                 EntityKey accommodationKey = new EntityKey("StarterKitContainer.Accommodations", "Id", parent.Id);
-
-                //var storedRoom = (from el in StarterKitContainer.Rooms where el.Id == )
-
-                Room r = new Room();
-                r.Name = frm["roomName_" + i];                
-                r.Persons = Int32.Parse(frm["roomPersons_" + i]);
-                r.Id = Guid.NewGuid();
                 r.AccommodationsReference.EntityKey = accommodationKey;
-
-                parent.Rooms.Add(r);
-                //StarterKitContainer.AddToRooms(r);
-                //StarterKitContainer.SaveChanges();                
+                r.Name = frm["roomName_" + i];                
+                r.Persons = Int32.Parse(frm["roomPersons_" + i]);                
+                parent.Rooms.Add(r);          
 
                 var roomType = frm["NewRoomType_" + i];
                 Guid gID = new Guid(roomType);
@@ -395,33 +403,67 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 EntityKey roomKey = new EntityKey("StarterKitContainer.Rooms", "Id", r.Id);                
 
                 var seasonList = (from s in StarterKitContainer.PriceListSeasons select s.Id);
-
                 foreach (Guid id in seasonList) 
                 {
                     // prepare data to store
                     string domSeasonId = id + "_" + i;
                     string myPrice = frm[domSeasonId];
-
-                    decimal res = 0;                    
+                    decimal res = 0;           
+         
                     if (!decimal.TryParse(myPrice, NumberStyles.Currency, CultureInfo.InvariantCulture, out res))
                         throw new FormatException("prezzo camere non valido");
 
-                    EntityKey seasonKey = new EntityKey("StarterKitContainer.PriceListSeasons", "Id", id);
-                    
-                    // Create Obj and store
-                    RoomPriceList roomPrice = new RoomPriceList();
-
-                    roomPrice.Id = Guid.NewGuid();
-                    roomPrice.RoomsReference.EntityKey = roomKey;
-                    roomPrice.PriceListEntriesReference.EntityKey = entryKey;
-                    roomPrice.PriceListSeasonsReference.EntityKey = seasonKey;
+                    // Create Obj and store                    
+                    RoomPriceList roomPrice = null;
+                    var storedSeason = (from s in StarterKitContainer.RoomPriceList where s.Rooms.Id.Equals(r.Id) && s.PriceListSeasons.Id.Equals(id) select s).FirstOrDefault();
+                    if (storedSeason != null)
+                        roomPrice = storedSeason;
+                    else 
+                    {
+                        roomPrice = new RoomPriceList();
+                        roomPrice.Id = Guid.NewGuid();
+                        roomPrice.RoomsReference.EntityKey = roomKey;
+                        roomPrice.PriceListEntriesReference.EntityKey = entryKey;
+                        EntityKey seasonKey = new EntityKey("StarterKitContainer.PriceListSeasons", "Id", id);
+                        roomPrice.PriceListSeasonsReference.EntityKey = seasonKey;
+                    }
+                                        
                     roomPrice.Price = res;
-
-                    r.RoomPriceList.Add(roomPrice);
-                    //StarterKitContainer.AddToRoomPriceList(roomPrice);
-                    //StarterKitContainer.SaveChanges();                    
+                    r.RoomPriceList.Add(roomPrice);             
                 }                
             }            
+        }
+
+        public void DeleteRooms(string rooms) 
+        {
+            if (string.IsNullOrEmpty(rooms))
+                return;
+
+            string[] ids = rooms.Split(',');
+
+            foreach (string id in ids) 
+            {
+                Guid gId = new Guid(id);
+                DeleteRoom(gId);
+            }            
+        }
+
+        public void DeleteRoom(Guid id) 
+        { 
+            // delete price
+            var priceList = (from p in StarterKitContainer.RoomPriceList where p.Rooms.Id.Equals(id) select p);
+
+            foreach (RoomPriceList r in priceList) 
+                StarterKitContainer.DeleteObject(r);
+
+            StarterKitContainer.SaveChanges();
+
+            // delete room
+            Room room = new Room();
+            room.Id = id;
+            StarterKitContainer.AttachTo("Rooms", room);
+            StarterKitContainer.DeleteObject(room);
+            StarterKitContainer.SaveChanges();                
         }
     }
 }
