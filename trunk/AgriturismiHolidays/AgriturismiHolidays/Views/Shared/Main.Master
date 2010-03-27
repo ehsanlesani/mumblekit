@@ -37,8 +37,7 @@
                 <asp:ContentPlaceHolder ID="BodyContent" runat="server" />
             </div>           
         </div>
-         
-    </div>
+    </div>   
     <% Html.RenderPartial("~/Views/Shared/Footer.ascx"); %> 
 </body>
 </html>

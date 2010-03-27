@@ -33,7 +33,7 @@ html, body
 {    
 	background-color:White;
 	margin-top:20px;
-	margin-bottom:67px;		
+	/*margin-bottom:67px;		*/
 }
 
 div.container
@@ -146,14 +146,12 @@ div#footer
 	font-size: 12px;
 	color: White;
 	background-color: #4f2925;
-	border-top:4px solid #c97116;
-	height:60px;
-	
+	border-top:4px solid #c97116;	
 	/* We can over-ride default settings here instead of changing the original
        sticky-footer.css */
 	padding-top: 10px;
     height: 64px;
-    bottom:0px;
+    /*bottom:0px;*/
     width:100%;
     position:relative;
     /*margin-top: -78px;*/
