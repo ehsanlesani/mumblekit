@@ -16,8 +16,8 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         {
             get 
             {
-                if (Description.Length > 260)
-                    return Description.Remove(260) +"...";
+                if (Description.Length > 200)
+                    return Description.Remove(197) +"...";
                 else
                     return Description;
             }

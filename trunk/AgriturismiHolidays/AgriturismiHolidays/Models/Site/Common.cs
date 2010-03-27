@@ -8,6 +8,7 @@ using Mumble.Web.StarterKit.Models.Common;
 
 namespace Mumble.Web.StarterKit.Models.Site
 {
+    // To be Hardly refactorized
     public static class Common
     {
         public static IEnumerable<SelectListItem> GetAccommodationTypeList()
@@ -174,6 +175,30 @@ namespace Mumble.Web.StarterKit.Models.Site
                 s.Value = r.Id.ToString();
                 if (r.Id == id)
                     s.Selected = true;
+
+                items.Add(s);
+            }
+
+            return items;
+        }
+
+        public static IEnumerable<SelectListItem> GetServices()
+        {
+            StarterKitContainer context = new StarterKitContainer();
+            var atypes = (from a in context.Services orderby a.Description select a);
+
+            IList<SelectListItem> items = new List<SelectListItem>();
+
+            SelectListItem empty = new SelectListItem();
+            empty.Text = " - tipologia - ";
+            empty.Value = "";
+            items.Add(empty);
+
+            foreach (Service a in atypes)
+            {
+                SelectListItem s = new SelectListItem();
+                s.Text = a.Name;
+                s.Value = a.Id.ToString();
 
                 items.Add(s);
             }
