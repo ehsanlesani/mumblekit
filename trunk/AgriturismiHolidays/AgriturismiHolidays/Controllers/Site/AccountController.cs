@@ -43,6 +43,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         private Guid? SelectedMunicipality { get; set; }
         private int? Stars {get; set; }
         private List<Room> RoomList { get; set; }
+        private List<Service> ServiceList { get; set; }
 
         public AccountController() 
         {
@@ -62,6 +63,9 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 if (!accommodation.AccommodationTypeReference.IsLoaded)
                     accommodation.AccommodationTypeReference.Load();
 
+                if (!accommodation.Services.IsLoaded)
+                    accommodation.Services.Load();
+                
                 Name = accommodation.Name;
                 Description = accommodation.Description;
                 EMail = accommodation.Email;
@@ -76,6 +80,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 SelectedAccommodationType = accommodation.AccommodationType.Id;
                 Attachments att = new Attachments();
                 JsonValue = att.Convert(accommodation);
+                ServiceList = accommodation.Services.ToList<Service>();
                 
                 var room = (from r in StarterKitContainer.Rooms.Include("RoomPriceList.PriceListSeasons").Include("RoomPriceList.PriceListEntries")
                             where r.Accommodations.Id.Equals(accommodation.Id)                                
@@ -237,6 +242,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             ViewData["Fax"] = Fax;
             ViewData["Stars"] = Stars.GetValueOrDefault();
             ViewData["RoomList"] = RoomList;
+            ViewData["ServiceList"] = ServiceList;
 
             // Initialized statically
             ViewData["AccommodationType"] = Common.GetAccommodationTypes(SelectedAccommodationType);

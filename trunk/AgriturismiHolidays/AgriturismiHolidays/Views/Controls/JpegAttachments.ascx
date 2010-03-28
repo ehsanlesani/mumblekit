@@ -1,10 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <tr>
-    <td class="label">
-        <div style="position: relative;">
-            <span>immagine</span>
-            <a href="javascript:;" onclick="addAttachment()" class="topRight"><img class="addOneMore" src="<%= ResolveUrl("~/Content/Images/add.png") %>" alt="+" border="0" /></a>
-        </div>
+    <td class="alignment valignTop">
+            <span>Immagini</span>
+            <a href="javascript:;" onclick="addAttachment()" class="topRight"><img class="addOneMore" src="<%= ResolveUrl("~/Content/Images/add.png") %>" alt="+" border="0" /></a>        
     </td>
     <td class="control">
         <script src="<%=ResolveUrl("~/Content/JS/jquery/jquery.json.js") %>"></script>
