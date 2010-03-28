@@ -6,13 +6,14 @@
 
     <%
         List<Room> roomList = ViewData["RoomList"] as List<Room>;
+        List<Service> serviceList = ViewData["ServiceList"] as List<Service>;
         
         Html.BeginForm("RegisterAccommodation", "Account", FormMethod.Post, new { id = "registerAccommodationFrm" });
     %>
     <input type="hidden" name="roomTrash" />
     <input type="hidden" name="roomCounter" value="<%= ((roomList != null) ? roomList.Count : 0) %>" />
     <input type="hidden" name="serviceTrash" />
-    <input type="hidden" name="serviceCounter" value="<%= ((roomList != null) ? roomList.Count : 0) %>" />
+    <input type="hidden" name="serviceCounter" value="<%= ((serviceList != null) ? serviceList.Count : 0) %>" />
     <table cellpadding="0" cellspacing="0">
     <tr>
         <td colspan="2">
@@ -108,6 +109,45 @@
         <td  class="alignment valignTop">Servizi<input type="image" name="addServiceBtn" alt="aggiungi stanza" src="../../Content/Images/add.png" class="addOneMore" /></td>
         <td>
             <div id="serviceContainer">
+            <%
+                if (serviceList != null) 
+                {
+                    List<SelectListItem> itemList = ViewData["Services"] as List<SelectListItem>;
+                    
+                    int i = 0;
+                    foreach (Service service in serviceList) 
+                    {
+                        %>
+                        <table id="Table1" style="border:1px dotted #4F2925;">
+                        <tr>
+                            <td>
+                                <input type="image" src="../../Content/Images/delete.png" alt="rimuovi stanza" class="addOneMore removeRoomBtn" />
+                            </td>
+                            <td>
+                            <%
+                            Response.Write("<select name=\"service_" + i + "\">");
+
+                            Guid? selected = service.Id;
+                            foreach (SelectListItem item in itemList)
+                            {
+                                var selectedOutput = "";
+
+                                if (selected != null)
+                                    if (item.Value.Equals(selected.ToString()))
+                                        selectedOutput = "selected=\"selected\"";
+
+                                Response.Write("<option value=\"" + item.Value + "\" " + selectedOutput + ">" + item.Text + "</option>");
+                            }
+
+                            Response.Write("<\\select>");    
+                            %>
+                            </td>
+                        </tr>
+                        </table>
+                    <%
+                    }
+                }                  
+            %>            
             </div>
         </td>
     </tr>  
@@ -115,91 +155,95 @@
     <% Html.RenderPartial("~/Views/Controls/JpegAttachments.ascx"); %>
     
     <tr>
-        <td colspan="2">Stanze<input type="image"  name="addRoomBtn" alt="aggiungi stanza" src="../../Content/Images/add.png" class="addOneMore" /></td>
+        <td class="alignment valignTop">Stanze<input type="image"  name="addRoomBtn" alt="aggiungi stanza" src="../../Content/Images/add.png" class="addOneMore" /></td>
+        <td>&nbsp;</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>
             <div id="roomContainer">
             <%
-                IEnumerable<PriceListSeason> seasons = ViewData["Seasons"] as IEnumerable<PriceListSeason>;                
+                IEnumerable<PriceListSeason> seasons = ViewData["Seasons"] as IEnumerable<PriceListSeason>;
 
-                int i = 0;
-                foreach(Room room in roomList) 
+                if (roomList != null)
                 {
-                    var roomType = (from t in room.RoomPriceList select t.PriceListEntries).FirstOrDefault();
-                    %>
-                    <table id="templateTbl_<%=i%>" style="border:1px dotted #4F2925;">
-                    <input type="hidden" name="roomId_<%=i%>" value="<%=room.Id%>" />
-                    <tr>
-                        <td colspan="2"><input type="image" src="../../Content/Images/delete.png" alt="rimuovi stanza" class="addOneMore removeRoomBtn" /></td>
-                    </tr>
-                    <tr>
-                        <td>tipologia:</td>
-                        <td>
-                        <%
-                            List<SelectListItem> itemList = ViewData["NewRoomType"] as List<SelectListItem>;
-                            if (itemList != null) 
-                            {
-                                Response.Write("<select name=\"NewRoomType_"+i+"\">");
-                                
-                                Guid? selected = null;
-                                RoomPriceList r = room.RoomPriceList.FirstOrDefault();
-                                if(r!=null)
-                                    selected = r.PriceListEntries.Id;
-                                
-                                foreach (SelectListItem item in itemList) 
-                                {
-                                    var selectedOutput = "";
-                                    
-                                    if (selected != null)
-                                        if (item.Value.Equals(selected.ToString()))
-                                            selectedOutput = "selected=\"selected\"";
-                                    
-                                    Response.Write("<option value=\""+ item.Value +"\" "+ selectedOutput +">"+ item.Text +"</option>");
-                                }
-
-                                Response.Write("<\\select>");
-                            }
+                    int i = 0;
+                    foreach (Room room in roomList)
+                    {
+                        var roomType = (from t in room.RoomPriceList select t.PriceListEntries).FirstOrDefault();
                         %>
-                        </td>
-                    </tr>
-                    <tr>    
-                        <td>nome:</td>
-                        <td><input type="text" name="roomName_<%=i%>" value="<%=room.Name%>" /></td>
-                    </tr>
-                    <tr>    
-                        <td>posti:</td>
-                        <td><input type="text" name="roomPersons_<%=i%>" value="<%=room.Persons%>" /></td>                    
-                    </tr>
-                    <tr>
-                        <td valign="top"><b>Tariffe</b></td>
-                        <td>
-                            <table>
-                            <% 
-                                if(seasons!=null) 
-                                {                                    
-                                    foreach(PriceListSeason s in seasons) 
-                                    { 
-                            %>
-                                    <tr>
-                                        <td><%=s.Description%>:</td>
-                                        <%                             
-                                            var seasonPrice = (from p in room.RoomPriceList where p.PriceListSeasons.Id.Equals(s.Id) select p.Price.GetValueOrDefault().ToString("#.##")).FirstOrDefault();                                
-                                        %>
-                                        <td><input type="text" name="<%=s.Id.ToString()%>_<%=i%>" value="<%=seasonPrice%>" />&nbsp;&euro;</td>
-                                    </tr>                            
-                            <%      
-                                    }                         
-                                }
-                            %>
-                            </table>
-                        </td>
-                    </tr>
-                    </table>     
-                <%       
-                        i++;
+                        <table id="templateTbl_<%=i%>" style="border:1px dotted #4F2925;">
+                        <input type="hidden" name="roomId_<%=i%>" value="<%=room.Id%>" />
+                        <tr>
+                            <td colspan="2"><input type="image" src="../../Content/Images/delete.png" alt="rimuovi stanza" class="addOneMore removeRoomBtn" /></td>
+                        </tr>
+                        <tr>
+                            <td>tipologia:</td>
+                            <td>
+                            <%
+                List<SelectListItem> itemList = ViewData["NewRoomType"] as List<SelectListItem>;
+                if (itemList != null)
+                {
+                    Response.Write("<select name=\"NewRoomType_" + i + "\">");
+
+                    Guid? selected = null;
+                    RoomPriceList r = room.RoomPriceList.FirstOrDefault();
+                    if (r != null)
+                        selected = r.PriceListEntries.Id;
+
+                    foreach (SelectListItem item in itemList)
+                    {
+                        var selectedOutput = "";
+
+                        if (selected != null)
+                            if (item.Value.Equals(selected.ToString()))
+                                selectedOutput = "selected=\"selected\"";
+
+                        Response.Write("<option value=\"" + item.Value + "\" " + selectedOutput + ">" + item.Text + "</option>");
                     }
+
+                    Response.Write("<\\select>");
+                }
+                            %>
+                            </td>
+                        </tr>
+                        <tr>    
+                            <td>nome:</td>
+                            <td><input type="text" name="roomName_<%=i%>" value="<%=room.Name%>" /></td>
+                        </tr>
+                        <tr>    
+                            <td>posti:</td>
+                            <td><input type="text" name="roomPersons_<%=i%>" value="<%=room.Persons%>" /></td>                    
+                        </tr>
+                        <tr>
+                            <td valign="top"><b>Tariffe</b></td>
+                            <td>
+                                <table>
+                                <% 
+                if (seasons != null)
+                {
+                    foreach (PriceListSeason s in seasons)
+                    { 
+                                %>
+                                        <tr>
+                                            <td><%=s.Description%>:</td>
+                                            <%                             
+                var seasonPrice = (from p in room.RoomPriceList where p.PriceListSeasons.Id.Equals(s.Id) select p.Price.GetValueOrDefault().ToString("#.##")).FirstOrDefault();                                
+                                            %>
+                                            <td><input type="text" name="<%=s.Id.ToString()%>_<%=i%>" value="<%=seasonPrice%>" />&nbsp;&euro;</td>
+                                        </tr>                            
+                                <%      
+                }
+                }
+                                %>
+                                </table>
+                            </td>
+                        </tr>
+                        </table>     
+                <%       
+                i++;
+                    }
+                }
                 %>
             </div>
         </td>
@@ -270,6 +314,7 @@
 
 <%
     List<Room> roomList = ViewData["RoomList"] as List<Room>;
+    List<Service> serviceList = ViewData["ServiceList"] as List<Service>;
 %>
 
 <script src="<%=ResolveUrl("~/Content/JS/combo.js")%>" type="text/javascript"></script>
@@ -277,26 +322,26 @@
 
     Utils = {
     
-        syncRemoveBtn: function(prefix) {
-            var self = this;
+        syncRemoveBtn: function(prefix, manager) {
+            //var self = this;
         
             $('input[type="image"].remove'+ prefix +'Btn').click(function(event) {
             
-                self.removeElement(this);                          
+                manager.removeElement(this);                          
                 event.preventDefault();
             });
         }
     }
 
-    DomManager = function(prefix, clonedElementJQ) {
+    DomManager = function(pre) {
         
         this.counter = 0,
         
-        this.prefix = "";
+        this.prefix = pre;
         
-        this.container = 'div#'+ prefix +'Container';
+        this.container = 'div#'+ pre +'Container';
         
-        this.clone = clonedElementJQ;
+        this.clone = undefined;
     }
 
     DomManager.prototype = {
@@ -345,9 +390,10 @@
         },
 
         appendTo: function() {
-            $(this.container).append(this.clone);
-            this.counter++;
+            $(this.container).append(this.clone);   
+            this.counter++;         
             this.updateDomCounter('input[type="hidden"][name="'+ this.prefix +'Counter"]');
+            this.fixCloned();            
         },
 
         updateDomCounter: function(elementName) {
@@ -362,6 +408,7 @@
             trash.val(newVal);
             $(domElement).parent().parent().parent().parent().remove();  
             this.counter--;
+            this.updateDomCounter('input[type="hidden"][name="'+ this.prefix +'Counter"]');
             this.fixAll();
         }
     }
@@ -372,33 +419,33 @@
         selection.registerSelect("selectionCity", "selectionProvince", "id", "/SelectValues.aspx/Provinces", function() { selection.clearChild("select[name='selectionMunicipality']"); });
         selection.registerSelect("selectionProvince", "selectionMunicipality", "id", "/SelectValues.aspx/Municipalities", function() { });
 
+        var roomManager = new DomManager("room");
+        roomManager.counter = <%= ((roomList != null) ? roomList.Count : 0) %>;
         $('input[type="image"][name="addRoomBtn"]').click(function(event) {
                 
-            var cloneTable = $('table#templateTbl').clone();
-            var manager = new DomManager("room", cloneTable);
-            manager.counter = <%= ((roomList != null) ? roomList.Count : 0) %>;
-            manager.fixCloned();
-            manager.appendTo();
-            Utils.syncRemoveBtn("room");            
+            var cloneTable = $('table#templateTbl').clone(); 
+            roomManager.clone = cloneTable;    
+            roomManager.appendTo();
+            Utils.syncRemoveBtn("Room", roomManager);            
                 
             event.preventDefault();
         });      
+        Utils.syncRemoveBtn("Room", roomManager);                  
         
+        
+        var serviceManager = new DomManager("service");
+        serviceManager.counter = <%= ((serviceList != null) ? serviceList.Count : 0) %>;
         $('input[type="image"][name="addServiceBtn"]').click(function(event) {
             
             var cloneSelection = $('table#templateSrv').clone();
-            var manager = new DomManager("service", cloneSelection);
-            //TODO: Initialize counter
-            manager.counter = "value";
-            manager.fixCloned();
-            manager.appendTo();
-            Utils.syncRemoveBtn("service");
+            serviceManager.clone = cloneSelection;
+            serviceManager.appendTo();
+            Utils.syncRemoveBtn("Service", serviceManager);
                 
             event.preventDefault();
         });
-        
-        Utils.syncRemoveBtn("room");                  
-        Utils.syncRemoveBtn("service");                  
+        Utils.syncRemoveBtn("Service", serviceManager);                  
+                      
     });
     
 </script>
