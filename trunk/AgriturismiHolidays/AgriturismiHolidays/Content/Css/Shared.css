@@ -453,3 +453,15 @@ table.room-prices td
     position:relative;
     top:5px;    
 }
+
+#control a:link, #control a:visited
+{
+    color:#DE9347;
+    text-decoration:none;
+}
+
+#control a:hover 
+{
+    color:#A1562C;
+    text-decoration:undeline;    
+}
