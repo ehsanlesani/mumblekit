@@ -8,6 +8,7 @@ using Mumble.Web.StarterKit.Models.ViewModels;
 using Mumble.Web.StarterKit.Models.ExtPartial;
 using Mumble.Web.StarterKit.Models.Common;
 using Mumble.Web.StarterKit.Models.Auth;
+using Mumble.Web.StarterKit.Models.Site;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
@@ -49,6 +50,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
             try
             {
+                ViewData["RegionItems"] = Common.GetRegionsSelectList(null);
+                ViewData["RawCategoryValue"] = category;
                 Populate();
 
                 if (String.IsNullOrEmpty(category))

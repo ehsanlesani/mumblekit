@@ -13,13 +13,32 @@
                     Html.RenderPartial("SideStaticContent", Model.StaticPages); 
         %>
     </div>
-    <div id="col-dx" class="span-17 last">
-        <div id="control" style="text-align:right">
-            <a href="/">cambia i parametri di ricerca</a>
-        </div>
+    <div id="col-dx" class="span-17 last">        
         <div id="section-info">
             <img src="../../Content/Images/arrow-bottom-right.png" alt="sezione:" class="section-arrow" />
             <span class="section-title"><%=Model.SectionName%></span>
+        </div>
+        <div id="control" style="text-align:right">
+            <% Html.BeginForm("List", "Structure"); %>
+            <input type="hidden" name="Category" value="<%=ViewData["RawCategoryValue"]%>" />
+            <table>            
+            <tr>    
+                <td align="right">Filtro geografico:</td>    
+                <td><%=Html.DropDownList("RegionItems", ViewData["RegionItems"] as IEnumerable<SelectListItem>, new { @class = "filters" })%></td>
+                <td colspan="3">
+                    <select id="ProvinceItems" name="ProvinceItems" class="filters">
+                        <option value=""> - provincia - </option>
+                    </select>
+                </td>
+                <td colspan="3">
+                    <select id="MunicipalityItems" name="MunicipalityItems" class="filters">
+                        <option value=""> - comune - </option>
+                    </select>
+                </td>
+                <td><input id="doAccommodationSearch" title="cerca" type="submit" value="cerca" /></td>
+            </tr>            
+            </table>
+            <% Html.EndForm(); %>
         </div>
         
         <%             
@@ -63,4 +82,30 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/Newsletter.css") %>" />
+    <style type="text/css">
+        select.filters 
+        {
+            width:140px;    
+        }
+    </style>
+    <script src="<%=ResolveUrl("~/Content/JS/combo.js")%>" type="text/javascript"></script>
+    <script type="text/javascript">
+    
+        $(document).ready(function() {
+            var selection = new HierarchicalSelection();
+            selection.registerSelect("RegionItems", "ProvinceItems", "id", "/SelectValues.aspx/Provinces", function() { selection.clearChild("select[name='MunicipalityItems']"); });
+            selection.registerSelect("ProvinceItems", "MunicipalityItems", "id", "/SelectValues.aspx/Municipalities", function() { });
+
+            $('select[name="RegionItems"]').change(function() {
+
+                $('select[name="ProvinceItems"]').effect("highlight", { color: '#BC161B' }, 1000);
+            });
+
+            $('select[name="ProvinceItems"]').change(function() {
+
+                $('select[name="MunicipalityItems"]').effect("highlight", { color: '#BC161B' }, 1000);
+            });
+        });
+        
+    </script>
 </asp:Content>

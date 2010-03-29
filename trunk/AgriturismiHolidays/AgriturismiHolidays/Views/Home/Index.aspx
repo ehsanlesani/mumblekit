@@ -38,6 +38,7 @@
     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="400" height="400" id="<%=ResolveUrl("~/Content/swf/italy.swf") %>" align="middle">
 	    <param name="allowScriptAccess" value="sameDomain">
 	    <param name="movie" value="<%=ResolveUrl("~/Content/swf/italy.swf") %>">
+	    <param name="wmode" value="transparent">
 	    <param name="quality" value="high">
 	    <param name="bgcolor" value="#ffffff">
 	    <param name="menu" value="false">

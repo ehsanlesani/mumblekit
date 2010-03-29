@@ -33,7 +33,7 @@ html, body
 {    
 	background-color:White;
 	margin-top:20px;
-	/*margin-bottom:67px;		*/
+	margin-bottom:30px;
 }
 
 div.container
@@ -270,12 +270,15 @@ img { border:none; }
 	margin: 0 0 20px 0;
 }
 
-.section-title {
+.section-title 
+{
+    position:relative;
 	text-transform:uppercase;
-	font-size:14px;
+	font-size:20px;
 	font-weight:bold;
 	font-family:Verdana;
 	color:#A1562C;
+	top:3px;
 }
 
 .section-name {
