@@ -114,7 +114,7 @@
                 {
                     List<SelectListItem> itemList = ViewData["Services"] as List<SelectListItem>;
                     
-                    int i = 0;
+                    int i = 1;
                     foreach (Service service in serviceList) 
                     {
                         %>
@@ -145,6 +145,7 @@
                         </tr>
                         </table>
                     <%
+                        i++;
                     }
                 }                  
             %>            
@@ -167,7 +168,7 @@
 
                 if (roomList != null)
                 {
-                    int i = 0;
+                    int i = 1;
                     foreach (Room room in roomList)
                     {
                         var roomType = (from t in room.RoomPriceList select t.PriceListEntries).FirstOrDefault();
@@ -257,7 +258,7 @@
     %>
             
     <div style="display:none" id="templates">       
-        <table id="templateSrv">
+        <table id="templateSrv" style="border:1px dotted #4F2925;">
         <tr>
             <td>
                 <input type="image" src="../../Content/Images/delete.png" alt="rimuovi servizio" class="addOneMore removeServiceBtn" />

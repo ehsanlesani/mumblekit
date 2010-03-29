@@ -9,11 +9,27 @@
     <% Html.BeginForm("List", "Structure"); %>
     <table class="reset" cellpadding="0" cellspacing="0" id="searchTable">
     <tr>    
-        <td>Regione:</td>    
+        <td align="right">Regione:</td>    
         <td><%=Html.DropDownList("RegionItems")%></td>
-        <td>Tipologia:</td>
+        <td align="right">Tipologia:</td>
         <td><%=Html.DropDownList("Category")%></td>
-        <td><input title="cerca" type="submit" value="cerca" /></td>
+        <td><input id="doAccommodationSearch" title="cerca" type="submit" value="cerca" /></td>
+    </tr>
+    <tr>
+        <td align="right">Provincia:</td>
+        <td colspan="3">
+            <select id="ProvinceItems" name="ProvinceItems">
+                <option value=""> - provincia - </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">Comune:</td>
+        <td colspan="3">
+            <select id="MunicipalityItems" name="MunicipalityItems">
+                <option value=""> - comune - </option>
+            </select>
+        </td>
     </tr>
     </table>
     <% Html.EndForm(); %>
@@ -91,6 +107,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
+<script src="<%=ResolveUrl("~/Content/JS/combo.js")%>" type="text/javascript"></script>
 <script type="text/javascript">
     /// <reference path="../../Content/JS/jquery/jquery-1.3.2-vsdoc2.js" />
 
@@ -100,6 +117,41 @@
         
         var itemId = jQuery.inArray(id, regionList);
         $("#RegionItems option").eq(itemId).attr("selected", "selected");
+        $('select#RegionItems').change();
     }
+
+    $(document).ready(function() {
+
+        var selection = new HierarchicalSelection();
+        selection.registerSelect("RegionItems", "ProvinceItems", "id", "/SelectValues.aspx/Provinces", function() { selection.clearChild("select[name='MunicipalityItems']"); });
+        selection.registerSelect("ProvinceItems", "MunicipalityItems", "id", "/SelectValues.aspx/Municipalities", function() { });
+
+        $('input#doAccommodationSearch[type="submit"]').click(function(event) {
+            var regionVal = $('select[name="RegionItems"] option:selected').val();
+            var categoryVal = $('select[name="Category"] option:selected').val();
+
+            var showAlert = false;
+            if (regionVal == undefined || categoryVal == undefined)
+                showAlert = true;
+
+            if (regionVal.length == 0 || categoryVal == 0)
+                showAlert = true;
+
+            if (showAlert) {
+                alert('è necessario selezionare una categoria ed una regione per effettuare la ricerca');
+                event.preventDefault();
+            }
+        });
+
+        $('select[name="RegionItems"]').change(function() {
+
+            $('select[name="ProvinceItems"]').effect("highlight", { color: '#BC161B' }, 1000);
+        });
+
+        $('select[name="ProvinceItems"]').change(function() {
+
+            $('select[name="MunicipalityItems"]').effect("highlight", { color: '#BC161B' }, 1000);
+        });
+    });
 </script>
 </asp:Content>

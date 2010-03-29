@@ -43,7 +43,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         /// <param name="category"></param>
         /// <param name="toSkip">Page Number</param>
         /// <returns></returns>
-        public ActionResult List(string category, Guid? regionItems, int? toSkip) 
+        public ActionResult List(string category, Guid? regionItems, Guid? provinceItems, Guid? municipalityItems, int? toSkip) 
         {
             StructureListViewModel vm = new StructureListViewModel();
 
@@ -66,6 +66,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
                 var res = (from a in _context.Accommodations
                            where (!regionItems.HasValue || a.Municipalities.Provinces.Region.Id == regionItems)
+                           && (!provinceItems.HasValue || a.Municipalities.Provinces.Id == provinceItems)
+                           && (!municipalityItems.HasValue || a.Municipalities.Id == municipalityItems)
                            && a.AccommodationType.Name == cat orderby a.Name ascending
                            select a);
 

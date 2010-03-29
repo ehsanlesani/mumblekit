@@ -296,7 +296,8 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                                                     Guid? selectionMunicipality,
                                                     int? stars,
                                                     int? roomCounter,
-                                                    string jpegAttachments, 
+                                                    int? serviceCounter,
+                                                    string jpegAttachments,
                                                     FormCollection form)
         {
             Attachments attach = new Attachments();
@@ -353,6 +354,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 a.Tel = tel;
                 a.Street = street;
                 a.StreetNr = streetnr;
+
+                if (!String.IsNullOrEmpty(street) &&
+                    !String.IsNullOrEmpty(streetnr))
+                    a.ShowMap = true;
+
                 a.Cap = cap;
                 a.WhereWeAre = whereweare;
                 a.Fax = fax;
@@ -364,8 +370,12 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 if (roomCounter.GetValueOrDefault() > 0)
                     GenerateRoomList(a, form, roomCounter.Value);
 
+                DeleteServices(a);
+                GenerateServiceList(a, form, serviceCounter.Value);
+
                 attach.Convert(jpegAttachments, a, StarterKitContainer);
                 StarterKitContainer.SaveChanges();
+                Error = "Salvataggio dati avvenuto correttamente";
             }
             catch (FormatException ex)
             {
@@ -373,16 +383,37 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             }
             catch (Exception ex)
             {    
-                Error = "Errore generico";
+                Error = "Errore imprevisto, si prega di riprovare. Se il problema persiste ti preghiamo di contattarci.";
             }
-            
 
             return PersonalPage();
         }
 
+        private void DeleteServices(Accommodation acc) 
+        {
+            acc.Services.Clear();
+        }
+
+        private void GenerateServiceList(Accommodation parent, FormCollection frm, int max)
+        {
+            for (int i = 1; i <= max; i++)
+            {
+                string serviceId = frm["Services_" + i];
+                if (!String.IsNullOrEmpty(serviceId))
+                {
+                    Service s = new Service();
+                    Guid gId = new Guid(serviceId);
+                    s.Id = gId;
+                    s.EntityKey = new EntityKey("StarterKitContainer.Services", "Id", gId);
+                    StarterKitContainer.Attach(s);                    
+                    parent.Services.Add(s);
+                }
+            }
+        }
+
         private void GenerateRoomList(Accommodation parent, FormCollection frm, int max) 
         {
-            for (int i = 0; i < max; i++) 
+            for (int i = 1; i <= max; i++) 
             {                
                 Room r = null;
                 Room storedRoom = null;
@@ -394,8 +425,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
 
                 if (storedRoom != null)
                     r = storedRoom;
-                else 
+                else
+                {
+                    r = new Room();
                     r.Id = Guid.NewGuid();
+                }
 
                 EntityKey accommodationKey = new EntityKey("StarterKitContainer.Accommodations", "Id", parent.Id);
                 r.AccommodationsReference.EntityKey = accommodationKey;

@@ -14,10 +14,12 @@
         %>
     </div>
     <div id="col-dx" class="span-17 last">
+        <div id="control" style="text-align:right">
+            <a href="/">cambia i parametri di ricerca</a>
+        </div>
         <div id="section-info">
             <img src="../../Content/Images/arrow-bottom-right.png" alt="sezione:" class="section-arrow" />
-            <span class="section-title">sezione:</span>
-            <span class="section-name"><%=Model.SectionName%></span> 
+            <span class="section-title"><%=Model.SectionName%></span>
         </div>
         
         <%             

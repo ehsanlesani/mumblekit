@@ -21,30 +21,21 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         public ActionResult Regions()
         {
             var regions = LocalityHelper.GetRegions();
-            string obj = JsonConvert.SerializeObject(regions);
-            Response.Write(obj);
-
-            return null;
+            return Json(regions);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Provinces(Guid? id)
         {
             var province = LocalityHelper.GetProvinces(id.Value);
-            string obj = JsonConvert.SerializeObject(province);
-            Response.Write(obj);
-
-            return null;
+            return Json(province);
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Municipalities(Guid? id)
         {
             var municipality = LocalityHelper.GetMunicipalities(id.Value);
-            string obj = JsonConvert.SerializeObject(municipality);
-            Response.Write(obj);
-
-            return null;
+            return Json(municipality);
         }
     }
 }
