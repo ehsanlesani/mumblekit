@@ -178,8 +178,17 @@ MediaNavigator.prototype = {
                 .click(function() { $(self).trigger(MediaNavigator.MEDIA_CLICK, mediaData); });
         }
         else {
-            alert("Video renderer not implemented");
-            return $("<p>not implemented</p>");
+            var youtube = new Youtube();
+            youtube.loadById(mediaData.videoData.youtubeId);
+            return $("<a />")
+                .attr("href", "javascript:;")
+                .addClass("media")
+                .append($("<img />")
+                    .attr("src", youtube.getScreenshotUrl(Youtube.SMALL_SCREENSHOT))
+                )
+                .append($("<div />").addClass("videoIcon"))
+                .hover(function() { $(self).trigger(MediaNavigator.MEDIA_HOVER, mediaData); }, function() { $(self).trigger(MediaNavigator.MEDIA_OUT, mediaData) })
+                .click(function() { $(self).trigger(MediaNavigator.MEDIA_CLICK, mediaData); });
         }
     },
 

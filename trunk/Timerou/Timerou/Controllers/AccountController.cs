@@ -101,7 +101,7 @@ namespace Mumble.Timerou.Controllers
 
                 if (id.HasValue)
                 {
-                    model.Media = Container.Medias.OfType<Picture>().Where(p => p.Id == id).First();
+                    model.Media = Container.Medias.Where(p => p.Id == id).First();
                 }
 
                 if (lat.HasValue) { model.Lat = lat.Value; }

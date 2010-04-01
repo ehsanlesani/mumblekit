@@ -1,6 +1,8 @@
 ﻿/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
 /// <reference path="Url.js" />
 /// <reference path="Utils.js" />
+/// <reference path="Youtube.js" />
+
 
 function MyMemoriesManager() {
     this.page = 1;
@@ -47,15 +49,16 @@ MyMemoriesManager.prototype = {
             var size = response.medias.length;
             for (var i = 0; i < size; i++) {
                 var media = response.medias[i];
+                var renderedMedia = null;
                 if (media.type == "Picture") {
-                    //load template
-                    var pictureRender = self._renderPicture(media);
-                    $("#userMediasContainer").append(pictureRender);
+                    renderedMedia = self._renderPicture(media);
                 } else if (media.type == "Video") {
-                    alert("Video renderer not implemented");
+                    renderedMedia = self._renderVideo(media);
                 }
+
+                $("#userMediasContainer").append(renderedMedia);
             }
-            
+
             self.totalCount = response.totalCount;
             self._updatePageButtons();
 
@@ -80,12 +83,65 @@ MyMemoriesManager.prototype = {
 
     _renderPicture: function(media) {
         var self = this;
-        var picture = $("#mediaRowTemplate")
+        var picture = $("#pictureRowTemplate")
             .clone()
             .attr("id", "media_" + media.id)
             .find("#avatarImage")
                 .removeAttr("id")
                 .attr("src", Url.Pictures + media.pictureData.avatarPath)
+                .end()
+            .find("#title")
+                .removeAttr("id")
+                .html(media.title)
+                .end()
+            .find("#address")
+                .removeAttr("id")
+                .html(media.address)
+                .end()
+            .find("#mediaYear")
+                .removeAttr("id")
+                .html(media.year)
+                .end()
+            .find("#created")
+                .removeAttr("id")
+                .html(media.created)
+                .end()
+            .find("#editButton")
+                .removeAttr("id")
+                .click(function() {
+                    window.open(Url.AccountShare + media.id, "_self");
+                })
+                .end()
+            .find("#deleteButton")
+                .attr("id", "deleteButton" + media.id)
+                .click(function() {
+                    if (Utils.isNullOrEmpty($("#deleteButton" + media.id).data("waitForConfirm"))) {
+                        var oldText = $("#deleteButton" + media.id).html();
+                        $("#deleteButton" + media.id)
+                            .data("waitForConfirm", true)
+                            .html(ONE_MORE_TIME);
+
+                        window.setTimeout(function() { $("#deleteButton" + media.id).data("waitForConfirm", null).html(oldText); }, 1000)
+                    } else {
+                        $("#deleteButton" + media.id).html(DELETING);
+                        self.deleteMedia(media.id);
+                    }
+                })
+                .end();
+
+        return picture;
+    },
+
+    _renderVideo: function(media) {
+        var self = this;
+        var youtube = new Youtube();
+        youtube.loadById(media.videoData.youtubeId);
+        var picture = $("#videoRowTemplate")
+            .clone()
+            .attr("id", "media_" + media.id)
+            .find("#videoScreenshot")
+                .removeAttr("id")
+                .attr("src", youtube.getScreenshotUrl(Youtube.SMALL_SCREENSHOT))
                 .end()
             .find("#title")
                 .removeAttr("id")

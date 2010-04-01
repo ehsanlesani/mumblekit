@@ -2,7 +2,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script src="../../Scripts/MyMemoriesManager.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>Youtube.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>MyMemoriesManager.js" type="text/javascript"></script>
     
     <script type="text/javascript">
         var ONE_MORE_TIME = '<%= UIHelper.T("msg.oneMoreTime") %>';
@@ -82,11 +83,30 @@
     </div>
 
 <div style="display: none;" id="templates">
-    <div id="mediaRowTemplate" class="media">
+    <div id="pictureRowTemplate" class="media">
         <table>
             <tr>
                 <td class="avatar">
                     <a href="javascript:;"><img src='<%= UriHelper.Images %>noPhoto.png' id="avatarImage" alt="missing" /></a>
+                </td>
+                <td>
+                    <span class="year" id="mediaYear">2010</span> <span class="title" id="title">Matera citta' d'arte</span><br />
+                    <span class="address" id="address">Via e. de martino, 75100 Matera, Italia</span><br />
+                    <span><%= UIHelper.T("msg.sharedOn") %> <span id="created">12/12/1222</span></span> 
+                    [ <a href="javascript:;" id="editButton"><%= UIHelper.T("txt.edit") %></a> | <a href="javascript:;" id="deleteButton"><%= UIHelper.T("txt.delete") %></a> ]
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <div id="videoRowTemplate" class="media">
+        <table>
+            <tr>
+                <td class="avatar">
+                    <div style="position: relative;">
+                        <a href="javascript:;"><img src='<%= UriHelper.Images %>noPhoto.png' id="videoScreenshot" alt="missing" /></a>
+                        <div class="videoIcon"></div>
+                    </div>                    
                 </td>
                 <td>
                     <span class="year" id="mediaYear">2010</span> <span class="title" id="title">Matera citta' d'arte</span><br />

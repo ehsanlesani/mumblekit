@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="TimerouModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+    <Schema Namespace="TimerouModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
         <EntityContainer Name="TimerouModelStoreContainer">
           <EntitySet Name="Comments" EntityType="TimerouModel.Store.Comments" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Groups" EntityType="TimerouModel.Store.Groups" store:Type="Tables" Schema="dbo" />
@@ -332,7 +332,7 @@
           <Property Name="Width" Type="Int32" Nullable="true" />
           </EntityType>
         <EntityType Name="Video" BaseType="TimerouModel.Media">
-          <Property Name="YouTubeId" Type="String" Nullable="true" /></EntityType>
+          <Property Name="YoutubeId" Type="String" Nullable="true" /></EntityType>
         <Association Name="FK_Comments_MapObjects">
           <End Type="TimerouModel.Media" Role="Media" Multiplicity="1" />
           <End Type="TimerouModel.Comment" Role="Comment" Multiplicity="*" /></Association>
@@ -425,7 +425,7 @@
                 <ScalarProperty Name="Views" ColumnName="Views" />
                 <ScalarProperty Name="Id" ColumnName="Id" /></MappingFragment></EntityTypeMapping><EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Video)">
               <MappingFragment StoreEntitySet="Videos">
-                <ScalarProperty Name="YouTubeId" ColumnName="YouTubeId" />
+                <ScalarProperty Name="YoutubeId" ColumnName="YouTubeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 </MappingFragment></EntityTypeMapping><EntityTypeMapping TypeName="IsTypeOf(TimerouModel.Picture)">
               <MappingFragment StoreEntitySet="Pictures">
