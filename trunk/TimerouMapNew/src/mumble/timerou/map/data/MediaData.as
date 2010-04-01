@@ -18,6 +18,7 @@ package mumble.timerou.map.data
 		public var city:String = null;
 		public var address:String = null;
 		public var year:int = 2000;
+		public var type:String = null;
 		//public var avatar:Bitmap = null;
 		//public var original:Bitmap = null;
 		
@@ -32,15 +33,16 @@ package mumble.timerou.map.data
 			this.city = startingData.city;
 			this.address = startingData.address;
 			this.year = startingData.year
+			this.type = startingData.type;
 			
-			if(startingData.type == MEDIATYPE_PICTURE) {
+			if(this.type == MEDIATYPE_PICTURE) {
 				pictureData = new PictureData();
 				pictureData.avatarPath = startingData.pictureData.avatarPath;
 				pictureData.optimizedPath = startingData.pictureData.optimizedPath;	
 				pictureData.originalPath = startingData.pictureData.originalPath;
-			} else if(startingData.type == MEDIATYPE_VIDEO) {
+			} else if(this.type == MEDIATYPE_VIDEO) {
 				videoData = new VideoData();
-				videoData.youTubeId = startingData.videoData.youTubeId;
+				videoData.youtubeId = startingData.videoData.youtubeId;
 			}
 			
 		}

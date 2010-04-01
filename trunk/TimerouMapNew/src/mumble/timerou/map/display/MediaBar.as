@@ -159,7 +159,7 @@ package mumble.timerou.map.display
 			} else { 
 				preview.move(point);
 			}
-			preview.loadPicture(pictureData);
+			preview.loadMedia(pictureData);
 		}
 		
 		private function mapMoveTimerComplete(e:TimerEvent):void {
@@ -194,7 +194,7 @@ package mumble.timerou.map.display
 			
 			//previousButton.enabled = mediaDataLoader.hasMorePagesBefore;
 			//nextButton.enabled = mediaDataLoader.hasMorePagesAfter;
-			var pictures:Array = mediaDataLoader.pictures;
+			var pictures:Array = mediaDataLoader.medias;
 			
 			//clear
 			clearPictures();			

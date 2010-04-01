@@ -11,7 +11,7 @@ package mumble.timerou.map.data
 	
 	public class MediaDataLoader extends EventDispatcher {
 		
-		public var pictures:Array = null;
+		public var medias:Array = null;
 		public var totalCount:int  = 0;
 		
 		public var pageSize:int = 20;
@@ -24,8 +24,8 @@ package mumble.timerou.map.data
 		
 		public function MediaDataLoader() { }
 		
-		private function setPicturesData(jsonData:String):void {
-			this.pictures = new Array();
+		private function setMediasData(jsonData:String):void {
+			this.medias = new Array();
 			var result:* = JSON.deserialize(jsonData);
 			this.totalCount = result.totalCount;
 			
@@ -36,7 +36,7 @@ package mumble.timerou.map.data
 			if (result != null && !result.error) {
 				//load as known objects
 				for(var i:int = 0; i < result.medias.length; i++) {
-					this.pictures.push(new MediaData(result.medias[i]));
+					this.medias.push(new MediaData(result.medias[i]));
 				}
 			}
 		}		
@@ -65,7 +65,7 @@ package mumble.timerou.map.data
 				request.data = variables;
 				var loader:URLLoader = new URLLoader();
 				loader.addEventListener(Event.COMPLETE, function(e:Event):void { 
-					setPicturesData(e.target.data);
+					setMediasData(e.target.data);
 					dispatchEvent(new Event(Event.COMPLETE));
 				});
 				loader.load(request);
