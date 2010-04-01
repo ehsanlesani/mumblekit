@@ -34,10 +34,11 @@ package mumble.timerou.map.display
 		public var mediaData:MediaData = null;	
 		
 		private var remotePicture:RemotePicture = null;
+		private var youtubeVideo:YoutubeVideo = null;
 		private var tweenX:Tween = null;
 		private var tweenY:Tween = null;
 		private var showTween:Tween = null;
-		private var pictureFadeTween:Tween = null;
+		private var mediaFadeTween:Tween = null;
 		private var transitionManager:TransitionManager = null;
 		private var position:Point = new Point();
 		private var markerEdge:int = 0;
@@ -186,26 +187,60 @@ package mumble.timerou.map.display
 
 		}
 		
-		private function drawPicture():void {
-			if(pictureFadeTween != null && pictureFadeTween.isPlaying) { pictureFadeTween.stop(); }
-
+		private function clearPreview():void {
 			if(remotePicture != null) {
 				remotePicture.unload();
-				removeChild(remotePicture);				
+				removeChild(remotePicture);
+				remotePicture = null;				
 			}
+			
+			if(youtubeVideo != null) {
+				removeChild(youtubeVideo);
+				youtubeVideo.destroy();
+				youtubeVideo = null;
+			}
+		}
+		
+		private function drawPicture():void {
+			if(mediaFadeTween != null && mediaFadeTween.isPlaying) { mediaFadeTween.stop(); }
+
+			clearPreview();
+			
 			remotePicture = new RemotePicture(Main.BASEPICTURESURL + mediaData.pictureData.optimizedPath, INITIAL_WIDTH - PADDING * 2, INITIAL_HEIGHT - PADDING * 2, true);
 			remotePicture.x = rectX + PADDING;
 			remotePicture.y = rectY + PADDING;
 			remotePicture.showBorder = false;
 			addChild(remotePicture);
 			remotePicture.addEventListener(RemotePicture.LOAD_COMPLETE, function(e:Event):void { 
-				pictureFadeTween = new Tween(remotePicture, "alpha", Strong.easeOut, 0, 1, 0.25, true);
+				mediaFadeTween = new Tween(remotePicture, "alpha", Strong.easeOut, 0, 1, 0.25, true);
 			});
 		}
 		
-		public function loadPicture(pictureData:MediaData):void {
-			this.mediaData = pictureData;
-			drawPicture();
+		private function drawVideo():void {
+			if(mediaFadeTween != null && mediaFadeTween.isPlaying) { mediaFadeTween.stop(); }
+			
+			clearPreview();
+			
+			youtubeVideo = new YoutubeVideo();
+			youtubeVideo.x = rectX + PADDING;
+			youtubeVideo.y = rectY + PADDING;
+			youtubeVideo.videoHeight = INITIAL_HEIGHT - PADDING * 2;
+			youtubeVideo.videoWidth = INITIAL_WIDTH - PADDING * 2;
+			addChild(youtubeVideo);
+			youtubeVideo.addEventListener(Event.COMPLETE, function(e:Event):void {
+				youtubeVideo.loadAndPlay(mediaData.videoData.youtubeId);				
+			});
+		}
+		
+		public function loadMedia(media:MediaData):void {
+			this.mediaData = media;
+			
+			if(this.mediaData.type == MediaData.MEDIATYPE_PICTURE) {
+				drawPicture();
+			} else if(this.mediaData.type == MediaData.MEDIATYPE_VIDEO) {
+				drawVideo();
+			}
+			
 		}
 
 		public function move(position:Point):void {

@@ -15,6 +15,7 @@
 	import flash.text.TextField;
 	
 	import mumble.timerou.map.data.MediaData;
+	import mumble.timerou.map.data.MediaDataLoader;
 	import mumble.timerou.map.display.MediaIcon;
 	import mumble.timerou.map.display.Preview;
 	import mumble.timerou.map.display.TimerouMap;
@@ -133,7 +134,7 @@
 				preview.move(point);
 			}
 			
-			preview.loadPicture(mediaData);
+			preview.loadMedia(mediaData);
 		}
 		
 		private function hidePreview():void {
@@ -143,6 +144,14 @@
 		private function mapMoveEnd(e:Event):void {
 			if(ExternalInterface.available) {
 				ExternalInterface.call("MapCom.onMapMoveEnd");
+			} else {
+				var mediaLoader:MediaDataLoader = new MediaDataLoader();
+				mediaLoader.load(map.latLngBounds, 2010);
+				mediaLoader.addEventListener(Event.COMPLETE, function(e:Event):void {
+					for each(var media:MediaData in mediaLoader.medias) {
+						showMediaLocation(media);
+					}
+				});
 			}
 		}
 		
