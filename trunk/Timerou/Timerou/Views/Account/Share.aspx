@@ -1,3 +1,4 @@
+
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="Mumble.Timerou.Models.Auth.AuthPage<Mumble.Timerou.Models.Pages.ShareModel>" %>
 
 <asp:Content ID="UploadContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -10,6 +11,7 @@
         var UPLOADING = '<%= UIHelper.T("txt.uploading") %>';
         var LOCATION_UNAVAILABLE = '<%= UIHelper.T("err.locationUnavailable") %>';
         var SELECT_PICTURE = '<%= UIHelper.T("msg.selectPicture") %>';
+        var SELECT_VIDEO = '<%= UIHelper.T("msg.selectVideo") %>';
         var SELECT_LOCATION = '<%= UIHelper.T("msg.selectLocation") %>';
         var CHECK_INFORMATIONS = '<%= UIHelper.T("msg.checkInformations") %>';
     </script>
@@ -30,12 +32,6 @@
 
             var shareManager = new ShareManager(lat, lng, zoom, year);
             shareManager.initialize();
-
-            $("#typesTabs").tabs({
-                select: function(event, ui) {
-                    shareManager.setMediaType($(ui.tab).attr("mediaType"));
-                }
-            });
         });
         
     </script>
@@ -154,7 +150,7 @@
                 <%= Html.Hidden("address", Model.Val<Media>(x => x.Address))%>
                 <%= Html.Hidden("lat", Model.Val<Media>(x => x.Lat))%>
                 <%= Html.Hidden("lng", Model.Val<Media>(x => x.Lng))%>
-                <%= Html.Hidden("youtubeVideoId", Model.Val<Video>(v => v.YouTubeId)) %>
+                <%= Html.Hidden("youtubeVideoId", Model.Val<Video>(v => v.YoutubeId)) %>
                 <input type="hidden" name="mediaType" value="<%= Model.MediaType %>" />
                 
                 <fieldset>

@@ -285,3 +285,13 @@ label.error
 .fakeInput a:link, .fakeInput a:hover, .fakeInput a:visited
 {
 }
+
+.videoIcon
+{
+    height: 16px;
+    width: 16px;
+    background-image: url("../images/videoIcon.png");
+    position: absolute;
+    bottom: 0px;
+    right: 3px;
+}

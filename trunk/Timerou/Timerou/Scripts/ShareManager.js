@@ -17,12 +17,19 @@ function ShareManager(lat, lng, zoom, year) {
     this.mediaType = null;
     //check variables
     this.pictureUploaded = false;
+    this.videoSelected = false;
     this.locationSelected = false;
 }
 
 ShareManager.prototype = {
     initialize: function() {
         var self = this;
+
+        $("#typesTabs").tabs({
+            select: function(event, ui) {
+                self.setMediaType($(ui.tab).attr("mediaType"));
+            }
+        });
 
         this.initializeSliders();
         this.initializeMedia();
@@ -35,6 +42,11 @@ ShareManager.prototype = {
             if (self.getInput("mediaType") == "Picture" && !self.pictureUploaded) {
                 allOk = false;
                 self.showErrorBox("upload", SELECT_PICTURE);
+            }
+
+            if (self.getInput("mediaType") == "Video" && !self.videoSelected) {
+                allOk = false;
+                self.showErrorBox("upload", SELECT_VIDEO);
             }
 
             if (!self.locationSelected) {
@@ -80,8 +92,13 @@ ShareManager.prototype = {
 
         //if there is a picture id into hidden input, is sure that a image exists
         if (self.getInput("mediaId").length > 0) {
-            if (self.getInput("mediaType") == "Picture") {
+            var mediaType = self.getInput("mediaType");
+            if (mediaType == "Picture") {
                 self.pictureUploaded = true;
+                $("#typesTabs").tabs("select", 0);
+            } else {
+                self.videoSelected = true;
+                $("#typesTabs").tabs("select", 1);
             }
         }
 
@@ -143,17 +160,25 @@ ShareManager.prototype = {
     initializeVideoSelection: function() {
         var self = this;
 
-        $("#loadVideo").click(function() {
+        var youtubeVideoId = self.getInput("youtubeVideoId");
+        if (!Utils.isNullOrEmpty(youtubeVideoId)) {
             var youtube = new Youtube();
+            youtube.loadById(youtubeVideoId);
+            $("#videoContainer").empty().append(youtube.renderPreview());
+        }
+
+        $("#loadVideo").click(function() {
             var url = $("#videoUrl").val();
             if (Utils.isNullOrEmpty(url)) {
                 $("#videoUrl").focus();
             }
             else {
+                var youtube = new Youtube();
                 youtube.loadByUrl(url);
                 $("#videoContainer").empty().append(youtube.renderPreview());
 
                 self.setInput("youtubeVideoId", youtube.getId());
+                self.videoSelected = true;
             }
         });
     },

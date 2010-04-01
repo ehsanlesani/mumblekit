@@ -72,6 +72,7 @@ namespace Mumble.Timerou.Models.Managers
                 };
             }
 
+            video.YoutubeId = youtubeVideoId;
             video.Title = title;
             video.Body = body;
             video.Lat = lat;

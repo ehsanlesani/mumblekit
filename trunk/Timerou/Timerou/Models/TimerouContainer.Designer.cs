@@ -16,7 +16,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("TimerouModel", "FK_TaggedObjectTag", "Media", global::System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Mumble.Timerou.Models.Media), "Tag", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Timerou.Models.Tag))]
 
 // Original file name:
-// Generation date: 27/02/2010 18:58:51
+// Generation date: 21/03/2010 13:21:07
 namespace Mumble.Timerou.Models
 {
     
@@ -1424,27 +1424,27 @@ namespace Mumble.Timerou.Models
             return video;
         }
         /// <summary>
-        /// There are no comments for Property YouTubeId in the schema.
+        /// There are no comments for Property YoutubeId in the schema.
         /// </summary>
         [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
         [global::System.Runtime.Serialization.DataMemberAttribute()]
-        public string YouTubeId
+        public string YoutubeId
         {
             get
             {
-                return this._YouTubeId;
+                return this._YoutubeId;
             }
             set
             {
-                this.OnYouTubeIdChanging(value);
-                this.ReportPropertyChanging("YouTubeId");
-                this._YouTubeId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
-                this.ReportPropertyChanged("YouTubeId");
-                this.OnYouTubeIdChanged();
+                this.OnYoutubeIdChanging(value);
+                this.ReportPropertyChanging("YoutubeId");
+                this._YoutubeId = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("YoutubeId");
+                this.OnYoutubeIdChanged();
             }
         }
-        private string _YouTubeId;
-        partial void OnYouTubeIdChanging(string value);
-        partial void OnYouTubeIdChanged();
+        private string _YoutubeId;
+        partial void OnYoutubeIdChanging(string value);
+        partial void OnYoutubeIdChanged();
     }
 }

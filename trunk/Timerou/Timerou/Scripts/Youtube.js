@@ -47,17 +47,10 @@ Youtube.prototype = {
             .click(function() {
                 window.open(self.getVideoUrl());
             })
-            .css({ position: "relative", height: "90px", width: "120px" })
+            .css({ position: "relative", height: "90px", width: "120px", display: "block" })
             .append($("<img />")
                 .attr("src", this.getScreenshotUrl(Youtube.SMALL_SCREENSHOT))
             )
-            .append($("<img />")
-                .attr("src", Url.Images + "videoIcon.png")
-                .css({
-                    position: "absolute",
-                    right: "2px",
-                    bottom: "2px"
-                })
-            );
+            .append($("<div />").addClass("videoIcon"));            
     }
 };

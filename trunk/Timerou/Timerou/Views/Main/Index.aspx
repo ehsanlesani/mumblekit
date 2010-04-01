@@ -15,11 +15,25 @@
     <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>FlashMapCom.js" type="text/javascript"></script>   
+    <script src="<%= UriHelper.Scripts %>Youtube.js" type="text/javascript"></script>   
     <script src="<%= UriHelper.Scripts %>Timebar.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>MediaNavigator.js" type="text/javascript"></script>
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Timebar.css" rel="stylesheet" type="text/css" />
+    
+    <style> 
+        /*<!--questo stile è presente in site.css-->*/
+        .videoIcon
+        {
+            height: 16px;
+            width: 16px;
+            background-image: url("content/images/videoIcon.png");
+            position: absolute;
+            bottom: 0px;
+            right: 3px;
+        }
+    </style>
     
     <script type="text/javascript">
         var year = new Date().getFullYear();

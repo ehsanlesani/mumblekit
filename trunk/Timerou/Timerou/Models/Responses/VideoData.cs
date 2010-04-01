@@ -11,12 +11,12 @@ namespace Mumble.Timerou.Models.Responses
         {
             VideoData data = new VideoData()
             {
-                YouTubeId = video.YouTubeId
+                YoutubeId = video.YoutubeId
             };
 
             return data;
         }
 
-        public string YouTubeId { get; set; }
+        public string YoutubeId { get; set; }
     }
 }
