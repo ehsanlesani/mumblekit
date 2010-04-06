@@ -123,9 +123,10 @@ namespace Mumble.Timerou.Models.Managers
                                            && m.Lat <= bounds.NorthEast.Lat
                                            && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
                                               || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
-                                           orderby m.Year, m.Views, m.Created descending
+                                           orderby m.Year, m.Views, m.Created
                                            group m by m.Year
                                                into yearGroup
+                                               orderby yearGroup.Key descending
                                                select new YearGroupedMedias()
                                                {
                                                    Year = yearGroup.Key,
