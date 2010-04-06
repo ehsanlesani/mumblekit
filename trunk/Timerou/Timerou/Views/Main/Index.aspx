@@ -21,19 +21,9 @@
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Timebar.css" rel="stylesheet" type="text/css" />
-    
-    <style> 
-        /*<!--questo stile è presente in site.css-->*/
-        .videoIcon
-        {
-            height: 16px;
-            width: 16px;
-            background-image: url("content/images/videoIcon.png");
-            position: absolute;
-            bottom: 0px;
-            right: 3px;
-        }
-    </style>
+    <link href="<%= UriHelper.Css %>Site.css" rel="stylesheet" type="text/css" />
+    <link href="<%= UriHelper.Css %>MainPage.css" rel="stylesheet" type="text/css" />
+
     
     <script type="text/javascript">
         var year = new Date().getFullYear();
@@ -100,7 +90,7 @@
         });
     </script>
 
-    <link href="../../Content/Css/MainPage.css" rel="stylesheet" type="text/css" />
+    
 </head>
 <body>
     <div class="header">
@@ -117,6 +107,7 @@
         </div>
         <span class="title">Timerou preview</span>
     </div>
+    <div id="container">
     <% Html.RenderPartial("TimebarMarkup"); %>
     <div class="actions">
         <div style="float:right;">
@@ -128,6 +119,6 @@
     <div class="mapContainer">
         <% Html.RenderPartial("MapObject"); %>
     </div>
-    <div id="mapMediasContainer"></div>
+    </div>
 </body>
 </html>
