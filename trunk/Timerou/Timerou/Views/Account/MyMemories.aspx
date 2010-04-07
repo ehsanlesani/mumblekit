@@ -73,6 +73,8 @@
             <input type="text" id="year" />
             <input type="submit" value="<%= UIHelper.T("txt.search") %>" /> <img src="<%= UriHelper.Images %>ajaxLoading.gif" alt="loading" id="loading" class="hidden" />
         </form>
+        
+        <%= Html.ActionLink(UIHelper.T("txt.newMedia"), "Share") %>
     </div>
     
     <div class="box">

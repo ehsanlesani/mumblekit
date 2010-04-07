@@ -96,9 +96,12 @@ ShareManager.prototype = {
             if (mediaType == "Picture") {
                 self.pictureUploaded = true;
                 $("#typesTabs").tabs("select", 0);
-            } else {
+            } else if (mediaType == "Video") {
                 self.videoSelected = true;
                 $("#typesTabs").tabs("select", 1);
+            } else {
+                alert("Bad media type: " + mediaType);
+                return;
             }
         }
 
@@ -108,6 +111,8 @@ ShareManager.prototype = {
     },
 
     initializePictureSelection: function() {
+        var self = this;
+
         $("#uploadProgress").progressbar({ value: 10 });
 
         new AjaxUpload('uploadButton', {
