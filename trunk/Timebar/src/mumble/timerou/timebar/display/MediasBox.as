@@ -28,6 +28,7 @@ package mumble.timerou.timebar.display
 		private var loading:Loading;
 		private var boxTween:Tween;
 		private var pointerTween:Tween;
+		private var boxFadeTween:Tween;
 		private var previewFadeTween:Tween;
 		private var previewsContainer:Sprite;
 		private var boxX:Number;
@@ -161,6 +162,8 @@ package mumble.timerou.timebar.display
 		}
 		
 		public function show(pointerPosition:Point):void {
+			if(boxFadeTween != null && boxFadeTween.isPlaying) { boxFadeTween.stop(); }
+			
 			maxWidth = stage.stageWidth - Styles.barMargin * 2;			
 			var newWidth:Number = Styles.mediaPreviewSize.x; //initial size
 			this.pointerPosition = pointerPosition;
@@ -169,12 +172,16 @@ package mumble.timerou.timebar.display
 			pointer.visible = true;		
 			//draw boxex and display loading
 			drawBox();
+			
+			if(boxFadeTween != null && boxFadeTween.isPlaying) { boxFadeTween.stop(); }
+			boxFadeTween = new Tween(this, "alpha", Regular.easeOut, this.alpha, 1, 0.25, true);
 			pointerTween = new Tween(pointer, "x", Regular.easeOut, pointer.x, pointerPosition.x, 0.5, true);		
 			boxTween = new Tween(this, "boxWidth", Regular.easeOut, _boxWidth, newWidth, 0.5, true);
 		}
 		
 		public function hide():void {
-			
+			if(boxFadeTween != null && boxFadeTween.isPlaying) { boxFadeTween.stop(); }
+			boxFadeTween = new Tween(this, "alpha", Regular.easeOut, this.alpha, 0, 0.25, true);
 		}
 		
 		public function load(bounds:LatLngBounds, year:int):void {

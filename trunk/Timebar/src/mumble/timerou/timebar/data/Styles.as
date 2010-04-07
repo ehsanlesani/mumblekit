@@ -13,6 +13,11 @@ package mumble.timerou.timebar.data
 		public static const yearMediaLineColor:uint = 0xE0E0E0;
 		public static const yearMediaPointerSize:Point = new Point(10, 10);
 		public static const yearMediaMargin:Number = 10;
+		public static const yearMediaOverBackColor1:uint = 0x000000;
+		public static const yearMediaOverBackColor2:uint = 0xFFFFFF;
+		public static const yearMediaOverAlpha:Number = 0.6;
+		public static const yearMediaOverPointsColor:uint = 0xFFFFFF;
+		public static const yearMediaOverPointsRadius:Number = 3;
 		public static const cornerSize:Number = 20;
 		public static const barColor:uint = 0xE67F23;
 		public static const barThickness:Number = 3;
@@ -23,11 +28,9 @@ package mumble.timerou.timebar.data
 			var format:TextFormat = new TextFormat();
 			format.font = "Verdana";
 			format.size = 12;
-			format.align = TextFormatAlign.CENTER;
-			
+			format.align = TextFormatAlign.CENTER;			
 			return format;
-		}
-		
+		}		
 		public static const mediaBoxColor:uint = 0xE0E0E0;
 		public static const mediaBoxCornerSize:int = 6;
 		public static const mediaBoxLineThickness:Number = 3;
