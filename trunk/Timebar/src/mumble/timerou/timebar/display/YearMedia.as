@@ -1,8 +1,13 @@
 package mumble.timerou.timebar.display
 {
+	import fl.transitions.Tween;
+	import fl.transitions.easing.Regular;
+	
 	import flash.display.Bitmap;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
 	
 	import mumble.timerou.timebar.data.MediaBitmapLoader;
@@ -12,14 +17,22 @@ package mumble.timerou.timebar.display
 	public class YearMedia extends MovieClip
 	{
 		public var mediaData:MediaData = null;
+		
 		private var loading:Loading = null;
+		private var overSprite:Sprite;
+		private var fadeTween:Tween;
 		
 		public function YearMedia(mediaData:MediaData) {
 			this.mediaData = mediaData;
-			
+			overSprite = new Sprite();
+			overSprite.alpha = 0;
+			drawOverSprite();
+			addChild(overSprite);	
 			addEventListener(Event.ADDED_TO_STAGE, init);
+			addEventListener(MouseEvent.ROLL_OVER, mouseRollOver);
+			addEventListener(MouseEvent.ROLL_OUT, mouseRollOut);
 		}
-		
+				
 		private function init(e:Event):void {	
 			drawBorder();
 			drawPointer();
@@ -59,6 +72,41 @@ package mumble.timerou.timebar.display
 				}
 			});
 			loader.load();
+		}
+		
+		private function drawOverSprite():void {
+			//overSprite.graphics.beginFill(Styles.yearMediaOverBackColor1, Styles.yearMediaOverAlpha);
+			
+			var matrix:Matrix = new Matrix();
+			matrix.createGradientBox(
+				Styles.yearMediaSize.x - Styles.yearMediaLineThickness * 2, 
+				Styles.yearMediaSize.y - Styles.yearMediaLineThickness * 2,
+				(Math.PI / 2) * 3);
+			overSprite.graphics.beginGradientFill(
+				"linear", 
+				[Styles.yearMediaOverBackColor1, Styles.yearMediaOverBackColor2],
+				[Styles.yearMediaOverAlpha, Styles.yearMediaOverAlpha],
+				[0, 255],
+				matrix
+				);
+				
+			overSprite.graphics.lineStyle();
+			overSprite.graphics.drawRoundRect(
+				Styles.yearMediaLineThickness, 
+				Styles.yearMediaLineThickness, 
+				Styles.yearMediaSize.x - Styles.yearMediaLineThickness * 2, 
+				Styles.yearMediaSize.y - Styles.yearMediaLineThickness * 2, 
+				Styles.cornerSize * 0.8, Styles.cornerSize * 0.8);
+			overSprite.graphics.endFill();
+			overSprite.graphics.beginFill(Styles.yearMediaOverPointsColor);
+			
+			var circleX:Number = Styles.yearMediaSize.x / 2;
+			var circleY:Number = Styles.yearMediaSize.y / 2;
+			
+			overSprite.graphics.drawCircle(circleX - Styles.yearMediaOverPointsRadius * 3, circleY, Styles.yearMediaOverPointsRadius);
+			overSprite.graphics.drawCircle(circleX, circleY, Styles.yearMediaOverPointsRadius);
+			overSprite.graphics.drawCircle(circleX + Styles.yearMediaOverPointsRadius * 3, circleY, Styles.yearMediaOverPointsRadius);
+			overSprite.graphics.endFill();
 		}
 		
 		private function drawBorder():void {
@@ -101,6 +149,20 @@ package mumble.timerou.timebar.display
 			
 			graphics.endFill();
 			 
+		}
+		
+		private function mouseRollOver(e:MouseEvent):void {
+			stopTween();
+			fadeTween = new Tween(overSprite, "alpha", Regular.easeOut, overSprite.alpha, 1, 0.25, true);
+		}
+		
+		private function mouseRollOut(e:MouseEvent):void {
+			stopTween();
+			fadeTween = new Tween(overSprite, "alpha", Regular.easeOut, overSprite.alpha, 0, 0.25, true);
+		}
+		
+		private function stopTween():void {
+			if(fadeTween != null && fadeTween.isPlaying) { fadeTween.stop(); }
 		}
 	}
 }

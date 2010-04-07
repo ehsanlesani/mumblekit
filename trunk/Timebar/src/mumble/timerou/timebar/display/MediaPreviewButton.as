@@ -77,7 +77,7 @@ package mumble.timerou.timebar.display
 		
 		private function mouseRollOver(e:MouseEvent):void {
 			stopTween();
-			overRectangle.visible = true;
+			fadeTween = new Tween(overRectangle, "alpha", Regular.easeOut, overRectangle.alpha, 1, 0.25, true);
 		}
 		
 		private function mouseRollOut(e:MouseEvent):void {
@@ -87,7 +87,6 @@ package mumble.timerou.timebar.display
 		
 		private function stopTween():void {
 			if(fadeTween != null && fadeTween.isPlaying) { fadeTween.stop(); }
-			fadeTween = new Tween(overRectangle, "alpha", Regular.easeOut, overRectangle.alpha, 1, 0.25, true);
 		}
 		
 	}
