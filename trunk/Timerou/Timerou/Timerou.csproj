@@ -88,6 +88,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Models\ControllerExtension.cs" />
+    <Compile Include="Models\Exceptions\InvalidMediaTypeException.cs" />
     <Compile Include="Models\Exceptions\MediaNotFoundException.cs" />
     <Compile Include="Models\Exceptions\PropertyNotFoundException.cs" />
     <Compile Include="Models\Exceptions\ValueObjectNotFoundException.cs" />
@@ -470,7 +471,6 @@
     <Content Include="Views\Account\MyMemories.aspx" />
     <Content Include="Views\Account\Share.aspx" />
     <Content Include="Views\Error\Index.aspx" />
-    <Content Include="Views\Location\Index.aspx" />
     <Content Include="Views\Main\MapObject.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Shared\TimebarMarkup.ascx" />

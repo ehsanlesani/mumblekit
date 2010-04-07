@@ -118,28 +118,28 @@ namespace Mumble.Timerou.Models.Managers
             var crossMeridian = bounds.CrossMeridian;
 
             var yearGroupedMedias = (from m in _container.Medias.Include("User")
-                                           where m.IsTemp == false
-                                           && m.Lat >= bounds.SouthWest.Lat
-                                           && m.Lat <= bounds.NorthEast.Lat
-                                           && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
-                                              || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
-                                           orderby m.Year, m.Views, m.Created
-                                           group m by m.Year
-                                               into yearGroup
-                                               orderby yearGroup.Key descending
-                                               select new YearGroupedMedias()
-                                               {
-                                                   Year = yearGroup.Key,
-                                                   Medias = yearGroup.Take(mediaPerYear)
-                                               }).Take(mediasToLoad); //toList is needed because include is not supported in sub queries and another query is required in pictures to get paths.
+                                     where m.IsTemp == false
+                                     && m.Lat >= bounds.SouthWest.Lat
+                                     && m.Lat <= bounds.NorthEast.Lat
+                                     && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
+                                        || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
+                                     orderby m.Year, m.Views, m.Created
+                                     group m by m.Year
+                                         into yearGroup
+                                         orderby yearGroup.Key descending
+                                         select new YearGroupedMedias()
+                                         {
+                                             Year = yearGroup.Key,
+                                             Medias = yearGroup.Take(mediaPerYear)
+                                         }); //toList is needed because include is not supported in sub queries and another query is required in pictures to get paths.
 
             switch (direction)
             {
                 case SearchDirection.Back:
-                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year <= referenceYear);
+                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year <= referenceYear).Take(mediasToLoad);
                     break;
                 case SearchDirection.Forward:
-                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year >= referenceYear);
+                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year >= referenceYear).Take(mediasToLoad);
                     break;
             }
 
@@ -165,13 +165,15 @@ namespace Mumble.Timerou.Models.Managers
 
                 if (direction == SearchDirection.Back)
                 {
-                    int minYearThatCanBe = referenceYear - (minYearDistance * mediasToLoad);
+                    int maxYear = yearGroupedMedias.Select(m => m.Year).Max();
+                    int minYearThatCanBe = maxYear - (minYearDistance * mediasToLoad);
                     //filter medias
                     yearGroupedMedias = yearGroupedMedias.Where(m => m.Year >= minYearThatCanBe);
                 }
                 else if (direction == SearchDirection.Forward)
                 {
-                    int maxYearThatCanBe = referenceYear + (minYearDistance * mediasToLoad);
+                    int minYear = yearGroupedMedias.Select(m => m.Year).Min();
+                    int maxYearThatCanBe = minYear + (minYearDistance * mediasToLoad);
                     //filter medias
                     yearGroupedMedias = yearGroupedMedias.Where(m => m.Year <= maxYearThatCanBe);
                 }

@@ -98,10 +98,12 @@ namespace Mumble.Timerou.Controllers
                 Authorize();
 
                 ShareModel model = new ShareModel();
+                model.MediaType = "Picture"; //default media type selected tab
 
                 if (id.HasValue)
                 {
                     model.Media = Container.Medias.Where(p => p.Id == id).First();
+                    model.MediaType = model.Media.GetType().Name;
                 }
 
                 if (lat.HasValue) { model.Lat = lat.Value; }
@@ -220,6 +222,8 @@ namespace Mumble.Timerou.Controllers
                                 year
                             );
                         break;
+                    default:
+                        throw new InvalidMediaTypeException(mediaType);
                 }
 
                 
