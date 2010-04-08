@@ -24,13 +24,6 @@ package mumble.timerou.timebar.data
 		public static const barMargin:Number = 15;
 		public static const yearBoxThickness:Number = 2;
 		public static const yearBoxSize:Point = new Point(77 - barThickness, 21 - barThickness);
-		public static function get yearTextFormat():TextFormat {
-			var format:TextFormat = new TextFormat();
-			format.font = "Verdana";
-			format.size = 12;
-			format.align = TextFormatAlign.CENTER;			
-			return format;
-		}		
 		public static const mediaBoxColor:uint = 0xE0E0E0;
 		public static const mediaBoxCornerSize:int = 6;
 		public static const mediaBoxLineThickness:Number = 3;
@@ -38,6 +31,32 @@ package mumble.timerou.timebar.data
 		public static const mediaPreviewOverRectColor:uint = 0xE67F23;
 		public static const mediaPreviewOverThickness:Number = 2;
 		public static const mediaBoxPointerSize:Point = new Point(10, 10);
+
+		public static function get yearTextFormat():TextFormat {
+			var format:TextFormat = new TextFormat();
+			format.font = "Verdana";
+			format.size = 12;
+			format.align = TextFormatAlign.CENTER;			
+			return format;
+		}
+		
+		public static function get linkTextFormat():TextFormat {
+			var format:TextFormat = new TextFormat();
+			format.font = "Verdana";
+			format.size = 12;
+			format.color = 0x000000;
+			format.align = TextFormatAlign.CENTER;			
+			return format;
+		}
+		
+		public static function get linkTextOverFormat():TextFormat {
+			var format:TextFormat = new TextFormat();
+			format.font = "Verdana";
+			format.size = 12;
+			format.color = 0xE67F23;
+			format.align = TextFormatAlign.CENTER;			
+			return format;
+		}
 
 	}
 }
