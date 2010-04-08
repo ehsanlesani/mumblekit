@@ -8,6 +8,7 @@ package mumble.timerou.timebar.display
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
 	import mumble.timerou.timebar.data.MediaBitmapLoader;
@@ -33,6 +34,8 @@ package mumble.timerou.timebar.display
 		private var previewsContainer:Sprite;
 		private var boxX:Number;
 		private var boxY:Number;
+		private var backButton:LinkButton;
+		private var forwardButton:LinkButton;
 		
 		public function set boxWidth(width:Number):void {
 			_boxWidth = width;
@@ -46,7 +49,38 @@ package mumble.timerou.timebar.display
 			drawPointer();
 			pointer.visible = false;	
 			
+			addPageButtons();
+			
 			mediaDataLoader.addEventListener(Event.COMPLETE, drawPreviews);		
+		}
+		
+		private function addPageButtons():void {
+			backButton = new LinkButton();
+			forwardButton = new LinkButton();
+			
+			backButton.text = "prev";
+			forwardButton.text = "next";
+			
+			backButton.visible = false;
+			forwardButton.visible = false;
+			
+			addChild(backButton);
+			addChild(forwardButton);
+			
+			backButton.addEventListener(MouseEvent.CLICK, goPreviousPage);
+			forwardButton.addEventListener(MouseEvent.CLICK, goNextPage);
+		}
+		
+		private function goPreviousPage(e:MouseEvent):void {
+			if(mediaDataLoader != null) {
+				mediaDataLoader.loadPrevious();
+			}
+		}
+				
+		private function goNextPage(e:MouseEvent):void {
+			if(mediaDataLoader != null) {
+				mediaDataLoader.loadNext();
+			}
 		}
 		
 		private function drawPointer():void {
@@ -102,6 +136,12 @@ package mumble.timerou.timebar.display
 				previewsContainer.x = boxX;
 				previewsContainer.width = _boxWidth;
 			}
+			
+			//adjust buttons position;
+			backButton.x = boxX;
+			backButton.y = pointer.y + Styles.mediaPreviewSize.y + Styles.mediaBoxPointerSize.y;
+			forwardButton.x = boxX + _boxWidth - forwardButton.width;
+			forwardButton.y = pointer.y + Styles.mediaPreviewSize.y + Styles.mediaBoxPointerSize.y;
 		}
 		
 		private function drawPreviews(e:Event = null):void {
@@ -137,6 +177,9 @@ package mumble.timerou.timebar.display
 				drawPreview(mediaData, index);
 				index++;		
 			}
+			
+			backButton.visible = mediaDataLoader.hasMorePagesBefore;
+			forwardButton.visible = mediaDataLoader.hasMorePagesAfter;
 		}
 		
 		private function drawPreview(mediaData:MediaData, index:int):void {
@@ -192,7 +235,7 @@ package mumble.timerou.timebar.display
 			loading.visible = true;
 			
 			//calculate pageSize
-			var pageSize:int = (maxWidth - Styles.mediaBoxCornerSize * 2) / (Styles.mediaPreviewSize.x); //1 pixel distance  
+			var pageSize:int = (maxWidth) / (Styles.mediaPreviewSize.x);
 			mediaDataLoader.pageSize = pageSize;
 			mediaDataLoader.page = 1;
 			mediaDataLoader.load(bounds, year);
