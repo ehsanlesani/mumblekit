@@ -21,6 +21,7 @@ package mumble.timerou.timebar.display
 		private var loading:Loading = null;
 		private var overSprite:Sprite;
 		private var fadeTween:Tween;
+		private var selected:Boolean = false;
 		
 		public function YearMedia(mediaData:MediaData) {
 			this.mediaData = mediaData;
@@ -151,12 +152,16 @@ package mumble.timerou.timebar.display
 			 
 		}
 		
-		private function mouseRollOver(e:MouseEvent):void {
+		private function mouseRollOver(e:MouseEvent = null):void {
+			if(selected) { return; }
+			
 			stopTween();
 			fadeTween = new Tween(overSprite, "alpha", Regular.easeOut, overSprite.alpha, 1, 0.25, true);
 		}
 		
-		private function mouseRollOut(e:MouseEvent):void {
+		private function mouseRollOut(e:MouseEvent = null):void {
+			if(selected) { return; }
+			
 			stopTween();
 			fadeTween = new Tween(overSprite, "alpha", Regular.easeOut, overSprite.alpha, 0, 0.25, true);
 		}
@@ -164,5 +169,8 @@ package mumble.timerou.timebar.display
 		private function stopTween():void {
 			if(fadeTween != null && fadeTween.isPlaying) { fadeTween.stop(); }
 		}
+		
+		public function select():void { mouseRollOver(); selected = true; }
+		public function unselect():void { selected = false; mouseRollOut(); }
 	}
 }
