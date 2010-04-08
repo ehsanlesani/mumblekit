@@ -40,6 +40,7 @@ package mumble.timerou.timebar.display
 		private var yearsTween2:Tween;
 		private var yearsTween3:Tween;
 		private var yearsTween4:Tween;
+		private var stopRotation:Boolean = true;
 				
 		public var bounds:LatLngBounds;
 		
@@ -53,6 +54,23 @@ package mumble.timerou.timebar.display
 			referenceYear = new Date().getFullYear();
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
+		}
+		
+		private function buttonsRotationLoop(e:Event):void {
+			if(stopRotation) {
+				if(goBackButton.rotation % 360 == 0) {
+					removeEventListener(Event.ENTER_FRAME, buttonsRotationLoop);
+					return;
+				}
+			}
+			
+			if(direction == PerYearMediaDataLoader.DIRECTION_BACK) {
+				goBackButton.rotation -= 20;
+				goForwardButton.rotation = goBackButton.rotation;
+			} else if(direction == PerYearMediaDataLoader.DIRECTION_FORWARD) {
+				goBackButton.rotation += 20;
+				goForwardButton.rotation = goBackButton.rotation;
+			}
 		}
 		
 		private function init(e:Event):void {
@@ -89,6 +107,9 @@ package mumble.timerou.timebar.display
 		public function goBack(e:MouseEvent = null):void {
 			if(data != null) {
 				if(data.hasMediasBefore) {
+					stopRotation = false;					
+					addEventListener(Event.ENTER_FRAME, buttonsRotationLoop); 
+					
 					referenceYear = data.minYear - 1;
 					direction = PerYearMediaDataLoader.DIRECTION_BACK;
 					
@@ -100,6 +121,9 @@ package mumble.timerou.timebar.display
 		public function goForward(e:MouseEvent = null):void {
 			if(data != null) {
 				if(data.hasMediasAfter) {
+					stopRotation = false;					
+					addEventListener(Event.ENTER_FRAME, buttonsRotationLoop); 
+					
 					referenceYear = data.maxYear + 1;
 					direction = PerYearMediaDataLoader.DIRECTION_FORWARD;
 					
@@ -183,6 +207,8 @@ package mumble.timerou.timebar.display
 					if(yearBoxesContainer != null) { removeChild(yearBoxesContainer); }
 					yearBoxesContainer = newYearBoxesContainer;
 					yearMediasContainer = newYearMediasContainer;
+					
+					stopRotation = true;
 				});
 			} else if (direction == PerYearMediaDataLoader.DIRECTION_FORWARD) {
 				newYearBoxesContainer.x = stage.stageWidth;
@@ -197,6 +223,8 @@ package mumble.timerou.timebar.display
 					if(yearBoxesContainer != null) { removeChild(yearBoxesContainer); }
 					yearBoxesContainer = newYearBoxesContainer;
 					yearMediasContainer = newYearMediasContainer;
+					
+					stopRotation = true;
 				});
 			} else {
 				if(yearMediasContainer != null) { removeChild(yearMediasContainer); }
