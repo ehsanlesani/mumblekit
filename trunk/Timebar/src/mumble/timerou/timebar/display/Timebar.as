@@ -40,9 +40,18 @@ package mumble.timerou.timebar.display
 		private var yearsTween2:Tween;
 		private var yearsTween3:Tween;
 		private var yearsTween4:Tween;
+		private var yearSelectTween:Tween;
 		private var stopRotation:Boolean = true;
+		private var yearMedias:Array;
+		
+		private var _year:int = new Date().getFullYear();
 				
 		public var bounds:LatLngBounds;
+		public function set year(value:int):void {
+			_year = value;
+			selectYear();
+		}
+		public function get year():int { return _year; }
 		
 		public function Timebar() {
 			//initial bounds and year
@@ -132,6 +141,20 @@ package mumble.timerou.timebar.display
 			}
 		}
 		
+		private function selectYear():void {
+			if(yearMedias != null) {			
+				for each(var yearMedia:YearMedia in yearMedias) {
+					if(yearMedia.mediaData.year == year) {
+						yearMedia.select();
+						yearSelectTween = new Tween(yearMedia, "alpha", Regular.easeOut, yearMedia.alpha, 1, 0.5, true);
+					} else {
+						yearMedia.unselect();
+						yearSelectTween = new Tween(yearMedia, "alpha", Regular.easeOut, yearMedia.alpha, 0.3, 0.5, true);
+					}
+				}
+			}
+		}
+		
 		private function drawBar():void {
 			if(bar == null) {
 				bar = new Sprite();
@@ -180,6 +203,8 @@ package mumble.timerou.timebar.display
 		}
 		
 		private function drawYears():void {
+			yearMedias = new Array();
+			
 			var newYearBoxesContainer:Sprite = new Sprite();
 			var newYearMediasContainer:Sprite = new Sprite();
 			
@@ -190,7 +215,7 @@ package mumble.timerou.timebar.display
 			newYearMediasContainer.y = 0;
 
 			for each(var groupedMedias:YearGroupedMediasData in data.groupedMedias) {
-				drawYear(newYearBoxesContainer, newYearMediasContainer, groupedMedias);
+				yearMedias.push(drawYear(newYearBoxesContainer, newYearMediasContainer, groupedMedias));
 			}
 			
 			//animate by direction;
@@ -234,7 +259,7 @@ package mumble.timerou.timebar.display
 			}
 		}
 		
-		private function drawYear(drawingYearBoxesContainer:Sprite, drawingYearMediasContainer:Sprite, groupedMedias:YearGroupedMediasData):void {
+		private function drawYear(drawingYearBoxesContainer:Sprite, drawingYearMediasContainer:Sprite, groupedMedias:YearGroupedMediasData):YearMedia {
 			var yearBox:YearBox = new YearBox(groupedMedias.year);
 			yearBox.x = groupedMedias.x - Styles.yearBoxSize.x / 2;
 			drawingYearBoxesContainer.addChild(yearBox);
@@ -242,7 +267,10 @@ package mumble.timerou.timebar.display
 			var yearMedia:YearMedia = new YearMedia(groupedMedias.medias[0]);
 			yearMedia.x = groupedMedias.x - Styles.yearMediaSize.x / 2;
 			yearMedia.buttonMode = true;
-			yearMedia.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void { showMediasBox(groupedMedias.year, groupedMedias.x); });
+			yearMedia.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
+				year = groupedMedias.year; //select year 
+				showMediasBox(groupedMedias.year, groupedMedias.x); }
+			);
 			drawingYearMediasContainer.addChild(yearMedia);
 			
 			if(direction == null) {			
@@ -257,6 +285,7 @@ package mumble.timerou.timebar.display
 				
 			}
 
+			return yearMedia;
 		}
 		
 		private function showMediasBox(year:int, positionX:Number):void {
