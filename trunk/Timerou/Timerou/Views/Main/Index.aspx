@@ -10,8 +10,8 @@
         var BASEURL = '<%= UriHelper.Base %>';
     </script>
     
-    <script src="<%= UriHelper.Scripts %>jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
-    <script src="<%= UriHelper.Scripts %>jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>jquery/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>libs/fx.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
     
@@ -106,7 +106,7 @@
         </div>
         <div id="content" style="width: 960px; overflow:hidden;">
             <div style="width: 2000px; background-color: Silver;">
-                <div id="mapContainer" style="left: 0px; top:0px; bottom: 100px; right: 100px; position: absolute;">
+                <div id="mapContainer" style="float:left; height: 150px; width: 150px;">
                     <% Html.RenderPartial("MapObject"); %>
                 </div>
                 <div id="mediaContainer" style="float: left; height: 500px; width: 500px; background-color: Green;">

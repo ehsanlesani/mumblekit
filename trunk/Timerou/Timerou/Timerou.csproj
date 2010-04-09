@@ -157,8 +157,6 @@
     <Content Include="Scripts\ActionBox.js" />
     <Content Include="Scripts\jquery\ajaxupload.js" />
     <Content Include="Scripts\jquery\jquery-1.3.2-vsdoc.js" />
-    <Content Include="Scripts\jquery\jquery-1.3.2.js" />
-    <Content Include="Scripts\jquery\jquery-1.3.2.min.js" />
     <Content Include="Scripts\jquery\jquery-ui-1.7.2.custom.min.js" />
     <Content Include="Scripts\jquery\jquery.metadata.js" />
     <Content Include="Scripts\jquery\jquery.validate-vsdoc.js" />
@@ -217,6 +215,8 @@
     <Content Include="Map\Main.swf" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
+    <Content Include="Scripts\jquery\jquery-1.4.2.min.js" />
+    <Content Include="Scripts\libs\fx.js" />
     <Content Include="Scripts\JSMapCom.js" />
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\DetailManager.js" />
