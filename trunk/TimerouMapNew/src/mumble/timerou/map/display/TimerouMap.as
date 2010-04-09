@@ -87,7 +87,7 @@
 		}
 		
 		private function onMapReady(e:MapEvent):void {		
-			map.setSize(new Point(stage.stageWidth, stage.stageHeight));
+			map.setSize(new Point(300, 300));
 			map.setCenter(new LatLng(40.6686534, 16.6060872), 5);
 			map.setMapType(MapType.NORMAL_MAP_TYPE);
 			map.addControl(new ZoomControl()); 
@@ -97,7 +97,7 @@
 			ready = true;			
 			dispatchEvent(new Event(TIMEROUMAP_READY));
 			stage.addEventListener(Event.RESIZE, function(e:Event):void { 
-				map.setSize(new Point(stage.stageWidth, stage.stageHeight)); 
+				//map.setSize(new Point(stage.stageWidth, stage.stageHeight)); 
 			});
 		}		
 		
