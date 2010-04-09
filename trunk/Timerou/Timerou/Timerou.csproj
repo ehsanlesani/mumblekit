@@ -212,7 +212,6 @@
     <Content Include="Content\Images\videoIcon.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
-    <Content Include="Map\Main.swf" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\jquery\jquery-1.4.2.min.js" />
