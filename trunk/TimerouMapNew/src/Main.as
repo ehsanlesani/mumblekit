@@ -29,7 +29,7 @@
 	[SWF(height = 600, width = 800, backgroundColor = 0xFFFFFF)]
 	public class Main extends MovieClip 
 	{
-		public static var BASEURL:String = "/";
+		public static var BASEURL:String = "http://localhost:1095/";
 		public static var BASEPICTURESURL:String = BASEURL + "Pictures/";
 		public static var LOAD_PICTURE_SERVICE_URL:String = BASEURL + "MediaLoader.aspx/LoadMedias";
 		public static var MAPKEY:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxQb16FdzuBr0nZgkL4aiWmiDXxN7xS6cnax6FiU5Req07YU9Mfy4LamTg";		
@@ -116,6 +116,7 @@
 			map.addEventListener(TimerouMap.TIMEROUMAP_READY, mapReady);
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
 			
+			debug.text = new Date().getMilliseconds().toString();
 			addChild(debug);			
 			
 		}
