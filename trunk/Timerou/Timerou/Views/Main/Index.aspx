@@ -14,13 +14,10 @@
     <script src="<%= UriHelper.Scripts %>jquery/jquery-ui-1.7.2.custom.min.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
-    <script src="<%= UriHelper.Scripts %>FlashMapCom.js" type="text/javascript"></script>   
-    <script src="<%= UriHelper.Scripts %>Youtube.js" type="text/javascript"></script>   
-    <script src="<%= UriHelper.Scripts %>Timebar.js" type="text/javascript"></script>
-    <script src="<%= UriHelper.Scripts %>MediaNavigator.js" type="text/javascript"></script>
+    
+    <script src="../../Scripts/MapMediaTransition.js" type="text/javascript"></script>
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
-    <link href="<%= UriHelper.Css %>Timebar.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Site.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>MainPage.css" rel="stylesheet" type="text/css" />
 
@@ -30,63 +27,53 @@
 
         $(document).ready(function() {
 
-            $("#hibridButton").click(function() {
-                MapCom.changeType(MapCom.MAPTYPE_HYBRID);
+            var transition = new MapMediaTransition($("#mapContainer"), $("#mediaContainer"));
+            $("#minimizeButton").click(function() { transition.minimizeMap(); });
+            $("#maximizeButton").click(function() { transition.maximizeMap(); });
+
+            /*$("#hibridButton").click(function() {
+            MapCom.changeType(MapCom.MAPTYPE_HYBRID);
             });
 
             $("#roadButton").click(function() {
-                MapCom.changeType(MapCom.MAPTYPE_ROAD);
+            MapCom.changeType(MapCom.MAPTYPE_ROAD);
             });
 
             $("#searchButton").click(function() {
-                var key = $("#locationKeyword").val();
-                if (key.length > 3) {
-                    MapCom.searchLocation(key);
-                } else {
-                    alert("Min keyword length: 3");
-                }
+            var key = $("#locationKeyword").val();
+            if (key.length > 3) {
+            MapCom.searchLocation(key);
+            } else {
+            alert("Min keyword length: 3");
+            }
             });
 
-            var timebar = new Timebar();
             var mediaNavigator = new MediaNavigator();
 
-            $(timebar).bind(Timebar.YEAR_CHANGED, function() {
-                MapCom.setYear(timebar.getYear());
-                
-                mediaNavigator.setYear(timebar.getYear());
-                mediaNavigator.loadMediasTimeSafe();
-            });
-
             $(MapCom).bind("mapReady", function() {
-                timebar.initialize(year);
-                timebar.loadMediasTimeSafe();
-
-                mediaNavigator.initialize(year);
-                mediaNavigator.loadMediasTimeSafe();
+            mediaNavigator.initialize(year);
+            mediaNavigator.loadMediasTimeSafe();
             });
 
             $(MapCom).bind("mapMoveEnd", function() {
-                timebar.setBounds(MapCom.getMapBounds());
-                timebar.loadMediasTimeSafe();
-
-                mediaNavigator.setBounds(MapCom.getMapBounds());
-                mediaNavigator.loadMediasTimeSafe();
+            mediaNavigator.setBounds(MapCom.getMapBounds());
+            mediaNavigator.loadMediasTimeSafe();
             });
 
             $(mediaNavigator).bind(MediaNavigator.MEDIA_CLICK, function(e, mediaData) {
-                var bounds = Utils.boundsToString(MapCom.getMapBounds());
-                window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "#show|id=" + mediaData.id);
+            var bounds = Utils.boundsToString(MapCom.getMapBounds());
+            window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "#show|id=" + mediaData.id);
             });
 
             $(mediaNavigator).bind(MediaNavigator.MEDIA_HOVER, function(e, mediaData) {
-                MapCom.showPreview(mediaData);
+            MapCom.showPreview(mediaData);
             });
 
             $(mediaNavigator).bind(MediaNavigator.MEDIAS_LOADED, function(e, medias) {
-                MapCom.showMediaLocations(medias);
+            MapCom.showMediaLocations(medias);
             });
 
-            $("#mapMediasContainer").hover(function() { }, function() { MapCom.hidePreview(); });
+            $("#mapMediasContainer").hover(function() { }, function() { MapCom.hidePreview(); });*/
         });
     </script>
 
@@ -107,18 +94,29 @@
         </div>
         <span class="title">Timerou preview</span>
     </div>
-    <div id="container">
-    <% Html.RenderPartial("TimebarMarkup"); %>
-    <div class="actions">
-        <div style="float:right;">
-            <a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a>
+    <div id="container">    
+        <div class="actions">
+            <div style="float:right;">
+                <a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a>
+                <input type="button" id="minimizeButton" value="minimize" />
+                <input type="button" id="maximizeButton" value="maximize" />
+            </div>
+            <input type="text" id="locationKeyword" />
+            <a href="javascript:;" id="searchButton">GO</a>        
         </div>
-        <input type="text" id="locationKeyword" />
-        <a href="javascript:;" id="searchButton">GO</a>        
-    </div>
-    <div class="mapContainer">
-        <% Html.RenderPartial("MapObject"); %>
-    </div>
-    </div>
+        <div id="content" style="width: 960px; overflow:hidden;">
+            <div style="width: 2000px; background-color: Silver;">
+                <div id="mapContainer" style="left: 0px; top:0px; bottom: 100px; right: 100px; position: absolute;">
+                    <% Html.RenderPartial("MapObject"); %>
+                </div>
+                <div id="mediaContainer" style="float: left; height: 500px; width: 500px; background-color: Green;">
+                    Quant'e bella la porchetta
+                </div>     
+            </div>
+        </div>
+        <div>
+            contenuto di sotto
+        </div>
+    
 </body>
 </html>

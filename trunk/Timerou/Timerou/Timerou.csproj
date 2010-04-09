@@ -221,6 +221,7 @@
     <Content Include="Scripts\libs\google.maps-v3-vsdoc.js" />
     <Content Include="Scripts\DetailManager.js" />
     <Content Include="Scripts\FlashMapCom.js" />
+    <Content Include="Scripts\MapMediaTransition.js" />
     <Content Include="Scripts\MediaNavigator.js" />
     <Content Include="Scripts\MyMemoriesManager.js" />
     <Content Include="Scripts\Timebar.js" />
