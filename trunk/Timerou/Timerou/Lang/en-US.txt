@@ -70,3 +70,4 @@ txt.video = txt.video
 msg.insertYoutubeLink = msg.insertYoutubeLink
 txt.load = txt.load
 msg.selectVideo = msg.selectVideo
+txt.newMedia = txt.newMedia

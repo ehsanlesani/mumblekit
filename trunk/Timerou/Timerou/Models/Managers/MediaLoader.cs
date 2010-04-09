@@ -130,16 +130,22 @@ namespace Mumble.Timerou.Models.Managers
                                          select new YearGroupedMedias()
                                          {
                                              Year = yearGroup.Key,
-                                             Medias = yearGroup.Take(mediaPerYear)
+                                             Medias = yearGroup.OrderByDescending(m => m.Views).ThenByDescending(m=> m.Created).Take(mediaPerYear)
                                          }); //toList is needed because include is not supported in sub queries and another query is required in pictures to get paths.
 
             switch (direction)
             {
                 case SearchDirection.Back:
-                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year <= referenceYear).Take(mediasToLoad);
+                    yearGroupedMedias = yearGroupedMedias
+                        .Where(m => m.Year <= referenceYear)
+                        .OrderByDescending(m => m.Year)
+                        .Take(mediasToLoad);
                     break;
                 case SearchDirection.Forward:
-                    yearGroupedMedias = yearGroupedMedias.Where(m => m.Year >= referenceYear).Take(mediasToLoad);
+                    yearGroupedMedias = yearGroupedMedias
+                        .Where(m => m.Year >= referenceYear)
+                        .OrderByDescending(m => m.Year)
+                        .Take(mediasToLoad);
                     break;
             }
 
