@@ -105,16 +105,17 @@
                     <input type="button" id="minimizeButton" value="minimize" />
                     <input type="button" id="maximizeButton" value="maximize" />
                 </div>
-                <input type="text" id="locationKeyword" />
-                <a href="javascript:;" id="searchButton">GO</a>        
+                <!--input type="text" id="locationKeyword" />
+                <a href="javascript:;" id="searchButton">GO</a-->        
             </div>
-            <div id="content" style="width: 960px; overflow:hidden;">
+            <div id="content" style="width: 981px; overflow:hidden;">
                 <div style="width: 2000px; background-color: Silver;">
-                    <div id="mapContainer" style="float:left; height: 150px; width: 150px;">
+                    <div id="mapContainer" style="float:left; height: 290px; width: 323px;">
+                        <img src="../../Content/Images/temp/map.jpg" />
                         <% Html.RenderPartial("MapObject"); %>
                     </div>
-                    <div id="mediaContainer" style="float: left; height: 500px; width: 500px; background-color: Green;">
-                        Quant'e bella la porchetta
+                    <div id="mediaContainer" style="float: left; height: 1116px; width: 560px;">
+                        <img src="../../Content/Images/temp/side-right.jpg" />
                     </div>     
                 </div>
             </div>

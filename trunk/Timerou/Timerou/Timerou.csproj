@@ -199,6 +199,8 @@
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\nextPage.png" />
     <Content Include="Content\Images\previousPage.png" />
+    <Content Include="Content\Images\temp\map.jpg" />
+    <Content Include="Content\Images\temp\side-right.jpg" />
     <Content Include="Content\Images\temp\timebar.jpg" />
     <Content Include="Content\Images\timerou-logo.png" />
     <Content Include="Content\Images\whiteSpace.png" />

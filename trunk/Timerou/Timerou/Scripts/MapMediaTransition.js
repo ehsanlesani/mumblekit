@@ -4,8 +4,8 @@
 function MapMediaTransition(mapContainer, mediaContainer) {
     this.duration = 250;
     this.delay = 10;
-    this.mapMinimizedSize = { width: 300, height: 300 };
-    this.mapMaximizedSize = { width: 960, height: 500 };
+    this.mapMinimizedSize = { width: 331, height: 300 };
+    this.mapMaximizedSize = { width: 981, height: 500 };
     
     this.mapContainer = mapContainer;
     this.mediaContainer = mediaContainer;
