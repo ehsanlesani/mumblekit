@@ -196,9 +196,11 @@
     <Content Include="Content\Css\Timebar.css" />
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\novideo.png" />
+    <Content Include="Content\Images\search-button.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\nextPage.png" />
     <Content Include="Content\Images\previousPage.png" />
+    <Content Include="Content\Images\searchMapLeftSide.png" />
     <Content Include="Content\Images\temp\map.jpg" />
     <Content Include="Content\Images\temp\side-right.jpg" />
     <Content Include="Content\Images\temp\timebar.jpg" />
@@ -214,6 +216,7 @@
     <Content Include="Content\Images\videoIcon.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
+    <Content Include="Map\Main.swf" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\jquery\jquery-1.4.2.min.js" />
@@ -483,6 +486,7 @@
     <None Include="App_Data\ddl.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\NewFolder1\" />
     <Folder Include="Pictures\" />
     <Folder Include="Scripts\tiny_mce\plugins\autosave\images\" />
   </ItemGroup>
