@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-    <title>Index</title>
+    <title>Timerou - TimeTour</title>
     
     <script type="text/javascript">
         var BASEURL = '<%= UriHelper.Base %>';
@@ -20,7 +20,7 @@
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Site.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>MainPage.css" rel="stylesheet" type="text/css" />
-
+    <link href="<%= UriHelper.Css %>Shared.css" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
         var year = new Date().getFullYear();
@@ -80,43 +80,48 @@
     
 </head>
 <body>
-    <div class="header">
-        <div style="float:right;">
-            <% if (!AccountManager.HasLoggedUser) { %>
-                <%= Html.ActionLink("login", "Login", "Account")%> | 
-                <%= Html.ActionLink("register", "Register", "Account") %> |
-            <% } else { %>
-                <%= UIHelper.T("txt.welcome") %> <%= AccountManager.LoggedUser.FirstName %> |
-                <%= Html.ActionLink("my memories", "MyMemories", "Account") %> |
-            <% } %>
-           
-            <%= Html.ActionLink("share", "Share", "Account") %>
+    <div id="main">
+        <div id="header">
+            <img src="<%=UriHelper.Images %>timerou-logo.png" alt="timerou share your memories" />
+            <div style="float:right;" id="main-actions">
+                <% if (!AccountManager.HasLoggedUser) { %>
+                    <%= Html.ActionLink("login", "Login", "Account", new { @class = "blue-link" })%>
+                    <%= Html.ActionLink("register", "Register", "Account", new { @class = "blue-link" })%>
+                    <%= Html.ActionLink("share", "Share", "Account", new { @class = "blue-link" })%>
+                <% } else { %>
+                    <%= UIHelper.T("txt.welcome") %> <%= AccountManager.LoggedUser.FirstName %>&nbsp;
+                    (<%= Html.ActionLink("my memories", "MyMemories", "Account", new { @class = "blue-link" })%>&nbsp;&bull;&nbsp;
+                    <%= Html.ActionLink("share", "Share", "Account", new { @class = "blue-link" })%>)
+                <% } %>               
+            </div>        
         </div>
-        <span class="title">Timerou preview</span>
-    </div>
-    <div id="container">    
-        <div class="actions">
-            <div style="float:right;">
-                <a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a>
-                <input type="button" id="minimizeButton" value="minimize" />
-                <input type="button" id="maximizeButton" value="maximize" />
-            </div>
-            <input type="text" id="locationKeyword" />
-            <a href="javascript:;" id="searchButton">GO</a>        
-        </div>
-        <div id="content" style="width: 960px; overflow:hidden;">
-            <div style="width: 2000px; background-color: Silver;">
-                <div id="mapContainer" style="float:left; height: 150px; width: 150px;">
-                    <% Html.RenderPartial("MapObject"); %>
+        <div id="container">  
+            <div id="timebarContainer">
+                <img src="../../Content/Images/temp/timebar.jpg" style="margin-top:25px; margin-left:30px;" />
+            </div>  
+            <div class="actions">
+                <div style="float:right;">
+                    <!--a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a-->
+                    <input type="button" id="minimizeButton" value="minimize" />
+                    <input type="button" id="maximizeButton" value="maximize" />
                 </div>
-                <div id="mediaContainer" style="float: left; height: 500px; width: 500px; background-color: Green;">
-                    Quant'e bella la porchetta
-                </div>     
+                <input type="text" id="locationKeyword" />
+                <a href="javascript:;" id="searchButton">GO</a>        
+            </div>
+            <div id="content" style="width: 960px; overflow:hidden;">
+                <div style="width: 2000px; background-color: Silver;">
+                    <div id="mapContainer" style="float:left; height: 150px; width: 150px;">
+                        <% Html.RenderPartial("MapObject"); %>
+                    </div>
+                    <div id="mediaContainer" style="float: left; height: 500px; width: 500px; background-color: Green;">
+                        Quant'e bella la porchetta
+                    </div>     
+                </div>
+            </div>
+            <div>
+                contenuto di sotto
             </div>
         </div>
-        <div>
-            contenuto di sotto
-        </div>
-    
+    </div>
 </body>
 </html>
