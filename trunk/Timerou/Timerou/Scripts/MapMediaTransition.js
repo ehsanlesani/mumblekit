@@ -3,8 +3,8 @@
 
 function MapMediaTransition(mapContainer, mediaContainer) {
     this.duration = 250;
-    this.delay = 10;
-    this.mapMinimizedSize = { width: 331, height: 300 };
+    this.delay = 30;
+    this.mapMinimizedSize = { width: 323, height: 300 };
     this.mapMaximizedSize = { width: 981, height: 500 };
     
     this.mapContainer = mapContainer;
@@ -19,6 +19,7 @@ MapMediaTransition.prototype = {
         var stepHeight = deltaHeight / steps;
         var stepWidth = deltaWidth / steps;
 
+        $fx($(this.mediaContainer).get(0)).fxAdd({ type: "marginLeft", to: 981, step: stepWidth, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "height", to: this.mapMaximizedSize.height, step: stepHeight, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "width", to: this.mapMaximizedSize.width, step: stepWidth, delay: this.delay }).fxRun();
     },
@@ -30,6 +31,7 @@ MapMediaTransition.prototype = {
         var stepHeight = deltaHeight / steps * -1;
         var stepWidth = deltaWidth / steps * -1;
 
+        $fx($(this.mediaContainer).get(0)).fxAdd({ type: "marginLeft", to: 330, step: stepWidth, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "height", to: this.mapMinimizedSize.height, step: stepHeight, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "width", to: this.mapMinimizedSize.width, step: stepWidth, delay: this.delay }).fxRun();
     }

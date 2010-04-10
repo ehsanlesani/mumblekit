@@ -109,8 +109,8 @@
                 <a href="javascript:;" id="searchButton">GO</a-->        
             </div>
             <div id="content" style="width: 981px; overflow:hidden;">
-                <div style="width: 2000px; background-color: Silver;">
-                    <div id="mapContainer" style="float:left; height: 290px; width: 323px; padding-top:19px; margin-right:15px;">
+                <div style="width: 981px;">
+                    <div id="mapContainer" style="position:absolute; height: 290px; width: 323px; padding-top:19px; margin-right:15px;">
                         <div id="searchMapContainer">
                             <img src="../../Content/Images/searchMapLeftSide.png" id="searchMapLeftSide" alt="" />
                             <input type="text" id="locationKeyword" value="Destination, Places, Events..." />
@@ -118,7 +118,7 @@
                         </div>
                         <% Html.RenderPartial("MapObject"); %>
                     </div>
-                    <div id="mediaContainer" style="float: left; height: 1116px; width: 560px;">
+                    <div id="mediaContainer" style="margin-left: 330px; height: 1116px; width: 560px;">
                         <img src="../../Content/Images/temp/side-right.jpg" />
                     </div>     
                 </div>
