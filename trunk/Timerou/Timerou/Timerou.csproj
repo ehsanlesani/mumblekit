@@ -132,9 +132,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Css\blueprints\ie.css" />
-    <Content Include="Content\Css\blueprints\print.css" />
-    <Content Include="Content\Css\blueprints\screen.css" />
     <Content Include="Content\Css\Site.css" />
     <Content Include="Content\Images\add.png" />
     <Content Include="Content\Images\ajaxLoading.gif" />
@@ -195,12 +192,15 @@
     </EntityDeploy>
     <Content Include="Content\Css\Details.css" />
     <Content Include="Content\Css\MainPage.css" />
+    <Content Include="Content\Css\Shared.css" />
     <Content Include="Content\Css\Timebar.css" />
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\novideo.png" />
     <Content Include="Content\Images\search.png" />
     <Content Include="Content\Images\nextPage.png" />
     <Content Include="Content\Images\previousPage.png" />
+    <Content Include="Content\Images\temp\timebar.jpg" />
+    <Content Include="Content\Images\timerou-logo.png" />
     <Content Include="Content\Images\whiteSpace.png" />
     <Content Include="Content\Timebar\back.png" />
     <Content Include="Content\Timebar\bar.png" />
