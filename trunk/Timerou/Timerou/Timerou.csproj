@@ -472,9 +472,12 @@
     <Content Include="Scripts\tiny_mce\utils\validate.js" />
     <Content Include="Scripts\ShareManager.js" />
     <Content Include="Scripts\Youtube.js" />
+    <Content Include="Swf\Timebar.swf" />
+    <Content Include="Swf\TimerouMap.swf" />
     <Content Include="Views\Account\MyMemories.aspx" />
     <Content Include="Views\Account\Share.aspx" />
     <Content Include="Views\Error\Index.aspx" />
+    <Content Include="Views\Main\TimebarObject.ascx" />
     <Content Include="Views\Main\MapObject.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Shared\TimebarMarkup.ascx" />
