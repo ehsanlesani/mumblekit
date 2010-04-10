@@ -90,7 +90,7 @@
                     <%= Html.ActionLink("share", "Share", "Account", new { @class = "blue-link" })%>
                 <% } else { %>
                     <%= UIHelper.T("txt.welcome") %> <%= AccountManager.LoggedUser.FirstName %>&nbsp;
-                    (<%= Html.ActionLink("my memories", "MyMemories", "Account", new { @class = "blue-link" })%>&nbsp;&bull;&nbsp;
+                    (<%= Html.ActionLink("my memories", "MyMemories", "Account", new { @class = "blue-link" })%>&nbsp;
                     <%= Html.ActionLink("share", "Share", "Account", new { @class = "blue-link" })%>)
                 <% } %>               
             </div>        
@@ -102,16 +102,20 @@
             <div class="actions">
                 <div style="float:right;">
                     <!--a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a-->
-                    <input type="button" id="minimizeButton" value="minimize" />
-                    <input type="button" id="maximizeButton" value="maximize" />
-                </div>
+                    <input type="button" id="minimizeButton" value="-" />
+                    <input type="button" id="maximizeButton" value="+" />
+                </div>                
                 <!--input type="text" id="locationKeyword" />
                 <a href="javascript:;" id="searchButton">GO</a-->        
             </div>
             <div id="content" style="width: 981px; overflow:hidden;">
                 <div style="width: 2000px; background-color: Silver;">
-                    <div id="mapContainer" style="float:left; height: 290px; width: 323px;">
-                        <img src="../../Content/Images/temp/map.jpg" />
+                    <div id="mapContainer" style="float:left; height: 290px; width: 323px; padding-top:19px; margin-right:15px;">
+                        <div id="searchMapContainer">
+                            <img src="../../Content/Images/searchMapLeftSide.png" id="searchMapLeftSide" alt="" />
+                            <input type="text" id="locationKeyword" value="Destination, Places, Events..." />
+                            <input type="image" id="locationButton" src="../../Content/Images/search-button.png" alt="search on the map" />
+                        </div>
                         <% Html.RenderPartial("MapObject"); %>
                     </div>
                     <div id="mediaContainer" style="float: left; height: 1116px; width: 560px;">
