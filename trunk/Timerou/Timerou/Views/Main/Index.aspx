@@ -97,7 +97,7 @@
         </div>
         <div id="container">  
             <div id="timebarContainer">
-                <img src="../../Content/Images/temp/timebar.jpg" style="margin-top:25px; margin-left:30px;" />
+                <% Html.RenderPartial("TimebarObject"); %>
             </div>  
             <div class="actions">
                 <div style="float:right;">
