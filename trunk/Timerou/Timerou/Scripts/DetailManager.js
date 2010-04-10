@@ -3,100 +3,19 @@
 /// <reference path="Url.js" />
 /// <reference path="libs/google.maps-v3-vsdoc.js" />
 
-function DetailManager(bounds, year) {
-    this.map = null;
-    this.bounds = Utils.stringToBounds(bounds);
-    this.mapBounds = new google.maps.LatLngBounds();
-    this.year = year;
-    this.pageSize = 13;
-    this.page = 1;
-    this.medias = null;
-    this.marker = null;
-    this.totalMedias = 0;
-    this.displayedMedias = {};  //medias loader for browser back and forward button
-
+function DetailManager() {    
     this.initialize();
 }
 
 DetailManager.prototype = {
     initialize: function() {
-        this._initializeMinimap();
         this._initializeNavigation();
     },
-
-    loadMedias: function(callback) {
-        var self = this;
-
-        $.post(Url.LoadMedias, {
-            swlat: this.bounds.swlat,
-            swlng: this.bounds.swlng,
-            nelat: this.bounds.nelat,
-            nelng: this.bounds.nelng,
-            year: this.year,
-            page: this.page,
-            pageSize: this.pageSize
-        }, function(response) {
-            if (response.error) {
-                Utils.showSiteError(response.message);
-                return;
-            }
-
-            self.medias = [];
-            self.totalMedias = response.totalCount;
-            self.medias = self.medias.concat(response.medias);
-
-            $("#navigation").empty();
-            for (var i = 0; i < self.medias.length; i++) {
-                var media = self.medias[i];
-                $("#navigation")
-                    .append($("<a />")
-                        .attr("href", "#show|id=" + media.id + "")
-                        .addClass("media")
-                        .attr("id", media.id)
-                        .append($("<img />")
-                            .attr("src", Url.Pictures + media.pictureData.avatarPath)
-                        )
-                    );
-            }
-
-            //add navigation buttons
-            var previousButton = $("<a />")
-                .attr("href", "javascript:;")
-                .addClass("previous");
-
-            if (self.page > 1) {
-                previousButton.css("opacity", 1);
-                previousButton.click(function() {
-                    self.page--;
-                    self.loadMedias();
-                });
-            } else {
-                previousButton.css("opacity", 0.5);
-            }
-
-            $("#navigation").append(previousButton);
-
-            var nextButton = $("<a />")
-                .attr("href", "javascript:;")
-                .addClass("next");
-
-            if (self.totalMedias > self.page * self.pageSize) {
-                nextButton.css("opacity", 1);
-                nextButton.click(function() {
-                    self.page++;
-                    self.loadMedias();
-                });
-            } else {
-                nextButton.css("opacity", 0.5);
-            }
-
-            $("#navigation").append(nextButton);
-
-            if (!Utils.isNullOrUndef(callback)) {
-                callback();
-            }
-
-        }, "json");
+    
+     _initializeNavigation: function() {
+        var navigation = new AjaxNavigation();
+        navigation.addAction("show", new ShowMediaAction(this));
+        navigation.start();
     },
 
     loadMedia: function(id, callback) {
@@ -174,87 +93,9 @@ DetailManager.prototype = {
                 self.map.panTo(position);
             }
         });
-    },
-
-    setYear: function(year) {
-        this.year = year;
-    },
-
-    _initializeMinimap: function() {
-        var self = this;
-
-        this.mapbounds = new google.maps.LatLngBounds(
-            new google.maps.LatLng(this.bounds.swlat, this.bounds.swlng),
-            new google.maps.LatLng(this.bounds.nelat, this.bounds.nelng));
-
-        //initialize map
-        this.map = new google.maps.Map(document.getElementById("map"), {
-            center: this.mapbounds.getCenter(),
-            zoom: 5,
-            scrollwheel: false,
-            draggable: true,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false,
-            scaleControl: false,
-            navigationControl: true,
-            disableDoubleClickZoom: true
-        });
-
-        this.map.fitBounds(this.mapbounds);
-        window.setTimeout(function() {
-            var boundsQuad = new google.maps.Polygon({
-                paths: [
-                self.mapbounds.getSouthWest(),
-                new google.maps.LatLng(self.mapbounds.getSouthWest().lat(), self.mapbounds.getNorthEast().lng()),
-                self.mapbounds.getNorthEast(),
-                new google.maps.LatLng(self.mapbounds.getNorthEast().lat(), self.mapbounds.getSouthWest().lng())
-            ],
-                strokeColor: "#8CC6FF",
-                strokeOpacity: 0.6,
-                strokeWeight: 2,
-                fillColor: "#8CC6FF",
-                fillOpacity: 0.2
-            });
-
-            boundsQuad.setMap(self.map);
-        }, 1000);
-
-        //initialization
-        google.maps.event.addListener(this.map, "bounds_changed", function() {
-            google.maps.event.clearListeners(self.map, "bounds_changed");
-            //adjust zoom level after use of fitBounds
-            self.map.setZoom(self.map.getZoom() + 1);
-
-            self._onMapReady();
-        });
-    },
-
-    _initializeTimebar: function() {
-        var self = this;
-        this.timebar = new Timebar();
-
-        this.timebar.initialize(this.year);
-        this.timebar.setBounds(this.bounds);
-        this.timebar.loadMedias();
-
-        $(this.timebar).bind(Timebar.YEAR_CHANGED, function() {
-            self.setYear(self.timebar.getYear());
-            self.page = 1;
-            self.loadMedias(function() {
-                if (self.medias.length > 0) {
-                    window.open("#show|id=" + self.medias[0].id, "_self");
-                }
-            });
-        });
-    },
-
-    _onMapReady: function() {
-        this._initializeTimebar();
-    },
-
-    _initializeNavigation: function() {
-        var navigation = new AjaxNavigation();
-        navigation.addAction("show", new ShowMediaAction(this));
-        navigation.start();
     }
+
+    
+
+   
 }
