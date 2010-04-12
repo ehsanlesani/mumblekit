@@ -10,6 +10,7 @@ package mumble.timerou.timebar.display
 	import flash.geom.Matrix;
 	
 	import mumble.timerou.timebar.data.Styles;
+	import mumble.timerou.timebar.net.MapConnection;
 
 	public class MediaPreviewButton extends Sprite
 	{
@@ -18,8 +19,11 @@ package mumble.timerou.timebar.display
 		private var mediaHeight:Number;
 		private var overRectangle:Sprite;
 		private var fadeTween:Tween;
+		private var mapConnection:MapConnection;
+		private var isVideo:Boolean;
 		
-		public function MediaPreviewButton(bitmap:Bitmap, mediaWidth:Number, mediaHeight:Number) {
+		public function MediaPreviewButton(bitmap:Bitmap, mediaWidth:Number, mediaHeight:Number, isVideo:Boolean) {
+			this.isVideo = isVideo;
 			this.bitmap = bitmap;
 			this.mediaWidth = mediaWidth;
 			this.mediaHeight = mediaHeight;
@@ -59,6 +63,16 @@ package mumble.timerou.timebar.display
 				mediaWidth, 
 				mediaHeight) 
 			graphics.endFill();
+			
+			if(isVideo) {
+				var playSize:Number = 20;
+				graphics.beginFill(0x000000, 0.5);
+				graphics.lineStyle(2, 0xFFFFFF, 0.6);
+				graphics.moveTo(mediaWidth / 2 - playSize / 2, mediaHeight / 2 - playSize / 2);
+				graphics.lineTo(mediaWidth / 2 + playSize / 2, mediaHeight / 2);
+				graphics.lineTo(mediaWidth / 2 - playSize / 2, mediaHeight / 2 + playSize / 2);
+				graphics.lineTo(mediaWidth / 2 - playSize / 2, mediaHeight / 2 - playSize / 2);
+			}
 		}
 		
 		private function drawOverRectangle():void {

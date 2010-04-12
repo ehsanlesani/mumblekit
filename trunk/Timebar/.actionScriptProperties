@@ -18,7 +18,7 @@
 <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/framework.swc" useDefaultLinkType="false"/>
 </excludedEntries>
 </libraryPathEntry>
-<libraryPathEntry kind="1" linkType="1" path="C:/Users/davil/Desktop/Timebar/lib"/>
+<libraryPathEntry kind="1" linkType="1" path="lib"/>
 </libraryPath>
 <sourceAttachmentPath/>
 </compiler>
