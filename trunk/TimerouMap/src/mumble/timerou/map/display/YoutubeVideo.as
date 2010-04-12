@@ -27,22 +27,26 @@ package mumble.timerou.map.display
 			graphics.drawRect(0, 0, videoWidth, videoHeight);
 			graphics.endFill();
 			
-			loading = new Loading();
-			loading.x = videoWidth / 2;
-			loading.y = videoHeight / 2; 
-			addChild(loading);
-			var request:URLRequest = new URLRequest("http://www.youtube.com/apiplayer?version=3");
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(le:Event):void {
-				player = loader.content;
-				addChild(player);
-				removeChild(loading);
-				player.addEventListener("onReady", function(pe:Event):void {
-					player.setSize(videoWidth, videoHeight);
-					dispatchEvent(new Event(Event.COMPLETE));
+			if(player == null) {
+				loading = new Loading();
+				loading.x = videoWidth / 2;
+				loading.y = videoHeight / 2;
+				addChild(loading);
+				var request:URLRequest = new URLRequest("http://www.youtube.com/apiplayer?version=3");
+				var loader:Loader = new Loader();
+				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(le:Event):void {
+					player = loader.content;
+					addChild(player);
+					removeChild(loading);
+					player.addEventListener("onReady", function(pe:Event):void {
+						player.setSize(videoWidth, videoHeight);
+						dispatchEvent(new Event(Event.COMPLETE));
+					});
 				});
-			});
-			loader.load(request);
+				loader.load(request);
+			} else {
+				dispatchEvent(new Event(Event.COMPLETE));
+			}
 		}
 		
 		public function loadAndPlay(id:String):void {
