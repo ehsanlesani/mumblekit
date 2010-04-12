@@ -1,4 +1,3 @@
-
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="Mumble.Timerou.Models.Auth.AuthPage<Mumble.Timerou.Models.Pages.ShareModel>" %>
 
 <asp:Content ID="UploadContent" ContentPlaceHolderID="MainContent" runat="server">

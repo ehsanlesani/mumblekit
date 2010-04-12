@@ -14,8 +14,11 @@
     <script src="<%= UriHelper.Scripts %>libs/fx.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
-    
-    <script src="../../Scripts/MapMediaTransition.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>MapMediaTransition.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>DetailManager.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>TimebarCom.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>Actions/ShowMediaAction.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>AjaxNavigation.js" type="text/javascript"></script>
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Site.css" rel="stylesheet" type="text/css" />
@@ -26,54 +29,15 @@
         var year = new Date().getFullYear();
 
         $(document).ready(function() {
-
-            var transition = new MapMediaTransition($("#mapContainer"), $("#mediaContainer"));
+            var transition = new MapMediaTransition($("#mapContainer"), $("#detail"));
             $("#minimizeButton").click(function() { transition.minimizeMap(); });
             $("#maximizeButton").click(function() { transition.maximizeMap(); });
 
-            /*$("#hibridButton").click(function() {
-            MapCom.changeType(MapCom.MAPTYPE_HYBRID);
+            var detailManager = new DetailManager(transition);
+
+            $(TimebarCom).bind(TimebarCom.ON_MEDIA_CLICK, function(e, id) {
+                detailManager.showMedia(id);
             });
-
-            $("#roadButton").click(function() {
-            MapCom.changeType(MapCom.MAPTYPE_ROAD);
-            });
-
-            $("#searchButton").click(function() {
-            var key = $("#locationKeyword").val();
-            if (key.length > 3) {
-            MapCom.searchLocation(key);
-            } else {
-            alert("Min keyword length: 3");
-            }
-            });
-
-            var mediaNavigator = new MediaNavigator();
-
-            $(MapCom).bind("mapReady", function() {
-            mediaNavigator.initialize(year);
-            mediaNavigator.loadMediasTimeSafe();
-            });
-
-            $(MapCom).bind("mapMoveEnd", function() {
-            mediaNavigator.setBounds(MapCom.getMapBounds());
-            mediaNavigator.loadMediasTimeSafe();
-            });
-
-            $(mediaNavigator).bind(MediaNavigator.MEDIA_CLICK, function(e, mediaData) {
-            var bounds = Utils.boundsToString(MapCom.getMapBounds());
-            window.open(Url.Location + "?bounds=" + bounds + "&year=" + timebar.getYear() + "#show|id=" + mediaData.id);
-            });
-
-            $(mediaNavigator).bind(MediaNavigator.MEDIA_HOVER, function(e, mediaData) {
-            MapCom.showPreview(mediaData);
-            });
-
-            $(mediaNavigator).bind(MediaNavigator.MEDIAS_LOADED, function(e, medias) {
-            MapCom.showMediaLocations(medias);
-            });
-
-            $("#mapMediasContainer").hover(function() { }, function() { MapCom.hidePreview(); });*/
         });
     </script>
 
@@ -90,8 +54,10 @@
                     <%= Html.ActionLink("share", "Share", "Account", new { @class = "blue-link" })%>
                 <% } else { %>
                     <%= UIHelper.T("txt.welcome") %> <%= AccountManager.LoggedUser.FirstName %>&nbsp;
-                    (<%= Html.ActionLink("my memories", "MyMemories", "Account", new { @class = "blue-link" })%>&nbsp;
-                    <%= Html.ActionLink("share", "Share", "Account", new { @class = "blue-link" })%>)
+                    (
+                    <%= Html.ActionLink("my memories", "MyMemories", "Account")%>&nbsp;
+                    <%= Html.ActionLink("share", "Share", "Account") %>
+                    )
                 <% } %>               
             </div>        
         </div>
@@ -118,8 +84,11 @@
                         </div>
                         <% Html.RenderPartial("MapObject"); %>
                     </div>
-                    <div id="mediaContainer" style="margin-left: 330px; height: 1116px; width: 560px;">
-                        <img src="../../Content/Images/temp/side-right.jpg" />
+                    <div id="detail" style="margin-left: 330px;width: 560px;">
+                        <div id="title"></div>
+                        <div id="address"></div>
+                        <div id="mediaContainer"></div>                        
+                        <div id="body"></div>
                     </div>     
                 </div>
             </div>

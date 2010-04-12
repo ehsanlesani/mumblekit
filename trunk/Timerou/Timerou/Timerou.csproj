@@ -177,12 +177,10 @@
     <Content Include="Scripts\Url.js" />
     <Content Include="Scripts\Utils.js" />
     <Content Include="Views\Account\ControlPanel.aspx" />
-    <Content Include="Views\Account\Controls\AlbumControl.ascx" />
     <Content Include="Views\Account\Login.aspx" />
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\Controls\LoginControl.ascx" />
     <Content Include="Views\Home\Index.aspx" />
-    <Content Include="Views\Main\About.aspx" />
     <Content Include="Views\Main\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +216,7 @@
     <Content Include="Lib\Newtonsoft.Json.dll" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
+    <Content Include="Scripts\TimebarCom.js" />
     <Content Include="Scripts\jquery\jquery-1.4.2.min.js" />
     <Content Include="Scripts\libs\fx.js" />
     <Content Include="Scripts\JSMapCom.js" />
@@ -480,7 +479,6 @@
     <Content Include="Views\Main\TimebarObject.ascx" />
     <Content Include="Views\Main\MapObject.ascx" />
     <Content Include="Views\Shared\Site.Master" />
-    <Content Include="Views\Shared\TimebarMarkup.ascx" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.config" />
   </ItemGroup>

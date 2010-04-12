@@ -9,10 +9,17 @@ function MapMediaTransition(mapContainer, mediaContainer) {
     
     this.mapContainer = mapContainer;
     this.mediaContainer = mediaContainer;
+    
+    this.viewMode = MapMediaTransition.VIEW_MAP;
 }
+
+MapMediaTransition.VIEW_MAP = "map";
+MapMediaTransition.VIEW_DETAILS = "details";
 
 MapMediaTransition.prototype = {
     maximizeMap: function() {
+        this.viewMode = MapMediaTransition.VIEW_MAP;
+
         var steps = this.duration / this.delay;
         var deltaHeight = Math.abs($(this.mapContainer).height() - this.mapMaximizedSize.height);
         var deltaWidth = Math.abs($(this.mapContainer).width() - this.mapMaximizedSize.width);
@@ -25,6 +32,8 @@ MapMediaTransition.prototype = {
     },
 
     minimizeMap: function() {
+        this.viewMode = MapMediaTransition.VIEW_DETAILS;
+    
         var steps = this.duration / this.delay;
         var deltaHeight = Math.abs($(this.mapContainer).height() - this.mapMinimizedSize.height);
         var deltaWidth = Math.abs($(this.mapContainer).width() - this.mapMinimizedSize.width);
