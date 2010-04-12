@@ -4,6 +4,7 @@ package mumble.timerou.map.net
 	
 	import flash.net.LocalConnection;
 	
+	import mumble.timerou.map.data.MediaData;
 	import mumble.timerou.map.events.TimebarEvent;
 	
 	public class TimebarConnection extends LocalConnection
@@ -35,9 +36,26 @@ package mumble.timerou.map.net
 			dispatchEvent(event);
 		}
 		
-		public function onShowMediasLocations(mediasData:Array):void {
+		public function onShowMediaLocations(mediasData:Array):void {
 			var event:TimebarEvent = new TimebarEvent(TimebarEvent.SHOW_MEDIA_LOCATIONS);
-			event.mediasData = mediasData;
+			
+			var data:Array = new Array();
+			for each(var source:* in mediasData) {
+				data.push(new MediaData(source));
+			}
+			
+			event.mediasData = data;
+			dispatchEvent(event);
+		}
+		
+		public function onShowPreview(id:String):void {
+			var event:TimebarEvent = new TimebarEvent(TimebarEvent.SHOW_PREVIEW);
+			event.id = id;
+			dispatchEvent(event);
+		}
+		
+		public function onHidePreview():void {
+			var event:TimebarEvent = new TimebarEvent(TimebarEvent.HIDE_PREVIEW);
 			dispatchEvent(event);
 		}
 	}

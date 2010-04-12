@@ -15,7 +15,6 @@
 	import flash.text.TextField;
 	
 	import mumble.timerou.map.data.MediaData;
-	import mumble.timerou.map.data.MediaDataLoader;
 	import mumble.timerou.map.display.MediaIcon;
 	import mumble.timerou.map.display.Preview;
 	import mumble.timerou.map.display.TimerouMap;
@@ -31,7 +30,7 @@
 	[SWF(height = 600, width = 800, backgroundColor = 0xFFFFFF)]
 	public class Main extends MovieClip 
 	{
-		public static var BASEURL:String = "/";
+		public static var BASEURL:String = "http://localhost:1095/";
 		public static var BASEPICTURESURL:String = BASEURL + "Pictures/";
 		public static var LOAD_PICTURE_SERVICE_URL:String = BASEURL + "MediaLoader.aspx/LoadMedias";
 		public static var MAPKEY:String = "ABQIAAAALR8bRKP-XQrzDCAShmrTvxQb16FdzuBr0nZgkL4aiWmiDXxN7xS6cnax6FiU5Req07YU9Mfy4LamTg";		
@@ -41,6 +40,7 @@
 		private var tween:Tween = null;
 		private var preview:Preview = null;
 		private var debug:TextField = new TextField();
+		private var currentMedias:Array;
 		
 		private var timebarConnection:TimebarConnection = new TimebarConnection();
 		
@@ -53,15 +53,34 @@
 		
 		public function ConfigureExternalInterface():void {
 			if(ExternalInterface.available) {
-				ExternalInterface.addCallback("setBase", setBase);
-				ExternalInterface.addCallback("setYear", setYear);		
 				ExternalInterface.addCallback("changeType", changeType);
 				ExternalInterface.addCallback("searchLocation", searchLocation);	
-				ExternalInterface.addCallback("getMapBounds", getMapBounds);
-				ExternalInterface.addCallback("showPreview", showPreview);
-				ExternalInterface.addCallback("hidePreview", hidePreview);
-				ExternalInterface.addCallback("showMediaLocations", showMediaLocations);
 			}	
+		}
+				
+		private function init(e:Event = null):void 
+		{
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			
+			removeEventListener(Event.ADDED_TO_STAGE, init);		
+			
+			this.map = new TimerouMap();		
+			addChild(map);
+			
+			this.preview = new Preview();
+			addChild(preview);
+
+			map.addEventListener(TimerouMap.TIMEROUMAP_MOVESTART, mapMoveStart);
+			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
+			
+			//debug.text = new Date().getMilliseconds().toString();
+			//addChild(debug);			
+			
+			timebarConnection.addEventListener(TimebarEvent.YEAR_CHANGED, onYearChanged);
+			timebarConnection.addEventListener(TimebarEvent.SHOW_MEDIA_LOCATIONS, onShowMediaLocations);
+			timebarConnection.addEventListener(TimebarEvent.SHOW_PREVIEW, onShowPreview);
+			timebarConnection.addEventListener(TimebarEvent.HIDE_PREVIEW, onHidePreview);
 		}
 		
 		private function getMapBounds():* {
@@ -89,10 +108,6 @@
 			map.goToLocation(keyword);
 		}
 		
-		private function setBase(base:String):void {
-			BASEURL = base;
-		}
-		
 		private function changeType(type:String):void {
 			switch(type) {
 				case "road":
@@ -104,37 +119,35 @@
 			}
 		}
 		
-		private function init(e:Event = null):void 
-		{
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
-			
-			removeEventListener(Event.ADDED_TO_STAGE, init);		
-			
-			this.map = new TimerouMap();		
-			addChild(map);
-			
-			this.preview = new Preview();
-			addChild(preview);
-			
-			map.addEventListener(TimerouMap.TIMEROUMAP_READY, mapReady);
-			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
-			
-			debug.text = new Date().getMilliseconds().toString();
-			addChild(debug);			
-			
-			timebarConnection.addEventListener(TimebarEvent.YEAR_CHANGED, onYearChanged);
-			timebarConnection.addEventListener(TimebarEvent.SHOW_MEDIA_LOCATIONS, onShowMediaLocations);
-		}
-		
 		private function onYearChanged(e:TimebarEvent):void {
 			setYear(e.year);
 		}
 		
+		private function onShowPreview(e:TimebarEvent):void {
+			var mediaData:MediaData = null;
+			//try to find media data by id
+			for each(var item:MediaData in currentMedias) {
+				if(item.id == e.id) {
+					mediaData = item;
+					break;
+				}					 
+			}
+			
+			if(mediaData != null) {
+				showPreviewUsingMediaData(mediaData);
+			}
+		}
+		
+		private function onHidePreview(e:TimebarEvent):void {
+			hidePreview();
+		}
+		
 		private function onShowMediaLocations(e:TimebarEvent):void {
+			currentMedias = e.mediasData;
+			
 			map.clearMediaLocations();
 			
-			for each(var mediaData:MediaData in e.mediasData) {
+			for each(var mediaData:MediaData in currentMedias) {
 				showMediaLocation(mediaData);
 			}
 		}
@@ -160,32 +173,12 @@
 			preview.hide();
 		}
 		
-		private function mapMoveEnd(e:Event):void {
-			if(ExternalInterface.available) {
-				ExternalInterface.call("MapCom.onMapMoveEnd");
-			} else {
-				var mediaLoader:MediaDataLoader = new MediaDataLoader();
-				mediaLoader.load(map.latLngBounds, 2010);
-				mediaLoader.addEventListener(Event.COMPLETE, function(e:Event):void {
-					for each(var media:MediaData in mediaLoader.medias) {
-						showMediaLocation(media);
-					}
-				});
-			}
-			
-			//timebarconnection
-			timebarConnection.setBounds(map.latLngBounds);
+		private function mapMoveStart(e:Event):void {		
+			hidePreview();
 		}
 		
-		private function showMediaLocations(medias:Array):void {
-			map.clearMediaLocations();
-			
-			for each(var mediasource:* in medias) {
-				var media:MediaData = new MediaData(mediasource);
-				if(media != null) {
-					showMediaLocation(media);
-				}
-			}
+		private function mapMoveEnd(e:Event):void {		
+			timebarConnection.setBounds(map.latLngBounds);
 		}
 		
 		private function showMediaLocation(media:MediaData):void {
@@ -193,14 +186,6 @@
 			icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
 				showPreviewUsingMediaData(media);
 			});
-		}
-		
-		private function mapReady(e:Event):void {
-			if(!ExternalInterface.available) {
-				searchLocation("Italia");
-			} else {
-				ExternalInterface.call("MapCom.onMapReady");
-			}
 		}
 				
 	}	

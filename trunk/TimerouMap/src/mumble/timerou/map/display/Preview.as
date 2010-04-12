@@ -47,6 +47,7 @@ package mumble.timerou.map.display
 		private var hiding:Boolean = false;
 		
 		public function Preview() {
+			youtubeVideo = new YoutubeVideo();
 			transitionManager = new TransitionManager(this);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -189,15 +190,15 @@ package mumble.timerou.map.display
 		
 		private function clearPreview():void {
 			if(remotePicture != null) {
-				remotePicture.unload();
-				removeChild(remotePicture);
+				if(contains(remotePicture)) { removeChild(remotePicture); }
+				remotePicture.unload();				
 				remotePicture = null;				
 			}
 			
 			if(youtubeVideo != null) {
-				removeChild(youtubeVideo);
+				if(contains(youtubeVideo)) { removeChild(youtubeVideo); }
 				youtubeVideo.destroy();
-				youtubeVideo = null;
+				//youtubeVideo = null;
 			}
 		}
 		
@@ -220,15 +221,17 @@ package mumble.timerou.map.display
 			if(mediaFadeTween != null && mediaFadeTween.isPlaying) { mediaFadeTween.stop(); }
 			
 			clearPreview();
-			
-			youtubeVideo = new YoutubeVideo();
+
 			youtubeVideo.x = rectX + PADDING;
 			youtubeVideo.y = rectY + PADDING;
 			youtubeVideo.videoHeight = INITIAL_HEIGHT - PADDING * 2;
 			youtubeVideo.videoWidth = INITIAL_WIDTH - PADDING * 2;
 			addChild(youtubeVideo);
 			youtubeVideo.addEventListener(Event.COMPLETE, function(e:Event):void {
-				youtubeVideo.loadAndPlay(mediaData.videoData.youtubeId);				
+				//prevent rapid changes of preview error
+				if(youtubeVideo != null && mediaData != null && mediaData.type == MediaData.MEDIATYPE_VIDEO) {
+					youtubeVideo.loadAndPlay(mediaData.videoData.youtubeId);				
+				}
 			});
 		}
 		
@@ -268,6 +271,7 @@ package mumble.timerou.map.display
 		
 		public function hide():void {
 			if(!visible) { return; }
+			clearPreview();
 			hiding = true;
 			showTween = new Tween(this, "alpha", Strong.easeOut, 1, 0, 0.25, true);
 			setTimeout(function():void { visible = false; hiding = false; }, 250);

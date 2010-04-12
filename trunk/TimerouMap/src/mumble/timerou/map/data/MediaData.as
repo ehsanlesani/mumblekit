@@ -12,19 +12,29 @@ package mumble.timerou.map.data
 		
 		public var title:String = null;
 		public var id:String = null;
-		public var latLng:LatLng = null;
+		public var _latLng:LatLng = null;
 		public var country:String = null;
 		public var region:String = null;
 		public var city:String = null;
 		public var address:String = null;
 		public var year:int = 2000;
 		public var type:String = null;
-		//public var avatar:Bitmap = null;
-		//public var original:Bitmap = null;
+		public var lat:Number;
+		public var lng:Number;
+		public function get latLng():LatLng { return _latLng; }
+		public function set latLng(value:LatLng):void {
+			_latLng = value;
+			if(value != null) {
+				lat = value.lat();
+				lng = value.lng();
+			}
+		}		
 		
 		//Creates a new instance of PictureData using startingData service data		 
-		public function MediaData(startingData:*)
+		public function MediaData(startingData:* = null)
 		{
+			if(startingData == null) { return; }
+			
 			this.title = startingData.title;
 			this.id = startingData.id;
 			this.latLng = new LatLng(startingData.lat, startingData.lng);	
