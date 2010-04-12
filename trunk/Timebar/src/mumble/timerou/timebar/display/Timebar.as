@@ -3,7 +3,6 @@ package mumble.timerou.timebar.display
 	import com.google.maps.LatLng;
 	import com.google.maps.LatLngBounds;
 	
-	import fl.transitions.Iris;
 	import fl.transitions.Transition;
 	import fl.transitions.TransitionManager;
 	import fl.transitions.Tween;
@@ -20,8 +19,10 @@ package mumble.timerou.timebar.display
 	import mumble.timerou.timebar.data.Styles;
 	import mumble.timerou.timebar.data.YearGroupedMediasData;
 	import mumble.timerou.timebar.data.YearGroupedMediasResponse;
+	import mumble.timerou.timebar.events.MediaEvent;
 	import mumble.timerou.timebar.events.TimerouMapEvent;
 	import mumble.timerou.timebar.net.MapConnection;
+	import mumble.timerou.timebar.utils.TimeSafeCaller;
 	
 	public class Timebar extends MovieClip
 	{
@@ -35,9 +36,10 @@ package mumble.timerou.timebar.display
 		
 		private var referenceYear:int;
 		private var direction:String;
+		private var directionAnimation:Boolean = false;
 		private var maxMediasToDisplay:int;
 		private var data:YearGroupedMediasResponse;
-		private var mediasBox:MediasBox = new MediasBox();
+		private var mediasBox:MediasBox;
 		private var yearsTween1:Tween;
 		private var yearsTween2:Tween;
 		private var yearsTween3:Tween;
@@ -64,6 +66,7 @@ package mumble.timerou.timebar.display
 				new LatLng(90, 180));
 			
 			referenceYear = new Date().getFullYear();
+			mediasBox = new MediasBox(mapConnection);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -90,11 +93,17 @@ package mumble.timerou.timebar.display
 			drawBar();
 			addChild(mediasBox);
 			
+			mediasBox.addEventListener(MediaEvent.CLICK, function(me:MediaEvent):void { 
+				dispatchEvent(new MediaEvent(MediaEvent.CLICK, me.mediaData)); 
+			});
 			mapConnection.addEventListener(TimerouMapEvent.BOUNDS_CHANGED, mapBoundsChanged);
 		}
 		
 		private function mapBoundsChanged(e:TimerouMapEvent):void {
-			loadYears(e.bounds);
+			TimeSafeCaller.call("Timebar.mapBoundsChanged", function():void {
+				directionAnimation = false;
+				loadYears(e.bounds);
+			});
 		}
 		
 		private function addTravelButtons():void {
@@ -128,6 +137,7 @@ package mumble.timerou.timebar.display
 					
 					referenceYear = data.minYear - 1;
 					direction = PerYearMediaDataLoader.DIRECTION_BACK;
+					directionAnimation = true;
 					
 					loadYears(bounds);
 				}
@@ -142,6 +152,7 @@ package mumble.timerou.timebar.display
 					
 					referenceYear = data.maxYear + 1;
 					direction = PerYearMediaDataLoader.DIRECTION_FORWARD;
+					directionAnimation = true;
 					
 					loadYears(bounds);
 				}
@@ -226,38 +237,40 @@ package mumble.timerou.timebar.display
 			}
 			
 			//animate by direction;
-			if (direction == PerYearMediaDataLoader.DIRECTION_BACK) {
-				newYearBoxesContainer.x = stage.stageWidth * -1;
-				newYearMediasContainer.x = stage.stageWidth * -1;
-				yearsTween1 = new Tween(newYearBoxesContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
-				yearsTween2 = new Tween(newYearMediasContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
-				yearsTween3 = new Tween(yearBoxesContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth, 0.5, true);
-				yearsTween4 = new Tween(yearMediasContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth, 0.5, true);
-				
-				yearsTween4.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent):void { 
-					if(yearMediasContainer != null) { removeChild(yearMediasContainer); }
-					if(yearBoxesContainer != null) { removeChild(yearBoxesContainer); }
-					yearBoxesContainer = newYearBoxesContainer;
-					yearMediasContainer = newYearMediasContainer;
+			if(directionAnimation) {
+				if (direction == PerYearMediaDataLoader.DIRECTION_BACK) {
+					newYearBoxesContainer.x = stage.stageWidth * -1;
+					newYearMediasContainer.x = stage.stageWidth * -1;
+					yearsTween1 = new Tween(newYearBoxesContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
+					yearsTween2 = new Tween(newYearMediasContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
+					yearsTween3 = new Tween(yearBoxesContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth, 0.5, true);
+					yearsTween4 = new Tween(yearMediasContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth, 0.5, true);
 					
-					stopRotation = true;
-				});
-			} else if (direction == PerYearMediaDataLoader.DIRECTION_FORWARD) {
-				newYearBoxesContainer.x = stage.stageWidth;
-				newYearMediasContainer.x = stage.stageWidth;
-				yearsTween1 = new Tween(newYearBoxesContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
-				yearsTween2 = new Tween(newYearMediasContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
-				yearsTween3 = new Tween(yearBoxesContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth * -1, 0.5, true);
-				yearsTween4 = new Tween(yearMediasContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth * -1, 0.5, true);
-				
-				yearsTween4.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent):void { 
-					if(yearMediasContainer != null) { removeChild(yearMediasContainer); }
-					if(yearBoxesContainer != null) { removeChild(yearBoxesContainer); }
-					yearBoxesContainer = newYearBoxesContainer;
-					yearMediasContainer = newYearMediasContainer;
+					yearsTween4.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent):void { 
+						if(yearMediasContainer != null) { removeChild(yearMediasContainer); }
+						if(yearBoxesContainer != null) { removeChild(yearBoxesContainer); }
+						yearBoxesContainer = newYearBoxesContainer;
+						yearMediasContainer = newYearMediasContainer;
+						
+						stopRotation = true;
+					});
+				} else if (direction == PerYearMediaDataLoader.DIRECTION_FORWARD) {
+					newYearBoxesContainer.x = stage.stageWidth;
+					newYearMediasContainer.x = stage.stageWidth;
+					yearsTween1 = new Tween(newYearBoxesContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
+					yearsTween2 = new Tween(newYearMediasContainer, "x", Regular.easeOut, newYearBoxesContainer.x, 0, 0.5, true);
+					yearsTween3 = new Tween(yearBoxesContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth * -1, 0.5, true);
+					yearsTween4 = new Tween(yearMediasContainer, "x", Regular.easeOut, yearBoxesContainer.x, stage.stageWidth * -1, 0.5, true);
 					
-					stopRotation = true;
-				});
+					yearsTween4.addEventListener(TweenEvent.MOTION_FINISH, function(e:TweenEvent):void { 
+						if(yearMediasContainer != null) { removeChild(yearMediasContainer); }
+						if(yearBoxesContainer != null) { removeChild(yearBoxesContainer); }
+						yearBoxesContainer = newYearBoxesContainer;
+						yearMediasContainer = newYearMediasContainer;
+						
+						stopRotation = true;
+					});
+				} 
 			} else {
 				if(yearMediasContainer != null) { removeChild(yearMediasContainer); }
 				if(yearBoxesContainer != null) { removeChild(yearBoxesContainer); }
@@ -281,16 +294,12 @@ package mumble.timerou.timebar.display
 			);
 			drawingYearMediasContainer.addChild(yearMedia);
 			
-			if(direction == null) {			
+			if(!directionAnimation) {			
 				var transitionManager1:TransitionManager = new TransitionManager(yearBox);
 				transitionManager1.startTransition({type:fl.transitions.Iris, direction:Transition.IN, duration:0.5, easing:Regular.easeOut});
 				
 				var transitionManager2:TransitionManager = new TransitionManager(yearMedia);
 				transitionManager2.startTransition({type:fl.transitions.Iris, direction:Transition.IN, duration:0.5, easing:Regular.easeOut});
-			} else if (direction == PerYearMediaDataLoader.DIRECTION_BACK) {
-				
-			} else if (direction == PerYearMediaDataLoader.DIRECTION_FORWARD) {
-				
 			}
 
 			return yearMedia;

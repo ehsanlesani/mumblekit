@@ -29,7 +29,27 @@ package mumble.timerou.timebar.net
 		}
 		
 		public function showMediaLocations(mediasData:Array):void {
-			send(remoteConnectionName, "onShowMediaLocations", mediasData);
+			try {
+				send(remoteConnectionName, "onShowMediaLocations", mediasData);
+			} catch(err:Error) {
+				trace(err);
+			}
+		}
+		
+		public function showPreview(id:String):void {
+			try {
+				send(remoteConnectionName, "onShowPreview", id);
+			} catch(err:Error) {
+				trace(err);
+			}
+		}
+		
+		public function hidePreview():void {
+			try {
+				send(remoteConnectionName, "onHidePreview");
+			} catch(err:Error) {
+				trace(err);
+			}
 		}
 		
 		

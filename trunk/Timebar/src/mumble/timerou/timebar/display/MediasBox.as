@@ -15,9 +15,12 @@ package mumble.timerou.timebar.display
 	import mumble.timerou.timebar.data.MediaData;
 	import mumble.timerou.timebar.data.MediaDataLoader;
 	import mumble.timerou.timebar.data.Styles;
+	import mumble.timerou.timebar.events.MediaEvent;
+	import mumble.timerou.timebar.net.MapConnection;
 
 	public class MediasBox extends Sprite {		
 	
+		private var mapConnection:MapConnection;
 		private var _boxWidth:Number = Styles.mediaPreviewSize.x;
 		private var pointerPosition:Point;
 		private var maxWidth:Number;
@@ -43,7 +46,9 @@ package mumble.timerou.timebar.display
 		}
 		public function get boxWidth():Number { return _boxWidth; }
 	
-		public function MediasBox() {
+		public function MediasBox(mapConnection:MapConnection) {
+			this.mapConnection = mapConnection;
+			
 			loading = new Loading();
 			pointer = new Sprite();
 			drawPointer();
@@ -52,14 +57,19 @@ package mumble.timerou.timebar.display
 			addPageButtons();
 			
 			mediaDataLoader.addEventListener(Event.COMPLETE, drawPreviews);		
+			addEventListener(MouseEvent.ROLL_OUT, hidePreview);
+		}
+		
+		private function hidePreview(e:MouseEvent = null):void {
+			mapConnection.hidePreview();
 		}
 		
 		private function addPageButtons():void {
 			backButton = new LinkButton();
 			forwardButton = new LinkButton();
 			
-			backButton.text = "prev";
-			forwardButton.text = "next";
+			backButton.text = "< prev";
+			forwardButton.text = "next >";
 			
 			backButton.visible = false;
 			forwardButton.visible = false;
@@ -73,12 +83,14 @@ package mumble.timerou.timebar.display
 		
 		private function goPreviousPage(e:MouseEvent):void {
 			if(mediaDataLoader != null) {
+				clearAndShowLoading();
 				mediaDataLoader.loadPrevious();
 			}
 		}
 				
 		private function goNextPage(e:MouseEvent):void {
 			if(mediaDataLoader != null) {
+				clearAndShowLoading();
 				mediaDataLoader.loadNext();
 			}
 		}
@@ -145,6 +157,9 @@ package mumble.timerou.timebar.display
 		}
 		
 		private function drawPreviews(e:Event = null):void {
+			//send loaded information to map to display icons
+			mapConnection.showMediaLocations(mediaDataLoader.medias);
+			
 			if(previewsContainer != null && box.contains(previewsContainer)) {
 				box.removeChild(previewsContainer);
 			}
@@ -190,14 +205,19 @@ package mumble.timerou.timebar.display
 				bitmapLoader.addEventListener(Event.COMPLETE, function(e:Event):void {
 					if(bitmapLoader.bitmap != null) {
 						var bitmap:Bitmap = bitmapLoader.bitmap;
-						var previewButton:MediaPreviewButton = new MediaPreviewButton(bitmap, effectiveWidth, effectiveHeight);
+						var previewButton:MediaPreviewButton = new MediaPreviewButton(bitmap, effectiveWidth, effectiveHeight, mediaData.type == MediaData.MEDIATYPE_VIDEO);
 						
 						previewButton.x = Styles.mediaBoxLineThickness + ((effectiveWidth + 1) * index);
 						previewButton.y = Styles.mediaBoxLineThickness; 
 						
 						previewsContainer.addChild(previewButton);		
 						
-						previewFadeTween = new Tween(previewButton, "alpha", Regular.easeOut, 0, 1, 0.5, true);				
+						previewFadeTween = new Tween(previewButton, "alpha", Regular.easeOut, 0, 1, 0.5, true);
+						
+						previewButton.addEventListener(MouseEvent.ROLL_OVER, function(em:MouseEvent):void { mapConnection.showPreview(mediaData.id); });
+						previewButton.addEventListener(MouseEvent.CLICK, function(em:MouseEvent):void { 
+							dispatchEvent(new MediaEvent(MediaEvent.CLICK, mediaData)); 
+						});
 					}
 					loading.visible = false;
 				});
@@ -225,20 +245,26 @@ package mumble.timerou.timebar.display
 		public function hide():void {
 			if(boxFadeTween != null && boxFadeTween.isPlaying) { boxFadeTween.stop(); }
 			boxFadeTween = new Tween(this, "alpha", Regular.easeOut, this.alpha, 0, 0.25, true);
+			backButton.visible = false;
+			forwardButton.visible = false;
 		}
 		
 		public function load(bounds:LatLngBounds, year:int):void {
-			if(previewsContainer != null && box.contains(previewsContainer)) {
-				box.removeChild(previewsContainer);
-			}
-			
-			loading.visible = true;
-			
+			clearAndShowLoading();
 			//calculate pageSize
 			var pageSize:int = (maxWidth) / (Styles.mediaPreviewSize.x);
 			mediaDataLoader.pageSize = pageSize;
 			mediaDataLoader.page = 1;
 			mediaDataLoader.load(bounds, year);
+		}
+		
+		private function clearAndShowLoading():void {
+			if(previewsContainer != null && box.contains(previewsContainer)) {
+				box.removeChild(previewsContainer);
+				previewsContainer = null;
+			}
+			
+			loading.visible = true;
 		}
 	}
 }
