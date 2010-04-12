@@ -46,7 +46,7 @@ AjaxNavigation.prototype = {
         }
 
         if (this.action == null) {
-            alert("action not setted");
+            //alert("action not setted");
             return;
         }
 

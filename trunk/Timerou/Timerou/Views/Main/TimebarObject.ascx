@@ -1,5 +1,5 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
-<object id="map" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+<object id="timebar" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			width="100%" height="100%"
 			codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
 			<param name="movie" value="<%= UriHelper.Base %>Swf/Timebar.swf" />

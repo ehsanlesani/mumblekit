@@ -2,8 +2,11 @@
 /// <reference path="Utils.js" />
 /// <reference path="Url.js" />
 /// <reference path="libs/google.maps-v3-vsdoc.js" />
+/// <reference path="MapMediaTransition.js" />
 
-function DetailManager() {    
+function DetailManager(transition) {
+    this.transition = transition;
+    this.displayedMedias = {}; //cache
     this.initialize();
 }
 
@@ -11,8 +14,8 @@ DetailManager.prototype = {
     initialize: function() {
         this._initializeNavigation();
     },
-    
-     _initializeNavigation: function() {
+
+    _initializeNavigation: function() {
         var navigation = new AjaxNavigation();
         navigation.addAction("show", new ShowMediaAction(this));
         navigation.start();
@@ -40,16 +43,8 @@ DetailManager.prototype = {
             return;
         }
 
-        //next search in current loaded page
-        if (this.medias != null) {
-            for (var m in this.medias) {
-                var media = this.medias[m];
-                if (media.id == id) {
-                    callback(media);
-                    return;
-                }
-            }
-        }
+        //try to get from timebar
+        //TODO
 
         //and finally try to load single media from server
         this.loadMedia(id, callback);
@@ -67,35 +62,24 @@ DetailManager.prototype = {
             self.displayedMedias[media.id] = media;
 
             if (media.type == "Picture") {
-                $("#mediaContainer")
+                $("#detail #mediaContainer")
                     .empty()
                     .append($("<img />")
                         .attr("src", Url.Pictures + media.pictureData.optimizedPath)
                     );
 
-                $("#title").html(media.title);
-                $("#address").html(media.address);
-                $("#body").html(media.body);
-                $(".media").removeClass("activeMedia");
-                $("#" + media.id).addClass("activeMedia");
+                $("#detail #title").html(media.title);
+                $("#detail #address").html(media.address);
+                $("#detail #body").html(media.body);
+            }
 
-                if (self.marker != null) {
-                    self.marker.setMap(null);
-                }
-
-                var position = new google.maps.LatLng(media.lat, media.lng);
-
-                self.marker = new google.maps.Marker({
-                    position: position,
-                    map: self.map
-                });
-
-                self.map.panTo(position);
+            if (self.transition.viewMode != MapMediaTransition.VIEW_DETAILS) {
+                self.transition.minimizeMap();
             }
         });
+    },
+
+    showMedia: function(id) {
+        window.open("#show|id=" + id, "_self");
     }
-
-    
-
-   
-}
+};
