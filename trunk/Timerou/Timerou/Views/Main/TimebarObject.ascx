@@ -7,7 +7,7 @@
 			<param name="bgcolor" value="#ffffff" />
 			<param name="allowScriptAccess" value="sameDomain" />
 			<embed src="<%= UriHelper.Base %>Swf/Timebar.swf" quality="high" bgcolor="#ffffff"
-				width="100%" height="100%" name="map" align="middle"
+				width="100%" height="100%" name="timebar" align="middle"
 				play="true"
 				loop="false"
 				quality="high"
