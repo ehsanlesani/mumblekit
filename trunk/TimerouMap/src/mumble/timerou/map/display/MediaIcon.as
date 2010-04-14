@@ -1,15 +1,12 @@
 ﻿package mumble.timerou.map.display
 {
-	import fl.transitions.easing.Regular;
 	import fl.transitions.Tween;
-	import flash.display.Bitmap;
-	import flash.display.Loader;
+	import fl.transitions.easing.Regular;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.filters.DropShadowFilter;
+	import flash.filters.GlowFilter;
 	import flash.geom.Matrix;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
 	/**
 	 * ...
 	 * @author bruno
@@ -25,12 +22,24 @@
 		
 		private function init(e:Event = null):void {
 			alpha = 0;
-			var size:int = 6;
-			graphics.beginFill(0xFC9803, 1);
-			graphics.lineStyle(2, 0x000000);
+			var size:int = 7;
+				
+		    var matrix:Matrix = new Matrix();
+			matrix.createGradientBox(
+				size, 
+				size,
+				(Math.PI / 2) * 3);
+			graphics.beginGradientFill(
+				"linear", 
+				[0xC76423, 0xE7952B],
+				[1, 1],
+				[0, 255],
+				matrix
+				);
+			graphics.lineStyle(2, 0xFFFFFF);
 			graphics.drawCircle(0, 0, size);
 			
-			//filters = [ new DropShadowFilter(2, 45, 0, 1, 2, 2) ];
+			filters = [ new GlowFilter(0x000000, 0.5) ];
 			
 			tween = new Tween(this, "alpha", Regular.easeIn, 0, 1, 0.2, true);
 		}
