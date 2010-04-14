@@ -73,9 +73,7 @@ DetailManager.prototype = {
                 $("#detail #body").html(media.body);
             }
 
-            if (self.transition.viewMode != MapMediaTransition.VIEW_DETAILS) {
-                self.transition.minimizeMap();
-            }
+            self.transition.minimizeMap();
         });
     },
 

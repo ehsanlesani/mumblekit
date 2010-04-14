@@ -14,11 +14,13 @@
     <script src="<%= UriHelper.Scripts %>libs/fx.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Url.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Utils.js" type="text/javascript"></script>
-    <script src="<%= UriHelper.Scripts %>MapMediaTransition.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>DetailManager.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>TimebarCom.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>MapCom.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>MapMediaTransition.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Actions/ShowMediaAction.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>AjaxNavigation.js" type="text/javascript"></script>
+    
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Site.css" rel="stylesheet" type="text/css" />
@@ -30,13 +32,15 @@
 
         $(document).ready(function() {
             var transition = new MapMediaTransition($("#mapContainer"), $("#detail"));
-            $("#minimizeButton").click(function() { transition.minimizeMap(); });
-            $("#maximizeButton").click(function() { transition.maximizeMap(); });
 
             var detailManager = new DetailManager(transition);
 
             $(TimebarCom).bind(TimebarCom.ON_MEDIA_CLICK, function(e, id) {
                 detailManager.showMedia(id);
+            });
+
+            $(MapCom).bind(MapCom.NAVIGATION_MODE_SELECTED, function(e) {
+                transition.maximizeMap();
             });
         });
     </script>
@@ -62,21 +66,12 @@
             </div>        
         </div>
         <div id="container">  
-            <div id="timebarContainer">
+            <div id="timebarContainer" style="height: 170px;">
                 <% Html.RenderPartial("TimebarObject"); %>
             </div>  
-            <div class="actions">
-                <div style="float:right;">
-                    <!--a href="javascript:;" id="hibridButton">Hibrid map type</a> | <a href="javascript:;" id="roadButton">Road map type</a-->
-                    <input type="button" id="minimizeButton" value="-" />
-                    <input type="button" id="maximizeButton" value="+" />
-                </div>                
-                <!--input type="text" id="locationKeyword" />
-                <a href="javascript:;" id="searchButton">GO</a-->        
-            </div>
             <div id="content" style="width: 981px; overflow:hidden;">
                 <div style="width: 981px;">
-                    <div id="mapContainer" style="position:absolute; height: 290px; width: 323px; padding-top:19px; margin-right:15px;">
+                    <div id="mapContainer" style="position:absolute; height: 500px; width: 981px; padding-top:19px; margin-right:15px;">
                         <div id="searchMapContainer">
                             <img src="../../Content/Images/searchMapLeftSide.png" id="searchMapLeftSide" alt="" />
                             <input type="text" id="locationKeyword" value="Destination, Places, Events..." />
@@ -84,7 +79,7 @@
                         </div>
                         <% Html.RenderPartial("MapObject"); %>
                     </div>
-                    <div id="detail" style="margin-left: 330px;width: 560px;">
+                    <div id="detail" style="margin-left: 981px;width: 560px;">
                         <div id="title"></div>
                         <div id="address"></div>
                         <div id="mediaContainer"></div>                        

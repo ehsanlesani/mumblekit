@@ -18,7 +18,9 @@ MapMediaTransition.VIEW_DETAILS = "details";
 
 MapMediaTransition.prototype = {
     maximizeMap: function() {
+        if (this.viewMode == MapMediaTransition.VIEW_MAP) { return; }
         this.viewMode = MapMediaTransition.VIEW_MAP;
+        MapCom.setNavigationMode();
 
         var steps = this.duration / this.delay;
         var deltaHeight = Math.abs($(this.mapContainer).height() - this.mapMaximizedSize.height);
@@ -32,8 +34,10 @@ MapMediaTransition.prototype = {
     },
 
     minimizeMap: function() {
+        if (this.viewMode == MapMediaTransition.VIEW_DETAILS) { return; }
         this.viewMode = MapMediaTransition.VIEW_DETAILS;
-    
+        MapCom.setLocationMode();
+
         var steps = this.duration / this.delay;
         var deltaHeight = Math.abs($(this.mapContainer).height() - this.mapMinimizedSize.height);
         var deltaWidth = Math.abs($(this.mapContainer).width() - this.mapMinimizedSize.width);
