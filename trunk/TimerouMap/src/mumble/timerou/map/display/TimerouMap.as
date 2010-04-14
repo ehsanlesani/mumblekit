@@ -11,8 +11,12 @@
 	import com.google.maps.interfaces.IMapType;
 	import com.google.maps.overlays.Marker;
 	import com.google.maps.overlays.MarkerOptions;
+	import com.google.maps.overlays.Polygon;
+	import com.google.maps.overlays.PolygonOptions;
 	import com.google.maps.services.ClientGeocoder;
 	import com.google.maps.services.GeocodingEvent;
+	import com.google.maps.styles.FillStyle;
+	import com.google.maps.styles.StrokeStyle;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -30,6 +34,11 @@
 		public static const TIMEROUMAP_READY:String = "timerouMapReady";
 		public static const TIMEROUMAP_MOVESTART:String = "timerouMapMoveStart";
 		public static const TIMEROUMAP_MOVEEND:String = "timerouMapMoveEnd";
+		public static const LOCATION_MODE_SELECTED:String = "locationModeSelected";
+		public static const NAVIGATION_MODE_SELECTED:String = "navigationModeSelected";
+		
+		public static const MODE_NAVIGATION:String = "navigationMode";
+		public static const MODE_LOCATION:String = "locationMode";
 		
 		private var map:Map = null;
 		private var filter:ColorMatrixFilter = new ColorMatrixFilter();
@@ -37,7 +46,8 @@
 		private var computedWidth:Number = 100;
 		
 		public var ready:Boolean = false;
-
+		public var mode:String = MODE_NAVIGATION;
+		
 		private var _oldStyle:int = 0;
 		public function set oldStyle(value:int):void {
 			_oldStyle = value;
@@ -71,6 +81,8 @@
 			rLum, gLum, bLum, 0, 0,
 			0, 0, 0, 1, 0];
 		
+		private var boundsPolygon:Polygon;
+		
 		public function TimerouMap() 
 		{
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -102,11 +114,18 @@
 		}		
 		
 		private function onMapMoveStart(e:MapEvent):void {
-			dispatchEvent(new Event(TIMEROUMAP_MOVESTART));
+			if(mode == MODE_NAVIGATION) {
+				dispatchEvent(new Event(TIMEROUMAP_MOVESTART));
+			} else if (mode == MODE_LOCATION) {
+				navigationMode();
+			}
+			
 		}
 		
 		private function onMapMoveEnd(e:MapEvent):void {
-			dispatchEvent(new Event(TIMEROUMAP_MOVEEND));
+			if(mode == MODE_NAVIGATION) {
+				dispatchEvent(new Event(TIMEROUMAP_MOVEEND));
+			}
 		}
 		
 		private function calculateFilterMatrix():Array {
@@ -181,6 +200,43 @@
 		            trace("Geocoding failed"); 
 		        }); 
 		    geocoder.geocode(key); 
+		}
+		
+		public function locationMode():void {
+			mode = MODE_LOCATION;
+			//create bounds polygon
+			/*boundsPolygon = new Polygon(
+				[
+					latLngBounds.getSouthWest(),
+					latLngBounds.getSouthEast(),
+					latLngBounds.getNorthEast(),
+					latLngBounds.getNorthWest()
+				], 
+				new PolygonOptions(
+				{ 
+			  		strokeStyle: new StrokeStyle(
+					{
+				  		color: 0xE67F23,
+						thickness: 3,
+						alpha: 0.7
+					}), 
+				    fillStyle: new FillStyle(
+			    	{
+						color: 0x9BB5F9,
+						alpha: 0.3
+					})
+				})				
+			  );
+				
+			map.addOverlay(boundsPolygon);*/
+			
+			dispatchEvent(new Event(LOCATION_MODE_SELECTED));
+		}
+		
+		public function navigationMode():void {
+			mode = MODE_NAVIGATION;			
+			if(boundsPolygon != null) { map.removeOverlay(boundsPolygon); }
+			dispatchEvent(new Event(NAVIGATION_MODE_SELECTED));
 		}
 		
 	}

@@ -14,6 +14,7 @@
 	import flash.geom.Point;
 	import flash.text.TextField;
 	
+	import mumble.timerou.map.controls.RoundedButton;
 	import mumble.timerou.map.data.MediaData;
 	import mumble.timerou.map.display.MediaIcon;
 	import mumble.timerou.map.display.Preview;
@@ -54,9 +55,19 @@
 		public function ConfigureExternalInterface():void {
 			if(ExternalInterface.available) {
 				ExternalInterface.addCallback("changeType", changeType);
-				ExternalInterface.addCallback("searchLocation", searchLocation);	
+				ExternalInterface.addCallback("searchLocation", searchLocation);
+				ExternalInterface.addCallback("setNavigationMode", setNavigationMode);
+				ExternalInterface.addCallback("setLocationMode", setLocationMode);
 			}	
 		}
+				
+		private function setNavigationMode():void {
+			map.navigationMode();
+		}				
+		
+		private function setLocationMode():void {
+			map.locationMode();
+		}				
 				
 		private function init(e:Event = null):void 
 		{
@@ -73,9 +84,10 @@
 
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVESTART, mapMoveStart);
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
+			map.addEventListener(TimerouMap.NAVIGATION_MODE_SELECTED, navigationModeSelected);
 			
-			//debug.text = new Date().getMilliseconds().toString();
-			//addChild(debug);			
+			//debug.text = ExternalInterface.available.toString();
+			//addChild(debug);		
 			
 			timebarConnection.addEventListener(TimebarEvent.YEAR_CHANGED, onYearChanged);
 			timebarConnection.addEventListener(TimebarEvent.SHOW_MEDIA_LOCATIONS, onShowMediaLocations);
@@ -175,6 +187,12 @@
 		
 		private function mapMoveStart(e:Event):void {		
 			hidePreview();
+		}
+		
+		private function navigationModeSelected(e:Event):void {		
+			if(ExternalInterface.available) {
+				ExternalInterface.call("MapCom.navigationModeSelected");
+			}
 		}
 		
 		private function mapMoveEnd(e:Event):void {		
