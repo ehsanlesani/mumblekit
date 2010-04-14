@@ -51,7 +51,7 @@ package mumble.timerou.timebar.display
 		
 		private var _year:int = new Date().getFullYear();
 				
-		public var bounds:LatLngBounds;
+		public var currentBounds:LatLngBounds;
 		public function set year(value:int):void {
 			_year = value;
 			selectYear();
@@ -61,7 +61,7 @@ package mumble.timerou.timebar.display
 		public function Timebar() {
 			//initial bounds and year
 			this.referenceYear = new Date().getFullYear();
-			this.bounds = new LatLngBounds(
+			this.currentBounds = new LatLngBounds(
 				new LatLng(-90, -180),
 				new LatLng(90, 180));
 			
@@ -99,10 +99,13 @@ package mumble.timerou.timebar.display
 			mapConnection.addEventListener(TimerouMapEvent.BOUNDS_CHANGED, mapBoundsChanged);
 		}
 		
+		private var timeSafeBounds:LatLngBounds = null;
+		
 		private function mapBoundsChanged(e:TimerouMapEvent):void {
+			timeSafeBounds = e.bounds;
 			TimeSafeCaller.call("Timebar.mapBoundsChanged", function():void {
 				directionAnimation = false;
-				loadYears(e.bounds);
+				loadYears(timeSafeBounds);
 			});
 		}
 		
@@ -139,7 +142,7 @@ package mumble.timerou.timebar.display
 					direction = PerYearMediaDataLoader.DIRECTION_BACK;
 					directionAnimation = true;
 					
-					loadYears(bounds);
+					loadYears(this.currentBounds);
 				}
 			}
 		}		  
@@ -154,7 +157,7 @@ package mumble.timerou.timebar.display
 					direction = PerYearMediaDataLoader.DIRECTION_FORWARD;
 					directionAnimation = true;
 					
-					loadYears(bounds);
+					loadYears(this.currentBounds);
 				}
 			}
 		}
@@ -186,10 +189,10 @@ package mumble.timerou.timebar.display
 			bar.graphics.drawRect(barX, barY, stage.stageWidth - Styles.barMargin * 2, Styles.barThickness);
 		}
 		
-		public function loadYears(bounds:LatLngBounds):void {
+		public function loadYears(newBounds:LatLngBounds):void {
+			this.currentBounds = newBounds;
 			mediasBox.hide();
-			
-			this.bounds = bounds;
+
 			var yearMediasToLoad:int = (bar.width - Styles.yearMediaMargin * 2) / (Styles.yearMediaSize.x + Styles.yearMediaMargin);
 			clearLoading();
 			loading = new Loading();
@@ -217,7 +220,7 @@ package mumble.timerou.timebar.display
 		        clearLoading();
 	            drawYears();
 			});
-			loader.load(bounds, yearMediasToLoad, referenceYear, direction != null ? direction : PerYearMediaDataLoader.DIRECTION_BACK);
+			loader.load(this.currentBounds, yearMediasToLoad, referenceYear, direction != null ? direction : PerYearMediaDataLoader.DIRECTION_BACK);
 		}
 		
 		private function drawYears():void {
@@ -317,8 +320,8 @@ package mumble.timerou.timebar.display
 								Styles.verticalMargin;								
 			
 			mediasBox.show(new Point(positionX, boxY));
-			if(bounds != null) {
-				mediasBox.load(bounds, year);
+			if(this.currentBounds != null) {
+				mediasBox.load(this.currentBounds, year);
 			}
 		}
 		
