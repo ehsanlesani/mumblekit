@@ -37,3 +37,7 @@ a.blue-link:hover
 {
     color:#EC9101;   
 }
+
+img { border:none; }
+
+#detailsContent { position:absolute; top:5px; left:5px; }

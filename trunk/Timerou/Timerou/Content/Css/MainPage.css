@@ -82,3 +82,54 @@
     top:0;
     left:0;    
 }
+
+#titleBar 
+{
+    text-align:right;
+    margin-bottom:3px;   
+}
+
+#titleBar #address 
+{
+    color:#db7d18;
+    font-style:italic;
+    margin-left:5px;
+}
+
+#mediaContainer 
+{ 
+    border:1px solid #d9d8d8;    
+} 
+
+#mediaContainer #imageContainer img 
+{
+    border-bottom:1px solid #d9d8d8;    
+}
+
+#mediaContainer #actionContainer 
+{
+    position:relative;
+    height:26px;
+}
+
+#actionContainer img#borderBottomLeft 
+{
+    position:absolute;
+    bottom:-1px;
+    left:-1px;
+}
+
+#actionContainer img#borderBottomRight 
+{
+    position:absolute;
+    bottom:-1px;
+    right:-1px;    
+}
+
+#body {margin-top:20px;}
+
+#detailsContainer {position:relative; width:100%; height:65px; border:1px solid #d9d8d8; background:url(../Images/gradientGrayWhiteVertical.png) repeat-x bottom; } 
+#detailsContainer img#borderGrayTopLeft {position:absolute; top:-1px; left:-1px;}
+#detailsContainer img#borderGrayTopRight {position:absolute; top:-1px; right:-1px;}
+#detailsContainer img#borderGrayBottomLeft {position:absolute; bottom:-1px; left:-1px;}
+#detailsContainer img#borderGrayBottomRight {position:absolute; bottom:-1px; right:-1px;}

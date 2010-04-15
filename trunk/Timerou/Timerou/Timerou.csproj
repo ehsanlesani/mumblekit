@@ -192,6 +192,13 @@
     <Content Include="Content\Css\MainPage.css" />
     <Content Include="Content\Css\Shared.css" />
     <Content Include="Content\Css\Timebar.css" />
+    <Content Include="Content\Images\border-bottom-left.png" />
+    <Content Include="Content\Images\border-bottom-right.png" />
+    <Content Include="Content\Images\borderGray-bottom-left.png" />
+    <Content Include="Content\Images\borderGray-bottom-right.png" />
+    <Content Include="Content\Images\borderGray-top-left.png" />
+    <Content Include="Content\Images\borderGray-top-right.png" />
+    <Content Include="Content\Images\gradientGrayWhiteVertical.png" />
     <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\Images\novideo.png" />
     <Content Include="Content\Images\search-button.png" />
@@ -485,7 +492,6 @@
     <None Include="App_Data\ddl.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\NewFolder1\" />
     <Folder Include="Pictures\" />
     <Folder Include="Scripts\tiny_mce\plugins\autosave\images\" />
   </ItemGroup>
