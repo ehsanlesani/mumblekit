@@ -44,13 +44,14 @@
             });
         });
     </script>
-
     
 </head>
 <body>
     <div id="main">
         <div id="header">
-            <img src="<%=UriHelper.Images %>timerou-logo.png" alt="timerou share your memories" />
+            <a href="/">
+                <img src="<%=UriHelper.Images %>timerou-logo.png" alt="timerou share your memories" />
+            </a>
             <div style="float:right;" id="main-actions">
                 <% if (!AccountManager.HasLoggedUser) { %>
                     <%= Html.ActionLink("login", "Login", "Account", new { @class = "blue-link" })%>
@@ -79,11 +80,24 @@
                         </div>
                         <% Html.RenderPartial("MapObject"); %>
                     </div>
-                    <div id="detail" style="margin-left: 981px;width: 560px;">
-                        <div id="title"></div>
-                        <div id="address"></div>
-                        <div id="mediaContainer"></div>                        
-                        <div id="body"></div>
+                    <div id="detail" style="margin-left: 981px; margin-right:10px;">
+                        <div id="titleBar"><span id="title"></span><span id="address"></span></div>
+                        <div id="mediaContainer">
+                            <div id="imageContainer"></div>
+                            <div id="actionContainer">
+                                <img src="../../Content/Images/border-bottom-left.png" alt="" id="borderBottomLeft" />
+                                <img src="../../Content/Images/border-bottom-right.png" alt="" id="borderBottomRight" />
+                            </div>
+                        </div>                        
+                        <div id="body">
+                            <div id="detailsContainer">
+                                <div id="detailsContent"></div>
+                                <img src="../../Content/Images/borderGray-top-left.png" alt="" id="borderGrayTopLeft" />
+                                <img src="../../Content/Images/borderGray-top-right.png" alt="" id="borderGrayTopRight" />
+                                <img src="../../Content/Images/borderGray-bottom-left.png" alt="" id="borderGrayBottomLeft" />
+                                <img src="../../Content/Images/borderGray-bottom-right.png" alt="" id="borderGrayBottomRight" />
+                            </div>
+                        </div>
                     </div>     
                 </div>
             </div>

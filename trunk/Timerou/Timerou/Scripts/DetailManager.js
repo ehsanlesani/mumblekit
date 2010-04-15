@@ -62,15 +62,18 @@ DetailManager.prototype = {
             self.displayedMedias[media.id] = media;
 
             if (media.type == "Picture") {
-                $("#detail #mediaContainer")
+                $("#detail #mediaContainer #imageContainer")
                     .empty()
                     .append($("<img />")
                         .attr("src", Url.Pictures + media.pictureData.optimizedPath)
                     );
 
-                $("#detail #title").html(media.title);
-                $("#detail #address").html(media.address);
-                $("#detail #body").html(media.body);
+                //why not a different default title? :)
+                if(media.title != media.address)
+                    $("#titleBar #title").html(media.title);
+                    
+                $("#titleBar #address").html(media.address.length > 0 ? "("+ media.address +")" : "");
+                $("#detail #body #detailsContent").html(media.body.length > 300 ? media.body.substr(0, 300) +"..." : media.body);
             }
 
             self.transition.minimizeMap();
