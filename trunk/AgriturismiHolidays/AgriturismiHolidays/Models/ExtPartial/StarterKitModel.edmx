@@ -108,6 +108,8 @@
           <Property Name="Quality" Type="int" />
           <Property Name="AccommodationType_Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Municipality_Id" Type="uniqueidentifier" />
+          <Property Name="ValidFrom" Type="datetime" />
+          <Property Name="ValidTo" Type="datetime" />
         </EntityType>
         <EntityType Name="AccommodationTypes">
           <Key>
@@ -552,7 +554,9 @@
           <Property Name="Fax" Type="String" Nullable="true" />
           <Property Name="StreetNr" Type="String" Nullable="true" />
           <NavigationProperty Name="Services" Relationship="StarterKitModel.AccomodationService" FromRole="Accommodation" ToRole="Services" />
-          <NavigationProperty Name="Users" Relationship="StarterKitModel.FK_Users_Accommodations" FromRole="Accommodation" ToRole="Users" /></EntityType>
+          <NavigationProperty Name="Users" Relationship="StarterKitModel.FK_Users_Accommodations" FromRole="Accommodation" ToRole="Users" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="true" />
+          <Property Name="ValidTo" Type="DateTime" Nullable="true" /></EntityType>
         <EntityType Name="AccommodationType">
           <Key>
             <PropertyRef Name="Id" />
@@ -755,6 +759,8 @@
           <EntitySetMapping Name="Accommodations">
             <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.Accommodation)">
               <MappingFragment StoreEntitySet="Accommodations">
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
                 <ScalarProperty Name="StreetNr" ColumnName="StreetNr" />
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
                 <ScalarProperty Name="Tel" ColumnName="Tel" />
