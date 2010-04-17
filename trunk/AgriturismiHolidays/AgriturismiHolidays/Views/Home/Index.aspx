@@ -108,6 +108,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
+<script src="../../Content/JS/jquery/jquery.tools.min.js" type="text/javascript"></script>
 <script src="<%=ResolveUrl("~/Content/JS/combo.js")%>" type="text/javascript"></script>
 <script type="text/javascript">
     /// <reference path="../../Content/JS/jquery/jquery-1.3.2-vsdoc2.js" />
