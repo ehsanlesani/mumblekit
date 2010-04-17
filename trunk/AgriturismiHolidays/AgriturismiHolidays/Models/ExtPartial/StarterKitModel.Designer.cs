@@ -25,7 +25,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "GroupUser", "Groups", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Group), "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.User))]
 
 // Original file name:
-// Generation date: 02/03/2010 17:11:55
+// Generation date: 17/04/2010 16:48:29
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
@@ -732,6 +732,52 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         private string _StreetNr;
         partial void OnStreetNrChanging(string value);
         partial void OnStreetNrChanged();
+        /// <summary>
+        /// There are no comments for Property ValidFrom in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Nullable<global::System.DateTime> ValidFrom
+        {
+            get
+            {
+                return this._ValidFrom;
+            }
+            set
+            {
+                this.OnValidFromChanging(value);
+                this.ReportPropertyChanging("ValidFrom");
+                this._ValidFrom = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("ValidFrom");
+                this.OnValidFromChanged();
+            }
+        }
+        private global::System.Nullable<global::System.DateTime> _ValidFrom;
+        partial void OnValidFromChanging(global::System.Nullable<global::System.DateTime> value);
+        partial void OnValidFromChanged();
+        /// <summary>
+        /// There are no comments for Property ValidTo in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public global::System.Nullable<global::System.DateTime> ValidTo
+        {
+            get
+            {
+                return this._ValidTo;
+            }
+            set
+            {
+                this.OnValidToChanging(value);
+                this.ReportPropertyChanging("ValidTo");
+                this._ValidTo = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("ValidTo");
+                this.OnValidToChanged();
+            }
+        }
+        private global::System.Nullable<global::System.DateTime> _ValidTo;
+        partial void OnValidToChanging(global::System.Nullable<global::System.DateTime> value);
+        partial void OnValidToChanged();
         /// <summary>
         /// There are no comments for Rooms in the schema.
         /// </summary>

@@ -381,7 +381,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             {
                 Error = ex.Message;
             }
-            catch (Exception ex)
+            catch (Exception)
             {    
                 Error = "Errore imprevisto, si prega di riprovare. Se il problema persiste ti preghiamo di contattarci.";
             }
