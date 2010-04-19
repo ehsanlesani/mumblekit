@@ -102,11 +102,16 @@ package mumble.timerou.timebar.display
 		private var timeSafeBounds:LatLngBounds = null;
 		
 		private function mapBoundsChanged(e:TimerouMapEvent):void {
-			timeSafeBounds = e.bounds;
-			TimeSafeCaller.call("Timebar.mapBoundsChanged", function():void {
-				directionAnimation = false;
-				loadYears(timeSafeBounds);
-			});
+				timeSafeBounds = e.bounds;
+				TimeSafeCaller.call("Timebar.mapBoundsChanged", function():void {
+					directionAnimation = false;
+					loadYears(timeSafeBounds);
+				});
+		}
+		
+		private function firstTimeLoad(bounds:LatLngBounds):void {
+			year = new Date().getFullYear();
+			loadYears(bounds);
 		}
 		
 		private function addTravelButtons():void {
@@ -219,8 +224,24 @@ package mumble.timerou.timebar.display
 		        
 		        clearLoading();
 	            drawYears();
+				year = year;
+				
+				var yearMedia:YearGroupedMediasData = getGroupedMediasByYear(year);
+				if(yearMedia != null) {
+					showMediasBox(year, yearMedia.x);
+				}
 			});
 			loader.load(this.currentBounds, yearMediasToLoad, referenceYear, direction != null ? direction : PerYearMediaDataLoader.DIRECTION_BACK);
+		}
+		
+		private function getGroupedMediasByYear(year:int):YearGroupedMediasData {
+			for each(var m:YearGroupedMediasData in data.groupedMedias) {
+				if(m.year == year) {
+					return m;
+				}
+			}
+			
+			return null;
 		}
 		
 		private function drawYears():void {
