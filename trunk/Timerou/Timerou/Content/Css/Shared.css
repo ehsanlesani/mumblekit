@@ -17,6 +17,7 @@ body
 #main 
 {
     margin:auto;
+    margin-top:10px;
     text-align:left;
     width:981px;    
 }
