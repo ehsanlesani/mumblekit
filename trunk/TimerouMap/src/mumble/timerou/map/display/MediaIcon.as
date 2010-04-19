@@ -31,7 +31,7 @@
 				(Math.PI / 2) * 3);
 			graphics.beginGradientFill(
 				"linear", 
-				[0xC76423, 0xE7952B],
+				[0xDD0000, 0xCC0000],
 				[1, 1],
 				[0, 255],
 				matrix

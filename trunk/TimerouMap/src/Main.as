@@ -5,7 +5,10 @@
 	
 	import fl.transitions.Tween;
 	
+	import flash.display.Graphics;
 	import flash.display.MovieClip;
+	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
@@ -16,6 +19,7 @@
 	
 	import mumble.timerou.map.controls.RoundedButton;
 	import mumble.timerou.map.data.MediaData;
+	import mumble.timerou.map.display.Border;
 	import mumble.timerou.map.display.MediaIcon;
 	import mumble.timerou.map.display.Preview;
 	import mumble.timerou.map.display.TimerouMap;
@@ -42,6 +46,7 @@
 		private var preview:Preview = null;
 		private var debug:TextField = new TextField();
 		private var currentMedias:Array;
+		private var maskShape:Shape = new Shape();
 		
 		private var timebarConnection:TimebarConnection = new TimebarConnection();
 		
@@ -79,9 +84,17 @@
 			this.map = new TimerouMap();		
 			addChild(map);
 			
+			addChild(new Border());
+						
 			this.preview = new Preview();
 			addChild(preview);
 
+			drawMaskShape();
+			addChild(maskShape);
+			mask = maskShape;			
+			
+			stage.addEventListener(Event.RESIZE, drawMaskShape);
+			
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVESTART, mapMoveStart);
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
 			map.addEventListener(TimerouMap.NAVIGATION_MODE_SELECTED, navigationModeSelected);
@@ -93,6 +106,14 @@
 			timebarConnection.addEventListener(TimebarEvent.SHOW_MEDIA_LOCATIONS, onShowMediaLocations);
 			timebarConnection.addEventListener(TimebarEvent.SHOW_PREVIEW, onShowPreview);
 			timebarConnection.addEventListener(TimebarEvent.HIDE_PREVIEW, onHidePreview);
+		}
+		
+		private function drawMaskShape(e:Event=null):void {
+			var g:Graphics = maskShape.graphics;
+			g.clear();
+			g.beginFill(0xFFFFFF);
+			g.drawRoundRect(0, 0, stage.stageWidth, stage.stageHeight, 15, 15);
+			g.endFill();
 		}
 		
 		private function getMapBounds():* {
