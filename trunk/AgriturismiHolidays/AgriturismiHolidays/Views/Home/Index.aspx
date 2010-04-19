@@ -54,6 +54,8 @@
     <p id="subscription">Vuoi inserire la tua struttura? <%=Html.ActionLink("iscriviti", "Register", "Account", null, new { @class="subscription-link" })%></p>
     <div id="announced">
         <img src="../../Content/Images/announced-by.png" alt="segnalati da noi" class="section-title" id="advice-by-title" />
+        <div class="scrollable"> 
+        <div class="items"> 
         <%
             if (ViewData["Showcase"] != null) 
             {
@@ -99,15 +101,30 @@
                         </div>
                         <%
                         }
+
+                        for (int i = 0; i <= 25; i++) { 
+                        %>
+                        <div class="floated-left">
+                            <a href="<%=hrefPath%>" title="<%=a.Name%>">
+                                <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" />
+                                <div style="text-align:center; color:Black;"><b><%=a.Municipalities.Name%></b><br /><i><%=a.Name%></i></div>
+                            </a>    
+                        </div>
+                        <%
+                        }
                     }
                 }                                
             }  
         %>
+        </div>
+        </div>
+        <a class="prevPage browse left">Prev</a> <a class="nextPage browse right">Next</a>
     </div>
 </div>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
+<link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/Home.css") %>" />
 <script src="../../Content/JS/jquery/jquery.tools.min.js" type="text/javascript"></script>
 <script src="<%=ResolveUrl("~/Content/JS/combo.js")%>" type="text/javascript"></script>
 <script type="text/javascript">
@@ -154,6 +171,9 @@
 
             $('select[name="MunicipalityItems"]').effect("highlight", { color: '#BC161B' }, 1000);
         });
+        
+        // initialize scrollable 
+        $("div.scrollable").scrollable();
     });
 </script>
 </asp:Content>
