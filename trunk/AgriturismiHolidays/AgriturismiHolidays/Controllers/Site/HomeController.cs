@@ -113,7 +113,12 @@ namespace Mumble.Web.StarterKit.Controllers.Site
         private IEnumerable<Accommodation> GetOnShowCaseAccomodations()
         {
             StarterKitContainer context = new StarterKitContainer();
-            var showcased = (from a in context.Accommodations where a.OnShowcase == true select a).AsEnumerable<Accommodation>();
+            var showcased = (from a in context.Accommodations 
+                                where a.OnShowcase == true &&
+                                 (((a.ValidFrom.HasValue && DateTime.Now >= a.ValidFrom)
+                                  && (a.ValidTo.HasValue && DateTime.Now <= a.ValidTo)) ||
+                                   (a.ValidFrom.HasValue && DateTime.Now >= a.ValidFrom))
+                                select a).AsEnumerable<Accommodation>();
 
             return showcased;
         }
