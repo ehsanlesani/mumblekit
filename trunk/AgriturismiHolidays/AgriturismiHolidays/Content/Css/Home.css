@@ -103,3 +103,18 @@ a.down:active  	{ background-position:-60px -30px; }
 a.disabled {
 	visibility:hidden !important;		
 } 	
+
+
+#scroll-left-btn 
+{
+    position:relative;
+    left:40px;
+    top:190px;
+}
+
+#scroll-right-btn 
+{
+    position:relative;    
+    left:380px;
+    top:190px;
+}

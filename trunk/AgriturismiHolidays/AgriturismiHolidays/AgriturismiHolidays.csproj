@@ -387,6 +387,8 @@
     <Content Include="Content\Images\lightbox-btn-next.gif" />
     <Content Include="Content\Images\lightbox-btn-prev.gif" />
     <Content Include="Content\Images\lightbox-ico-loading.gif" />
+    <Content Include="Content\Images\scroll-left.png" />
+    <Content Include="Content\Images\scroll-right.png" />
     <Content Include="Content\JS\combo.js" />
     <Content Include="Content\Css\jquery\white\ajax-loader_b.gif" />
     <Content Include="Content\Css\jquery\white\ajax-loader_w.gif" />
