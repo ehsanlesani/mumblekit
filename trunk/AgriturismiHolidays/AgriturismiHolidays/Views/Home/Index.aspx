@@ -54,7 +54,12 @@
     <p id="subscription">Vuoi inserire la tua struttura? <%=Html.ActionLink("iscriviti", "Register", "Account", null, new { @class="subscription-link" })%></p>
     <div id="announced">
         <img src="../../Content/Images/announced-by.png" alt="segnalati da noi" class="section-title" id="advice-by-title" />
-         <a class="prevPage browse left">Prev</a> <a class="nextPage browse right">Next</a>
+         <a class="prevPage browse left" id="scroll-left-btn">
+            <img src="../../Content/Images/scroll-left.png" alt="scroll left" />
+         </a> 
+         <a class="nextPage browse right"  id="scroll-right-btn">
+            <img src="../../Content/Images/scroll-right.png" alt="scroll right" />
+         </a>
         <div class="scrollable"> 
         <div class="items"> 
         <%
@@ -179,9 +184,9 @@
 
             $('select[name="MunicipalityItems"]').effect("highlight", { color: '#BC161B' }, 1000);
         });
-        
+
         // initialize scrollable 
-        $("div.scrollable").scrollable();
+        $("div.scrollable").scrollable({size:1});
     });
 </script>
 </asp:Content>
