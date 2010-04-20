@@ -54,6 +54,7 @@
     <p id="subscription">Vuoi inserire la tua struttura? <%=Html.ActionLink("iscriviti", "Register", "Account", null, new { @class="subscription-link" })%></p>
     <div id="announced">
         <img src="../../Content/Images/announced-by.png" alt="segnalati da noi" class="section-title" id="advice-by-title" />
+         <a class="prevPage browse left">Prev</a> <a class="nextPage browse right">Next</a>
         <div class="scrollable"> 
         <div class="items"> 
         <%
@@ -64,8 +65,17 @@
                 // Quante belle if :P
                 if (alist != null) 
                 {
+                    int i = 0;
+                    int max = alist.Count();
                     foreach (Accommodation a in alist) 
                     {
+                        if (i == 0)
+                        {
+                        %>
+                            <div class="bigbox">
+                        <%    
+                        }   
+                                
                         if (!a.Attachments.IsLoaded)
                             a.Attachments.Load();
 
@@ -101,15 +111,14 @@
                         </div>
                         <%
                         }
+                        
+                        i++;
 
-                        for (int i = 0; i <= 25; i++) { 
+                        if (i == 9 || i == max)
+                        {
+                            i = 0;
                         %>
-                        <div class="floated-left">
-                            <a href="<%=hrefPath%>" title="<%=a.Name%>">
-                                <img src="<%=ResolveUrl("~/Content/Images/no_picture.png") %>" alt="<%=a.Name%>" />
-                                <div style="text-align:center; color:Black;"><b><%=a.Municipalities.Name%></b><br /><i><%=a.Name%></i></div>
-                            </a>    
-                        </div>
+                            </div>
                         <%
                         }
                     }
@@ -117,8 +126,7 @@
             }  
         %>
         </div>
-        </div>
-        <a class="prevPage browse left">Prev</a> <a class="nextPage browse right">Next</a>
+        </div>       
     </div>
 </div>
 </asp:Content>
