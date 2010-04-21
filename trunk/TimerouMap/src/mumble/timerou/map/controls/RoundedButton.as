@@ -45,7 +45,7 @@
 		
 		private function init(e:Event):void {
 			draw();	
-			addText();
+			addText(); 
 			
 			addEventListener(MouseEvent.ROLL_OVER, mouseRollOver);
 			addEventListener(MouseEvent.ROLL_OUT, mouseRollOut);

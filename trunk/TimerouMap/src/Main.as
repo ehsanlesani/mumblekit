@@ -18,6 +18,7 @@
 	import flash.text.TextField;
 	
 	import mumble.timerou.map.controls.RoundedButton;
+	import mumble.timerou.map.controls.YearControl;
 	import mumble.timerou.map.data.MediaData;
 	import mumble.timerou.map.display.Border;
 	import mumble.timerou.map.display.MediaIcon;
@@ -80,21 +81,23 @@
 			stage.align = StageAlign.TOP_LEFT;
 			
 			removeEventListener(Event.ADDED_TO_STAGE, init);		
-			
+						
 			this.map = new TimerouMap();		
 			addChild(map);
 			
-			addChild(new Border());
+			addChild(new Border(stage.stageWidth, stage.stageHeight, 15));
 						
 			this.preview = new Preview();
 			addChild(preview);
 
 			drawMaskShape();
 			addChild(maskShape);
-			mask = maskShape;			
+			mask = maskShape;	
 			
+			addChild(new YearControl());
+						
 			stage.addEventListener(Event.RESIZE, drawMaskShape);
-			
+			/*
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVESTART, mapMoveStart);
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
 			map.addEventListener(TimerouMap.NAVIGATION_MODE_SELECTED, navigationModeSelected);
@@ -106,6 +109,7 @@
 			timebarConnection.addEventListener(TimebarEvent.SHOW_MEDIA_LOCATIONS, onShowMediaLocations);
 			timebarConnection.addEventListener(TimebarEvent.SHOW_PREVIEW, onShowPreview);
 			timebarConnection.addEventListener(TimebarEvent.HIDE_PREVIEW, onHidePreview);
+			*/
 		}
 		
 		private function drawMaskShape(e:Event=null):void {
