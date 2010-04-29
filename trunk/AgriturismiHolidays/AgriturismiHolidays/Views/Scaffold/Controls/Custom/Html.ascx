@@ -7,6 +7,6 @@
         </div>
     </td>
     <td class="control">
-        <textarea style="width: 100%; height: 250px;" name="<%= FieldMetadata.Name %>" id="<%= FieldMetadata.Name %>" class="htmlEditor"><%= Value %></textarea>
+        <textarea style="width:100%; height:250px;" name="<%= FieldMetadata.Name %>" id="<%= FieldMetadata.Name %>"><%= Value %></textarea>
     </td>
 </tr>
