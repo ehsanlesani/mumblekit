@@ -104,7 +104,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             string pageName = id.Replace("_", " ");
             var page = (from p in context.Pages 
                             where 
-                            p.Description.Equals(pageName) && (p.Visible.HasValue && p.Visible.Value)
+                            p.Description.Equals(pageName) && 
+                            (p.Visible.HasValue && p.Visible.Value) &&
+                            ((!p.ValidFrom.HasValue && !p.ValidTo.HasValue) ||
+                                 ((p.ValidFrom.HasValue && DateTime.Now >= p.ValidFrom)
+                                 && (p.ValidTo.HasValue && DateTime.Now <= p.ValidTo)))
                         orderby p.Priority ascending select p).FirstOrDefault<Page>();
 
             return page;

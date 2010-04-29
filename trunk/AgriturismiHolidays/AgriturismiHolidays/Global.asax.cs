@@ -63,6 +63,8 @@ namespace MumbleKit
                 new string[] { "Mumble.Web.StarterKit.Controllers.Admin" }
             );
 
+            routes.IgnoreRoute("mailing");
+
             /*
             routes.MapRoute(
                 "Structures",
