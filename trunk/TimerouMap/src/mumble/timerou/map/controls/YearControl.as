@@ -1,12 +1,7 @@
 package mumble.timerou.map.controls
 {
-	import fl.transitions.Tween;
-	import fl.transitions.easing.Strong;
-	
-	import flash.display.Graphics;
 	import flash.display.MovieClip;
 	import flash.events.Event;
-	import flash.text.TextFormat;
 	
 	import mumble.timerou.map.display.Letter;
 	import mumble.timerou.map.display.RoundContainer;
@@ -19,8 +14,9 @@ package mumble.timerou.map.controls
 		private var _radius:int = 8;
 		private var _alpha:Number = 0.9;
 		private var _margin:Margin = new Margin(5, 6);
-		private var _tween:Tween = null;
-		
+		private var year:int = new Date().getFullYear();
+		private var letters:Array = new Array();
+				
 		public function YearControl()		
 		{			
 			addEventListener(Event.ADDED_TO_STAGE, init);
@@ -28,27 +24,40 @@ package mumble.timerou.map.controls
 		
 		private function init(e:Event):void 
 		{	
-			drawControl(e);
+			adjustPosition(e);			
+			addChild(new RoundContainer(_width, _height, _radius, _alpha));
 			drawYear();
-			
-			stage.addEventListener(Event.RESIZE, drawControl);			
+						
+			stage.addEventListener(Event.RESIZE, adjustPosition);			
 		}
 		
-		private function drawControl(e:Event):void 
+		private function adjustPosition(e:Event):void 
 		{
-			this.x = stage.width - _width - _margin.right;
+			this.x = stage.stageWidth - _width - _margin.right;
 			this.y = _margin.top;
-			
-			addChild(new RoundContainer(_width, _height, _radius, _alpha));
 		}
 		
 		private function drawYear():void 
 		{
-			var letter:Letter = new Letter("2");
-			letter.y = -5;
-			addChild(letter);
-			_tween = new Tween(letter, "y", Strong.easeOut, 0, 22, 0.9,true);	
-			_tween = new Tween(letter, "y", Strong.easeOut, 22, 0, 0.9,true);
+			for (var i:int = 0; i < 4; i++) 
+			{
+				var letter:Letter = new Letter("0");
+				letters.push(letter);
+				addChild(letter);		
+				letter.x = i * letter.width;	
+				letter.y = -4;	
+			}					
+		}
+		
+		public function setYear(year:int):void 
+		{
+			var syear:String = year.toString();			
+			for(var i:int = 0; i < 4; i++) 
+			{
+				var num:String = syear.charAt(i);
+				var letter:Letter = letters[i];
+				letter.char = num;
+			}
 		}
 	}
 }
