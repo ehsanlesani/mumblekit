@@ -207,7 +207,7 @@ package mumble.timerou.map.display
 
 			clearPreview();
 			
-			remotePicture = new RemotePicture(Main.BASEPICTURESURL + mediaData.pictureData.optimizedPath, INITIAL_WIDTH - PADDING * 2, INITIAL_HEIGHT - PADDING * 2, true);
+			remotePicture = new RemotePicture(MapMain.BASEPICTURESURL + mediaData.pictureData.optimizedPath, INITIAL_WIDTH - PADDING * 2, INITIAL_HEIGHT - PADDING * 2, true);
 			remotePicture.x = rectX + PADDING;
 			remotePicture.y = rectY + PADDING;
 			remotePicture.showBorder = false;
