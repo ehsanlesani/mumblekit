@@ -29,7 +29,7 @@
             $(document).ready(function() {
                 $("#loginForm").validate({
                     rules: {
-                        email: { required: true, email: true },
+                        email: "required",
                         password: "required"
                     },
                     messages: {
