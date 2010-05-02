@@ -50,7 +50,7 @@ package mumble.timerou.map.data
 			
 			try 
 			{
-				var request:URLRequest = new URLRequest(Main.LOAD_PICTURE_SERVICE_URL);
+				var request:URLRequest = new URLRequest(MapMain.LOAD_PICTURE_SERVICE_URL);
 				request.method = URLRequestMethod.POST;
 				var variables:URLVariables = new URLVariables();			
 				variables.swlat = bounds.getSouthWest().lat();

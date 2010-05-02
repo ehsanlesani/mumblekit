@@ -132,7 +132,7 @@ package mumble.timerou.map.display
 		private function createPictureSprite(mediaData:MediaData):Sprite {
 			var self:MovieClip = this;
 			
-			var remotePicture:RemotePicture = new RemotePicture(Main.BASEPICTURESURL + mediaData.pictureData.avatarPath, PICTURE_WIDTH, PICTURE_HEIGHT, false);
+			var remotePicture:RemotePicture = new RemotePicture(MapMain.BASEPICTURESURL + mediaData.pictureData.avatarPath, PICTURE_WIDTH, PICTURE_HEIGHT, false);
 			remotePicture.borderColor = PICTURE_BORDER_COLOR;
 			remotePicture.borderOverColor = PICTURE_BORDER_OVER_COLOR;
 			remotePicture.roundCornerSize = ROUND_SIZE;

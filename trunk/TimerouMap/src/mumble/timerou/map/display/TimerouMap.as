@@ -90,7 +90,7 @@
 		
 		private function init(e:Event):void {
 			map = new Map();
-			map.key = Main.MAPKEY;
+			map.key = MapMain.MAPKEY;
 			map.addEventListener(MapEvent.MAP_READY, onMapReady);
 			map.addEventListener(MapMoveEvent.MOVE_START, onMapMoveStart);
 			map.addEventListener(MapMoveEvent.MOVE_END, onMapMoveEnd);
