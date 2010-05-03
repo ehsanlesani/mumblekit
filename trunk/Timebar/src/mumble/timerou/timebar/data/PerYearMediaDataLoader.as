@@ -23,7 +23,7 @@ package mumble.timerou.timebar.data
 		public function load(bounds:LatLngBounds, mediasToLoad:int, referenceYear:int, direction:String):void {
 			try 
 			{
-				var request:URLRequest = new URLRequest(Main.LOAD_PERYEAR_SERVICE_URL);
+				var request:URLRequest = new URLRequest(TimebarMain.LOAD_PERYEAR_SERVICE_URL);
 				request.method = URLRequestMethod.POST;
 				var variables:URLVariables = new URLVariables();			
 				variables.swlat = bounds.getSouthWest().lat();

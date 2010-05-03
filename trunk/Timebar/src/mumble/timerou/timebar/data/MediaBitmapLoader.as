@@ -51,7 +51,7 @@ package mumble.timerou.timebar.data
 			if(mediaData.type == MediaData.MEDIATYPE_VIDEO) {
 				return "http://img.youtube.com/vi/" + mediaData.videoData.youtubeId + "/2.jpg"
 			} else if(mediaData.type == MediaData.MEDIATYPE_PICTURE) {
-				return Main.BASEPICTURESURL + mediaData.pictureData.avatarPath;
+				return TimebarMain.BASEPICTURESURL + mediaData.pictureData.avatarPath;
 			} else {
 				return null;
 			}
