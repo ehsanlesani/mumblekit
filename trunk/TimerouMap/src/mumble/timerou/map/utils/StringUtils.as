@@ -1,8 +1,8 @@
 package mumble.timerou.map.utils
 {
-	public class ExtString
+	public class StringUtils
 	{
-		public function ExtString()
+		public function StringUtils()
 		{
 		}
 		

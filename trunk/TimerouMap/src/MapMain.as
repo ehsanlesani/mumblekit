@@ -24,6 +24,7 @@
 	import mumble.timerou.map.display.TimerouMap;
 	import mumble.timerou.map.events.TimebarEvent;
 	import mumble.timerou.map.net.TimebarConnection;
+	import mumble.timerou.map.visualSpace.Dimension;
 	
 	
 	/**
@@ -81,12 +82,12 @@
 			stage.align = StageAlign.TOP_LEFT;
 			
 			removeEventListener(Event.ADDED_TO_STAGE, init);		
-						
-			this.map = new TimerouMap();		
-			addChild(map);
 			
 			border = new Border(stage.stageWidth, stage.stageHeight, 15);
 			addChild(border);
+			
+			this.map = new TimerouMap();		
+			addChild(map);
 						
 			this.preview = new Preview();
 			addChild(preview);
@@ -94,11 +95,11 @@
 			drawMaskShape();
 			addChild(maskShape);
 			mask = maskShape;	
-
+			
 			addChild(yearControl);
 						
-			stage.addEventListener(Event.RESIZE, drawMaskShape);
 			stage.addEventListener(Event.RESIZE, adjustBorder);
+			stage.addEventListener(Event.RESIZE, drawMaskShape);			
 			
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVESTART, mapMoveStart);
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
@@ -115,8 +116,7 @@
 		}
 		
 		private function adjustBorder(e:Event=null):void {
-			border.Width = stage.width;
-			border.Height = stage.height;
+			border.dimension = new Dimension(stage.stageWidth, stage.stageHeight);
 		}
 		
 		private function drawMaskShape(e:Event=null):void {
