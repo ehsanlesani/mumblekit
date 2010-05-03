@@ -55,7 +55,7 @@ package mumble.timerou.timebar.data
 			
 			try 
 			{
-				var request:URLRequest = new URLRequest(Main.LOAD_SERVICE_URL);
+				var request:URLRequest = new URLRequest(TimebarMain.LOAD_SERVICE_URL);
 				request.method = URLRequestMethod.POST;
 				var variables:URLVariables = new URLVariables();			
 				variables.swlat = bounds.getSouthWest().lat();
