@@ -5,6 +5,7 @@ MapCom.MAPTYPE_HYBRID = "hybrid";
 MapCom.map = null;
 
 MapCom.NAVIGATION_MODE_SELECTED = "navigationModeSelected";
+MapCom.MAP_READY = "mapReady";
 
 $(document).ready(function() {
     var movieName = "map";
@@ -31,13 +32,25 @@ MapCom.searchLocation = function(key) {
 
 MapCom.setLocationMode = function() {
     MapCom.map.setLocationMode();
-}
+};
 
 MapCom.setNavigationMode = function() {
     MapCom.map.setNavigationMode();
-}
+};
+
+MapCom.clearLocationMarker = function() {
+    MapCom.map.clearLocationMarker();
+};
+
+MapCom.markLocation = function(lat, lng) {
+    MapCom.map.markLocation(lat, lng);
+};
 
 //events in flash map
 MapCom.navigationModeSelected = function() {
     $(MapCom).trigger(MapCom.NAVIGATION_MODE_SELECTED);
-}
+};
+
+MapCom.onMapReady = function() {
+    $(MapCom).trigger(MapCom.MAP_READY);
+};

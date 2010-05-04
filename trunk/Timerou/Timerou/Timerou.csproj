@@ -211,16 +211,10 @@
     <Content Include="Content\Images\temp\timebar.jpg" />
     <Content Include="Content\Images\timerou-logo.png" />
     <Content Include="Content\Images\whiteSpace.png" />
-    <Content Include="Content\Timebar\back.png" />
-    <Content Include="Content\Timebar\bar.png" />
-    <Content Include="Content\Timebar\begin.png" />
-    <Content Include="Content\Timebar\end.png" />
-    <Content Include="Content\Timebar\forward.png" />
-    <Content Include="Content\Timebar\pointer.png" />
-    <Content Include="Content\Timebar\step.png" />
     <Content Include="Content\Images\videoIcon.png" />
     <Content Include="Default.aspx" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
+    <Content Include="Scripts\Actions\MaximizeMapAction.js" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
     <Content Include="Scripts\TimebarCom.js" />
