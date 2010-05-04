@@ -1,5 +1,6 @@
 ﻿package
 {
+	import com.google.maps.LatLng;
 	import com.google.maps.LatLngBounds;
 	import com.google.maps.MapType;
 	
@@ -59,13 +60,27 @@
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
-		public function ConfigureExternalInterface():void {
-			if(ExternalInterface.available) {
+		public function ConfigureExternalInterface():void 
+		{
+			if (ExternalInterface.available) 
+			{
 				ExternalInterface.addCallback("changeType", changeType);
 				ExternalInterface.addCallback("searchLocation", searchLocation);
 				ExternalInterface.addCallback("setNavigationMode", setNavigationMode);
 				ExternalInterface.addCallback("setLocationMode", setLocationMode);
+				ExternalInterface.addCallback("markLocation", markLocation);
+				ExternalInterface.addCallback("clearLocationMarker", clearLocationMarker);
 			}	
+		}
+		
+		private function markLocation(lat:Number, lng:Number):void
+		{
+			map.markLocation(new LatLng(lat, lng));
+		}
+		
+		private function clearLocationMarker():void
+		{
+			map.clearLocationMarker();
 		}
 				
 		private function setNavigationMode():void 
@@ -75,13 +90,14 @@
 		
 		private function setLocationMode():void 
 		{
+			//map.clearMediaLocations();
 			map.locationMode();
+			preview.disable();			
+			yearControl.visible = false;
 		}				
 				
 		private function init(e:Event = null):void 
 		{
-			trace("ciao");
-			
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
@@ -108,6 +124,7 @@
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVESTART, mapMoveStart);
 			map.addEventListener(TimerouMap.TIMEROUMAP_MOVEEND, mapMoveEnd);
 			map.addEventListener(TimerouMap.NAVIGATION_MODE_SELECTED, navigationModeSelected);
+			map.addEventListener(TimerouMap.TIMEROUMAP_READY, mapReady)
 			
 			//debug.text = ExternalInterface.available.toString();
 			//addChild(debug);		
@@ -117,6 +134,14 @@
 			timebarConnection.addEventListener(TimebarEvent.SHOW_PREVIEW, onShowPreview);
 			timebarConnection.addEventListener(TimebarEvent.HIDE_PREVIEW, onHidePreview);
 			
+		}
+		
+		private function mapReady(e:Event):void 
+		{
+			if (ExternalInterface.available) 
+			{
+				ExternalInterface.call("MapCom.onMapReady");
+			}
 		}
 		
 		private function adjustBorder(e:Event = null):void 
@@ -256,6 +281,9 @@
 			{
 				ExternalInterface.call("MapCom.navigationModeSelected");
 			}
+			
+			yearControl.visible = true;
+			preview.enable();
 		}
 		
 		private function mapMoveEnd(e:Event):void 
@@ -266,10 +294,13 @@
 		private function showMediaLocation(media:MediaData):void 
 		{
 			var icon:MediaIcon = map.showMediaLocation(media);
-			icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void 
+			if (icon != null)
 			{
-				showPreviewUsingMediaData(media);
-			});
+				icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void 
+				{
+					showPreviewUsingMediaData(media);
+				});
+			}
 		}
 				
 	}	

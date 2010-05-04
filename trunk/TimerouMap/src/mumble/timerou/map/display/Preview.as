@@ -262,6 +262,7 @@ package mumble.timerou.map.display
 		}
 		
 		public function show(position:Point):void {
+			if (!this.enabled) { return; }
 			if(visible) { return; }
 			visible = true;
 			hiding = false;
@@ -275,6 +276,15 @@ package mumble.timerou.map.display
 			hiding = true;
 			showTween = new Tween(this, "alpha", Strong.easeOut, 1, 0, 0.25, true);
 			setTimeout(function():void { visible = false; hiding = false; }, 250);
+		}
+		
+		public function enable():void {
+			this.enabled = true;
+		}
+		
+		public function disable():void {
+			hide();
+			this.enabled = false;
 		}
 	}
 }

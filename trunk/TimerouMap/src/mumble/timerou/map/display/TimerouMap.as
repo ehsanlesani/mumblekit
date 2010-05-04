@@ -42,8 +42,12 @@
 		
 		private var map:Map = null;
 		private var filter:ColorMatrixFilter = new ColorMatrixFilter();
-		private var pictureMarkers:Array = new Array();
+		private var mediaMarkers:Array = new Array();
 		private var computedWidth:Number = 100;
+		private var locationMarker:Marker;
+		private var eventsDisables:Boolean = false;
+		private var positionControl:PositionControl;
+		private var zoomControl:ZoomControl;
 		
 		public var ready:Boolean = false;
 		public var mode:String = MODE_NAVIGATION;
@@ -102,8 +106,12 @@
 			map.setSize(new Point(stage.stageWidth, stage.stageHeight));
 			map.setCenter(new LatLng(40.6686534, 16.6060872), 5);
 			map.setMapType(MapType.NORMAL_MAP_TYPE);
-			map.addControl(new ZoomControl()); 
-  			map.addControl(new PositionControl());
+			
+			zoomControl = new ZoomControl();
+			positionControl = new PositionControl();
+			
+			map.addControl(zoomControl); 
+  			map.addControl(positionControl);
 			map.enableScrollWheelZoom();	
 			
 			ready = true;			
@@ -113,35 +121,47 @@
 			});
 		}		
 		
-		private function onMapMoveStart(e:MapEvent):void {
-			if(mode == MODE_NAVIGATION) {
+		private function onMapMoveStart(e:MapEvent):void 
+		{
+			if (eventsDisables) { return; }
+			
+			if (mode == MODE_NAVIGATION) 
+			{
 				dispatchEvent(new Event(TIMEROUMAP_MOVESTART));
-			} else if (mode == MODE_LOCATION) {
+			} 
+			else if (mode == MODE_LOCATION) 
+			{
 				navigationMode();
 			}
 			
 		}
 		
 		private function onMapMoveEnd(e:MapEvent):void {
-			if(mode == MODE_NAVIGATION) {
+			if (eventsDisables) { return; }
+			
+			if (mode == MODE_NAVIGATION) 
+			{
 				dispatchEvent(new Event(TIMEROUMAP_MOVEEND));
 			}
 		}
 		
-		private function calculateFilterMatrix():Array {
+		private function calculateFilterMatrix():Array 
+		{
 			var invertedOldStyle:int = 100 - _oldStyle; //inversion to be oldest at 100%
 			var oldMatrix:Array = bwMatrix;
 			var newMatrix:Array = normalMatrix;
 			var percValue:int = invertedOldStyle - 50;
 			
-			if (invertedOldStyle <= 50) {
+			if (invertedOldStyle <= 50) 
+			{
 				newMatrix = bwMatrix;
 				oldMatrix = sepiaMatrix;
 				percValue = invertedOldStyle;
 			}
 			
 			var result:Array = new Array();
-			for (var i:int = 0; i < newMatrix.length; i++) {
+			for (var i:int = 0; i < newMatrix.length; i++) 
+			{
 				result[i] = ((percValue * (newMatrix[i] - oldMatrix[i]))  / 50.0) + oldMatrix[i];
      		}
 
@@ -154,35 +174,43 @@
 			s2.filters = [ filter ];
 		}
 		
-		public function showMediaLocation(mediaData:MediaData):MediaIcon {
+		public function showMediaLocation(mediaData:MediaData):MediaIcon 
+		{
+			if (mode == MODE_LOCATION) { return null; }
+			
 			var latLng:LatLng = mediaData.latLng;
 			var icon:MediaIcon = new MediaIcon();			
 			var options:MarkerOptions = new MarkerOptions();
 			options.icon = icon;
 			var marker:Marker = new Marker(latLng, options);
-			pictureMarkers.push(marker);
+			mediaMarkers.push(marker);
 			map.addOverlay(marker);
 			
 			return icon;
 		}
 		
-		public function clearMediaLocations():void {
-			for each(var marker:Marker in pictureMarkers) {
+		public function clearMediaLocations():void 
+		{
+			for each(var marker:Marker in mediaMarkers) 
+			{
 				map.removeOverlay(marker);
 			}
 			
-			pictureMarkers = new Array();
+			mediaMarkers = new Array();
 		}
 		
-		public function getPicturePoint(pictureData:MediaData):Point {
+		public function getPicturePoint(pictureData:MediaData):Point 
+		{
 			return map.fromLatLngToViewport(pictureData.latLng);
 		}
 		
-		public function setMapType(type:IMapType):void {
+		public function setMapType(type:IMapType):void 
+		{
 			map.setMapType(type);
 		}
 		
-		public function goToLocation(key:String):void {
+		public function goToLocation(key:String):void 
+		{
 			var geocoder:ClientGeocoder = new ClientGeocoder(); 
 		    geocoder.addEventListener(GeocodingEvent.GEOCODING_SUCCESS, 
   				function(event:GeocodingEvent):void { 
@@ -202,41 +230,49 @@
 		    geocoder.geocode(key); 
 		}
 		
-		public function locationMode():void {
-			mode = MODE_LOCATION;
-			//create bounds polygon
-			/*boundsPolygon = new Polygon(
-				[
-					latLngBounds.getSouthWest(),
-					latLngBounds.getSouthEast(),
-					latLngBounds.getNorthEast(),
-					latLngBounds.getNorthWest()
-				], 
-				new PolygonOptions(
-				{ 
-			  		strokeStyle: new StrokeStyle(
-					{
-				  		color: 0xE67F23,
-						thickness: 3,
-						alpha: 0.7
-					}), 
-				    fillStyle: new FillStyle(
-			    	{
-						color: 0x9BB5F9,
-						alpha: 0.3
-					})
-				})				
-			  );
-				
-			map.addOverlay(boundsPolygon);*/
-			
+		public function locationMode():void 
+		{
+			mode = MODE_LOCATION;			
+			positionControl.visible = false;
+			zoomControl.visible = false;
+			clearMediaLocations();
 			dispatchEvent(new Event(LOCATION_MODE_SELECTED));
 		}
 		
-		public function navigationMode():void {
+		public function navigationMode():void 
+		{
 			mode = MODE_NAVIGATION;			
+			positionControl.visible = true;
+			zoomControl.visible = true;
+			clearLocationMarker();
 			if(boundsPolygon != null) { map.removeOverlay(boundsPolygon); }
 			dispatchEvent(new Event(NAVIGATION_MODE_SELECTED));
+		}
+		
+		public function markLocation(latLng:LatLng):void 
+		{
+			clearLocationMarker();
+			
+			locationMarker = new Marker(latLng, 
+				new MarkerOptions({
+					  strokeStyle: new StrokeStyle({color: 0x987654}),
+					  fillStyle: new FillStyle({color: 0x223344, alpha: 0.8}),
+					  radius: 12,
+					  hasShadow: true
+				}));
+			map.addOverlay(locationMarker);
+			this.eventsDisables = true;
+			map.panTo(latLng);
+			this.eventsDisables = false;
+		}
+		
+		public function clearLocationMarker():void 
+		{
+			if (locationMarker != null) 
+			{
+				map.removeOverlay(locationMarker);
+				locationMarker = null;
+			}
 		}
 		
 	}
