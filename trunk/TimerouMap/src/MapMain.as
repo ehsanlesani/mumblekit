@@ -96,7 +96,7 @@
 			addChild(maskShape);
 			mask = maskShape;	
 			
-			addChild(yearControl);
+			//addChild(yearControl);
 						
 			stage.addEventListener(Event.RESIZE, adjustBorder);
 			stage.addEventListener(Event.RESIZE, drawMaskShape);			
