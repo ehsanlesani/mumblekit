@@ -19,6 +19,7 @@
     <script src="<%= UriHelper.Scripts %>MapCom.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>MapMediaTransition.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Actions/ShowMediaAction.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>Actions/MaximizeMapAction.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>AjaxNavigation.js" type="text/javascript"></script>
     
     
@@ -32,15 +33,21 @@
 
         $(document).ready(function() {
             var transition = new MapMediaTransition($("#mapContainer"), $("#detail"));
-
             var detailManager = new DetailManager(transition);
+            var navigation = new AjaxNavigation();
+            navigation.addAction("show", new ShowMediaAction(detailManager));
+            navigation.addAction("maximizeMap", new MaximizeMapAction(transition));
 
             $(TimebarCom).bind(TimebarCom.ON_MEDIA_CLICK, function(e, id) {
                 detailManager.showMedia(id);
             });
 
             $(MapCom).bind(MapCom.NAVIGATION_MODE_SELECTED, function(e) {
-                transition.maximizeMap();
+                window.location.href = "#maximizeMap";
+            });
+
+            $(MapCom).bind(MapCom.MAP_READY, function(e) {
+                navigation.start();
             });
         });
     </script>

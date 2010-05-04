@@ -7,18 +7,12 @@
 function DetailManager(transition) {
     this.transition = transition;
     this.displayedMedias = {}; //cache
-    this.initialize();
 }
 
 DetailManager.prototype = {
-    initialize: function() {
-        this._initializeNavigation();
-    },
 
     _initializeNavigation: function() {
-        var navigation = new AjaxNavigation();
-        navigation.addAction("show", new ShowMediaAction(this));
-        navigation.start();
+
     },
 
     loadMedia: function(id, callback) {
@@ -77,6 +71,7 @@ DetailManager.prototype = {
             }
 
             self.transition.minimizeMap();
+            MapCom.markLocation(media.lat, media.lng);
         });
     },
 
