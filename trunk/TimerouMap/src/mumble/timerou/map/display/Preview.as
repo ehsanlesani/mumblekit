@@ -19,11 +19,11 @@ package mumble.timerou.map.display
 		
 		private const INITIAL_WIDTH:int = 200;
 		private const INITIAL_HEIGHT:int = 200; 
-		private const BACKGROUND_COLOR:uint = 0x333333;
-		private const BACKGROUND_ALPHA:Number = 0.50;
+		private const BACKGROUND_COLOR:uint = 0xffffff;
+		private const BACKGROUND_ALPHA:Number = 1;
 		private const BORDER_COLOR:uint = 0xFFFFFF;
 		private const BORDER_THICKNESS:int = 3;
-		private const PADDING:int = 5;
+		private const PADDING:int = 3;
 		private const MARKER_SIZE:int = 10;
 		
 		private const MARKER_EDGE_TOP:int = 1;
