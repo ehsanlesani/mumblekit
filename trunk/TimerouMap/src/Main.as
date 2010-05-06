@@ -1,5 +1,6 @@
 ﻿package
 {
+	import com.google.maps.geom.Point3D;
 	import com.google.maps.LatLng;
 	import com.google.maps.LatLngBounds;
 	import com.google.maps.MapType;
@@ -50,6 +51,7 @@
 		private var maskShape:Shape = new Shape();
 		private var yearControl:YearControl = new YearControl();
 		private var border:Border;
+		private var lastHoveredPoint:Point = null;
 		
 		private var timebarConnection:TimebarConnection = new TimebarConnection();
 		
@@ -103,12 +105,12 @@
 			
 			removeEventListener(Event.ADDED_TO_STAGE, init);		
 			
+			this.map = new TimerouMap();		
+			addChild(map);
+				
 			border = new Border(stage.stageWidth, stage.stageHeight, 15);
 			addChild(border);
 			
-			this.map = new TimerouMap();		
-			addChild(map);
-						
 			this.preview = new Preview();
 			addChild(preview);
 
@@ -118,6 +120,7 @@
 			
 			addChild(yearControl);
 						
+			stage.addEventListener(MouseEvent.CLICK, closePreview);
 			stage.addEventListener(Event.RESIZE, adjustBorder);
 			stage.addEventListener(Event.RESIZE, drawMaskShape);			
 			
@@ -147,6 +150,12 @@
 		private function adjustBorder(e:Event = null):void 
 		{
 			border.dimension = new Dimension(stage.stageWidth, stage.stageHeight);
+		}
+		
+		private function closePreview(e:Event = null):void 
+		{
+			if(preview!=null)
+				preview.hide();
 		}
 		
 		private function drawMaskShape(e:Event = null):void 
@@ -233,7 +242,8 @@
 			hidePreview();
 		}
 		
-		private function onShowMediaLocations(e:TimebarEvent):void {
+		private function onShowMediaLocations(e:TimebarEvent):void 
+		{
 			currentMedias = e.mediasData;
 			
 			map.clearMediaLocations();
@@ -249,20 +259,21 @@
 			var mediaData:MediaData = new MediaData(mediaDataSource);
 			showPreviewUsingMediaData(mediaData);
 		}
-		
+				
 		private function showPreviewUsingMediaData(mediaData:MediaData):void 
 		{
 			var point:Point = map.getPicturePoint(mediaData);
-
-			if (!preview.visible) 
-			{ 
-				preview.show(point);
-			} else 
-			{ 
-				preview.move(point);
+			
+			if (lastHoveredPoint == null)
+				lastHoveredPoint = point;
+			
+		    if (!lastHoveredPoint.equals(point))
+			{
+				!preview.visible ? preview.show(point) : preview.move(point);				
+				preview.loadMedia(mediaData);
 			}
 			
-			preview.loadMedia(mediaData);
+			lastHoveredPoint = point;
 		}
 		
 		private function hidePreview():void 
@@ -292,13 +303,19 @@
 		}
 		
 		private function showMediaLocation(media:MediaData):void 
-		{
+		{			
 			var icon:MediaIcon = map.showMediaLocation(media);
 			if (icon != null)
 			{
-				icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void 
+				icon.addEventListener(MouseEvent.MOUSE_OVER, function(e:MouseEvent):void 
 				{
 					showPreviewUsingMediaData(media);
+				});
+				
+				icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void 
+				{					
+					setLocationMode();					
+					ExternalInterface.call("TimebarCom.onMediaClick", media.id);
 				});
 			}
 		}
