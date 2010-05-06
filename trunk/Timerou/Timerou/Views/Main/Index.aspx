@@ -95,7 +95,8 @@
                                 <img src="../../Content/Images/border-bottom-left.png" alt="" id="borderBottomLeft" />
                                 <img src="../../Content/Images/border-bottom-right.png" alt="" id="borderBottomRight" />
                             </div>
-                        </div>                        
+                        </div>    
+                        <!--                    
                         <div id="body">
                             <div id="detailsContainer">
                                 <div id="detailsContent"></div>
@@ -105,6 +106,7 @@
                                 <img src="../../Content/Images/borderGray-bottom-right.png" alt="" id="borderGrayBottomRight" />
                             </div>
                         </div>
+                        -->
                     </div>     
                 </div>
             </div>
