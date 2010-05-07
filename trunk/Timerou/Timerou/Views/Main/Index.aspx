@@ -21,6 +21,7 @@
     <script src="<%= UriHelper.Scripts %>Actions/ShowMediaAction.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>Actions/MaximizeMapAction.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>AjaxNavigation.js" type="text/javascript"></script>
+    <script src="<%= UriHelper.Scripts %>CommentsManager.js" type="text/javascript"></script>
     
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
@@ -34,7 +35,8 @@
         $(document).ready(function() {
             var transition = new MapMediaTransition($("#mapContainer"), $("#detail"));
             var detailManager = new DetailManager(transition);
-            var navigation = new AjaxNavigation();
+            var navigation = new AjaxNavigation();            
+            
             navigation.addAction("show", new ShowMediaAction(detailManager));
             navigation.addAction("maximizeMap", new MaximizeMapAction(transition));
 
@@ -95,7 +97,21 @@
                                 <img src="../../Content/Images/border-bottom-left.png" alt="" id="borderBottomLeft" />
                                 <img src="../../Content/Images/border-bottom-right.png" alt="" id="borderBottomRight" />
                             </div>
+                        </div>
+                        <div id="comments">
+                            
                         </div>    
+                        <div>
+                            <fieldset>
+                                <legend><%= UIHelper.T("msg.postNewComment") %></legend>
+                                <p>
+                                    <textarea id="commentBody"></textarea>
+                                </p>
+                                <p>
+                                    <input type="button" id="postCommentButton" />
+                                </p>                                
+                            </fieldset>
+                        </div>
                         <!--                    
                         <div id="body">
                             <div id="detailsContainer">
@@ -109,9 +125,6 @@
                         -->
                     </div>     
                 </div>
-            </div>
-            <div>
-                contenuto di sotto
             </div>
         </div>
     </div>

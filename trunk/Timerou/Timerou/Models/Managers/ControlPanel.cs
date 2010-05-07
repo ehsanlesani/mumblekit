@@ -9,7 +9,7 @@ using Mumble.Timerou.Models.Exceptions;
 namespace Mumble.Timerou.Models.Managers
 {
     /// <summary>
-    /// Manage user control panel and media
+    /// Manage user control panel and media. Logon is required
     /// </summary>
     public class ControlPanel
     {
@@ -183,7 +183,8 @@ namespace Mumble.Timerou.Models.Managers
                          && m.Id == id
                          select m).FirstOrDefault();
 
-            if(media == null) {
+            if(media == null) 
+            {
                 throw new MediaNotFoundException(id);
             }
 
@@ -192,6 +193,62 @@ namespace Mumble.Timerou.Models.Managers
             //and delete media from db
             _container.DeleteObject(media);
             _container.SaveChanges();
-        }        
+        }
+
+        /// <summary>
+        /// Save user comment into specified media
+        /// </summary>
+        /// <param name="mediaID"></param>
+        /// <param name="commentBody"></param>
+        public Comment PostComment(Guid mediaId, string commentBody)
+        {
+            var media = (from m in _container.Medias
+                         where m.User.Id == _user.Id
+                         && m.Id == mediaId
+                         select m).FirstOrDefault();
+
+            if (media == null)
+            {
+                throw new MediaNotFoundException(mediaId);
+            }
+
+            Comment comment = new Comment()
+            {
+                Body = commentBody,
+                Created = DateTime.Now,
+                Id = Guid.NewGuid(),
+                User = _user,
+                Media = media
+            };
+
+            _container.AddToComments(comment);
+            _container.SaveChanges();
+
+            return comment;
+        }
+
+        /// <summary>
+        /// Load comments in specified media
+        /// </summary>
+        /// <param name="mediaId"></param>
+        /// <returns></returns>
+        public IEnumerable<Comment> LoadComments(Guid mediaId)
+        {
+            var comments = from m in _container.Comments
+                           where m.Media.Id == mediaId
+                           select m;
+
+            return comments;
+        }
+
+        public int CountComments(Guid mediaId)
+        {
+            var comments = (from m in _container.Comments
+                            where m.Media.Id == mediaId
+                            select m).Count();
+
+            return comments;
+        }
+
     }
 }
