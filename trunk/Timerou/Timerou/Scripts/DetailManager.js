@@ -9,11 +9,9 @@ function DetailManager(transition) {
     this.displayedMedias = {}; //cache
 }
 
+DetailManager.MEDIA_DISPLAYED = "mediaDisplayed";
+
 DetailManager.prototype = {
-
-    _initializeNavigation: function() {
-
-    },
 
     loadMedia: function(id, callback) {
         var self = this;
@@ -63,15 +61,19 @@ DetailManager.prototype = {
                     );
 
                 //why not a different default title? :)
-                if(media.title != media.address)
+                if (media.title != media.address)
                     $("#titleBar #title").html(media.title);
-                    
-                $("#titleBar #address").html(media.address.length > 0 ? "("+ media.address +")" : "");
-                $("#detail #body #detailsContent").html(media.body.length > 300 ? media.body.substr(0, 300) +"..." : media.body);
+
+                $("#titleBar #address").html(media.address.length > 0 ? "(" + media.address + ")" : "");
+                $("#detail #body #detailsContent").html(media.body.length > 300 ? media.body.substr(0, 300) + "..." : media.body);
+            } else {
+                alert("media cannot be displayed: " + media.type);
             }
 
             self.transition.minimizeMap();
             MapCom.markLocation(media.lat, media.lng);
+
+            $(self).trigger(DetailManager.MEDIA_DISPLAYED, id);
         });
     },
 
