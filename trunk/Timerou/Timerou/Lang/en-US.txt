@@ -71,3 +71,4 @@ msg.insertYoutubeLink = msg.insertYoutubeLink
 txt.load = txt.load
 msg.selectVideo = msg.selectVideo
 txt.newMedia = txt.newMedia
+msg.postNewComment = msg.postNewComment

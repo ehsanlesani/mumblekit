@@ -22,7 +22,7 @@
     <script src="<%= UriHelper.Scripts %>Actions/MaximizeMapAction.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>AjaxNavigation.js" type="text/javascript"></script>
     <script src="<%= UriHelper.Scripts %>CommentsManager.js" type="text/javascript"></script>
-    
+    <script src="<%= UriHelper.Scripts %>CitiesLoader.js" type="text/javascript"></script>   
     
     <link href="<%= UriHelper.Scripts %>jquery/smoothness/jquery.ui.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Site.css" rel="stylesheet" type="text/css" />
@@ -35,8 +35,8 @@
         $(document).ready(function() {
             var transition = new MapMediaTransition($("#mapContainer"), $("#detail"));
             var detailManager = new DetailManager(transition);
-            var navigation = new AjaxNavigation();            
-            
+            var navigation = new AjaxNavigation();
+
             navigation.addAction("show", new ShowMediaAction(detailManager));
             navigation.addAction("maximizeMap", new MaximizeMapAction(transition));
 
@@ -50,6 +50,11 @@
 
             $(MapCom).bind(MapCom.MAP_READY, function(e) {
                 navigation.start();
+            });
+
+            $(MapCom).bind(MapCom.MAP_MOVE_END, function(e, bounds) {
+                //var loader = new CitiesLoader();
+                //loader.load();
             });
         });
     </script>
@@ -89,6 +94,12 @@
                         </div>
                         <% Html.RenderPartial("MapObject"); %>
                     </div>
+                    <div id="navigator">
+                        <span class="title">navigator</span>
+                        <div id="navContent">
+                        
+                        </div>
+                    </div>
                     <div id="detail" style="margin-left: 981px; margin-right:10px;">
                         <div id="titleBar"><span id="title"></span><span id="address"></span></div>
                         <div id="mediaContainer">
@@ -99,8 +110,6 @@
                             </div>
                         </div>
                         <div id="comments">
-                            
-                        </div>    
                         <div>
                             <fieldset>
                                 <legend><%= UIHelper.T("msg.postNewComment") %></legend>
@@ -111,7 +120,9 @@
                                     <input type="button" id="postCommentButton" />
                                 </p>                                
                             </fieldset>
-                        </div>
+                        </div>    
+                        </div>    
+                        
                         <!--                    
                         <div id="body">
                             <div id="detailsContainer">
