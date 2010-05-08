@@ -22,7 +22,13 @@ TimebarCom.setYear = function(year) {
     TimebarCom.timebar.setYear(year);
 };
 
+TimebarCom.getYear = function() {
+    return TimebarCom.timebar.getYear();
+};
+
 //events in flash timebar
 TimebarCom.onMediaClick = function(id) {
     $(TimebarCom).trigger(TimebarCom.ON_MEDIA_CLICK, id);
-}
+};
+
+

@@ -89,5 +89,29 @@ namespace Mumble.Timerou.Controllers
             }
         }
 
+        /// <summary>
+        /// Load single media by id
+        /// </summary>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult LoadCities(double? swlat, double? swlng, double? nelat, double? nelng, int year)
+        {
+            try
+            {
+                MediaLoader mediaLoader = new MediaLoader(Container);
+                MapBounds mapBounds = new MapBounds(new LatLng(swlat.Value, swlng.Value), new LatLng(nelat.Value, nelng.Value));
+                IEnumerable<GeoInfo> info = mediaLoader.LoadCities(mapBounds, year);
+                LoadCitiesResponse response = LoadCitiesResponse.FromList(info);
+
+                return this.CamelCaseJson(response);
+            }
+            catch (MediaNotFoundException ex)
+            {
+                return this.CamelCaseJson(new SimpleResponse(true, String.Format("Media with id {0} not found", ex.MediaId)));
+            }
+            catch (Exception ex)
+            {
+                return this.CamelCaseJson(new SimpleResponse(true, ex.Message));
+            }
+        }
     }
 }

@@ -93,6 +93,7 @@
     <Compile Include="Models\Exceptions\MediaNotFoundException.cs" />
     <Compile Include="Models\Exceptions\PropertyNotFoundException.cs" />
     <Compile Include="Models\Exceptions\ValueObjectNotFoundException.cs" />
+    <Compile Include="Models\GeoInfo.cs" />
     <Compile Include="Models\LatLng.cs" />
     <Compile Include="Models\Managers\MediaLoader.cs" />
     <Compile Include="Models\MapBounds.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Models\Media.cs" />
     <Compile Include="Models\Responses\CommentResponse.cs" />
     <Compile Include="Models\Responses\CommentsResponse.cs" />
+    <Compile Include="Models\Responses\LoadCitiesResponse.cs" />
     <Compile Include="Models\Responses\CountResponse.cs" />
     <Compile Include="Models\Responses\LoadMediaResponse.cs" />
     <Compile Include="Models\Responses\PictureData.cs" />
@@ -221,6 +223,7 @@
     <Content Include="Scripts\Actions\MaximizeMapAction.js" />
     <Content Include="Scripts\Actions\ShowMediaAction.js" />
     <Content Include="Scripts\AjaxNavigation.js" />
+    <Content Include="Scripts\CitiesLoader.js" />
     <Content Include="Scripts\CommentsManager.js" />
     <Content Include="Scripts\TimebarCom.js" />
     <Content Include="Scripts\jquery\jquery-1.4.2.min.js" />

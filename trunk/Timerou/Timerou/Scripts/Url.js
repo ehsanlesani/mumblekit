@@ -16,8 +16,9 @@ Url.CommentsPost = BASEURL + "Comments.aspx/Post/";
 Url.LoadOneMediaPerYear = BASEURL + "MediaLoader.aspx/LoadOneMediaPerYear/";
 Url.LoadUserMedias = BASEURL + "Account.aspx/LoadUserMedias/";
 Url.DeleteUserMedia = BASEURL + "Account.aspx/DeleteUserMedia";
-Url.LoadMedias = BASEURL + "MediaLoader.aspx/LoadMedias/"
-Url.LoadMedia = BASEURL + "MediaLoader.aspx/LoadMedia/"
+Url.LoadMedias = BASEURL + "MediaLoader.aspx/LoadMedias/";
+Url.LoadMedia = BASEURL + "MediaLoader.aspx/LoadMedia/";
+Url.LoadCities = BASEURL + "MediaLoader.aspx/LoadCities/";
 
 Url.Location = BASEURL + "Location.aspx/";
 

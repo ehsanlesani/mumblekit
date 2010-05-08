@@ -6,6 +6,7 @@ MapCom.map = null;
 
 MapCom.NAVIGATION_MODE_SELECTED = "navigationModeSelected";
 MapCom.MAP_READY = "mapReady";
+MapCom.MAP_MOVE_END = "mapMoveEnd";
 
 $(document).ready(function() {
     var movieName = "map";
@@ -53,4 +54,13 @@ MapCom.navigationModeSelected = function() {
 
 MapCom.onMapReady = function() {
     $(MapCom).trigger(MapCom.MAP_READY);
+};
+
+MapCom.onMapMoveEnd = function(swlat, swlng, nelat, nelng) {
+    $(MapCom).trigger(MapCom.MAP_MOVE_END, {
+        swlat: swlat,
+        swlng: swlng,
+        nelat: nelat,
+        nelng: nelng
+    });
 };
