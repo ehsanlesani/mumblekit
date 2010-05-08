@@ -51,7 +51,6 @@
 		private var maskShape:Shape = new Shape();
 		private var yearControl:YearControl = new YearControl();
 		private var border:Border;
-		private var lastHoveredPoint:Point = null;
 		
 		private var timebarConnection:TimebarConnection = new TimebarConnection();
 		
@@ -264,16 +263,10 @@
 		{
 			var point:Point = map.getPicturePoint(mediaData);
 			
-			if (lastHoveredPoint == null)
-				lastHoveredPoint = point;
+			//lastOveredPoint...
 			
-		    if (!lastHoveredPoint.equals(point))
-			{
-				!preview.visible ? preview.show(point) : preview.move(point);				
-				preview.loadMedia(mediaData);
-			}
-			
-			lastHoveredPoint = point;
+			!preview.visible ? preview.show(point) : preview.move(point);				
+			preview.loadMedia(mediaData);
 		}
 		
 		private function hidePreview():void 
@@ -300,6 +293,15 @@
 		private function mapMoveEnd(e:Event):void 
 		{		
 			timebarConnection.setBounds(map.latLngBounds);
+			
+			if (ExternalInterface.available)
+			{
+				ExternalInterface.call("MapCom.onMapMoveEnd", 
+										map.latLngBounds.getSouthWest().lat(), 
+										map.latLngBounds.getSouthWest().lng(),
+										map.latLngBounds.getNorthEast().lat(),
+										map.latLngBounds.getNorthEast().lng());
+			}
 		}
 		
 		private function showMediaLocation(media:MediaData):void 
@@ -311,12 +313,18 @@
 				{
 					showPreviewUsingMediaData(media);
 				});
-				
+								
 				icon.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void 
 				{					
-					setLocationMode();					
-					ExternalInterface.call("TimebarCom.onMediaClick", media.id);
+					setLocationMode();	
+					
+					if (ExternalInterface.available)
+					{
+						// Fix it and change TimebarCom to MapCom
+						ExternalInterface.call("TimebarCom.onMediaClick", media.id);
+					}
 				});
+				
 			}
 		}
 				

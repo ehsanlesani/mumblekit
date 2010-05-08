@@ -9,6 +9,7 @@ package mumble.timerou.map.display
 	import flash.filters.DropShadowFilter;
 	import flash.geom.Point;
 	import flash.utils.setTimeout;
+	import flash.events.MouseEvent;
 	
 	import mumble.timerou.map.data.MediaData;
 	import mumble.timerou.map.data.RemotePicture;
@@ -45,6 +46,7 @@ package mumble.timerou.map.display
 		private var rectX:Number = 0;
 		private var rectY:Number = 0;
 		private var hiding:Boolean = false;
+		private var mouseOver:Boolean = false;
 		
 		public function Preview() {
 			youtubeVideo = new YoutubeVideo();
@@ -54,9 +56,30 @@ package mumble.timerou.map.display
 		}
 		
 		private function init(e:Event):void {
+			
+			removeEventListener(Event.ADDED_TO_STAGE, init);
+			addEventListener(MouseEvent.MOUSE_OVER, mouseOverStatus);
+			addEventListener(MouseEvent.MOUSE_OUT, mouseOutStatus);
+			
 			this.visible = false; //starts invisible
 			
 			filters = [ new DropShadowFilter(0, 0, 0, 1, 5, 5, 1, 1) ];
+			
+		}
+		
+		public function get overing():Boolean
+		{
+			return mouseOver;
+		}
+						
+		private function mouseOverStatus(e:Event):void 
+		{
+			mouseOver = true;
+		}
+		
+		private function mouseOutStatus(e:Event):void 
+		{
+			mouseOver = false;
 		}
 		
 		private function drawBox():void {
