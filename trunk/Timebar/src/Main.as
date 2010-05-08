@@ -21,10 +21,16 @@ package
 		//private var debug:TextField = new TextField();
 		private var leftArrow:LeftArrow = new LeftArrow();
 		private var rightArrow:RightArrow = new RightArrow();
+		private var timebar:Timebar = new Timebar();
 		
 		public function Main() 
 		{			
 			addEventListener(Event.ADDED_TO_STAGE, init);
+			
+			if (ExternalInterface.available)
+			{
+				ExternalInterface.addCallback("getYear", getYear);
+			}
 		}
 		
 		private function init(e:Event):void 
@@ -34,13 +40,17 @@ package
 			
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
-			var timebar:Timebar = new Timebar();
 			addChild(timebar);
 			
 			timebar.addEventListener(MediaEvent.CLICK, onMediaClick);
-			
+						
 			//debug.text = "Ciao";
 			//addChild(debug);
+		}
+		
+		private function getYear():int
+		{
+			return timebar.year;
 		}
 		
 		private function onMediaClick(e:MediaEvent):void 
