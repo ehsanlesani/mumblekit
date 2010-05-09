@@ -28,6 +28,7 @@
     <link href="<%= UriHelper.Css %>Site.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>MainPage.css" rel="stylesheet" type="text/css" />
     <link href="<%= UriHelper.Css %>Shared.css" rel="stylesheet" type="text/css" />
+    <link href="<%= UriHelper.Css %>Controls.css" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
         var year = new Date().getFullYear();
@@ -53,8 +54,12 @@
             });
 
             $(MapCom).bind(MapCom.MAP_MOVE_END, function(e, bounds) {
-                //var loader = new CitiesLoader();
-                //loader.load();
+                var loader = new CitiesLoader(bounds.swlat,
+                                            bounds.swlng,
+                                            bounds.nelat,
+                                            bounds.nelng, 
+                                            TimebarCom.getYear());
+                loader.load();
             });
         });
     </script>
@@ -84,23 +89,17 @@
             <div id="timebarContainer" style="height: 170px;">
                 <% Html.RenderPartial("TimebarObject"); %>
             </div>  
-            <div id="content" style="width: 981px; overflow:hidden;">
+            <div id="content" style="position:relative; width: 981px; height:600px; overflow:hidden;">
                 <div style="width: 981px;">
-                    <div id="mapContainer" style="position:absolute; height: 500px; width: 981px; padding-top:19px; margin-right:15px;">
+                    <div id="mapContainer" style="position:absolute; height: 500px; width: 680px; padding-top:19px; margin-right:15px;">
                         <div id="searchMapContainer">
                             <img src="../../Content/Images/searchMapLeftSide.png" id="searchMapLeftSide" alt="" />
                             <input type="text" id="locationKeyword" value="Destination, Places, Events..." />
                             <input type="image" id="locationButton" src="../../Content/Images/search-button.png" alt="search on the map" />
                         </div>
                         <% Html.RenderPartial("MapObject"); %>
-                    </div>
-                    <div id="navigator">
-                        <span class="title">navigator</span>
-                        <div id="navContent">
-                        
-                        </div>
-                    </div>
-                    <div id="detail" style="margin-left: 981px; margin-right:10px;">
+                    </div>                    
+                    <div id="detail" style="margin-left: 981px; margin-right:10px; z-index:1000;">
                         <div id="titleBar"><span id="title"></span><span id="address"></span></div>
                         <div id="mediaContainer">
                             <div id="imageContainer"></div>
@@ -135,6 +134,12 @@
                         </div>
                         -->
                     </div>     
+                </div>
+                <div id="navigator" style="position:absolute; top:15px; left:680px; width: 300px; z-index:1;">
+                    <p class="navTitle">navigator</p>
+                    <div id="navContent">
+                    
+                    </div>
                 </div>
             </div>
         </div>

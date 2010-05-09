@@ -5,7 +5,7 @@ function MapMediaTransition(mapContainer, mediaContainer) {
     this.duration = 300;
     this.delay = 30;
     this.mapMinimizedSize = { width: 323, height: 300 };
-    this.mapMaximizedSize = { width: 981, height: 500 };
+    this.mapMaximizedSize = { width: 680, height: 500 };
     
     this.mapContainer = mapContainer;
     this.mediaContainer = mediaContainer;
@@ -28,15 +28,18 @@ MapMediaTransition.prototype = {
         var stepHeight = deltaHeight / steps;
         var stepWidth = deltaWidth / steps;
 
-        $('#comments').hide();
-        $('#titleBar').hide();
+        //$('#comments').hide();
+        //$('#titleBar').hide();        
         $fx($(this.mediaContainer).get(0)).fxAdd({ type: "marginLeft", to: 981, step: stepWidth, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "height", to: this.mapMaximizedSize.height, step: stepHeight, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "width", to: this.mapMaximizedSize.width, step: stepWidth, delay: this.delay }).fxRun();
+        $('#navigator').show();
     },
 
     minimizeMap: function() {
         if (this.viewMode == MapMediaTransition.VIEW_DETAILS) { return; }
+
+        $('#navigator').hide();
         this.viewMode = MapMediaTransition.VIEW_DETAILS;
         MapCom.setLocationMode();
 
@@ -49,9 +52,12 @@ MapMediaTransition.prototype = {
         $fx($(this.mediaContainer).get(0)).fxAdd({ type: "marginLeft", to: 330, step: stepWidth, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "height", to: this.mapMinimizedSize.height, step: stepHeight, delay: this.delay }).fxRun();
         $fx($(this.mapContainer).get(0)).fxAdd({ type: "width", to: this.mapMinimizedSize.width, step: stepWidth, delay: this.delay }).fxRun();
+
+        /*
         setTimeout(function() {
-            $('#comments').fadeIn(200);
-            $('#titleBar').fadeIn(200);
+        $('#comments').fadeIn(200);
+        $('#titleBar').fadeIn(200);
         }, 500);
+        */
     }
 };
