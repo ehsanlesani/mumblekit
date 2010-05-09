@@ -194,6 +194,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TimerouContainer.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Content\Css\Controls.css" />
     <Content Include="Content\Css\Details.css" />
     <Content Include="Content\Css\MainPage.css" />
     <Content Include="Content\Css\Shared.css" />

@@ -278,14 +278,16 @@ namespace Mumble.Timerou.Models.Managers
             var crossMeridian = bounds.CrossMeridian;
 
             IEnumerable<GeoInfo> locations = (from m in _container.Medias
-                                        where (year.HasValue && m.Year == year)
+                                        where (year.HasValue && m.Year == year)                                        
                                         && m.City != null
                                         && m.IsTemp == false
+                                        /*
                                         && m.Lat >= bounds.SouthWest.Lat
                                         && m.Lat <= bounds.NorthEast.Lat
                                         && ((crossMeridian && (m.Lng >= bounds.SouthWest.Lng || m.Lng <= bounds.NorthEast.Lng))
-                                           || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))
-                                        //orderby m.City descending
+                                           || (!crossMeridian && (m.Lng >= bounds.SouthWest.Lng && m.Lng <= bounds.NorthEast.Lng)))                                         * 
+                                        orderby m.City descending
+                                        */
                                         select new GeoInfo { City = m.City, Province = m.Province, Region = m.Region, Country = m.Country, Year = m.Year }).Distinct();
 
 
