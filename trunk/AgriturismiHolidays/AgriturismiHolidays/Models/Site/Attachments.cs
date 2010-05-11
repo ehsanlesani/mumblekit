@@ -66,7 +66,7 @@ namespace Mumble.Web.StarterKit.Models.Site
                                 }
                                 else
                                 {
-                                    throw new FormatException("You can upload only *.JPEG");
+                                    throw new FormatException("Puoi inviare solo file JPG");
                                 }
                             }
                         }
