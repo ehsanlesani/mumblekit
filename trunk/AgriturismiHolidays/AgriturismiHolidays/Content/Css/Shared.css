@@ -431,7 +431,7 @@ table.room-prices {
     border:1px solid #E2DED3; 
     border-collapse:collapse; 
     border-spacing:5px;
-    border-style:outset;
+    /*border-style:outset;*/
 }
 
 table.room-prices td 
@@ -439,7 +439,7 @@ table.room-prices td
     border:1px solid #E2DED3; 
     border-collapse:collapse; 
     padding:5px;
-    border-style:inset;
+    /*border-style:inset;*/
 }
 
 .floated-left
