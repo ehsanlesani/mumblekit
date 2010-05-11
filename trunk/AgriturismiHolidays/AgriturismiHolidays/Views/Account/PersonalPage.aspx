@@ -8,7 +8,7 @@
         List<Room> roomList = ViewData["RoomList"] as List<Room>;
         List<Service> serviceList = ViewData["ServiceList"] as List<Service>;
         
-        Html.BeginForm("RegisterAccommodation", "Account", FormMethod.Post, new { id = "registerAccommodationFrm" });
+        Html.BeginForm("RegisterAccommodation", "Account", FormMethod.Post, new { id = "registerAccommodationFrm" , enctype = "multipart/form-data"});
     %>
     <input type="hidden" name="roomTrash" />
     <input type="hidden" name="roomCounter" value="<%= ((roomList != null) ? roomList.Count : 0) %>" />

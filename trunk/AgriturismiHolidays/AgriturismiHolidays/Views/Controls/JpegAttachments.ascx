@@ -32,7 +32,7 @@
                 //$("form#registerAccommodationFrm").attr("enctype", "multipart/form-data");
 
                 $("form#registerAccommodationFrm")
-                    .attr("enctype", "multipart/form-data")
+                    //.attr("enctype", "multipart/form-data")
                     .submit(function() {
                         $("#attachmentsJson").val($.toJSON(attachments));
                     });
@@ -55,10 +55,10 @@
 
             function addAttachment() {
                 var attachment = new Attachment();
-                attachment.Title = "Nuova Immagine";
-                attachments.push(attachment);
-
+                attachment.Title = "Scrivi qui il titolo";
                 createAttachment(attachment);
+                
+                attachments.push(attachment);                
             }
 
             function deleteAttachment(attachment) {
@@ -79,7 +79,7 @@
             function createAttachment(attachment) {
                 attachment.FileInput = "file_" + attachmentCounter;
                 attachment.El = "attachment_" + attachmentCounter;
-
+               
                 $("#attachmentsContainerPublic").append($("<div />")
                     .addClass("box")
                     .addClass("attachment")
@@ -130,9 +130,9 @@
                                     .html("Seleziona/Cambia...")
                                 )
                                 .append($("<td />")
-                                    .append($("<input />")
-                                        .attr("type", "file")
-                                        .attr("name", attachment.FileInput)
+                                    .append($("<input name=\""+ attachment.FileInput +"\" type=\"file\" />")
+                                        //.attr("name", attachment.FileInput)
+                                        //.attr("type", "file")                                        
                                     )
                                 )
                             )
