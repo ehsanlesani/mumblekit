@@ -19,7 +19,7 @@
     <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/Shared.css") %>" />
     <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/Internal.css") %>" />    
     <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/StickyFooter.css") %>" />
-    <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/jquery/ui-lightness/jquery-ui-1.7.2.custom.css") %>" />    
+    <link rel="stylesheet" media="all" type="text/css" href="<%=ResolveUrl("~/Content/Css/jquery/ui-lightness/jquery-ui-1.7.2.custom.css") %>" /> 
     <asp:ContentPlaceHolder ID="head" runat="server" />
 </head>
 <body>
