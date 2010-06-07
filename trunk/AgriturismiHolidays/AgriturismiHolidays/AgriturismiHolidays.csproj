@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Admin\AccommodationController.cs" />
     <Compile Include="Controllers\Admin\AccommodationTypeController.cs" />
+    <Compile Include="Controllers\Admin\MailingListController.cs" />
     <Compile Include="Controllers\Admin\NewsletterController.cs" />
     <Compile Include="Controllers\Admin\ServiceController.cs" />
     <Compile Include="Controllers\Admin\GroupController.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Models\ExtPartial\AccommodationType.cs" />
     <Compile Include="Models\ExtPartial\Attachment.cs" />
     <Compile Include="Models\Common\MenuTab.cs" />
+    <Compile Include="Models\ExtPartial\MailingList.cs" />
     <Compile Include="Models\ExtPartial\Newsletter.cs" />
     <Compile Include="Models\ExtPartial\Service.cs" />
     <Compile Include="Models\ExtPartial\Group.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Models\ExtPartial\Room.cs" />
     <Compile Include="Models\ExtPartial\RoomPriceList.cs" />
     <Compile Include="Models\Exceptions\LoginException.cs" />
+    <Compile Include="Models\MailingListFacade.cs" />
     <Compile Include="Models\Responses\SimpleResponse.cs" />
     <Compile Include="Models\Scaffold\CommonResource.cs" />
     <Compile Include="Models\Scaffold\Converters\BooleanConverter.cs" />
@@ -710,6 +713,12 @@
     <Content Include="Views\Controls\JpegAttachments.ascx" />
     <Content Include="Views\Controls\LoginControl.ascx" />
     <Content Include="Views\Home\StaticPage.aspx" />
+    <Content Include="Views\MailingList\Create.aspx" />
+    <Content Include="Views\MailingList\Edit.aspx" />
+    <Content Include="Views\MailingList\Index.aspx" />
+    <Content Include="Views\MailingList\SendMail.aspx" />
+    <Content Include="Views\MailingList\SendMailToOne.aspx" />
+    <Content Include="Views\MailingList\ThankYou.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\Shared\Header.ascx" />

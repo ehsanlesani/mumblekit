@@ -12,6 +12,7 @@
           <EntitySet Name="Attachments" EntityType="StarterKitModel.Store.Attachments" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Groups" EntityType="StarterKitModel.Store.Groups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GroupUser" EntityType="StarterKitModel.Store.GroupUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MailingList" EntityType="StarterKitModel.Store.MailingList" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Municipalities" EntityType="StarterKitModel.Store.Municipalities" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Newsletter" EntityType="StarterKitModel.Store.Newsletter" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="StarterKitModel.Store.Pages" store:Type="Tables" Schema="dbo" />
@@ -151,6 +152,16 @@
           </Key>
           <Property Name="Groups_Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Users_Id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MailingList">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Surname" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="2000" />
+          <Property Name="Phone" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Municipalities">
           <Key>
@@ -531,7 +542,8 @@
             <End Role="Users" EntitySet="Users" /></AssociationSet>
           <AssociationSet Name="GroupUser" Association="StarterKitModel.GroupUser">
             <End Role="Groups" EntitySet="Groups" />
-            <End Role="Users" EntitySet="Users" /></AssociationSet></EntityContainer>
+            <End Role="Users" EntitySet="Users" /></AssociationSet>
+          <EntitySet Name="MailingList" EntityType="StarterKitModel.MailingList" /></EntityContainer>
         <EntityType Name="Accommodation">
           <Key>
             <PropertyRef Name="Id" />
@@ -750,7 +762,15 @@
           <End Type="StarterKitModel.User" Role="Users" Multiplicity="*" /></Association>
         <Association Name="GroupUser">
           <End Type="StarterKitModel.Group" Role="Groups" Multiplicity="*" />
-          <End Type="StarterKitModel.User" Role="Users" Multiplicity="*" /></Association></Schema>
+          <End Type="StarterKitModel.User" Role="Users" Multiplicity="*" /></Association>
+        <EntityType Name="MailingList">
+          <Key>
+            <PropertyRef Name="UserID" /></Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Surname" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="true" />
+          <Property Name="Phone" Type="String" Nullable="true" /></EntityType></Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1017,7 +1037,15 @@
             <EndProperty Name="Users">
               <ScalarProperty Name="Id" ColumnName="Users_Id" /></EndProperty>
             <EndProperty Name="Groups">
-              <ScalarProperty Name="Id" ColumnName="Groups_Id" /></EndProperty></AssociationSetMapping></EntityContainerMapping>
+              <ScalarProperty Name="Id" ColumnName="Groups_Id" /></EndProperty></AssociationSetMapping>
+          <EntitySetMapping Name="MailingList">
+            <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.MailingList)">
+              <MappingFragment StoreEntitySet="MailingList">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" /></MappingFragment></EntityTypeMapping></EntitySetMapping></EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -1113,6 +1141,7 @@
         <AssociationConnector Association="StarterKitModel.GroupUser" >
           <ConnectorPoint PointX="15" PointY="1.6728417968749998" />
           <ConnectorPoint PointX="14" PointY="1.6728417968749998" />
-          </AssociationConnector></Diagram></edmx:Diagrams>
+          </AssociationConnector>
+        <EntityTypeShape EntityType="StarterKitModel.MailingList" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9802864583333331" /></Diagram></edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

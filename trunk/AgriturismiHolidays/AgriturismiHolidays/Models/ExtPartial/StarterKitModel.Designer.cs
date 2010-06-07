@@ -25,7 +25,7 @@
 [assembly: global::System.Data.Objects.DataClasses.EdmRelationshipAttribute("StarterKitModel", "GroupUser", "Groups", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.Group), "Users", global::System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Mumble.Web.StarterKit.Models.ExtPartial.User))]
 
 // Original file name:
-// Generation date: 17/04/2010 16:48:29
+// Generation date: 07/06/2010 23:45:36
 namespace Mumble.Web.StarterKit.Models.ExtPartial
 {
     
@@ -300,6 +300,21 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         }
         private global::System.Data.Objects.ObjectQuery<User> _Users;
         /// <summary>
+        /// There are no comments for MailingList in the schema.
+        /// </summary>
+        public global::System.Data.Objects.ObjectQuery<MailingList> MailingList
+        {
+            get
+            {
+                if ((this._MailingList == null))
+                {
+                    this._MailingList = base.CreateQuery<MailingList>("[MailingList]");
+                }
+                return this._MailingList;
+            }
+        }
+        private global::System.Data.Objects.ObjectQuery<MailingList> _MailingList;
+        /// <summary>
         /// There are no comments for Accommodations in the schema.
         /// </summary>
         public void AddToAccommodations(Accommodation accommodation)
@@ -410,6 +425,13 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
         public void AddToUsers(User user)
         {
             base.AddObject("Users", user);
+        }
+        /// <summary>
+        /// There are no comments for MailingList in the schema.
+        /// </summary>
+        public void AddToMailingList(MailingList mailingList)
+        {
+            base.AddObject("MailingList", mailingList);
         }
     }
     /// <summary>
@@ -3159,5 +3181,146 @@ namespace Mumble.Web.StarterKit.Models.ExtPartial
                 }
             }
         }
+    }
+    /// <summary>
+    /// There are no comments for StarterKitModel.MailingList in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// UserID
+    /// </KeyProperties>
+    [global::System.Data.Objects.DataClasses.EdmEntityTypeAttribute(NamespaceName="StarterKitModel", Name="MailingList")]
+    [global::System.Runtime.Serialization.DataContractAttribute(IsReference=true)]
+    [global::System.Serializable()]
+    public partial class MailingList : global::System.Data.Objects.DataClasses.EntityObject
+    {
+        /// <summary>
+        /// Create a new MailingList object.
+        /// </summary>
+        /// <param name="userID">Initial value of UserID.</param>
+        /// <param name="name">Initial value of Name.</param>
+        /// <param name="surname">Initial value of Surname.</param>
+        public static MailingList CreateMailingList(int userID, string name, string surname)
+        {
+            MailingList mailingList = new MailingList();
+            mailingList.UserID = userID;
+            mailingList.Name = name;
+            mailingList.Surname = surname;
+            return mailingList;
+        }
+        /// <summary>
+        /// There are no comments for Property UserID in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public int UserID
+        {
+            get
+            {
+                return this._UserID;
+            }
+            set
+            {
+                this.OnUserIDChanging(value);
+                this.ReportPropertyChanging("UserID");
+                this._UserID = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value);
+                this.ReportPropertyChanged("UserID");
+                this.OnUserIDChanged();
+            }
+        }
+        private int _UserID;
+        partial void OnUserIDChanging(int value);
+        partial void OnUserIDChanged();
+        /// <summary>
+        /// There are no comments for Property Name in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this.ReportPropertyChanging("Name");
+                this._Name = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Name");
+                this.OnNameChanged();
+            }
+        }
+        private string _Name;
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Property Surname in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute(IsNullable=false)]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Surname
+        {
+            get
+            {
+                return this._Surname;
+            }
+            set
+            {
+                this.OnSurnameChanging(value);
+                this.ReportPropertyChanging("Surname");
+                this._Surname = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, false);
+                this.ReportPropertyChanged("Surname");
+                this.OnSurnameChanged();
+            }
+        }
+        private string _Surname;
+        partial void OnSurnameChanging(string value);
+        partial void OnSurnameChanged();
+        /// <summary>
+        /// There are no comments for Property Email in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Email
+        {
+            get
+            {
+                return this._Email;
+            }
+            set
+            {
+                this.OnEmailChanging(value);
+                this.ReportPropertyChanging("Email");
+                this._Email = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Email");
+                this.OnEmailChanged();
+            }
+        }
+        private string _Email;
+        partial void OnEmailChanging(string value);
+        partial void OnEmailChanged();
+        /// <summary>
+        /// There are no comments for Property Phone in the schema.
+        /// </summary>
+        [global::System.Data.Objects.DataClasses.EdmScalarPropertyAttribute()]
+        [global::System.Runtime.Serialization.DataMemberAttribute()]
+        public string Phone
+        {
+            get
+            {
+                return this._Phone;
+            }
+            set
+            {
+                this.OnPhoneChanging(value);
+                this.ReportPropertyChanging("Phone");
+                this._Phone = global::System.Data.Objects.DataClasses.StructuralObject.SetValidValue(value, true);
+                this.ReportPropertyChanged("Phone");
+                this.OnPhoneChanged();
+            }
+        }
+        private string _Phone;
+        partial void OnPhoneChanging(string value);
+        partial void OnPhoneChanged();
     }
 }
