@@ -17,14 +17,6 @@
             </div>
         </div>
         <div class="module-section">
-            <div class="w20"><label for="Name">Nome:</label></div>
-            <div class="w30"><input type="text" id="Name" name="Name" value="<%=Request.Params["Name"] %>" /></div>
-            <div class="w15 text-center"><label for="Surname">Cognome:</label></div>
-            <div class="w30"><input type="text" id="Surname" name="Surname" value="<%=Request.Params["Surname"] %>"/></div>
-        </div>
-        <div class="module-section">
-            <div class="w20"><label for="Phone">Telefono:</label></div>
-            <div class="w30"><input type="text" id="Phone" name="Phone" value="<%=Request.Params["Phone"] %>"/></div>
             <div class="w15 text-center"><label for="Email">Email:</label></div>
             <div class="w30"><input type="text" id="Email" name="Email" value="<%=Request.Params["Email"] %>"/></div>
         </div>
@@ -50,10 +42,7 @@
                     <tr>
                         <th></th>
                         <th>UserID</th>
-                        <th>Nome</th>
-                        <th>Cognome</th>
                         <th>Email</th>
-                        <th>Telefono</th>
                     </tr>
                 <%  bool b = true;
                     foreach (var item in Model) { %>
@@ -67,8 +56,6 @@
                             </a>
                         </td>
                         <td class="text-center"><%= Html.Encode(item.UserID) %></td>
-                        <td><%= Html.Encode(item.Name) %></td>
-                        <td><%= Html.Encode(item.Surname) %></td>
                         <td>
                             <a href="<%=Url.Action("SendMailToOne", "MailingList", new { UserID = item.UserID }) %>">
                                 <img src="/Content/Images/Email.png" alt="Email" width="16" height="16"/>
@@ -76,7 +63,6 @@
                             </a>
                             
                         </td>
-                        <td><%= Html.Encode(item.Phone) %></td>
                     </tr>
                 <% } %>
                 </table>            

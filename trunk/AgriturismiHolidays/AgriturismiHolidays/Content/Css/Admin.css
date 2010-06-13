@@ -6,6 +6,11 @@
 	font-size: 10px;
 }
 
+img 
+{
+    border:none;    
+}
+
 .header
 {
 	height: 60px;

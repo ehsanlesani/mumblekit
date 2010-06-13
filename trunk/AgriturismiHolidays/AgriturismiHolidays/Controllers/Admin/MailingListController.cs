@@ -14,14 +14,12 @@ namespace Premier.Controllers
         StarterKitContainer _context = new StarterKitContainer();
         MailingListFacade _mailingFacade = new MailingListFacade();
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SendMail()
         {
             return View();
         }
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SendMail(string subject, string message)
         {
@@ -72,7 +70,6 @@ namespace Premier.Controllers
             return View();
         }
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Index()
         {
@@ -80,7 +77,6 @@ namespace Premier.Controllers
             return View(contacts);
         }
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Index(FormCollection parameters)
         {
@@ -165,7 +161,6 @@ namespace Premier.Controllers
             return View();
         }
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Edit(int UserID)
         {
@@ -203,7 +198,6 @@ namespace Premier.Controllers
             return View();
         }
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Delete(int UserID)
         {
@@ -216,7 +210,6 @@ namespace Premier.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SendMailToOne(int UserID)
         {
@@ -224,7 +217,6 @@ namespace Premier.Controllers
             return View(contatto);
         }
 
-        [Authorize]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult SendMailToOne(string Subject, string Message, int UserID)
         {

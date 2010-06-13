@@ -8,24 +8,9 @@
         <br /><br />
         <center>
         <div class="module-section">
-            <div class="w20 text-bold text-right"><label for="Name">Nome:</label></div>
-            <div class="w50"><%= Html.TextBox("Name") %></div>
-            <div class="w10"><%= Html.ValidationMessage("Name", "*") %></div>
-        </div>
-        <div class="module-section">
-            <div class="w20 text-bold text-right"><label for="Surname">Cognome:</label></div>
-            <div class="w50"><%= Html.TextBox("Surname") %></div>
-            <div class="w10"><%= Html.ValidationMessage("Surname", "*") %></div>
-        </div>
-        <div class="module-section">
             <div class="w20 text-bold text-right"><label for="Email">Email:</label></div>
             <div class="w50"><%= Html.TextBox("Email") %></div>
             <div class="w10"><%= Html.ValidationMessage("Email", "*") %></div>
-        </div>
-        <div class="module-section">
-            <div class="w20 text-right"><label for="Phone">Telefono:</label></div>
-            <div class="w50"><%= Html.TextBox("Phone") %></div>
-            <div class="w10"><%= Html.ValidationMessage("Phone", "*") %></div>
         </div>
         <div class="module-section">
             <div class="w70">

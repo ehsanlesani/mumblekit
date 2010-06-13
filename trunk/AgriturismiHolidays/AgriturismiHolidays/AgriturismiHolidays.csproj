@@ -385,6 +385,7 @@
     </EntityDeploy>
     <None Include="Models\ExtPartial\UsersContainer.edmx.sql" />
     <Content Include="Content\Css\jquery\jquery.lightbox-0.5.css" />
+    <Content Include="Content\Images\email.png" />
     <Content Include="Content\Images\lightbox-blank.gif" />
     <Content Include="Content\Images\lightbox-btn-close.gif" />
     <Content Include="Content\Images\lightbox-btn-next.gif" />
@@ -716,9 +717,9 @@
     <Content Include="Views\MailingList\Create.aspx" />
     <Content Include="Views\MailingList\Edit.aspx" />
     <Content Include="Views\MailingList\Index.aspx" />
+    <Content Include="Views\MailingList\MailTemplate.html" />
     <Content Include="Views\MailingList\SendMail.aspx" />
     <Content Include="Views\MailingList\SendMailToOne.aspx" />
-    <Content Include="Views\MailingList\ThankYou.aspx" />
     <Content Include="Views\Shared\Admin.Master" />
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\Shared\Header.ascx" />
