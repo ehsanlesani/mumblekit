@@ -13,7 +13,7 @@
             <div class="w25 text-right">
                 <label for="subject">Oggetto:</label>
             </div>
-            <div class="w70"><%=Html.TextBox("subject")%></div>
+            <div class="w70"><%=Html.TextBox("subject", null, new { style = "width:500px;" })%></div>
         </div>
         <div class="module-section">
             <div class="w25"></div>
@@ -25,7 +25,11 @@
             <div class="w25 text-right">
                 <label for="message">Messaggio:</label>
             </div>
-            <div class="w70"><%=Html.TextArea("message", new { rows = "4", cols = "10" })%></div>
+            <div class="w70">
+            <%=
+                Html.TextArea("message", System.IO.File.ReadAllText(Server.MapPath("~/Views/MailingList/MailTemplate.html"), Encoding.ASCII), new { rows = "4", cols = "10" })
+            %>
+            </div>
         </div>
         <div class="module-section">
             <div class="w25"></div>

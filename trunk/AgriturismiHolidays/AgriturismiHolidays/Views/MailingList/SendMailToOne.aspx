@@ -28,7 +28,11 @@
             <div class="w25 text-right">
                 <label for="Message">Messaggio:</label>
             </div>
-            <div class="w70"><%=Html.TextArea("Message", new { rows = "4", cols = "10" })%></div>
+            <div class="w70">
+            <%=
+                Html.TextArea("Message", System.IO.File.ReadAllText(Server.MapPath("~/Views/MailingList/MailTemplate.html"), Encoding.ASCII), new { rows = "4", cols = "10" })
+            %>
+            </div>
         </div>
         <div class="module-section">
             <div class="w25"></div>
