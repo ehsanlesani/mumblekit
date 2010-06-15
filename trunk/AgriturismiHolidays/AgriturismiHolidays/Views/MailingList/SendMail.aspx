@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage"  %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">SendMail</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <%  using (Html.BeginForm()) { %>
@@ -25,7 +25,7 @@
             <div class="w25 text-right">
                 <label for="message">Messaggio:</label>
             </div>
-            <div class="w70">
+            <div class="w70">            
             <%=
                 Html.TextArea("message", System.IO.File.ReadAllText(Server.MapPath("~/Views/MailingList/MailTemplate.html"), Encoding.ASCII), new { rows = "4", cols = "10" })
             %>

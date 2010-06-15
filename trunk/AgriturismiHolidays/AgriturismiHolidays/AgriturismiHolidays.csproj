@@ -87,6 +87,7 @@
     <Compile Include="Controllers\Admin\UserController.cs" />
     <Compile Include="Controllers\Site\AccountController.cs" />
     <Compile Include="Controllers\Site\HomeController.cs" />
+    <Compile Include="Controllers\Site\MailingController.cs" />
     <Compile Include="Controllers\Site\SelectValuesController.cs" />
     <Compile Include="Controllers\Site\StructureController.cs" />
     <Compile Include="Default.aspx.cs">

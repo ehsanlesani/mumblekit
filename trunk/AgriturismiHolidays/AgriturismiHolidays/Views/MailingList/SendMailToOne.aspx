@@ -1,5 +1,5 @@
 ﻿<%@ Import Namespace="Mumble.Web.StarterKit.Models.ExtPartial" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<MailingList>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<MailingList>" ValidateRequest="false" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">SendMailToOne</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <% using (Html.BeginForm())

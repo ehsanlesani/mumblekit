@@ -50,5 +50,10 @@ namespace Premier.Models
         {
             return _container.MailingList.FirstOrDefault(m => m.UserID == userId);
         }
+
+        public MailingList GetMailingList(int userId, StarterKitContainer context)
+        {
+            return context.MailingList.FirstOrDefault(m => m.UserID == userId);
+        }
 	}
 }
