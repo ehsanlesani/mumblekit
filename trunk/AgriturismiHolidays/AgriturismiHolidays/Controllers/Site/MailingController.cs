@@ -11,21 +11,16 @@ namespace Premier.Controllers
     using Models;
     using Mumble.Web.StarterKit.Models.ExtPartial;
 
-    public class MailingListController : Controller
+    public class MailingController : Controller
     {
         StarterKitContainer _context = new StarterKitContainer();
         MailingListFacade _mailingFacade = new MailingListFacade();
-        
+
         private string _smtp = "smtp.aruba.it";
         private string _username = "2026586@aruba.it";
         private string _password = "45e34ca6";
         private string _mail = "info@expoholidays.com";
-        /*
-        private string _smtp = "box.exent.it";
-        private string _username = "geek@exent.it";
-        private string _password = "sasso";
-        private string _mail = "geek@exent.it";
-        */
+
         [ValidateInput(false)]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SendMail()
@@ -150,9 +145,9 @@ namespace Premier.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(string email)
+        public ActionResult Create(string mail)
         {
-            MailingList ml = ParseContact(email);
+            MailingList ml = ParseContact(mail);
             if (ModelState.IsValid)
             {
                 try
@@ -191,14 +186,17 @@ namespace Premier.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int UserID, FormCollection collection)
         {
-            MailingList contact = _mailingFacade.GetMailingList(UserID, _context);
+            MailingList contact = _mailingFacade.GetMailingList(UserID);
             try
             {
+                if (string.IsNullOrEmpty(collection["Name"]))
+                    ModelState.AddModelError("Name", "Devi specificare il nome.");
+                if (string.IsNullOrEmpty(collection["Surname"]))
+                    ModelState.AddModelError("Surname", "Devi specificare il cognome.");
+
                 if (ModelState.IsValid)
                 {
-                    //UpdateModel<MailingList>(contact);
-                    contact.Email = collection["Email"];
-                    //_context.AddToMailingList(contact);
+                    UpdateModel<MailingList>(contact);
                     _context.SaveChanges();
                     
                     return RedirectToAction("Index");
@@ -208,14 +206,13 @@ namespace Premier.Controllers
             {
                 ModelState.AddModelError("Errore", e);
             }
-
-            return View(contact);
+            return View();
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Delete(int UserID)
         {
-            MailingList contact = _mailingFacade.GetMailingList(UserID, _context);
+            MailingList contact = _mailingFacade.GetMailingList(UserID);
             if (contact != null)
             {
                 _context.DeleteObject(contact);
@@ -224,7 +221,6 @@ namespace Premier.Controllers
             return RedirectToAction("Index");
         }
 
-        [ValidateInput(false)]
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SendMailToOne(int UserID)
         {

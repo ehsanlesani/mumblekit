@@ -447,10 +447,10 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 {
                     // prepare data to store
                     string domSeasonId = id + "_" + i;
-                    string myPrice = frm[domSeasonId];
+                    string myPrice = frm[domSeasonId].Replace(".",",");
                     decimal res = 0;           
          
-                    if (!decimal.TryParse(myPrice, NumberStyles.Currency, CultureInfo.InvariantCulture, out res))
+                    if (!decimal.TryParse(myPrice, out res))
                         throw new FormatException("prezzo camere non valido");
 
                     // Create Obj and store                    

@@ -193,7 +193,6 @@
                                             <ul>
                                                 <li><span class="add"><a href="<%= ResolveUrl("~/Admin/MailingList.aspx/Create") %>">Nuovo iscritto</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/MailingList.aspx/Index") %>">Lista iscritti</a></span></li>
-                                                <li><span class="file"><a href="<%= ResolveUrl("~/Admin/MailingList.aspx/Edit") %>">Modifica iscritti</a></span></li>
                                                 <li><span class="file"><a href="<%= ResolveUrl("~/Admin/MailingList.aspx/SendMail") %>">Invio Email</a></span></li>
                                             </ul>
                                         </li>

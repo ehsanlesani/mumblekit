@@ -24,8 +24,6 @@
         <div class="module-section">
             <div class="w70">
                 <p class="text-left"> 
-                    <img src="/Content/Images/Admin.png" alt="Admin" width="16" height="16" />
-                    <%= Html.ActionLink("Admin", "Admin", "Account") %>
                     <img src="/Content/Images/Add.png" alt="Aggiungi news" width="16" height="16" />
                     <%= Html.ActionLink("Inserisci un contatto", "Create") %> |
                     <img src="/Content/Images/Email.png" alt="Invia email" width="16" height="16" />
