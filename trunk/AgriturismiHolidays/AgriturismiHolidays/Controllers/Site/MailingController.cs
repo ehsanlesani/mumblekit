@@ -4,12 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
-using System.Net.Mail;
+using System.Web.Mail;
 
 namespace Premier.Controllers
 {
     using Models;
     using Mumble.Web.StarterKit.Models.ExtPartial;
+    using System.Net.Mail;
 
     public class MailingController : Controller
     {
@@ -44,10 +45,11 @@ namespace Premier.Controllers
                 List<MailingList> contatti = _mailingFacade.GetMailingList();
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
+                mailMessage.IsBodyHtml = true; 
                 mailMessage.Body = message;
                 mailMessage.Subject = subject;
                 mailMessage.From = new MailAddress(_mail);
-                            
+                
                 foreach (MailingList contatto in contatti)
                     mailMessage.To.Add(new MailAddress(contatto.Email));
 
@@ -244,12 +246,13 @@ namespace Premier.Controllers
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 mailMessage.Body = Message;
+                mailMessage.IsBodyHtml = true;
                 mailMessage.Subject = Subject;
                 mailMessage.From =
                     new MailAddress(_mail);
 
                 mailMessage.To.Add(new MailAddress(contatto.Email));
-
+                
                 // Configurazione per l'invio del messaggio alla mailing list.
                 bool operationCompleted = true;
                 SmtpClient client = null;
