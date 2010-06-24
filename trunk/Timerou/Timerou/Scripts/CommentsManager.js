@@ -1,4 +1,8 @@
-﻿function CommentsManager(mediaId) {
+﻿/*
+Oggetto che servira' a gestire i commenti
+*/
+
+function CommentsManager(mediaId) {
     this.mediaId = mediaId;
 }
 

@@ -4,15 +4,28 @@
 /// <reference path="libs/google.maps-v3-vsdoc.js" />
 /// <reference path="MapMediaTransition.js" />
 
+/*
+Oggetto che gestisce i dettagli dei media. L'unico metodo chiamato direttamente è showMedia.
+showMedia viene richiamato dall'evento della TimeBar 'ON_MEDIA_CLICKED' e visualizza i dettagli della mappa.
+showMedia non è il metodo che realmente visualizza i dettagli, azione che compete al metodo displayMedia.
+
+displayMedia non è richiamato direttamente perche viene invocato da un azione a sua volta invocata dalla AjaxNavigation (vedere AjaxNavigation.js) in modo da abilitare 
+la history del browser
+
+displayMedia si occupa anbche di mantenere in cache gli elementi visualizzati in modo da non doverli ricaricare.
+*/
+
 function DetailManager(transition) {
     this.transition = transition;
     this.displayedMedias = {}; //cache
 }
 
+//eventi
 DetailManager.MEDIA_DISPLAYED = "mediaDisplayed";
 
 DetailManager.prototype = {
-
+    
+    //carica un media dal database ed esegue la callback con il media caricato come parametro
     loadMedia: function(id, callback) {
         var self = this;
 
@@ -26,6 +39,7 @@ DetailManager.prototype = {
             }, "json");
     },
 
+    //controlla se un media è in cache, altrmienti lo carica dal database utilizzando il metodo loadMedia. Quando il media è caricato viene invocata la callback
     getMediaById: function(id, callback) {
         var self = this;
 
@@ -42,6 +56,7 @@ DetailManager.prototype = {
         this.loadMedia(id, callback);
     },
 
+    //metodo richiamato dall'azione ShowMediaAction.js (AjaxNavigation)
     displayMedia: function(id) {
         var self = this;
 
@@ -76,7 +91,8 @@ DetailManager.prototype = {
             $(self).trigger(DetailManager.MEDIA_DISPLAYED, id);
         });
     },
-
+    
+    //cambia l'indirizzo della location bar per invocare l'azione ShowMEdiaAction
     showMedia: function(id) {
         window.open("#show|id=" + id, "_self");
     }
