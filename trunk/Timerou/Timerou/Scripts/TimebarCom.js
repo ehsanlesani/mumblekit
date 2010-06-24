@@ -1,4 +1,9 @@
-﻿function TimebarCom() { }
+﻿/*
+Questo oggetto contiene solo metodi statici e serve per gestire la comunicazione con l'oggetto flash TimeBar.
+Contiene, al momento, metodi per settare e recuperare l'anno, in piu intercetta l'evento ON_MEDIA_CLICK, utilizzato nella main page per caricare il dettaglio dei media
+*/
+
+function TimebarCom() { }
 
 TimebarCom.ON_MEDIA_CLICK = "mediaClick";
 TimebarCom.timebar = null;

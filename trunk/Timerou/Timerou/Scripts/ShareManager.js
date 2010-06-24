@@ -1,4 +1,8 @@
-﻿/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
+﻿/*
+Oggetto che gestisce la modifica e l'inserimento di nuovi media nel sito
+*/
+
+/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
 /// <reference path="libs/google.maps-v3-vsdoc.js" />
 /// <reference path="Url.js" />
 /// <reference path="Youtube.js" />

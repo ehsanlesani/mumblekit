@@ -233,9 +233,9 @@
     <Content Include="Scripts\DetailManager.js" />
     <Content Include="Scripts\MapCom.js" />
     <Content Include="Scripts\MapMediaTransition.js" />
-    <Content Include="Scripts\MediaNavigator.js" />
+    <Content Include="Scripts\obsoleto.MediaNavigator.js" />
     <Content Include="Scripts\MyMemoriesManager.js" />
-    <Content Include="Scripts\Timebar.js" />
+    <Content Include="Scripts\obsoleto.Timebar.js" />
     <Content Include="Scripts\tiny_mce\langs\en.js" />
     <Content Include="Scripts\tiny_mce\license.txt" />
     <Content Include="Scripts\tiny_mce\plugins\advhr\css\advhr.css" />

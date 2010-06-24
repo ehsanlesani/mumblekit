@@ -1,6 +1,15 @@
 ﻿/// <reference path="jquery/jquery-1.3.2-vsdoc.js" />
 /// <reference path="libs/fx.js" />
 
+/*
+Oggetto che gestisce le animazioni della mappa in Main page. Modifica inoltre lo stato della mappa flash in modo da essere settata in modalita' location o navigation
+Mappa grande => modalita' navigation (consente la navigazione nel mondo)
+Mappa piccola => modalita location (visualizza la posizione del media visualizzato)
+
+Viene utilizzato da DetailManager.displayMedia() (minimizza la mappa) e dall'evento
+MapCom.NAVIGATION_MODE_SELECTED (attraverso il cambio di URL in #maximizeMap che permette all'AjaxNavigation di invocare l'azione MaximizeMapAction)
+*/
+
 function MapMediaTransition(mapContainer, mediaContainer) {
     this.duration = 300;
     this.delay = 30;

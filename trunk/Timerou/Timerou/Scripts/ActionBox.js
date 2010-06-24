@@ -1,4 +1,8 @@
-﻿function ActionBox(content) {
+﻿/*
+Oggetto che renderizza un dialog, fin ora utilizzato solo per notificare l'avvenuto inserimento di un media
+*/
+
+function ActionBox(content) {
     this.content = content;
     this.el = null;
     this.options = {};
