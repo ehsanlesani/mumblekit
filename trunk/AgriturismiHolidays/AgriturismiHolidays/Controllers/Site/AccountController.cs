@@ -22,6 +22,7 @@ using Mumble.Web.StarterKit.Models.Auth;
 using Mumble.Web.StarterKit.Models.Common;
 using Mumble.Web.StarterKit.Models.Site;
 using System.Data;
+using System.Net.Mail;
 
 namespace Mumble.Web.StarterKit.Controllers.Site
 {
@@ -162,6 +163,31 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             return RedirectToAction("Index", "Home", null);
         }
 
+        private string _smtp = "smtp.aruba.it";
+        private string _username = "2026586@aruba.it";
+        private string _password = "45e34ca6";
+        private string _mail = "info@expoholidays.com";
+
+        private void SendConfirmMail(string email) 
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = "Benvenuto, Sei ora iscritto al portale Expoholidays.com! \n\n Grazie per averci scelto,\nLa Direzione";
+            mailMessage.Subject = "Conferma iscrizione Expoholidays.com";
+            mailMessage.From = new MailAddress(_mail);
+            mailMessage.To.Add(new MailAddress(email));
+
+            SmtpClient client = null;
+            client = new SmtpClient(
+                _smtp);
+            client.Credentials = new System.Net.NetworkCredential(
+                _username,
+                _password);
+
+            client.Send(mailMessage);
+        }
+
         /// <summary>
         /// Register new user and logon if ok
         /// </summary>
@@ -186,6 +212,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             {
                 AccountManager accountManager = new AccountManager(StarterKitContainer);
                 accountManager.Register(firstName, lastName, email, password);
+                SendConfirmMail(email);
             }
             catch (ExistingEmailException ex)
             {

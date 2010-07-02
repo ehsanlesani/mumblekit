@@ -42,7 +42,9 @@
             // to disable <p> 
             forced_root_block : false,
             //force_br_newlines : true,
-            force_p_newlines : false
+            force_p_newlines : false,
+            remove_script_host : false,
+            convert_urls : false
         });
     </script>    
 </head>

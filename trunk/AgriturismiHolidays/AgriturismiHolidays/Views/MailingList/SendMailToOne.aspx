@@ -1,17 +1,10 @@
 ﻿<%@ Import Namespace="Mumble.Web.StarterKit.Models.ExtPartial" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<MailingList>" ValidateRequest="false" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<MailingList>" ValidateRequest="false"  %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">SendMailToOne</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <% using (Html.BeginForm())
        { %>
     <div class="module">
-        <h5>Invio una mail a <%=Model.Surname%> <%=Model.Name%></h5>    
-        <hr />
-        <div class="module-section">
-            <div class="w95">
-                <p> Stai per inviare una email a <strong><%=Model.Email%></strong></p>
-            </div>
-        </div>
         <div class="module-section">
             <div class="w25 text-right">
                 <label for="Subject">Oggetto:</label>
