@@ -71,7 +71,11 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                            where (!regionItems.HasValue || a.Municipalities.Provinces.Region.Id == regionItems)
                            && (!provinceItems.HasValue || a.Municipalities.Provinces.Id == provinceItems)
                            && (!municipalityItems.HasValue || a.Municipalities.Id == municipalityItems)
-                           && a.AccommodationType.Name == cat orderby a.Name ascending
+                           && a.AccommodationType.Name == cat &&
+                            ((!a.ValidFrom.HasValue && !a.ValidTo.HasValue) ||
+                                 ((a.ValidFrom.HasValue && DateTime.Now >= a.ValidFrom)
+                                 && (a.ValidTo.HasValue && DateTime.Now <= a.ValidTo)))
+                           orderby a.Name ascending
                            select a);
 
                 int itemsToSkip = (int)(toSkip.GetValueOrDefault() * _itemsPerPage);

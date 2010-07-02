@@ -49,9 +49,19 @@ namespace Premier.Controllers
                 mailMessage.Body = message;
                 mailMessage.Subject = subject;
                 mailMessage.From = new MailAddress(_mail);
-                
+
+                int i = 1;
                 foreach (MailingList contatto in contatti)
+                {
+                    if (i == 100)
+                    {
+                        i = 1;
+                        mailMessage.To.Add(new MailAddress(_mail));
+                    }
+
                     mailMessage.To.Add(new MailAddress(contatto.Email));
+                    i++;
+                }
 
                 // Configurazione per l'invio del messaggio alla mailing list.
                 bool operationCompleted = true;

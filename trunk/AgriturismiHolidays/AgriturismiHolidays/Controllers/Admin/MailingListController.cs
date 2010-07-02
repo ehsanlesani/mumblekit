@@ -50,6 +50,7 @@ namespace Premier.Controllers
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 mailMessage.Body = message;
+                mailMessage.IsBodyHtml = true;
                 mailMessage.Subject = subject;
                 mailMessage.From = new MailAddress(_mail);
                             
@@ -248,6 +249,7 @@ namespace Premier.Controllers
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 mailMessage.Body = Message;
+                mailMessage.IsBodyHtml = true;
                 mailMessage.Subject = Subject;
                 mailMessage.From =
                     new MailAddress(_mail);
