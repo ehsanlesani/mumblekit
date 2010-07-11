@@ -188,6 +188,27 @@ namespace Mumble.Web.StarterKit.Controllers.Site
             client.Send(mailMessage);
         }
 
+        private void NotifyAdministrator(string firstname, string surname, string email)
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = "Un nuovo utente si è appena iscritto con le seguenti credenziali \n Nome: "+ firstname + ";\n Cognome: "+ surname +";\n E-Mail: "+ email +
+                ";\n\n Puoi risalire alla struttura ad esso collegata tramite il pannello di controllo";
+            mailMessage.Subject = "Nuovo utente iscritto sul portale expoholidays.com";
+            mailMessage.From = new MailAddress(_mail);
+            mailMessage.To.Add(new MailAddress(_mail));
+
+            SmtpClient client = null;
+            client = new SmtpClient(
+                _smtp);
+            client.Credentials = new System.Net.NetworkCredential(
+                _username,
+                _password);
+
+            client.Send(mailMessage);
+        }
+
         /// <summary>
         /// Register new user and logon if ok
         /// </summary>
@@ -213,6 +234,7 @@ namespace Mumble.Web.StarterKit.Controllers.Site
                 AccountManager accountManager = new AccountManager(StarterKitContainer);
                 accountManager.Register(firstName, lastName, email, password);
                 SendConfirmMail(email);
+                NotifyAdministrator(firstName, lastName, email);
             }
             catch (ExistingEmailException ex)
             {
