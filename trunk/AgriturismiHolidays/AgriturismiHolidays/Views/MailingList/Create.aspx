@@ -1,5 +1,6 @@
 <%@ Import Namespace="Mumble.Web.StarterKit.Models.ExtPartial" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<MailingList>" %>
+<%@ Import Namespace="Mumble.Web.StarterKit.Models.ViewModels" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Admin.Master" Inherits="System.Web.Mvc.ViewPage<EditMailingViewModel>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">Crea un nuovo contatto</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <% using (Html.BeginForm()) {%>
@@ -11,6 +12,23 @@
             <div class="w20 text-bold text-right"><label for="Email">Email:</label></div>
             <div class="w50"><%= Html.TextBox("Email") %></div>
             <div class="w10"><%= Html.ValidationMessage("Email", "*") %></div>
+            <div class="w20 text-bold text-right"><label for="Group">Gruppo:</label></div>
+            <%
+                if (Model.MailingListGroups != null)
+                {
+                    var selectList = new SelectList(Model.MailingListGroups, "GroupId", "Name");                    
+            %>            
+            <div class="w50"><%= Html.DropDownList("GroupId", selectList)%></div>
+            <%
+                }
+                else
+                {
+            %>
+            <div class="w50">Gruppo non esistente</div>
+            <%        
+                }    
+            %>
+            <div class="w10"><%= Html.ValidationMessage("Group", "*") %></div>
         </div>
         <div class="module-section">
             <div class="w70">

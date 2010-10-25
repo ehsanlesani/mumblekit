@@ -6,8 +6,14 @@
         <h5>Invio email</h5>
         <div class="module-section">
             <div class="w95">
-                <p> Invia un messaggio a tutti i contatti presenti nella mailing list.</p>
+                <p> Invia un messaggio al gruppo di mailing:</p>
             </div>
+        </div>
+        <div class="module-section">
+            <div class="w25 text-right">
+                <label for="subject">Gruppo:</label>
+            </div>
+            <div class="w70"><%=Html.DropDownList("MailingListGroups", ViewData["MailingListGroups"] as SelectList) %></div>
         </div>
         <div class="module-section">
             <div class="w25 text-right">

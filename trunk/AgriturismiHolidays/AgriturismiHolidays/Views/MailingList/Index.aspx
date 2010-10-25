@@ -11,7 +11,7 @@
             <div class="w95">
                 <p> Di seguito &egrave; presente la lista di tutti i contatti
                     a cui, in maniera automatica, vengono inviate mail ed sms
-                    relative alle novit&agrave; della pasticceria. Puoi filtrare l'elenco
+                    relative alle novit&agrave; di expoholidays. Puoi filtrare l'elenco
                     utilizzando uno o pi&ugrave; campi presenti di seguito.
                 </p>
             </div>
@@ -24,6 +24,8 @@
         <div class="module-section">
             <div class="w70">
                 <p class="text-left"> 
+                    <%= Html.ActionLink("Lista gruppi", "GroupList") %> |
+                    <%= Html.ActionLink("Crea un gruppo", "CreateGroup") %> |
                     <img src="/Content/Images/Add.png" alt="Aggiungi news" width="16" height="16" />
                     <%= Html.ActionLink("Inserisci un contatto", "Create") %> |
                     <img src="/Content/Images/Email.png" alt="Invia email" width="16" height="16" />

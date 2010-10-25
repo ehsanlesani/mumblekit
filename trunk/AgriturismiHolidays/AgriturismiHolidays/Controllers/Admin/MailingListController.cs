@@ -10,6 +10,8 @@ namespace Premier.Controllers
 {
     using Models;
     using Mumble.Web.StarterKit.Models.ExtPartial;
+    using System.Data;
+    using Mumble.Web.StarterKit.Models.ViewModels;
 
     public class MailingListController : Controller
     {
@@ -20,70 +22,8 @@ namespace Premier.Controllers
         private string _username = "2026586@aruba.it";
         private string _password = "45e34ca6";
         private string _mail = "info@expoholidays.com";
-        /*
-        private string _smtp = "box.exent.it";
-        private string _username = "geek@exent.it";
-        private string _password = "sasso";
-        private string _mail = "geek@exent.it";
-        */
-        [ValidateInput(false)]
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult SendMail()
-        {
-            return View();
-        }
 
-        [ValidateInput(false)]
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult SendMail(string subject, string message)
-        {
-            if (string.IsNullOrEmpty(subject))
-                ModelState.AddModelError("subject", "Devi specificare l'oggetto del messaggio.");
-
-            if (string.IsNullOrEmpty(message))
-                ModelState.AddModelError("message", "Devi specificare il messaggio.");
-
-            if (ModelState.IsValid)
-            {
-                // Elenco completo dei contatti.
-                List<MailingList> contatti = _mailingFacade.GetMailingList();
-                MailMessage mailMessage = new MailMessage();
-                mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
-                mailMessage.Body = message;
-                mailMessage.IsBodyHtml = true;
-                mailMessage.Subject = subject;
-                mailMessage.From = new MailAddress(_mail);
-                            
-                foreach (MailingList contatto in contatti)
-                    mailMessage.To.Add(new MailAddress(contatto.Email));
-
-                // Configurazione per l'invio del messaggio alla mailing list.
-                bool operationCompleted = true;
-                SmtpClient client = null;
-                try
-                {
-                    client = new SmtpClient(
-                        _smtp);
-                    client.Credentials = new System.Net.NetworkCredential(
-                        _username,
-                        _password);
-
-                    client.Send(mailMessage);
-                }
-                catch { operationCompleted = false; }
-                finally
-                {
-                    client = null;
-                }
-                mailMessage.Dispose();
-                mailMessage = null;
-
-                if (operationCompleted)
-                    return RedirectToAction("Index");
-                
-            }
-            return View();
-        }
+        #region Lists
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Index()
@@ -117,13 +57,13 @@ namespace Premier.Controllers
             return View(contact);
         }
 
-        //
-        // GET: /MailingList/Create
-        
-        public ActionResult Create()
+        public ActionResult GroupList()
         {
-            return View();
+            List<MailingListGroup> groups = _context.MailingListGroups.ToList();
+            return View(groups);
         }
+
+#endregion
 
         public ActionResult Iscriviti(string usermail)
         {
@@ -149,26 +89,68 @@ namespace Premier.Controllers
                 return Json(new { isOnError = true });
             //return RedirectToAction("Index", "Home");
         }
+                      
+
+        #region Create
+
+        public ActionResult CreateGroup()
+        {
+            return View();
+        }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(string email)
+        public ActionResult CreateGroup(string groupname)
         {
-            MailingList ml = ParseContact(email);
+            MailingListGroup group = _mailingFacade.GetMailingListGroup(groupname);
+            
+            if(String.IsNullOrEmpty(groupname) || group != null)            
+            {
+                ModelState.AddModelError("GroupName", "nome del gruppo non valido");
+                return View();
+            }
+
+            try
+            {
+                MailingListGroup mGroup = new MailingListGroup();
+                mGroup.Name = groupname;
+
+                _context.AddToMailingListGroups(mGroup);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("GroupName", ex);
+            }
+
+            return View();
+        }
+
+
+        public ActionResult Create()
+        {
+            var groupList = _mailingFacade.GetMailingListGroups();
+            EditMailingViewModel model = new EditMailingViewModel();
+            model.MailingListGroups = groupList;
+
+            return View(model);
+        }
+        
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Create(FormCollection form)
+        {
+            MailingList ml = ParseContact(form["Email"]);
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (ModelState.IsValid)
-                    {
-                        _context.AddToMailingList(ml);
-                        _context.SaveChanges();
+                    int value = Int32.Parse(form["GroupId"]);
+                    ml.MailingListGroupsReference.EntityKey = new EntityKey("StarterKitContainer.MailingListGroups", "GroupID", value);
+                    _context.AddToMailingList(ml);
+                    _context.SaveChanges();
 
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-
-                    }
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
@@ -178,12 +160,51 @@ namespace Premier.Controllers
             return View();
         }
 
+#endregion
+
+        #region Edit
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult EditGroup(int GroupID)
+        {
+            MailingListGroup mGroup = _mailingFacade.GetMailingListGroup(GroupID);
+
+            return View(mGroup);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditGroup(int groupId, FormCollection collection)
+        {
+            MailingListGroup group = _mailingFacade.GetMailingListGroup(groupId, _context);
+            try
+            {
+                if (string.IsNullOrEmpty(collection["Name"]))
+                    ModelState.AddModelError("Name", "Devi specificare il nome.");
+
+                if (ModelState.IsValid)
+                {                    
+                    group.Name = collection["Name"];
+                    _context.SaveChanges();
+
+                    return RedirectToAction("GroupList");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Errore", e);
+            }
+            return RedirectToAction("GroupList");;
+        }
+
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Edit(int UserID)
         {
             MailingList contact = _mailingFacade.GetMailingList(UserID);
+            EditMailingViewModel model = new EditMailingViewModel();
+            model.MailingList = contact;
+            model.MailingListGroups = _mailingFacade.GetMailingListGroups();
 
-            return View(contact);
+            return View(model);
         }
 
         //
@@ -192,26 +213,37 @@ namespace Premier.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int UserID, FormCollection collection)
         {
-            MailingList contact = _mailingFacade.GetMailingList(UserID, _context);
+            MailingList contact = null;
+            EditMailingViewModel model = new EditMailingViewModel();
+            //TO BE CONTINUED...
             try
-            {
+            {              
+                contact = _mailingFacade.GetMailingList(UserID, _context);
                 if (ModelState.IsValid)
                 {
                     //UpdateModel<MailingList>(contact);
                     contact.Email = collection["Email"];
+                    int value = Int32.Parse(collection["GroupId"]);
+                    contact.MailingListGroupsReference.EntityKey = new EntityKey("StarterKitContainer.MailingListGroups", "GroupID", value);
                     //_context.AddToMailingList(contact);
                     _context.SaveChanges();
                     
                     return RedirectToAction("Index");
                 }
+
+                return View(contact);
             }
             catch(Exception e)
             {
                 ModelState.AddModelError("Errore", e);
-            }
 
-            return View(contact);
+                return View(contact);
+            }            
         }
+
+        #endregion
+
+        #region Delete
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Delete(int UserID)
@@ -224,6 +256,87 @@ namespace Premier.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DeleteGroup(int groupID)
+        {
+            MailingListGroup mGroup = _mailingFacade.GetMailingListGroup(groupID, _context);
+            if (mGroup != null)
+            {
+                _context.DeleteObject(mGroup);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("GroupList");
+        }
+
+        #endregion
+
+        #region SendMail
+
+
+        [ValidateInput(false)]
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult SendMail()
+        {
+            ViewData["MailingListGroups"] = new SelectList(_mailingFacade.GetMailingListGroups(), "GroupID", "Name");
+
+            return View();
+        }
+
+        [ValidateInput(false)]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult SendMail(string subject, string message, string mailingListGroups)
+        {
+            if (string.IsNullOrEmpty(subject))
+                ModelState.AddModelError("subject", "Devi specificare l'oggetto del messaggio.");
+
+            if (string.IsNullOrEmpty(message))
+                ModelState.AddModelError("message", "Devi specificare il messaggio.");
+
+            if (ModelState.IsValid)
+            {
+                // Elenco completo dei contatti.
+                int groupId = Int32.Parse(mailingListGroups);
+                var contatti = _mailingFacade.GetMailingListByGroup(groupId);
+                MailMessage mailMessage = new MailMessage();
+                mailMessage.BodyEncoding = System.Text.Encoding.UTF8;
+                mailMessage.Body = message;
+                mailMessage.IsBodyHtml = true;
+                mailMessage.Subject = subject;
+                mailMessage.From = new MailAddress(_mail);
+
+                foreach (MailingList contatto in contatti)
+                    mailMessage.To.Add(new MailAddress(contatto.Email));
+
+                // Configurazione per l'invio del messaggio alla mailing list.
+                bool operationCompleted = true;
+                SmtpClient client = null;
+                try
+                {
+                    client = new SmtpClient(
+                        _smtp);
+                    client.Credentials = new System.Net.NetworkCredential(
+                        _username,
+                        _password);
+
+                    client.Send(mailMessage);
+                }
+                catch { operationCompleted = false; }
+                finally
+                {
+                    client = null;
+                }
+                mailMessage.Dispose();
+                mailMessage = null;
+
+                if (operationCompleted)
+                    return RedirectToAction("Index");
+
+            }
+            return View();
+        }
+
 
         [ValidateInput(false)]
         [AcceptVerbs(HttpVerbs.Get)]
@@ -286,6 +399,10 @@ namespace Premier.Controllers
             return View();
         }
 
+        #endregion
+
+        #region Utils
+
         public MailingList ParseContact(string mail)
         {
             if (!String.IsNullOrEmpty(mail))
@@ -305,5 +422,7 @@ namespace Premier.Controllers
                 return null;
             }
         }
+
+        #endregion
     }
 }
