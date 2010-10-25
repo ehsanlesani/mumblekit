@@ -233,6 +233,7 @@ namespace Premier.Controllers
             return RedirectToAction("Index");
         }
 
+
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult SendMailToOne(int UserID)
         {

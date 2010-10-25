@@ -201,6 +201,7 @@
     <Compile Include="Models\Site\Attachments.cs" />
     <Compile Include="Models\Site\Common.cs" />
     <Compile Include="Models\ViewModels\BaseModel.cs" />
+    <Compile Include="Models\ViewModels\EditMailingViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginModel.cs" />
     <Compile Include="Models\ViewModels\CustomViewModel.cs" />
     <Compile Include="Models\ViewModels\FiltersViewModel.cs" />
@@ -715,6 +716,9 @@
     <Content Include="Views\Controls\JpegAttachments.ascx" />
     <Content Include="Views\Controls\LoginControl.ascx" />
     <Content Include="Views\Home\StaticPage.aspx" />
+    <Content Include="Views\MailingList\GroupList.aspx" />
+    <Content Include="Views\MailingList\EditGroup.aspx" />
+    <Content Include="Views\MailingList\CreateGroup.aspx" />
     <Content Include="Views\MailingList\Create.aspx" />
     <Content Include="Views\MailingList\Edit.aspx" />
     <Content Include="Views\MailingList\Index.aspx" />

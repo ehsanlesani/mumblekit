@@ -13,6 +13,7 @@
           <EntitySet Name="Groups" EntityType="StarterKitModel.Store.Groups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="GroupUser" EntityType="StarterKitModel.Store.GroupUser" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MailingList" EntityType="StarterKitModel.Store.MailingList" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MailingListGroups" EntityType="StarterKitModel.Store.MailingListGroups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Municipalities" EntityType="StarterKitModel.Store.Municipalities" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Newsletter" EntityType="StarterKitModel.Store.Newsletter" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Pages" EntityType="StarterKitModel.Store.Pages" store:Type="Tables" Schema="dbo" />
@@ -56,6 +57,10 @@
           <AssociationSet Name="FK_GroupUser_User" Association="StarterKitModel.Store.FK_GroupUser_User">
             <End Role="Users" EntitySet="Users" />
             <End Role="GroupUser" EntitySet="GroupUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailingList_MailingListGroups" Association="StarterKitModel.Store.FK_MailingList_MailingListGroups">
+            <End Role="MailingListGroups" EntitySet="MailingListGroups" />
+            <End Role="MailingList" EntitySet="MailingList" />
           </AssociationSet>
           <AssociationSet Name="FK_Municipalities_Provinces" Association="StarterKitModel.Store.FK_Municipalities_Provinces">
             <End Role="Provinces" EntitySet="Provinces" />
@@ -158,10 +163,18 @@
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GroupID" Type="int" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Surname" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="Email" Type="varchar" MaxLength="2000" />
           <Property Name="Phone" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="MailingListGroups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="Municipalities">
           <Key>
@@ -374,6 +387,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MailingList_MailingListGroups">
+          <End Role="MailingListGroups" Type="StarterKitModel.Store.MailingListGroups" Multiplicity="0..1" />
+          <End Role="MailingList" Type="StarterKitModel.Store.MailingList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MailingListGroups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="MailingList">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Municipalities_Provinces">
           <End Role="Provinces" Type="StarterKitModel.Store.Provinces" Multiplicity="1" />
           <End Role="Municipalities" Type="StarterKitModel.Store.Municipalities" Multiplicity="*" />
@@ -543,7 +568,11 @@
           <AssociationSet Name="GroupUser" Association="StarterKitModel.GroupUser">
             <End Role="Groups" EntitySet="Groups" />
             <End Role="Users" EntitySet="Users" /></AssociationSet>
-          <EntitySet Name="MailingList" EntityType="StarterKitModel.MailingList" /></EntityContainer>
+          <EntitySet Name="MailingList" EntityType="StarterKitModel.MailingList" />
+          <EntitySet Name="MailingListGroups" EntityType="StarterKitModel.MailingListGroup" />
+          <AssociationSet Name="FK_MailingList_MailingListGroups" Association="StarterKitModel.FK_MailingList_MailingListGroups">
+            <End Role="MailingListGroups" EntitySet="MailingListGroups" />
+            <End Role="MailingList" EntitySet="MailingList" /></AssociationSet></EntityContainer>
         <EntityType Name="Accommodation">
           <Key>
             <PropertyRef Name="Id" />
@@ -770,7 +799,17 @@
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="Surname" Type="String" Nullable="false" />
           <Property Name="Email" Type="String" Nullable="true" />
-          <Property Name="Phone" Type="String" Nullable="true" /></EntityType></Schema>
+          <Property Name="Phone" Type="String" Nullable="true" />
+          <NavigationProperty Name="MailingListGroups" Relationship="StarterKitModel.FK_MailingList_MailingListGroups" FromRole="MailingList" ToRole="MailingListGroups" /></EntityType>
+        <EntityType Name="MailingListGroup">
+          <Key>
+            <PropertyRef Name="GroupID" /></Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="MailingList" Relationship="StarterKitModel.FK_MailingList_MailingListGroups" FromRole="MailingListGroups" ToRole="MailingList" /></EntityType>
+        <Association Name="FK_MailingList_MailingListGroups">
+          <End Type="StarterKitModel.MailingListGroup" Role="MailingListGroups" Multiplicity="0..1" />
+          <End Type="StarterKitModel.MailingList" Role="MailingList" Multiplicity="*" /></Association></Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1045,7 +1084,18 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" /></MappingFragment></EntityTypeMapping></EntitySetMapping></EntityContainerMapping>
+                <ScalarProperty Name="UserID" ColumnName="UserID" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="MailingListGroups">
+            <EntityTypeMapping TypeName="IsTypeOf(StarterKitModel.MailingListGroup)">
+              <MappingFragment StoreEntitySet="MailingListGroups">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" /></MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <AssociationSetMapping Name="FK_MailingList_MailingListGroups" TypeName="StarterKitModel.FK_MailingList_MailingListGroups" StoreEntitySet="MailingList">
+            <EndProperty Name="MailingList">
+              <ScalarProperty Name="UserID" ColumnName="UserID" /></EndProperty>
+            <EndProperty Name="MailingListGroups">
+              <ScalarProperty Name="GroupID" ColumnName="GroupID" /></EndProperty>
+            <Condition ColumnName="GroupID" IsNull="false" /></AssociationSetMapping></EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -1142,6 +1192,11 @@
           <ConnectorPoint PointX="15" PointY="1.6728417968749998" />
           <ConnectorPoint PointX="14" PointY="1.6728417968749998" />
           </AssociationConnector>
-        <EntityTypeShape EntityType="StarterKitModel.MailingList" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9802864583333331" /></Diagram></edmx:Diagrams>
+        <EntityTypeShape EntityType="StarterKitModel.MailingList" Width="1.5" PointX="0.75" PointY="0.75" Height="1.9802864583333331" />
+        <EntityTypeShape EntityType="StarterKitModel.MailingListGroup" Width="1.5" PointX="3.75" PointY="0.875" Height="1.5956835937499996" />
+        <AssociationConnector Association="StarterKitModel.FK_MailingList_MailingListGroups" >
+          <ConnectorPoint PointX="3.75" PointY="1.6728417968749998" />
+          <ConnectorPoint PointX="2.25" PointY="1.6728417968749998" />
+          </AssociationConnector></Diagram></edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

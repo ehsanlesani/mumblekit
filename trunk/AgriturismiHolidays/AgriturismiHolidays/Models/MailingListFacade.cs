@@ -48,12 +48,38 @@ namespace Premier.Models
 
         public MailingList GetMailingList(int userId)
         {
-            return _container.MailingList.FirstOrDefault(m => m.UserID == userId);
+            return _container.MailingList.Include("MailingListGroups").FirstOrDefault(m => m.UserID == userId);
+        }
+
+        public IEnumerable<MailingList> GetMailingListByGroup(int groupId)
+        {
+            return _container.MailingList.Where(m => m.MailingListGroups.GroupID == groupId);
         }
 
         public MailingList GetMailingList(int userId, StarterKitContainer context)
         {
             return context.MailingList.FirstOrDefault(m => m.UserID == userId);
         }
-	}
+
+        public IEnumerable<MailingListGroup> GetMailingListGroups()
+        {
+            return _container.MailingListGroups;
+        }
+
+        public MailingListGroup GetMailingListGroup(int groupId)
+        {
+            return _container.MailingListGroups.FirstOrDefault(m => m.GroupID == groupId);
+        }
+
+        public MailingListGroup GetMailingListGroup(string groupname)
+        {
+            return _container.MailingListGroups.FirstOrDefault(m => m.Name == groupname);
+        }
+
+
+        public MailingListGroup GetMailingListGroup(int groupId, StarterKitContainer context)
+        {
+            return context.MailingListGroups.FirstOrDefault(m => m.GroupID == groupId);
+        }
+    }
 }
